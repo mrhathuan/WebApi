@@ -55,7 +55,8 @@ namespace Shop_Nhi
                      "~/Scripts/kendo/2016.2.607/kendo.aspnetmvc.min.js",
                      "~/Scripts/kendo/2016.2.607/jszip.min.js",
                      "~/Scripts/Plugin/ckfinder/ckfinder.js",
-                      "~/Scripts/Plugin/ckeditor/ckeditor.js"
+                      "~/Scripts/Plugin/ckeditor/ckeditor.js",
+                      "~/Scripts/toastr.js"
                      ));
 
             bundles.Add(new StyleBundle("~/Content/CssAdmin").Include(
@@ -65,7 +66,8 @@ namespace Shop_Nhi
                      "~/Content/kendo/2016.2.607/kendo.common.min.css",
                       "~/Content/kendo/2016.2.607/kendo.dataviz.css",
                       "~/Content/kendo/2016.2.607/kendo.default.min.css",
-                      "~/Content/kendo/2016.2.607/kendo.dataviz.default.min.css"
+                      "~/Content/kendo/2016.2.607/kendo.dataviz.default.min.css",
+                      "~/Content/toastr.css"
                       ));
         }
     }
