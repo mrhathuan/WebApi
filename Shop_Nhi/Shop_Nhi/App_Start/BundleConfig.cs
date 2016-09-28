@@ -23,6 +23,20 @@ namespace Shop_Nhi
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/cssAdmin").Include(
+                     "~/Content/Admin/styles.css",
+                     "~/Content/font-awesome.css"
+                     ));
+
+            bundles.Add(new ScriptBundle("~/Scripts/common").Include(
+                      "~/Scripts/common.js",
+                      "~/Scripts/Default.js",
+                      "~/Scripts/features.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/jsAdmin").Include(
+                      "~/Scripts/bootstrap.js",
+                      "~/Scripts/respond.js"));
         }
     }
 }

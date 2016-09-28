@@ -1,0 +1,66 @@
+﻿@model List<Shop_Nhi.Models.Framework.Post>
+@{
+    
+    ViewBag.Title = "Bài viết thời trang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var tag = (Shop_Nhi.Models.Framework.Tag)ViewBag.Tag;
+
+    //var pageDisplay = (int)ViewBag.MaxPage;
+    //int totalPage = (int)ViewBag.TotalPage;
+    //int currentPage = (int)ViewBag.Page;
+
+    //// Create numeric links
+    //var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+    //var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+}
+
+@section JsFooter{
+
+}
+
+
+<section id="aa-product-category">
+    <div class="container">
+        <div class="row">
+            <nav class="woocommerce-breadcrumb">
+                <a href="/">Trang chủ</a>
+                <span class="navigation-pipe"></span>
+                <a href="/bai-viet">Bài viết</a>
+                <span class="navigation-pipe"></span>
+                @tag.Name
+            </nav>
+            <div class="col-lg-9 col-md-9 col-sm-8 col-md-push-3">
+                <h1 class="page-heading">
+                    <span class="page-heading-title">@tag.Name</span>
+                </h1>
+                <div class="aa-blog-content">
+                    <div class="row">
+                        @foreach (var item in Model.Where(x => x.status == true))
+                        {
+                            <div class="col-md-4 col-sm-4">
+                                <article class="aa-blog-content-single">
+                                    <h4><a href="/bai-viet/@item.metatTitle-@item.ID">@item.name</a></h4>
+                                    <figure class="aa-blog-img">
+                                        <a href="/bai-viet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.name"></a>
+                                    </figure>
+                                    <p>@item.description</p>
+                                    <div class="aa-article-bottom">
+                                        <div class="aa-post-author">
+                                            <i class="fa fa-user"></i> Admin
+                                        </div>
+                                        <div class="aa-post-date">
+                                            <i class="fa fa-calendar"></i>
+                                            @item.createDate
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+            @{Html.RenderAction("_Category", "Home");}
+        </div>
+    </div>
+</section>

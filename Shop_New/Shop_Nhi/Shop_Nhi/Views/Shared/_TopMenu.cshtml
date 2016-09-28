@@ -1,0 +1,17 @@
+﻿@model List<Shop_Nhi.Models.Framework.Menu>
+
+<div class="aa-header-top-right">
+
+    <ul class="aa-head-top-nav-right">
+        
+        @foreach (var item in Model.Where(x=>x.status == true && x.typeID == 1))
+        {
+            <li class="hidden-xs"><a href="/page/@item.link">@item.Name</a></li>
+        }
+        @if (ViewBag.Session != null)
+        {
+            <li><a href="/pn">quản trị <i class="fa fa-arrow-circle-o-right"></i></a></li>
+        }
+        
+    </ul>
+</div>

@@ -1,0 +1,78 @@
+﻿@model List<Shop_Nhi.Models.Framework.Category>
+@{
+    ViewBag.Title = "Quản lý danh mục";
+    Layout = "~/Areas/Pn/Views/Shared/_Layout.cshtml";
+}
+@section title{
+    Quản lý danh mục
+}
+
+@section JsFooter{
+
+
+<script src="~/Scripts/Admin/JS/JsCategory.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable-buttons').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+          
+</script>
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <p class="text-muted font-13 m-b-30">
+                <a class="btn btn-success" href="@Url.Action("Create","Category")"><i class="fa fa-plus-circle"></i> Thêm mới</a>
+            </p>
+
+            <table id="datatable-buttons" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Tên</th>
+                        <th>ParentID</th>
+                        <th>Ngày tạo</th>
+                        <th>Người tạo</th>
+                        <th>Trạng thái</th>
+                        <th>Show Menu</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var kichhoat = "btn btn-success btn-xs";
+                        var khoa = "btn btn-danger btn-xs";
+                        <tr id="row_@item.ID">
+                            <td>@item.ID</td>
+                            <td>@item.name</td>
+                            <td>@item.parentID</td>
+                            <td>@item.createDate</td>
+                            <td>@item.createByID</td>
+                            <td><a data-id="@item.ID" class="trangthai" href="#">@Html.Raw(item.status ? "<span class='" + kichhoat + "'>Kích Hoạt</span>" : "<span class='" + khoa + "'>Khóa</span>")</a></td>
+                            <td><a data-id="@item.ID" class="showhome" href="#">@Html.Raw(item.showOnHome ? "<span class='" + kichhoat + "'>Kích Hoạt</span>" : "<span class='" + khoa + "'>Khóa</span>")</a></td>
+                            <td>
+                               
+                                <a class="btn btn-info btn-xs" href="@Url.Action("Edit","Category",new {id = item.ID })">
+                                    <i class="fa fa-pencil"></i>
+                                    Edit
+                                </a>
+                                <a class="btn btn-danger btn-xs del-cate" onclick="return confirm('Bạn chắc chắn muốn xóa tài khoản này?')" data-id="@item.ID" href="#">
+                                    <i class="fa fa-trash-o"></i>
+                                    Delete
+                                </a>
+                            </td>         
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

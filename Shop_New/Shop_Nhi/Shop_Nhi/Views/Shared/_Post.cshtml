@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Shop_Nhi.Models.Framework.Post>
+
+
+@if (Model.Where(x => x.status == true) != null)
+{
+    <!-- Latest Blog -->
+    <section id="aa-popular-category">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="aa-popular-category-area">
+                            <!-- start prduct navigation -->
+                            <ul class="nav nav-tabs aa-products-tab">
+                                <li class="active"><a href="#popular" data-toggle="tab">BÀI VIẾT THỜI TRANG</a></li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- Start men popular category -->
+                                <div class="tab-pane fade in active" id="popular">
+                                    <ul class="aa-product-catg aa-popular-slider">
+                                        @foreach (var item in Model.Where(x => x.status == true))
+                                        {
+                                            
+                                            <li>
+                                                <div class="aa-latest-blog-single">
+                                                    <figure class="aa-blog-img">
+                                                        <a href="/bai-viet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.name"></a>
+                                                        <figcaption class="aa-blog-img-caption">
+                                                            <span href="/bai-viet/@item.metatTitle-@item.ID"><i class="fa fa-user"></i>Admin</span>                                                         
+                                                            <span href="/bai-viet/@item.metatTitle-@item.ID"><i class="fa fa-calendar"></i>@item.createDate</span>
+                                                        </figcaption>
+                                                    </figure>
+                                                    <div class="aa-blog-info">
+                                                        <h3 class="aa-blog-title"><a href="/bai-viet/@item.metatTitle-@item.ID">@item.name</a></h3>                                                      
+                                                        <a href="/bai-viet/@item.metatTitle-@item.ID" class="aa-read-mor-btn">Xem thêm <span class="fa fa-long-arrow-right"></span></a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+}
+

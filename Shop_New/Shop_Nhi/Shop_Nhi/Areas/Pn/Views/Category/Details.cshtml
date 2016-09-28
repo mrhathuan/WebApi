@@ -1,0 +1,108 @@
+﻿@model Shop_Nhi.Models.Framework.Category
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Thuankay/Views/Shared/_Layout.cshtml";
+}
+
+@section title{
+    Chi tiết danh mục
+}
+<h2>Details</h2>
+
+<div>
+    <h4>Category</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.parentID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.parentID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.metaTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.metaTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.metaKeywords)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.metaKeywords)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.metaDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.metaDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createByID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createByID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modifiedByDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modifiedByDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modifiedByID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modifiedByID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.showOnHome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.showOnHome)
+        </dd>
+
+    </dl>
+</div>
+<p>
+</p>

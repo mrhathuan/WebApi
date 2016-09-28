@@ -1,0 +1,76 @@
+﻿@model Shop_Nhi.Models.Framework.Footer
+
+@{
+    List<Shop_Nhi.Models.Framework.Category> listCate = (List<Shop_Nhi.Models.Framework.Category>)ViewBag.Menu;
+    List<Shop_Nhi.Models.Framework.Menu> listPage = (List<Shop_Nhi.Models.Framework.Menu>)ViewBag.Page;
+}
+
+
+<footer id="aa-footer">
+    <!-- footer bottom -->
+    <div class="aa-footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="aa-footer-top-area">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="aa-footer-widget">
+                                    <h3>ZURYSHOP</h3>
+                                    <ul class="aa-footer-nav">
+                                        <li><a href="/">Trang chủ</a></li>
+                                        <li><a href="/lien-he">Liên hệ</a></li>
+                                        <li><a href="/bai-viet">Bài viết</a></li>                                        
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="aa-footer-widget">
+                                    <h3>DANH MỤC</h3>
+                                    <ul class="aa-footer-nav">
+                                        @foreach (var item in listCate.Where(x => x.parentID == null))
+                                        {
+                                            <li><a href="/san-pham/@item.metatTitle-@item.ID">@item.name</a></li>
+                                        }
+                                                                                
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="aa-footer-widget">
+                                    <div class="aa-footer-widget">
+                                        <h3>TRANG</h3>
+                                        <ul class="aa-footer-nav">
+                                            @foreach (var item in listPage.Where(x => x.status == true && x.typeID == 2))
+                                            {
+                                                <li><a href="/page/@item.link-@item.ID">@item.Name</a></li>
+                                            }
+                             
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>                            
+                            @if (Model.detail != null)
+                            {
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="aa-footer-widget">
+                                        <div class="aa-footer-widget">
+                                            <h3>THÔNG TIN</h3>
+                                            <address>
+                                               @Html.Raw(Model.detail)
+                                            </address>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer-bottom -->
+ 
+</footer>

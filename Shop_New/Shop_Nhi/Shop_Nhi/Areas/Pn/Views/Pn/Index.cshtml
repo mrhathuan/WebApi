@@ -1,0 +1,29 @@
+﻿@model List<Shop_Nhi.Models.Framework.Order>
+
+@{
+    ViewBag.Title = "Quản trị";
+    Layout = "~/Areas/Pn/Views/Shared/_Layout.cshtml";
+    var count = 0;
+    var newOrder = 0;
+    var viewOrder = 0;
+    var okOrder = 0;
+    if (Model != null)
+    {
+        count = Model.Count;
+        newOrder = Model.Where(x => x.status == false).ToList().Count;
+        viewOrder = Model.Where(x => x.status == true).ToList().Count;
+        okOrder = Model.Where(x => x.Payment == true).ToList().Count;
+    }
+    
+}
+   
+
+@section JsFooter{
+
+}
+
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/Pn"><i class="fa fa-home"></i></a></li>
+        </ol>
+    </div><!--/.row-->

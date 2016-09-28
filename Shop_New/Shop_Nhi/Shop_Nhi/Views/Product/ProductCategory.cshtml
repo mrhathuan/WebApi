@@ -1,0 +1,216 @@
+﻿@model List<Shop_Nhi.Models.Framework.Product>
+@{
+    var category = (Shop_Nhi.Models.Framework.Category)ViewBag.Category;
+    ViewBag.Title = category.name;
+    ViewBag.KeyWords = category.metaKeywords;
+    ViewBag.Description = category.metaDescription;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var pageDisplay = (int)ViewBag.MaxPage;
+    int totalPage = (int)ViewBag.TotalPage;
+    int currentPage = (int)ViewBag.Page;
+
+    // Create numeric links
+    var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+    var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+}
+
+@section JsFooter{
+    
+<script src="~/Scripts/JS/JsAddCart.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sort').on('change', function () {
+                $('.aa-sort-form').attr('action', '@Url.Action("ProductCategory", "Product")');
+                $('.aa-sort-form').submit();
+            })
+           
+        });
+    </script>
+
+<script type="text/javascript">
+        jQuery(window).load(function () {
+            $('#sort option').removeAttr('selected').filter('[value="@ViewBag.Sort"]').attr('selected', 'selected');
+        });
+</script>
+}
+
+
+<section id="aa-product-category">
+    <div class="container">
+        <div class="row">
+            <nav class="woocommerce-breadcrumb">
+                <a href="/">Trang chủ</a>
+                <span class="navigation-pipe"></span>
+                @category.name
+            </nav>
+            <div class="col-lg-9 col-md-9 col-sm-8 col-md-push-3">
+                <div class="aa-product-catg-content">
+                    <div class="aa-product-catg-head">
+                        <div class="aa-product-catg-head-left">
+                            <form action="" class="aa-sort-form" method="get">
+                                <label for="">Sắp xếp theo:</label>                                
+                                <select id="sort" name="sort">
+                                    <option value="1" selected="selected">Sản phẩm mới</option>
+                                    <option value="2">Giá thấp đến cao</option>
+                                    <option value="3">Lượt xem</option>
+                                    <option value="4">Điểm yêu thích</option>
+                                </select>
+                            </form>
+                            <form action="" class="aa-show-form">
+                                <label for="">Hiện @Model.Count sản phẩm</label>                              
+                            </form>
+                        </div>
+                        <div class="aa-product-catg-head-right">
+                            <a id="grid-catg" href="#"><span class="fa fa-th"></span></a>
+                            <a id="list-catg" href="#"><span class="fa fa-list"></span></a>
+                        </div>
+                    </div>
+                    <div class="aa-product-catg-body">
+                        <ul class="aa-product-catg">
+                            <!-- start single product item -->
+                            @foreach (var item in Model)
+                            {
+
+                                <li>
+                                    <figure>
+                                        <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
+                                        @if (item.quantity > 0)
+                                        {
+                                             <div class="btn-product_@item.ID">
+                                                  <a class="aa-add-card-btn" data-loading-text="Loading..." role="button" href="#" data-id="@item.ID"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
+                                              </div>
+                                        }
+                                        <figcaption>
+                                            <div class="aa-product-title"><a title="@item.productName" href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></div>
+                                            @if (item.promotionPrice > 0)
+                                            {
+                                                <span class="aa-product-price">@string.Format("{0:0,0}", item.promotionPrice)<sup><u>đ</u></sup></span><span class="aa-product-price"><del>@string.Format("{0:0,0}", item.price)<sup><u>đ</u></sup></del></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="aa-product-price">@string.Format("{0:0,0}", item.price)<sup><u>đ</u></sup></span>
+                                            }
+
+                                            <p class="aa-product-descrip">@item.description</p>
+                                        </figcaption>
+                                    </figure>
+                                    <div class="aa-product-hvr-content" id="aa-product-hvr-content_@item.ID">
+                                        <a href="#" class="like" id="like_@item.ID" data-id="@item.ID" data-toggle="tooltip" data-placement="top" title="Yêu thích"><span class="fa fa-heart-o"></span></a>
+                                        <a href="/chi-tiet/@item.metatTitle-@item.ID" data-toggle="tooltip" data-placement="top" title="Chi tiết"><span class="fa fa-exchange"></span></a>
+                                        <a href="#" class="quick-view" data-id="@item.ID" data-toggle2="tooltip" data-placement="top" title="Xem nhanh" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>
+                                    </div>
+                                    <!-- product badge -->
+                                    @if (item.quantity == null || item.quantity == 0)
+                                    {
+                                        <span class="aa-badge aa-sold-out" href="#">Hết hàng!</span>
+                                    }
+                                </li>
+                            }
+                            <!-- start single product item -->
+                           
+                        </ul>
+                        <!-- quick view modal -->
+                        <!-- quick view modal -->
+                        <div class="modal fade" id="quick-view-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <div class="row">
+                                            <!-- Modal view slider -->
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="aa-product-view-slider">
+
+                                                </div>
+                                            </div>
+                                            <!-- Modal view content -->
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="aa-product-view-content">
+                                                    <h3></h3>
+                                                    <div class="aa-price-block">
+                                                        <span class="aa-product-view-price"></span>
+                                                    </div>
+                                                    <p><!--des--></p>
+                                                    <div class="aa-prod-quantity">
+                                                        <input type="number" size="4" value="1" id="quantity" />
+                                                        <p class="aa-prod-category">
+                                                            Danh mục: <a href="#"></a>
+                                                        </p>
+                                                    </div>
+                                                    <input type="hidden" id="hidProductId" value="0" />
+                                                    <div class="aa-prod-view-bottom">
+                                                        <a href="#" class="aa-add-to-cart-btn" id="add-cart-modal"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
+                                                        <a href="#" id="aa-cart-modal-detail" class="aa-add-to-cart-btn">Xem chi tiết</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- / quick view modal -->
+                        <!-- / quick view modal -->
+                        <!-- / quick view modal -->
+                    </div>
+                  
+                    @if (ViewBag.TotalPage >= 1)
+                    {
+                        var link = "/san-pham/" + category.metatTitle + "-" + category.ID;
+                        <div class="aa-product-catg-pagination">
+                           
+                        <nav>
+                            <ul class="pagination">
+
+                                @if (currentPage > ViewBag.First)
+                                {
+                                 <li class="previous"><a href="@link?page=@ViewBag.First" title="Trang đầu">Đầu</a></li>
+                                 <li>
+                                    <a href="@link?page=@ViewBag.Prev" title="Trang trước" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+
+                                }
+
+                                @for (int i = startPageIndex; i <= endPageIndex; i++)
+                                {
+                                    if (currentPage == i)
+                                    {
+
+                                        <li class="active"><a href="@link?page=@i" title="Trang @i">@i</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="@link?page=@i" title="Trang @i" class="pos">@i</a></li>
+                                    }
+                                }
+
+                                @if (currentPage < totalPage)
+                                {
+                                    <li>
+                                        <a href="@link?page=@ViewBag.Next" class="next" title="Trang sau" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    <li> <a href="@link?page=@ViewBag.Last" class="last" title="Trang cuối">Cuối</a></li>
+                                }
+
+                                
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                    }
+                    else
+                    {
+                        <p class="woocommerce-info">Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.</p>
+                    }
+
+                </div>
+            </div>
+            @{Html.RenderAction("_Category", "Home");}
+        </div>
+    </div>
+</section>

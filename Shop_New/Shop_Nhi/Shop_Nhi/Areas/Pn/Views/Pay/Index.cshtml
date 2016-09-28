@@ -1,0 +1,66 @@
+﻿@model List<Shop_Nhi.Models.Framework.Pay>
+
+
+@{
+    ViewBag.Title = "Phương thức thanh toán";
+    Layout = "~/Areas/Pn/Views/Shared/_Layout.cshtml";
+}
+
+@section title{
+    PHƯƠNG THỨC THANH TOÁN
+}
+
+@section JsFooter{
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable').DataTable();
+        });
+
+    </script>
+
+    
+
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <p class="text-muted font-13 m-b-30">
+                <a class="btn btn-success" href="@Url.Action("Create","Pay")"><i class="fa fa-plus-circle"></i> Thêm mới</a>
+            </p>
+            <table id="datatable" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên</th>                        
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {                     
+                        <tr id="row_@item.ID">
+                            <td>@item.ID</td>
+                            <td>@item.name</td>
+                                           
+                            <td>
+                                <a class="btn btn-info btn-xs" href="@Url.Action("Edit","Pay",new {id = item.ID })">
+                                    <i class="fa fa-pencil"></i>
+                                    Edit
+                                </a>
+                                <a class="btn btn-danger btn-xs" onclick="return confirm('Bạn chắc chắn muốn xóa trang này?')" data-id="@item.ID" href="@Url.Action("Delete", "Pay", new { id = item.ID })">
+                                    <i class="fa fa-trash-o"></i>
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

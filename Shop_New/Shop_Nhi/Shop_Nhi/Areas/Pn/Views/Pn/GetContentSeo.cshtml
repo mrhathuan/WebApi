@@ -1,0 +1,68 @@
+﻿@model List<Shop_Nhi.Models.Framework.Seo>
+
+
+@{
+    ViewBag.Title = "Quản lý SEO";
+    Layout = "~/Areas/Pn/Views/Shared/_Layout.cshtml";
+}
+
+@section title{
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Pn")">ADMIN</a></li>
+        <li><a href="@Url.Action("Body","Pn")">QUẢN TRỊ NỘI DUNG</a></li>
+        <li class="active">QUẢN LÝ SEO</li>
+    </ol>
+}
+
+@section JsFooter{
+    
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable').DataTable();
+        });
+    </script>
+    
+
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <p class="text-muted font-13 m-b-30">
+                
+            </p>
+            <table id="datatable" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Keyword</th>
+                        <th>Description</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                      
+                        <tr id="row_@item.ID">
+                            <td>@item.metaTitle</td>
+                            <td>@item.metaKeyword</td>
+                            <td>@item.metaDescription</td>                                                       
+                            <td>
+                                <a class="btn btn-info btn-xs" href="@Url.Action("EditSeo","Pn",new {id = item.ID })">
+                                    <i class="fa fa-folder"></i>
+                                    Xem
+                                </a>
+                               
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,69 @@
+﻿
+<div class="navbar nav_title" style="border: 0;">
+    <a href="/" class="site_title"><i class="fa fa-home"></i> <span>ZURYSHOP</span></a>
+</div>
+<div class="clearfix"></div>
+
+<!-- menu prile quick info -->
+<div class="profile">
+    <div class="profile_pic">
+        <img src="~/img/admin/avata.png" alt="..." class="img-circle profile_img">
+    </div>
+    <div class="profile_info">
+        <span>Welcome,</span>
+        <h2>@Session["username"]</h2>
+    </div>
+</div>
+<!-- /menu prile quick info -->
+
+<br />
+<!-- sidebar menu -->
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+
+    <div class="menu_section">
+        <h3>Admin !</h3>
+       
+        <ul class="nav side-menu">
+            <li>
+                <a href="@Url.Action("Index","Pn")"><i class="fa fa-home"></i> DASHBOARD</a>
+            </li>
+            <li>
+                <a><i class="fa fa-edit"></i> QUẢN LÝ <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu" style="display: none">
+                    <li>
+                        @Html.ActionLink("Quản lý sản phẩm", "Index", "Product")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Quản lý danh mục","Index","Category")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Quản lý đơn hàng", "Index", "Order")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Phương thức thanh toán", "Index", "Pay")
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a><i class="fa fa-desktop"></i> QUẢN TRỊ<span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu" style="display: none">
+                    <li>
+                        @Html.ActionLink("Quản trị nội dung", "Body", "Pn")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Bài viết", "Index", "Posts")
+                    </li>                                       
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="@Url.Action("Index","Users")"><i class="fa fa-user"></i> TÀI KHOẢN</span></a>                
+            </li>
+              
+        </ul>    
+         
+</div>
+</div>
+<!-- /sidebar menu -->

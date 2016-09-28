@@ -1,0 +1,107 @@
+﻿
+
+@{
+    List<Shop_Nhi.Models.Framework.Category> listCate = (List<Shop_Nhi.Models.Framework.Category>)ViewBag.CatePro;
+    List<Shop_Nhi.Models.Framework.Product> listLike = (List<Shop_Nhi.Models.Framework.Product>)ViewBag.ListLike;
+    List<Shop_Nhi.Models.Framework.Product> listView = (List<Shop_Nhi.Models.Framework.Product>)ViewBag.ListView;
+    IEnumerable<Shop_Nhi.Models.Framework.Tag> listTags = (IEnumerable<Shop_Nhi.Models.Framework.Tag>)ViewBag.Tags;
+}
+
+
+
+
+
+<!-- product category -->      
+            <div class="col-lg-3 col-md-3 col-sm-4 col-md-pull-9">
+                <aside class="aa-sidebar">
+                    <!-- single sidebar -->
+                    <div class="aa-sidebar-widget">
+                        <h2>Danh mục</h2>
+                        <ul class="aa-catg-nav">
+                            @foreach (var item in listCate.Where(x => x.parentID == null))
+                            {
+                                var child = listCate.Where(x => x.parentID == item.ID);
+                                <li class="aa-catg-nav-item"><a href="/san-pham/@item.metatTitle-@item.ID" data-id="@item.ID">@item.name</a>
+                            
+                                @if (child.Count() > 0)
+                                {
+                                  <ul class="children" id="child_@item.ID">
+                                      @foreach (var childItem in child)
+                                      {
+                                         <li class="catg-child"><a href="/san-pham/@childItem.metatTitle-@childItem.ID">@childItem.name</a></li>
+                                      }                                  
+                                </ul>
+                                }
+                            </li>
+                            }          
+                        </ul>
+                    </div>
+                
+
+
+
+                    <div class="aa-sidebar-widget">
+
+                        <h2>Facebook</h2>
+                        <iframe src="http://www.facebook.com/plugins/likebox.php?href=https://www.facebook.com/zuryshop/&amp;width=230&amp;colorscheme=light&amp;show_faces=true&amp;connections=9&amp;stream=false&amp;header=false&amp;height=270" scrolling="no" frameborder="0" style="border: medium none; overflow: hidden; width:240px;height:270px;background:#fff;"> </iframe>
+                    </div>
+
+                    <!-- single sidebar -->
+                    <div class="aa-sidebar-widget">
+                        <h2>Sản phẩm đặc trưng</h2>
+                        <div class="aa-recently-views">
+                            <ul>
+                                @foreach (var item in listLike)
+                                {
+                                    <li>
+                                     <a href="/chi-tiet/@item.metatTitle-@item.ID" class="aa-cartbox-img"><img alt="@item.productName" src="@item.image"></a>
+                                    <div class="aa-cartbox-info">
+                                        <h5><a href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></h5>
+                                        <p>@string.Format("{0:0,0}",item.promotionPrice.HasValue? item.promotionPrice : item.price)</p>
+                                    </div>
+                                </li>     
+                                }                                                          
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- single sidebar -->
+                    <div class="aa-sidebar-widget">
+                        <h2>Sản phẩm xem nhiều</h2>
+                        <div class="aa-recently-views">
+                            <ul>
+                                @foreach (var item in listView)
+                                {
+                                    <li>
+                                        <a href="/chi-tiet/@item.metatTitle-@item.ID" class="aa-cartbox-img"><img alt="@item.productName" src="@item.image"></a>
+                                        <div class="aa-cartbox-info">
+                                            <h5><a href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></h5>
+                                            <p>@string.Format("{0:0,0}", item.promotionPrice.HasValue ? item.promotionPrice : item.price)</p>
+                                        </div>
+                                    </li>
+                                }      
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--Tags-->
+                    <!-- single sidebar -->
+                    @if (listTags != null)
+                    {
+                         <div class="aa-sidebar-widget">
+                        <h2>Tags</h2>
+                        <div class="tag-cloud">
+                            @foreach (var item in listTags)
+                            {
+                                <a href="/tag/@item.ID">@item.Name</a> 
+                            }
+                                                      
+                        </div>
+                    </div>
+                    }
+                   
+
+                </aside>
+            </div>
+
+
+<!-- / product category -->

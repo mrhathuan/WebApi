@@ -1,0 +1,78 @@
+﻿@model List<Shop_Nhi.Models.CartItem>
+
+@{
+    decimal tongtien = 0;
+    foreach (var item in Model)
+    {
+        if (item.product.promotionPrice > 0)
+        {
+            tongtien += item.product.promotionPrice.GetValueOrDefault(0) * item.quantity;
+        }
+        else
+        {
+            tongtien += item.product.price.GetValueOrDefault(0) * item.quantity;
+        }
+    }
+}
+
+ <!-- start header bottom  -->
+<div class="aa-header-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-header-bottom-area">
+                    <!-- logo  -->
+                    <div class="aa-logo">                       
+                        <!-- img based logo -->
+                        <a href="/"><img src="~/img/logo.jpg" class="img-responsive" alt="logo"></a>                        
+                    </div>
+                    <!-- / logo  -->
+                    <!-- cart box -->
+                    <div class="aa-cartbox">
+                        <a class="aa-cart-link" href="/gio-hang">
+                            <span class="fa fa-shopping-basket"></span>
+                            <span class="aa-cart-title">GIỎ HÀNG</span>
+                            <span class="aa-cart-notify">@Model.Count</span>
+                        </a>
+                        <div class="aa-cartbox-summary">
+                            <ul>
+                                    
+                                @foreach (var item in Model)
+                                {                
+                                    <li id="aa-cartbox-item_@item.product.ID">
+                                          <a class="aa-cartbox-img"><img src="@item.product.image" alt="@item.product.productName"></a>
+                                          <div class="aa-cartbox-info">
+                                            <h4><a>@item.product.productName</a></h4>
+                                            <p>@item.quantity x @string.Format("{0:0,0}", item.product.promotionPrice.HasValue?item.product.promotionPrice.GetValueOrDefault(0) : item.product.price.GetValueOrDefault(0))</p>
+                                          </div>
+                                          <a class="aa-remove-product" data-id="@item.product.ID" href="#"><span class="fa fa-times"></span></a>
+                                    </li>
+                                }
+                                                        
+                                <li>
+                                    <span class="aa-cartbox-total-title">
+                                        Tổng tiền
+                                    </span>
+                                    <span class="aa-cartbox-total-price">
+                                       @string.Format("{0:0,0}", tongtien)<sup><u>đ</u></sup>
+                                    </span>
+                                </li>
+                            </ul>
+                            <a class="aa-cartbox-checkout aa-primary-btn" href="/gio-hang">Xem giỏ</a>
+                        </div>
+                    </div>
+                    <!-- / cart box -->
+                    <!-- search box -->
+                    <div class="aa-search-box">
+                        <form action="/tim-kiem" method="get">
+                            <input type="text" name="keyword" id="txtKeyword" placeholder="nhập tên hoặc mã sản phẩm ">
+                            <button type="submit"><span class="fa fa-search"></span></button>
+                        </form>
+                    </div>
+                    <!-- / search box -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- / header bottom  -->

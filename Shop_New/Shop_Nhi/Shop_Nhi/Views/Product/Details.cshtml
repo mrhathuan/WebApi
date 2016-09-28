@@ -1,0 +1,256 @@
+﻿ @model Shop_Nhi.Models.Framework.Product
+
+@{
+    ViewBag.Title = Model.productName;
+    ViewBag.Keywords = Model.metaKeywords;
+    ViewBag.Description = Model.metaDescription;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var relateProduct = (List<Shop_Nhi.Models.Framework.Product>)ViewBag.RelateProduct;
+
+}
+
+@section JsFooter{
+<script src="~/Scripts/eagle.gallery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.eagle-gallery').eagleGallery({
+            miniSliderArrowPos: 'outside',
+            changeMediumStyle: true,
+            autoPlayMediumImg: true,
+            openGalleryStyle: 'transform',
+            bottomControlLine: true,
+            openGallerySpeed: 500,
+            miniSlider: {
+                itemsCustom: [[0, 3], [350, 4], [750, 4], [1050, 4], [1250, 5], [1450, 6]]
+            }
+        });
+    });
+</script>
+
+<script src="~/Scripts/JS/JsAddCart.js"></script>
+
+
+ <!--Comment-->
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '283485375367823',
+            xfbml: true,
+            version: 'v2.7'
+        });
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+}
+<section id="aa-product-category">
+    <div class="container">
+        <div class="row">
+            <nav class="woocommerce-breadcrumb">
+                <a href="/">Trang chủ</a>
+                <span class="navigation-pipe"> </span>
+                <a href="/san-pham/@Model.Category.metatTitle-@Model.categoryID">@Model.Category.name</a>
+                <span class="navigation-pipe"> </span>
+                @Model.productName
+            </nav>
+
+            <div class="col-lg-9 col-md-9 col-sm-8 col-md-push-3">              
+                <!--Detail-->
+                 <div class="row">
+                   
+                    <div class="col-md-5">
+                        <div class="eagle-gallery img500">
+                            <div class="owl-carousel">
+                                <img src="@Model.image" data-medium-img="@Model.image" data-big-img="@Model.image" data-title="" alt="@Model.productName">
+                                @if (ViewBag.ListImages != null)
+                                {
+                                    foreach (var itemImages in ViewBag.ListImages)
+                                    {
+                                        <img src="@itemImages" data-medium-img="@itemImages" data-big-img="@itemImages" data-title="" alt="@Model.productName">
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <input type="hidden" id="idProductHid" value="@Model.ID" />
+                    </div>
+
+
+                    <div class="col-md-7">
+                        <h3 class="tensanpham"><i class="glyphicon glyphicon-star"></i>@Model.productName</h3>
+                        
+                        <h3 class="detail-sp">
+                            <i class="glyphicon glyphicon-heart-empty"></i> Mã sản phẩm: <span class="blue-sp">@Model.code</span>
+                        </h3>
+                        <h3 class="detail-sp">
+                            <i class="glyphicon glyphicon-heart-empty"></i>Giá sản phẩm: 
+                            @if (Model.promotionPrice != null || Model.promotionPrice > 0)
+                            {
+                                <span class="blue-sp"><del>@string.Format("{0:0,0}", Model.price)<sup><u>đ</u></sup></del></span>
+                            }
+                            else
+                            {
+                                <span class="blue-sp sale">@string.Format("{0:0,0}", Model.price)<sup><u>đ</u></sup></span>
+                            }
+                            
+                        </h3>
+                        <h3 class="detail-sp">
+                            <i class="glyphicon glyphicon-heart-empty"></i>Giá khuyến mãi: <span class="blue-sp sale">
+                            @(Model.promotionPrice.HasValue? string.Format("{0:0,0}<sup><u>đ</u></sup>"):"")
+                            </span>
+                        </h3>
+            
+                        <h3 class="detail-sp">
+                            <i class="glyphicon glyphicon-heart-empty"></i> Xuất xứ: <span class="blue-sp">@Model.madeIn</span>
+                        </h3>
+                       
+                        <h3 class="detail-sp">
+                            <i class="glyphicon glyphicon-heart-empty"></i> Chất liệu: <span class="blue-sp">@Model.chatlieu</span>
+                        </h3>
+                        
+                        <h3 class="detail-sp">
+                            <i class="glyphicon glyphicon-heart-empty"></i> Tình trạng hàng: <span class="blue-sp">@(Model.quantity > 0 ? "Còn hàng" : "Hết hàng")</span>
+                        </h3>
+                    
+                        <h3 class="detail-sp">
+                            Số lượng mua: <span><input maxlength="2" id="quantity" min="1" max="99" value="1" type="number"></span>
+                        </h3>
+                  
+                        <h3 class="detail-sp" id="btn-detail">
+                            @if (Model.quantity >0  && Model.status == true) { 
+                                <a id="AddCartDetail" data-id="@Model.ID" href="#"><img src="~/img/btnAddCart.png"></a>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-warning disabled"><span class="fa fa-ban"></span> Đặt mua</button>
+                            }
+                            
+                        </h3>
+                        
+                        <div class="fb-like"></div>
+                        <div class="fb-share-button" data-layout="button_count"></div>
+                        <br>
+                        <div class="g-plusone" data-annotation="inline" data-width="300"></div>
+                        <div class="g-plus" data-action="share"></div>
+
+                    </div>
+                </div>   
+
+                <!--Description-->
+                <div class="decriptions">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#detail">Chi tiết</a></li>
+                        <li><a data-toggle="tab" href="#comment">Bình luận</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="detail" class="tab-pane fade in active">
+                            @Html.Raw(Model.detail)
+                        </div>
+                        <div id="comment" class="tab-pane fade">
+                            <div id="fb-root"></div>
+                            <div class="fb-comments" data-href="@Request.Url.AbsoluteUri" data-width="100%" data-numposts="5"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!--/Description-->
+
+                <div class="aa-product-catg-content">
+                        <h1 class="page-heading">
+                            <span class="page-heading-title">Sản phẩm liên quan</span>
+                        </h1>
+                    <div class="aa-product-catg-body">
+                        <ul class="aa-product-catg">
+                            <!-- start single product item -->
+                            @foreach (var item in relateProduct)
+                            {
+
+                                <li>
+                                    <figure>
+                                        <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
+                                        @if (item.quantity > 0)
+                                        {
+                                            <div class="btn-product_@item.ID">
+                                                <a class="aa-add-card-btn" data-loading-text="Loading..." role="button" href="#" data-id="@item.ID"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
+                                            </div>
+                                        }
+                                        <figcaption>
+                                            <div class="aa-product-title"><a title="@item.productName" href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></div>
+                                            <span class="aa-product-price">@string.Format("{0:0,0}", item.price)<sup><u>đ</u></sup></span><span class="aa-product-price"><del>@string.Format("{0:0,0}", item.promotionPrice)</del></span>
+                                            <p class="aa-product-descrip">@item.description</p>
+                                        </figcaption>
+                                    </figure>
+                                    <div class="aa-product-hvr-content" id="aa-product-hvr-content_@item.ID">
+                                        <a href="#" class="like" id="like_@item.ID" data-id="@item.ID" data-toggle="tooltip" data-placement="top" title="Yêu thích"><span class="fa fa-heart-o"></span></a>
+                                        <a href="/chi-tiet/@item.metatTitle-@item.ID" data-toggle="tooltip" data-placement="top" title="Chi tiết"><span class="fa fa-exchange"></span></a>
+                                        <a href="#" class="quick-view" data-id="@item.ID" data-toggle2="tooltip" data-placement="top" title="Xem nhanh" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>
+                                    </div>
+                                    <!-- product badge -->
+                                    @if (item.quantity == null || item.quantity ==0)
+                                    {
+                                        <span class="aa-badge aa-sold-out" href="#">Hết hàng!</span>
+                                    }
+                                </li>
+                            }
+                            <!-- start single product item -->
+                           
+                        </ul>
+                        <!-- quick view modal -->
+                        <div class="modal fade" id="quick-view-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <div class="row">
+                                            <!-- Modal view slider -->
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="aa-product-view-slider">
+
+                                                </div>
+                                            </div>
+                                            <!-- Modal view content -->
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="aa-product-view-content">
+                                                    <h3></h3>
+                                                    <div class="aa-price-block">
+                                                        <span class="aa-product-view-price"></span>
+                                                    </div>
+                                                    <p><!--des--></p>
+                                                    <div class="aa-prod-quantity">
+                                                        <input type="number" size="4" value="1" id="quantity" />
+                                                        <p class="aa-prod-category">
+                                                            Danh mục: <a href="#">Polo T-Shirt</a>
+                                                        </p>
+                                                    </div>
+                                                    <input type="hidden" id="hidProductId" value="0" />
+                                                    <div class="aa-prod-view-bottom">
+                                                        <a href="#" class="aa-add-to-cart-btn" id="add-cart-modal"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
+                                                        <a href="#" id="aa-cart-modal-detail" class="aa-add-to-cart-btn">Xem chi tiết</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- / quick view modal -->
+                        <!-- / quick view modal -->
+                    </div>
+               
+                </div>
+
+             </div>
+
+
+            @{Html.RenderAction("_Category", "Home");}
+        </div>
+    </div>
+</section>
+

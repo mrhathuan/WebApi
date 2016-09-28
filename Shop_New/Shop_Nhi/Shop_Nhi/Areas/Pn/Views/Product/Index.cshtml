@@ -1,0 +1,350 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý sản phẩm";
+    Layout = "~/Areas/Pn/Views/Shared/_Layout.cshtml";
+}
+@section JsFooter{
+    <script>
+        $(document).ready(function () {
+            var btn_success = "btn_success";
+            var btn_info = "btn_info";
+            var grid = $("#gird").kendoGrid({
+                height: 550,
+                columns: [
+                    {
+                        title: ' ', width: '130px',
+                        template: '<a href="\\#" class="event-button"><i class="fa fa-pencil"></i></a>' +
+                            '<a href="\\#" class="event-button"><i class="fa fa-trash"></i></a>' +
+                            '<a href="\\#" data-id="#=id#" onclick="ManageImages(#=id#)" class="event-button btn-image"><i class="fa fa-picture-o"></i></a>',
+                        filterable: false, sortable: false
+                    },
+                    { field: "image", width: "60px", title: "Ảnh",editable: false, filterable:false, template: "<img src='http://zuryshop.net/#=image#' class='product-img'/>" },
+                    {
+                        field: "code", width: "130px", title: "Mã",
+                        filterable: { cell: { operator: 'contains', showOperators: false } }
+                    },
+                    {
+                        field: "productName", width: "400px", title: "Tên sản phẩm",
+                        filterable: { cell: { operator: 'contains', showOperators: false } }
+                    },
+                    {
+                        field: "price", width: "130px", title: "Giá", template: "#:kendo.toString(price,'n0')#",
+                        filterable: { cell: {showOperators: false } }
+                    },
+                    {
+                        field: "promotionPrice", width: "130px", title: "Giá KM", template: "#:kendo.toString(price,'n0')#",
+                        filterable: { cell: { showOperators: false } }
+                    },
+                    {
+                        field: "quantity", width: "130px", title: "Số lượng",
+                        filterable: { cell: {showOperators: false } }
+                    },
+                    {
+                        field: "categoryID", width: "300px", title: "Danh mục", template: "#=Category.name#",
+                        filterable:false
+                    },
+                    { field: "status", width: "130px", title: "Trạng thái", editable: false, filterable: false, template: "#=status?'<span class=" + btn_success + ">Đã về</span>':'<span class=" + btn_info + ">Sắp về</span>'#" },
+                    { field: "createDate", width: "130px", title: "Ngày up",filterable:false, template: "#= kendo.toString(kendo.parseDate(createDate, 'yyyy-MM-dd'), 'dd/MM/yyyy')#" },
+                    { field: "like", width: "100px",filterable:false,  title: "Like" },
+                    { field: "viewCount", width: "130px", filterable: false, title: "Lượt mua" },
+                ],
+                toolbar: kendo.template($("#template").html()),
+                excel: {
+                    fileName: "San_pham.xlsx",                 
+                    filterable: true,
+                    proxyURL: "@Url.Action("Excel_Export_Save","Product")",
+                    allPages: true
+                },                
+                sortable: true,
+                resizable: true,
+                pageable: true,
+                filterable: {
+                    mode: "row",                    
+                },
+                dataSource: {
+                    pageSize: 10,
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        model: { // define the model of the data source. Required for validation and property types.
+                            id: "ID",
+                            fields: {
+                                ID: { type: 'number' },
+                                image: { type: "string", editable: false, filterable:false },
+                                code:{type:"string",editable:false},
+                                productName: { type: "string",editable:false, validation: { required: true } },
+                                price: { type: "number", format: "n0", validation: { required: true, min: 1 }, editable: false },
+                                promotionPrice: { type: "number", editable: false, nullable: true },
+                                quantity: { type: "number", nullable: true, editable: true },
+                                categoryID: { editable: false, type: "number" },
+                                status: { editable: false, type: "boolean" },
+                                createDate: { editable: false },
+                                like: { editable: false },
+                                viewCount:{editable:false}
+                            }
+                        }
+                    },
+                    batch: false, // enable batch editing - changes will be saved when the user clicks the "Save changes" button
+                    transport: {
+                        read: {
+                            url: "@Url.Action("List", "Product")", 
+                            contentType: "application/json",
+                            type: "POST" 
+                        },
+                        parameterMap: function (data, operation) {
+                            if (operation != "read") {                      
+                                var result = {};
+
+                                for (var i = 0; i < data.models.length; i++) {
+                                    var product = data.models[i];
+
+                                    for (var member in product) {
+                                        result["products[" + i + "]." + member] = product[member];
+                                    }
+                                }
+
+                                return result;
+                            } else {
+                                return JSON.stringify(data)
+                            }
+                        }
+                    }
+                }
+            });
+
+            var dropDown = grid.find("#category").kendoDropDownList({
+                dataTextField: "name",
+                dataValueField: "ID",
+                autoBind: false,
+                optionLabel: "Tất cả",
+                dataSource: {
+                    type: "Data",
+                    severFiltering: true,
+                    transport: {
+                        read: {
+                            url: "@Url.Action("ByCategories", "Product")", 
+                             contentType: "application/json",
+                            type: "GET" 
+                        }
+
+                    }
+                },
+                change: function () {
+                    var value = this.value();
+                    if (value) {
+                        grid.data("kendoGrid").dataSource.filter({ field: "categoryID", operator: "eq", value: parseInt(value) });
+                    } else {
+                        grid.data("kendoGrid").dataSource.filter({});
+                    }
+                }
+            });
+           
+        })
+
+
+        //iamges
+        function ManageImages(id) {
+            $('#hidProductId').val(id);
+            $.ajax({
+                url: "@Url.Action("LoadImages","Product")",
+                type: "GET",
+                data: { id: id },
+                dataType: "JSON",
+                success: function (res) {
+                    var data = res.data;
+                    var html = '';
+                    if (res.status == true) {
+                        $('#imagesManage').modal('show');
+                        $.each(data, function (i, item) {
+                            html += '<div style="float:left"><img src="' + item + '" width="100" /><a class="btn-delImage" href="#"><i class="glyphicon glyphicon-remove"></i></a></div>';
+                        });
+                        $('#imageList').html(html);
+
+                        $('.btn-delImage').off('click').on('click', function (e) {
+                            e.preventDefault();
+                            $(this).parent().remove();
+                        });
+                    } else {
+                        $('#imagesManage').modal('show');
+                        $('#imageList').empty();
+                    }
+                }
+            });
+            //
+        }
+        //
+        $('#btnChooImage').off('click').on('click', function () {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+                $('#imageList').append('<div style="float:left"><img src="' + url + '" width="100" /><a class="btn-delImage" href="#"><i class="glyphicon glyphicon-remove"></i></a></div>');
+
+                $('.btn-delImage').off('click').on('click', function (e) {
+                    e.preventDefault();
+                    $(this).parent().remove();
+                });
+            };
+            finder.popup();
+        });
+        //
+        $('#btnSaveImage').off('click').on('click', function () {
+            var images = [];
+            var id = $('#hidProductId').val();
+            $.each($('#imageList img'), function (i, item) {
+                images.push($(item).prop('src'));
+            })
+
+            $.ajax({
+                url: "/Pn/Product/SaveImages",
+                type: "POST",
+                data: {
+                    id: id,
+                    images: JSON.stringify(images)
+                },
+                dataType: "JSON",
+                success: function (res) {
+                    $('#imagesManage').modal('hide');
+                    $('#imageList').empty();
+                    alert("Cập nhật ảnh thành công");
+                }
+            })
+        });
+        //
+    </script>
+    <style>
+        #grid .k-grid-toolbar {
+            padding: .6em 1.3em;
+        }
+
+        .category-label {
+            vertical-align: middle;
+            padding-right: .5em;
+        }
+        #category {
+            vertical-align: middle;
+        }
+
+</style>
+   
+}
+
+<script type="text/x-kendo-template" id="template">
+    <div class="toolbar">
+        <div class="toolbar-left" style="float:left;">
+            <a data-toggle="tooltip" data-placement="top" title="Xuất Excel" class="k-button k-button-icontext k-grid-excel" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-file-excel-o"></span></a> 
+            <a data-toggle="tooltip" data-placement="top" title="Thêm mới" class="k-button k-button-icontext k-grid-add" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-plus"></span></a>          
+        </div>  
+        <div style="float:right;">
+            <label class="category-label" for="category">Hiện theo danh mục:</label>
+            <input type="search" id="category" style="width: 230px" />
+        </div>
+    
+    </div>
+</script>
+
+<div class="row">
+    <ol class="breadcrumb" style="font-size:20px;color:black">
+        <li><a href="/Pn"><i class="fa fa-home"></i></a></li>
+        <li class="active">Sản phẩm</li>
+    </ol>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default cus-grid" style="border:none;margin-top:5px">
+            <div class="panel-body">
+              <div id="gird" class="cus-grid"></div>
+            </div>
+        </div>
+    </div>
+</div><!--/.row-->	
+
+
+<!--Product-->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="detailProduct" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="#" method="post" class="">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">Thêm mới sản phẩm</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="img-produc-detail"></div>
+                            </div>
+                            <div class="col-md-8">
+                                <h4 class="product-detail"></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" id="btnSaveImage">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--ManageImage-->
+<div id="imagesManage" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Quản lý ảnh</h4>
+            </div>
+            <div class="modal-body">
+                <div id="imageList">
+
+                </div>
+                <div class="clear"></div>
+                <input type="button" id="btnChooImage" class="btn btn-info" value="Chọn ảnh" />
+                <input type="hidden" id="hidProductId" value="0" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnSaveImage">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Detail-->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="detailProduct" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <div class="img-produc-detail"></div>
+                        </div>
+                        <div class="col-md-8">
+                            <h4 class="product-detail"></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

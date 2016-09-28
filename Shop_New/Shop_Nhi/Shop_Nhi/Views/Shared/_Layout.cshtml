@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <meta name="keywords" content="@ViewBag.KeyWords" />
+    <meta name="description" content="@ViewBag.Description" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:url" content="http://zuryshop.net/" />
+    <meta property="og:site_name" content="@ViewBag.Description" />
+    <meta property="og:image" content="http://zuryshop.net/img/cartzury.jpg" />
+    <meta property="fb:app_id" content="283485375367823" />
+    @{
+        HttpApplicationState theme = HttpContext.Current.ApplicationInstance.Application;
+    }
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="@theme["Theme"]" rel="stylesheet" />   
+</head>
+<body class="" style="">
+
+    <!--CONTENT-->
+    <!--Loading-->
+    @*<div id="wpf-loader-two">
+        <div class="wpf-loader-two-inner">
+            <span>Đang tải...</span>
+        </div>
+    </div>*@
+    <!-- SCROLL TOP BUTTON -->
+    <a class="scrollToTop" href="#"><i class="fa fa-chevron-up"></i></a>
+    <!-- END SCROLL TOP BUTTON -->
+    <!-- Start header section -->
+    <header id="aa-header">
+        <!-- start header top  -->
+        <div class="aa-header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="aa-header-top-area">
+                            <!-- start header top left -->
+                            <div class="aa-header-top-left">
+                                <div class="cellphone">
+                                    <p><span class="fa fa-phone"></span>0972-722-144</p>
+                                </div>
+                                <!-- start language -->
+                                <div class="aa-language hidden-xs">
+                                    <div class="dropdown">
+                                        <a class="btn dropdown-toggle" href="/lien-he" type="button">
+                                            <i class="fa fa-map-marker"></i> LIÊN HỆ                      
+                                        </a>                                       
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <!-- / header top left -->
+                            @{Html.RenderAction("_TopMenu", "Home");}                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- / header top  -->
+        @{Html.RenderAction("_Header", "Home");}
+    </header>
+    <!-- End header section -->
+    @{Html.RenderAction("_Menu", "Home");}
+    
+    @RenderBody()
+
+    @{Html.RenderAction("_Footer", "Home");}
+   
+    <!--/CONTENT--> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    @Scripts.Render("~/Scripts/js")
+    <!---->   
+    <script>
+        var stickyOffset = $('#menu').offset().top;
+
+        $(window).scroll(function () {
+            var menu = $('#menu'),
+                scroll = $(window).scrollTop();
+
+            if (scroll >= stickyOffset) menu.addClass('menu_scroll');
+            else menu.removeClass('menu_scroll');
+        });
+    </script>
+    <script src="~/Scripts/JS/JsSearch.js"></script>
+    @RenderSection("JsFooter", required: false)
+    <!--remove cart-->
+   <script type="text/javascript">
+    $(document).ready(function () {
+        $('.aa-remove-product').off('click').on('click', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var cartitem = '#aa-cartbox-item_' + id;
+            $.ajax({
+                url: "@Url.Action("DelItemCart","Cart")",
+                data: { id: id },
+                type: "POST",
+                dataType: "JSON",
+                success: function (res) {
+                    if (res.tongtien != 0) {
+                        $(cartitem).remove();
+                        $('#cart-total').empty().append('' + addPeriod(res.tongtien) + '<sup><u>đ</u></sup>');
+                        $('.aa-cartbox-total-price').empty().append(addPeriod(res.tongtien));
+                        $('.aa-cart-notify').empty().append(res.soluong);
+                       
+                    } else {
+                        $(cartitem).remove();
+                        $('.aa-cart-notify').empty().append('0');
+                        $('.aa-cartbox-total-price').empty().append('0<sup><u>đ</u></sup>');
+                        $('.cart-view-table').remove();
+                        $('.cart-view-area').empty().append('<p>Chưa có sản phẩm nào trong giỏ</p>');
+                        $('.checkout-area').empty().append('<p>Chưa có sản phẩm nào trong giỏ</p>');
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                    toastr.error('Xóa thất bại', '');
+                }
+            })
+        })
+        return false;
+    });
+   </script>
+    @RenderSection("Popup", required: false)
+</body>
+</html>

@@ -1,0 +1,128 @@
+﻿@model List<Shop_Nhi.Models.CartItem>
+
+@{
+    ViewBag.Title = "Giỏ Hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    decimal tongtien = 0;
+   
+    foreach (var item in Model)
+    {
+        if (item.product.promotionPrice > 0)
+        {
+            tongtien += item.product.promotionPrice.GetValueOrDefault(0) * item.quantity;
+
+        }
+        else
+        {
+            tongtien += item.product.price.GetValueOrDefault(0) * item.quantity;
+ 
+        }
+        
+    }      
+}            
+
+
+@section JsFooter{
+    
+<script src="~/Scripts/JS/JsCart.js"></script>
+ 
+}
+
+
+<section id="aa-product-category">
+    <div class="container">
+        <div class="row">
+            <nav class="woocommerce-breadcrumb">
+                <a href="/">Trang chủ</a>
+                <span class="navigation-pipe"> </span>
+                Giỏ hàng
+            </nav>
+
+            <div class="col-lg-9 col-md-9 col-sm-8 col-md-push-3">
+                <h1 class="page-heading">
+                    <span class="page-heading-title">Giỏ hàng</span>
+                </h1>
+               
+                <div class="cart-view-area">
+                    @if (Model.Count > 0)
+                    {
+                    <div class="cart-view-table">
+                        <form action="">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Tên</th>
+                                            <th>Giá</th>
+                                            <th>Số lượng</th>
+                                            <th>Thành tiền</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                         <tr id="cartitem_@item.product.ID">
+                                            <td><a class="remove" data-id="@item.product.ID" href="#"><fa class="fa fa-close"></fa></a></td>
+                                            <td><a href="/chi-tiet/@item.product.metatTitle-@item.product.ID"><img src="@item.product.image" alt="@item.product.productName"></a></td>
+                                            <td><a class="aa-cart-title" href="/chi-tiet/@item.product.metatTitle-@item.product.ID">@item.product.productName</a></td>
+                                            <td>@string.Format("{0:0,0}", item.product.promotionPrice.HasValue?item.product.promotionPrice.Value : item.product.price.Value)<sup><u>đ</u></sup></td>
+                                            <td>
+                                             
+                                             @*<input class="aa-cart-quantity" data-id="@item.product.ID" id="quantity" min="1" max="100" type="number" value="@item.quantity">*@
+                                                <select class="aa-cart-quantity" data-id="@item.product.ID" id="quantity">
+                                                    @for(int i = 1; i < 100; i++)
+                                                    {
+                                                        var selected = "";
+                                                        if(i == item.quantity)
+                                                        {
+                                                            selected = "selected";
+                                                        }
+                                                       <option @selected value="@i">@i</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td id="thanhtien_@item.product.ID">@string.Format("{0:0,0}", item.quantity * (item.product.promotionPrice.HasValue ? item.product.promotionPrice.GetValueOrDefault(0) : item.product.price.GetValueOrDefault(0)))<sup><u>đ</u></sup></td>
+                                        </tr>
+                                        }
+                                          
+                                        <tr>
+                                            <td colspan="6" class="aa-cart-view-bottom"> 
+                                               
+                                                <a href="#" id="dellAll" class="aa-cart-view-btn"><i class="fa fa-trash"></i> Hủy giỏ hàng</a>                                                                                               
+                                            </td>
+                                        </tr>
+                                                                     
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                        <!-- Cart Total view -->
+                        <div class="cart-view-total">
+                            <table class="aa-totals-table">
+                                <tbody>                          
+                                    <tr>
+                                        <th>Tổng tiền</th>
+                                        <td id="cart-total">@string.Format("{0:0,0}",tongtien)<sup><u>đ</u></sup></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <a href="/thanh-toan-don-hang" class="aa-cart-view-btn">Đặt mua <i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                     
+                    }
+                        else
+                        {
+                            <p>Chưa có sản phẩm nào trong giỏ</p>
+                        }   
+                        
+                </div>               
+            </div>
+
+
+            @{Html.RenderAction("_Category", "Home");}
+        </div>
+    </div>
+</section>

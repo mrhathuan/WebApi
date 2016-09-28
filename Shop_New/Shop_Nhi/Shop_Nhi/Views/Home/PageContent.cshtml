@@ -1,0 +1,43 @@
+﻿@model Shop_Nhi.Models.Framework.PageBody
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = ViewBag.MenuName;
+    ViewBag.KeyWords = ViewBag.KeyWords;
+    ViewBag.Description = ViewBag.Description;
+
+}
+
+
+<section id="aa-product-category">
+    <div class="container">
+        <div class="row">
+            <nav class="woocommerce-breadcrumb">
+                <a href="/">Trang chủ</a>
+                <span class="navigation-pipe"> </span>
+                @ViewBag.MenuName
+            </nav>
+
+            <div class="col-lg-9 col-md-9 col-sm-8 col-md-push-3">
+                <h1 class="page-heading">
+                    <span class="page-heading-title">@ViewBag.MenuName</span>
+                </h1>
+
+                <div class="cart-view-area">
+                    @if(Model.detail != null)
+                    {
+                       @Html.Raw(Model.detail)
+                    }
+                    else
+                    {
+                        <p>Nội dung đang được cập nhật</p>
+                    }
+
+                </div>
+            </div>
+
+
+            @{Html.RenderAction("_Category", "Home");}
+        </div>
+    </div>
+</section>
