@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CKSource.CKFinder.Connector.Logs.NLog</name>
+    </assembly>
+    <members>
+        <member name="T:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter">
+            <summary>
+            Represents an <c>NLog</c> adapter.
+            </summary>
+        </member>
+        <member name="M:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter.#ctor(NLog.ILogger)">
+            <summary>
+            Constructs a new instance of <see cref="T:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter"/>.
+            </summary>
+            <param name="logger">A <c>NLog</c> logger.</param>
+        </member>
+        <member name="M:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter.Debug(System.String)">
+            <summary>
+            Passes message to the logger with debug level.
+            </summary>
+            <param name="message">A message to log.</param>
+        </member>
+        <member name="M:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter.Debug(System.String,System.Exception)">
+            <summary>
+            Passes message and exception information to the logger with debug level.
+            </summary>
+            <param name="message">A message to log.</param>
+            <param name="exception">An exception to log.</param>
+        </member>
+        <member name="M:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter.Info(System.String)">
+            <summary>
+            Passes message to the logger with informational level.
+            </summary>
+            <param name="message">A message to log.</param>
+        </member>
+        <member name="M:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter.Info(System.String,System.Exception)">
+            <summary>
+            Passes message and exception information to the logger with informational level.
+            </summary>
+            <param name="message">A message to log.</param>
+            <param name="exception">An exception to log.</param>
+        </member>
+        <member name="M:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter.Warning(System.String)">
+            <summary>
+            Passes message to the logger with warning level.
+            </summary>
+            <param name="message">A message to log.</param>
+        </member>
+        <member name="M:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter.Warning(System.String,System.Exception)">
+            <summary>
+            Passes message and exception information to the logger with warning level.
+            </summary>
+            <param name="message">A message to log.</param>
+            <param name="exception">An exception to log.</param>
+        </member>
+        <member name="M:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter.Error(System.String)">
+            <summary>
+            Passes message to the logger with error level.
+            </summary>
+            <param name="message">A message to log.</param>
+        </member>
+        <member name="M:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter.Error(System.String,System.Exception)">
+            <summary>
+            Passes message and exception information to the logger with error level.
+            </summary>
+            <param name="message">A message to log.</param>
+            <param name="exception">An exception to log.</param>
+        </member>
+        <member name="M:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter.Fatal(System.String)">
+            <summary>
+            Passes message to the logger with fatal level.
+            </summary>
+            <param name="message">A message to log.</param>
+        </member>
+        <member name="M:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter.Fatal(System.String,System.Exception)">
+            <summary>
+            Passes message and exception information to the logger with fatal level.
+            </summary>
+            <param name="message">A message to log.</param>
+            <param name="exception">An exception to log.</param>
+        </member>
+        <member name="T:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapterFactory">
+            <summary>
+            A factory of <see cref="T:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapter"/>.
+            </summary>
+        </member>
+        <member name="M:CKSource.CKFinder.Connector.Logs.NLog.NLogLoggerAdapterFactory.GetLogger(System.String)">
+            <summary>
+            Gets logger with given name.
+            </summary>
+            <param name="loggerName">A name of a logger.</param>
+            <returns>A logger instance.</returns>
+        </member>
+    </members>
+</doc>

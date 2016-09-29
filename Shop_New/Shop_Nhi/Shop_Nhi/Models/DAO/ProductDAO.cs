@@ -22,6 +22,35 @@ namespace Shop_Nhi.Models.DAO
             db.SaveChanges();
         }
 
+        public void Save(Product pro)
+        {
+            var result = db.Products.Find(pro.ID);
+            if (result == null || pro.ID ==0)
+            {
+                pro.ID = -1;               
+                db.Products.Add(pro);
+            }
+            else
+            {               
+                result.code = pro.code;
+                result.productName = pro.productName;
+                result.price = pro.price;
+                result.image = pro.image;
+                result.promotionPrice = pro.promotionPrice;
+                result.quantity = pro.quantity;
+                result.categoryID = pro.categoryID;
+                result.metatTitle = pro.metatTitle;
+                result.metaKeywords = pro.metaKeywords;
+                result.metaDescription = pro.metaDescription;
+                result.chatlieu = pro.chatlieu;
+                result.madeIn = pro.madeIn;
+                result.detail = pro.detail;
+                result.modifiedByID = pro.modifiedByID;
+                result.modifiedByDate = DateTime.Now;
+            }
+            db.SaveChanges();
+        }
+
         public IEnumerable<Product> List()
         {
             return db.Products.OrderByDescending(x => x.createDate).ToList();

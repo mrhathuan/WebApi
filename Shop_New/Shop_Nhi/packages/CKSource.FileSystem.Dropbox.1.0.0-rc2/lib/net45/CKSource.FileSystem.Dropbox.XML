@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CKSource.FileSystem.Dropbox</name>
+    </assembly>
+    <members>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.CreateFolderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously creates new folder.
+            </summary>
+            <param name="path">A path to the new folder.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.DeleteFileAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously deletes a file.
+            </summary>
+            <param name="path">A path to the file.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.DeleteFolderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously deletes a folder.
+            </summary>
+            <param name="path">A path to the folder.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.MoveFileAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously moves a file.
+            </summary>
+            <param name="srcPath">A path to the file.</param>
+            <param name="destPath">A path to the destination file.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.MoveFolderAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously moves a folder.
+            </summary>
+            <param name="srcPath">A path to the folder.</param>
+            <param name="destPath">A path to the destination folder.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.CopyFileAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously copies a file.
+            </summary>
+            <param name="srcPath">A path to the file.</param>
+            <param name="destPath">A path to the destination file.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.FileExistsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously checks whether a file exists.
+            </summary>
+            <param name="path">A path to the file.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+            <returns>True if file exists, false otherwise.</returns>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.FolderExistsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously checks whether a folder exists.
+            </summary>
+            <param name="path">A path to the folder.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+            <returns>True if folder exists, false otherwise.</returns>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.WriteAsync(System.IO.Stream,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously writes file content.
+            </summary>
+            <param name="fileStream">A stream with content to write.</param>
+            <param name="path">A path to the file.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.ReadAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously reads file content.
+            </summary>
+            <param name="path">A path to the file.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+            <returns>A stream with file content.</returns>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.GetFolderInfosAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously lists folder informations.
+            </summary>
+            <param name="path">A path to the folder.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+            <returns>A collection of folder informations.</returns>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.GetFileInfosAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously lists file informations.
+            </summary>
+            <param name="path">A path to the folder.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+            <returns>A collection of file informations.</returns>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.GetFolderInfoAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asychronously gets folder information.
+            </summary>
+            <param name="path">A path to the folder.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+            <returns>A folder information.</returns>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.GetFileInfoAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asychronously gets file information.
+            </summary>
+            <param name="path">A path to the file.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+            <returns>A file information.</returns>
+        </member>
+        <member name="M:CKSource.FileSystem.Dropbox.DropboxStorage.GetUrlAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously gets resource URL. May return null if URL is not available.
+            </summary>
+            <param name="path">A path to the resource.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+            <returns>An URL to the resource or null if URL is not available.</returns>
+        </member>
+    </members>
+</doc>

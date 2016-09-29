@@ -132,9 +132,20 @@ img.product-img{
 .btn {
     border-radius: 3px;
 }
-.btn_success, btn_info{
+.btn_success{
     background: #26B99A;
     border: 1px solid #169F85;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    cursor:pointer;   
+    color:#fff;
+}
+
+.btn_info{
+    background: #ffb53e;
+    border: 1px solid #ffb53e;
     border-radius: 3px;
     padding: 1px 5px;
     font-size: 12px;
@@ -153,6 +164,51 @@ k-button .k-button-icontext .k-grid-excel{
    color:#000;
    font-weight:bold; 
 }
+.required{
+    color:red;
+    font-size:18px;
+}
+#grid .k-grid-toolbar {
+    padding: .6em 1.3em;
+}
+
+.category-label {
+    vertical-align: middle;
+    padding-right: .5em;
+}
+
+#category {
+    vertical-align: middle;
+}
+
+.cus-dropdow {
+    width: 100%;
+    background: #fff;
+}
+
+autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-state-hover, .k-picker-wrap.k-state-hover {
+    background-color: #fff;
+}
+
+.k-state-hover > .k-select {
+    border-color: #fff;
+}
+
+.k-input {
+    background-color: #fff;
+}
+
+.k-select {
+    background: #fff;
+    background-color: #31b6fc;
+    color: #fff;
+}
+
+/* Important part */
+.modal-dialog.modal-product{
+   overflow-y: scroll; max-height:90%;
+}
+
 /*Navbar*/
 
 .navbar {

@@ -5,6 +5,7 @@
 }
 @section JsFooter{
     <script>
+        
         $(document).ready(function () {
             var btn_success = "btn_success";
             var btn_info = "btn_info";
@@ -13,7 +14,7 @@
                 columns: [
                     {
                         title: ' ', width: '130px',
-                        template: '<a href="\\#" class="event-button"><i class="fa fa-pencil"></i></a>' +
+                        template: '<a href="\\#" class="event-button" onclick="LoadItem(#=id#)"><i class="fa fa-pencil"></i></a>' +
                             '<a href="\\#" class="event-button" onclick="RemoveItem(#=id#)"><i class="fa fa-trash"></i></a>' +
                             '<a href="\\#" data-id="#=id#" onclick="ManageImages(#=id#)" class="event-button btn-image"><i class="fa fa-picture-o"></i></a>',
                         filterable: false, sortable: false
@@ -32,7 +33,7 @@
                         filterable: { cell: { showOperators: false } }
                     },
                     {
-                        field: "promotionPrice", width: "130px", title: "Giá KM", template: "#:kendo.toString(price,'n0')#",
+                        field: "promotionPrice", width: "130px", title: "Giá KM", template: "#:kendo.toString(promotionPrice,'n0')#",
                         filterable: { cell: { showOperators: false } }
                     },
                     {
@@ -58,6 +59,7 @@
                 sortable: true,
                 resizable: true,
                 pageable: true,
+                autoSync: true,
                 filterable: {
                     mode: "row",
                 },
@@ -69,16 +71,15 @@
                         model: { // define the model of the data source. Required for validation and property types.
                             id: "ID",
                             fields: {
-                                ID: { type: 'number' },
+                                ID: { type: 'number', editable: false, nullable: true },
                                 image: { type: "string", editable: false, filterable: false },
                                 code: { type: "string", editable: false },
-                                productName: { type: "string", editable: false, validation: { required: true } },
-                                price: { type: "number", format: "n0", validation: { required: true, min: 1 }, editable: false },
-                                promotionPrice: { type: "number", editable: false, nullable: true },
-                                quantity: { type: "number", nullable: true, editable: true },
-                                categoryID: { editable: false, type: "number" },
-                                status: { editable: false, type: "boolean" },
-                                createDate: { editable: false },
+                                productName: { type: "string", editable: false},
+                                price: { type: "number", format: "n0", editable: false },
+                                quantity: { type: "number"},
+                                categoryID: { type: "number" },
+                                status: { type: "boolean" },
+                                createDate: { editable: false, type: "date" },
                                 like: { editable: false },
                                 viewCount: { editable: false }
                             }
@@ -112,7 +113,7 @@
                 }
             });
 
-            var dropDown = grid.find("#category").kendoDropDownList({
+            var dropDown = grid.find("#findByCategory").kendoDropDownList({
                 dataTextField: "name",
                 dataValueField: "ID",
                 autoBind: false,
@@ -149,7 +150,7 @@
                     data: { id: id },
                     dataType: "JSON",
                     success: function (res) {
-                        if (res.status == true) {                           
+                        if (res.status == true) {
                             $('#grid').data('kendoGrid').dataSource.read();
                             toastr.success('Thành công', 'Thông báo');
                         } else {
@@ -159,6 +160,113 @@
                 })
             }
         }
+
+        var LoadCate = $('#category').kendoDropDownList({
+            dataTextField: "name",
+            dataValueField: "ID",
+            autoBind: false,
+            optionLabel: "Chọn danh mục",
+            dataSource: {
+                type: "Data",
+                severFiltering: true,
+                transport: {
+                    read: {
+                        url: "@Url.Action("ByCategories", "Product")",
+                        contentType: "application/json",
+                        type: "GET"
+                    }
+
+                }
+            }, change: function (e) {
+
+            }
+        })
+        var dropdownlistCate = $("#category").data("kendoDropDownList");
+        function LoadItem(id) {
+            $.ajax({
+                url: "@Url.Action("Get_Product", "Product")",
+                type: "POST",
+                data: { id: id },
+                dataType: "JSON",
+                success: function (res) {                   
+                    $('#productModal').modal('show');
+                    var item = res.product;                    
+                    $('#id').val($.trim(item.ID));
+                    $('#code').val($.trim(item.code));
+                    $('#productName').val($.trim(item.productName));
+                    $('#image').val($.trim(item.image));
+                    $('#price').val($.trim(item.price));
+                    $('#madeIn').val($.trim(item.madeIn));
+                    $('#chatlieu').val($.trim(item.chatlieu));
+                    $('#metatTitle').val($.trim(item.metatTitle));
+                    $('#description').val($.trim(item.description));
+                    $('#metaKeywords').val($.trim(item.metaKeywords));
+                    $('#metaDescription').val($.trim(item.metaDescription));
+                    $('#promotionPrice').val($.trim(item.promotionPrice));
+                    $('#quantity').val($.trim(item.quantity));
+                    $('#txtContent').val($.trim(item.detail))
+                    dropdownlistCate.value($.trim(item.categoryID));                    
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            var validator = $("#cus-form").kendoValidator().data("kendoValidator");
+            $("form").submit(function (event) {
+                event.preventDefault();
+                if (validator.validate()) {
+                    status.text("Hooray! Your tickets has been booked!")
+                        .removeClass("invalid")
+                        .addClass("valid");
+                } else {
+                    status.text("Oops! There is invalid data in the form.")
+                        .removeClass("valid")
+                        .addClass("invalid");
+                }
+            });
+
+            $('#Save_Product_Click').click(function () {
+                var item = {
+                    ID: $.trim($('#id').val()),
+                    code: $.trim($('#code').val()),
+                    productName: $.trim($('#productName').val()),
+                    image: $.trim($('#image').val()),
+                    price: $.trim($('#price').val()),
+                    promotionPrice: $.trim($('#promotionPrice').val()),
+                    quantity: $.trim($('#quantity').val()),
+                    chatlieu: $.trim($('#chatlieu').val()),
+                    madeIn: $.trim($('#madeIn').val()),
+                    size: $.trim($('#size').val()),
+                    categoryID: dropdownlistCate.value(),
+                    detail: $.trim($('#txtContent').val()),
+                    description: $.trim($('#description').val()),
+                    metaKeywords: $.trim($('#metaKeywords').val()),
+                    metaDescription: $.trim($('#metaDescription').val())
+                }
+                $.ajax({
+                    url: "@Url.Action("Save","Product")",
+                    type: "POST",
+                    data: {
+                        item: JSON.stringify(item)
+                    },
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.status == true) {
+                            $('#productModal').modal('hide');
+                            $('#grid').data('kendoGrid').dataSource.read();
+                            toastr.success(res.msg, '');                          
+                        } else {                            
+                            toastr.error(res.msg, '');
+                        }
+                    }, error: function (e) {
+                        $('#productModal').modal('hide');
+                        alert(JSON.stringify(e))
+                    }
+                })
+            })
+        })
+
+       
 
         //iamges
         function ManageImages(id) {
@@ -192,16 +300,20 @@
         }
         //
         $('#btnChooImage').off('click').on('click', function () {
-            var finder = new CKFinder();
-            finder.selectActionFunction = function (url) {
-                $('#imageList').append('<div style="float:left"><img src="' + url + '" width="100" /><a class="btn-delImage" href="#"><i class="glyphicon glyphicon-remove"></i></a></div>');
-
-                $('.btn-delImage').off('click').on('click', function (e) {
-                    e.preventDefault();
-                    $(this).parent().remove();
-                });
-            };
-            finder.popup();
+            CKFinder.modal({
+                chooseFiles: true,
+                width: 800,
+                height: 600,
+                onInit: function (finder) {
+                    finder.on('file:choose:resizedImage', function (evt) {
+                        $('#imageList').append('<div style="float:left"><img src="' + evt.data.resizedUrl + '" width="100" /><a class="btn-delImage" href="#"><i class="glyphicon glyphicon-remove"></i></a></div>');
+                        $('.btn-delImage').off('click').on('click', function (e) {
+                            e.preventDefault();
+                            $(this).parent().remove();
+                        });
+                    })
+                }
+            });
         });
         //
         $('#btnSaveImage').off('click').on('click', function () {
@@ -227,20 +339,52 @@
             })
         });
         //
+        $(document).ready(function () {
+            var stickyOffset = $('.modal-header').offset().top;
+
+            $('.modal-content').scroll(function () {
+                var menu = $('.modal-header'),
+                    scroll = $('.modal-content').scrollTop();
+
+                if (scroll >= stickyOffset) menu.addClass('modal-scroll');
+                else menu.removeClass('modal-scroll');
+            })
+        })
+
+       
     </script>
     <style>
-        #grid .k-grid-toolbar {
-            padding: .6em 1.3em;
-        }
+        .modal-scroll{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:9999;
+    width:100%;
+}
+        .valid {
+                    color: green;
+                }
 
-        .category-label {
-            vertical-align: middle;
-            padding-right: .5em;
-        }
-        #category {
-            vertical-align: middle;
-        }
+                .invalid {
+                    color: red;
+                }
 
+                span.k-widget.k-tooltip-validation {
+                    display :inline-block;
+                    width: 160px;
+                    text-align: left;
+                    border: 0;
+                    padding: 0;
+                    margin: 0;
+                    background: none;
+                    box-shadow: none;
+                    color: red;
+                }
+
+                .k-tooltip-validation .k-warning {
+                    display: none;
+                } 
 </style>
    
 }
@@ -253,6 +397,7 @@
     </ol>
 </div>
 
+<!--Grid-->
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default cus-grid" style="border:none;margin-top:5px">
@@ -261,17 +406,127 @@
             </div>
         </div>
     </div>
-</div><!--/.row-->	
+</div><!--/.Grid-->	
+
+
+<!--Win-->
+<script type="text/x-kendo-template" id="popup-editor">
+    <p>
+        <label>Code:<input name="code" /></label>
+    </p>
+    <p>
+        <label>Price: <input data-role="numerictextbox" name="price" /></label>
+    </p>
+</script>
+
+<!--product-->
+<div id="productModal" class="modal fade"  role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-product" role="document">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Thêm mới sản phẩm</h4>
+            </div>
+            <div class="modal-body">
+                <form id="cus-form">
+                    <input type="hidden" name="id" id="id" value="0"/>
+                    <div class="form-group">
+                        <label for="code" class="control-label">Mã sản phẩm:<span class="required">*</span></label>
+                        <input type="text" name="code" required validationMessage="Nhập mã sản phẩm" id="code" class="form-control" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="code" class="control-label">Tên sản phẩm:<span class="required">*</span></label>
+                        <input type="text" class="form-control" required validationMessage="Nhập tên sản phẩm" id="productName" value="" name="productName">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="font-weight:bold">Ảnh sản phẩm:<span class="required">*</span></div>
+                        <div class="col-md-2 col-sm-2 col-xs-12">
+                            <div class="form-group">
+                                <input id="selectImage" class="btn btn-default" type="button" value="Chọn Ảnh..." />
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-12">
+                            <div class="form-group">                                
+                                <input type="text" required validationMessage="Chọn ảnh" class="form-control" id="image" value="" name="image">
+                            </div>
+                        </div>
+                    </div>                   
+                    <div class="form-group">
+                        <label for="code" class="control-label">Giá:<span class="required">*</span></label>
+                        <input type="number" required validationMessage="Nhập giá sản phẩm" class="form-control" id="price" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="code" class="control-label">Giá khuyến mãi:</label>
+                        <input type="number" class="form-control" id="promotionPrice" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="code" class="control-label">Số lượng:</label>
+                        <input type="number" class="form-control" id="quantity" value="0">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="font-weight:bold">Danh mục:<span class="required">*</span></div>
+                        <div class="col-md-12 col-sm-2 col-xs-12">
+                            <div class="form-group">
+                                <input type="text" class="cus-dropdow" id="category" required data-required-msg="Chọn danh mục">
+                            </div>
+                        </div>
+                        
+                    </div>                     
+                    <div class="form-group">
+                        <label for="code" class="control-label">Chất liệu:</label>
+                        <input type="text" class="form-control" id="chatlieu" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="code" class="control-label">Xuất xứ:</label>
+                        <input type="text" class="form-control" id="madeIn" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="code" class="control-label">Size:</label>
+                        <input type="text" class="form-control" id="size" value="">
+                    </div>
+                  
+                    <div class="form-group">
+                        <label for="code" class="control-label">metaKeyword:</label>
+                        <input type="text" class="form-control" id="metaKeywords" value="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="code" class="control-label">metaDescription:</label>
+                        <input type="text" class="form-control" id="metaDescription" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="code" class="control-label">Mô tả ngắn gọn:</label>
+                        <textarea class="form-control" id="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="code" class="control-label">Mô tả chi tiết:</label>
+                        <textarea class="form-control" id="txtContent"></textarea>
+                    </div>
+      
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" id="dSave_Product_Click">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 <script type="text/x-kendo-template" id="template">
     <div class="toolbar">
         <div class="toolbar-left" style="float:left;">
             <a data-toggle="tooltip" data-placement="top" title="Xuất Excel" class="k-button k-button-icontext k-grid-excel" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-file-excel-o"></span></a> 
-            <a data-toggle="tooltip" data-placement="top" title="Thêm mới" class="k-button" style="font-size:20px;color:black;font-weight:bold;border:none" href="@Url.Action("Create","Product")"><span class="fa fa-plus"></span></a>          
+            <a onclick="LoadItem(0)" data-toggle="tooltip" data-placement="top" title="Thêm mới" class="k-button k-button-icontext k-grid-add" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-plus"></span></a>          
         </div>  
         <div style="float:right;">
             <label class="category-label" for="category">Hiện theo danh mục:</label>
-            <input type="search" id="category" style="width: 230px" />
+            <input type="search" id="findByCategory" style="width: 230px" />
         </div>
     
     </div>

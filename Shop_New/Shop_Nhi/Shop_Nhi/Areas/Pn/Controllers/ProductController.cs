@@ -81,6 +81,38 @@ namespace Shop_Nhi.Areas.Pn.Controllers
             return Json(categories, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        [ValidateInput(false)]
+        public JsonResult Save(string item)
+        {            
+            try
+            {
+                var dao = new ProductDAO();
+                JavaScriptSerializer seriaLizer = new JavaScriptSerializer();
+                Product pro = seriaLizer.Deserialize<Product>(item);
+                if (!StringHelper.IsValiCode(pro.code.Trim()) || pro.code.Trim().Length > 20)
+                    throw new Exception("MÃ SẢN PHẨM KHỐNG ĐÚNG. KHÔNG THỂ LƯU.");
+                pro.code = pro.code.Trim();
+                pro.metatTitle = StringHelper.RemoveSpecialChars(pro.productName.Trim()).Replace(" ", "-");
+                pro.status = true;
+                pro.createDate = DateTime.Now;
+                pro.createByID = (string)Session["username"];
+                dao.Save(pro);
+                return Json(new
+                {
+                    msg = "Thành công",
+                    status = true
+                });
+            }catch(Exception e)
+            {
+                return Json(new
+                {
+                    msg = e.Message,
+                    status = false
+                });
+            }
+        }
+
         [HttpGet]
         public ActionResult Create()
         {
@@ -160,26 +192,33 @@ namespace Shop_Nhi.Areas.Pn.Controllers
 
         //Detail
         [HttpPost]
-        public JsonResult Detail(long id)
+        public JsonResult Get_Product(long id)
         {
             var dao = new ProductDAO();
-            var result = dao.GetById(id);
             var product = new Product();
-            product.code = result.code;
-            product.productName = result.productName;
-            product.image = result.image;
-            product.price = result.price;
-            product.promotionPrice = result.promotionPrice;
-            product.like = product.like;
-            product.viewCount = product.viewCount;
-            product.quantity = product.quantity;
-            product.metatTitle = product.metatTitle;
-            product.createDate = result.createDate;
-            product.modifiedByDate = product.modifiedByDate;
-            product.createByID = result.createByID;
-            product.modifiedByID = result.modifiedByID;
-            product.metaKeywords = result.metaKeywords;
-            product.metaDescription = result.metaDescription;
+            if (id == 0)
+            {
+                product = new Product();
+            }else
+            {
+                var result = dao.GetById(id);
+                product.ID = result.ID;
+                product.code = result.code;
+                product.productName = result.productName;
+                product.image = result.image;
+                product.price = result.price;
+                product.promotionPrice = result.promotionPrice;
+                product.quantity = result.quantity;
+                product.madeIn = result.madeIn;
+                product.size = result.size;
+                product.chatlieu = result.chatlieu;
+                product.metatTitle = result.metatTitle;
+                product.categoryID = result.categoryID;
+                product.description = result.description;
+                product.detail = result.detail;
+                product.metaKeywords = result.metaKeywords;
+                product.metaDescription = result.metaDescription;
+            }            
             return Json(new {
                 product
             });

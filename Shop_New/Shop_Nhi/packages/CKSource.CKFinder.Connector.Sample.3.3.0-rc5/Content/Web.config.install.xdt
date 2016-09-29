@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <appSettings xdt:Transform="InsertIfMissing">
+    <add key="ckfinderAllowedRole" value="*" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+    <add key="ckfinderRoute" value="/ckfinder/connector" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+  </appSettings>
+  <connectionStrings xdt:Transform="InsertIfMissing">
+    <add name="CacheConnectionString" connectionString="Data Source=|DataDirectory|\cache.sdf;Persist Security Info=False;" providerName="System.Data.SqlServerCe.4.0" xdt:Locator="Match(name)" xdt:Transform="InsertIfMissing" />
+  </connectionStrings>
+  <system.web xdt:Transform="InsertIfMissing">
+    <authentication mode="None" xdt:Transform="InsertIfMissing" />
+  </system.web>
+  <system.webServer xdt:Transform="InsertIfMissing">
+    <modules runAllManagedModulesForAllRequests="false" xdt:Transform="InsertIfMissing" />
+  </system.webServer>
+</configuration>
