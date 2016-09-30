@@ -65,7 +65,7 @@ namespace Shop_Nhi.Areas.Pn.Controllers
         }
 
         [HttpPost]
-        public ActionResult PRO_Read([DataSourceRequest]DataSourceRequest request)
+        public JsonResult PRO_Read([DataSourceRequest]DataSourceRequest request)
         {
             var dao = new ProductDAO();
             IList<Product> item = new List<Product>();

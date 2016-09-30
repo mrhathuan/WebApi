@@ -9,5 +9,27 @@
         <li class="active">Sản phẩm</li>
     </ol>
 </div>
+<!--Grid-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default cus-grid" style="border:none;margin-top:5px">
+            <div class="panel-body">
+                <div kendo-grid k-options="Pro_gridOptions"></div>
+            </div>
+        </div>
+    </div>
+</div><!--/.Grid-->	
 
+<script type="text/x-kendo-template" id="template">
+    <div class="toolbar">
+        <div class="toolbar-left" style="float:left;">
+            <a data-toggle="tooltip" data-placement="top" title="Xuất Excel" class="k-button k-button-icontext k-grid-excel" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-file-excel-o"></span></a>
+            <a onclick="LoadItem(0)" data-toggle="tooltip" data-placement="top" title="Thêm mới" class="k-button k-button-icontext k-grid-add" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-plus"></span></a>
+        </div>
+        <div style="float:right;">
+            <label class="category-label" for="category">Hiện theo danh mục:</label>
+            <input type="search" id="findByCategory" style="width: 230px" />
+        </div>
 
+    </div>
+</script>
