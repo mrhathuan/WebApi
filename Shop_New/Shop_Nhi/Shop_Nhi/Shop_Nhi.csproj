@@ -286,19 +286,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Pn\Controllers\BaseController.cs" />
-    <Compile Include="Areas\Pn\Controllers\CategoryController.cs" />
-    <Compile Include="Areas\Pn\Controllers\ContactsController.cs" />
-    <Compile Include="Areas\Pn\Controllers\FooterController.cs" />
     <Compile Include="Areas\Pn\Controllers\LoginController.cs" />
-    <Compile Include="Areas\Pn\Controllers\MenuController.cs" />
-    <Compile Include="Areas\Pn\Controllers\NotificationsController.cs" />
-    <Compile Include="Areas\Pn\Controllers\OrderController.cs" />
-    <Compile Include="Areas\Pn\Controllers\PageBodyController.cs" />
-    <Compile Include="Areas\Pn\Controllers\PayController.cs" />
     <Compile Include="Areas\Pn\Controllers\PnController.cs" />
-    <Compile Include="Areas\Pn\Controllers\PostsController.cs" />
     <Compile Include="Areas\Pn\Controllers\ProductController.cs" />
-    <Compile Include="Areas\Pn\Controllers\SlideController.cs" />
     <Compile Include="Areas\Pn\Controllers\UsersController.cs" />
     <Compile Include="Areas\Pn\Models\CustomRoleProvider.cs" />
     <Compile Include="Areas\Pn\Models\LoginModel.cs" />
@@ -360,6 +350,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Pn\Template\DASH_Index.html" />
+    <Content Include="Areas\Pn\Template\PRO_Index.html" />
     <Content Include="ckfinder\CHANGELOG.html" />
     <Content Include="ckfinder\ckfinder.html" />
     <Content Include="ckfinder\ckfinder.js" />
@@ -820,6 +812,8 @@
     <Content Include="myCustomPage.html" />
     <Content Include="Scripts\Admin\custom.js" />
     <Content Include="Scripts\Admin\JS\AjaxPro.js" />
+    <Content Include="Scripts\Admin\JS\app.js" />
+    <Content Include="Scripts\Admin\JS\DASH_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\JsCategory.js" />
     <Content Include="Areas\Pn\Views\Users\ChangePassword.cshtml" />
     <Content Include="Areas\Pn\Views\Users\Create.cshtml" />
@@ -829,16 +823,16 @@
     <Content Include="Areas\Pn\Views\Product\Create.cshtml" />
     <Content Include="Areas\Pn\Views\Product\Edit.cshtml" />
     <Content Include="Areas\Pn\Views\Product\Index.cshtml" />
-    <Content Include="Areas\Pn\Views\Category\Create.cshtml" />
-    <Content Include="Areas\Pn\Views\Category\Details.cshtml" />
-    <Content Include="Areas\Pn\Views\Category\Edit.cshtml" />
-    <Content Include="Areas\Pn\Views\Category\Index.cshtml" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fonts\FontAwesome.otf" />
+    <Content Include="Scripts\Admin\JS\PRO_IndexCtr.js" />
     <Content Include="Scripts\Admin\validator\validator.js" />
+    <Content Include="Scripts\angular-route.js" />
+    <Content Include="Scripts\angular-ui-router.js" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Admin\Chart.min.js" />
     <Content Include="Scripts\custom.js" />
@@ -1200,7 +1194,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Pn\Views\Base\" />
     <Folder Include="Content\kendo\2016.2.607\Default\" />
     <Folder Include="Data\files\" />
     <Folder Include="Data\flash\" />
@@ -1236,17 +1229,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Pn\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Pn\Views\Shared\_MenuLeft.cshtml" />
-    <Content Include="Areas\Pn\Views\Shared\_TopAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Pn\Views\Pn\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Login\Quenmatkhau.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Pn\Views\Users\Index.cshtml" />
@@ -1275,28 +1263,6 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Pn\Views\Order\Details.cshtml" />
-    <Content Include="Areas\Pn\Views\Order\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Pn\Body.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Menu\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Menu\Create.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Menu\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\PageBody\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\PageBody\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Home\PageContent.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -1304,21 +1270,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Popup.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Pn\GetContentSeo.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Pn\EditSeo.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Posts\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Posts\Create.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Posts\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Post.cshtml" />
@@ -1334,44 +1285,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Contact.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Contacts\Edit.cshtml" />
-    <Content Include="Areas\Pn\Views\Contacts\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Notifications\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Notifications\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Slide\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Slide\Create.cshtml" />
-    <Content Include="Areas\Pn\Views\Slide\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Footer\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Footer\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Login\Error.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Pay\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Pay\Create.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Pay\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Login\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Demo.cshtml" />
@@ -1513,6 +1426,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ckfinder\lang\bg.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Login\Error.cshtml" />
+    <Content Include="Areas\Pn\Views\Login\Index.cshtml" />
+    <Content Include="Areas\Pn\Views\Login\Quenmatkhau.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Pn\PRO_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Pn\DASH_Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

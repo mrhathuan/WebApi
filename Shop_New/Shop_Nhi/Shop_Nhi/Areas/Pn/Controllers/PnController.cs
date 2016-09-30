@@ -1,19 +1,25 @@
-﻿using Shop_Nhi.Models.DAO;
+﻿using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using Shop_Nhi.Common;
+using Shop_Nhi.Models.DAO;
 using Shop_Nhi.Models.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace Shop_Nhi.Areas.Pn.Controllers
 {
     public class PnController : BaseController
     {
+
+        private ProductDAO productDao = new ProductDAO();
         //
         // GET: /Pn/Pn/
 
-        #region action
+        #region Index
 
         public ActionResult Index()
         {
@@ -41,28 +47,110 @@ namespace Shop_Nhi.Areas.Pn.Controllers
             },JsonRequestBehavior.AllowGet);
         }
         #endregion action
-        #region layout
-        //Top left
-        [ChildActionOnly]
-        public ActionResult _TopLeft()
+
+
+        #region DASH
+        public ActionResult DASH_Index()
         {
-            return PartialView();
+
+            return View();
+        }
+        #endregion DASH
+
+        #region product
+        [Authorize(Roles = "ADMIN,MANAGE")]
+        public ActionResult PRO_Index()
+        {
+            return View();
         }
 
-        //menu left
-        [ChildActionOnly]
-        public ActionResult _MenuLeft()
+        [HttpPost]
+        public ActionResult PRO_Read([DataSourceRequest]DataSourceRequest request)
         {
-            return PartialView();
+            var dao = new ProductDAO();
+            IList<Product> item = new List<Product>();
+            item = dao.List().Select(x => new Product
+            {
+                ID = x.ID,
+                code = x.code,
+                productName = x.productName,
+                image = x.image,
+                price = x.price,
+                promotionPrice = x.promotionPrice,
+                quantity = x.quantity,
+                categoryID = x.categoryID,
+                Category = new Category
+                {
+                    ID = x.Category.ID,
+                    name = x.Category.name
+                },
+                createDate = x.createDate,
+                modifiedByDate = x.modifiedByDate,
+                like = x.like,
+                viewCount = x.viewCount,
+                status = x.status
+
+            }).ToList();
+            return Json(item.ToDataSourceResult(request));
         }
 
-        //menu left
-        [ChildActionOnly]
-        public ActionResult _TopAdmin()
+        //excel
+        [HttpPost]
+        public ActionResult Excel_Export_Save(string contentType, string base64, string fileName)
         {
-            return PartialView();
+            var fileContents = Convert.FromBase64String(base64);
+
+            return File(fileContents, contentType, fileName);
         }
-        #endregion layout
+
+        public ActionResult PRO_Categories_Filter()
+        {
+            var dao = new CategoryDAO();
+            var categories = dao.ListAll()
+                        .Select(c => new Category
+                        {
+                            ID = c.ID,
+                            name = c.name
+                        })
+                        .OrderBy(e => e.createDate);
+
+            return Json(categories, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public JsonResult PRO_Save(string item)
+        {
+            try
+            {
+                var dao = new ProductDAO();
+                JavaScriptSerializer seriaLizer = new JavaScriptSerializer();
+                Product pro = seriaLizer.Deserialize<Product>(item);
+                if (!StringHelper.IsValiCode(pro.code.Trim()) || pro.code.Trim().Length > 20)
+                    throw new Exception("MÃ SẢN PHẨM KHỐNG ĐÚNG. KHÔNG THỂ LƯU.");
+                pro.code = pro.code.Trim();
+                pro.metatTitle = StringHelper.RemoveSpecialChars(pro.productName.Trim()).Replace(" ", "-");
+                pro.status = true;
+                pro.createDate = DateTime.Now;
+                pro.createByID = (string)Session["username"];
+                dao.Save(pro);
+                return Json(new
+                {
+                    msg = "Thành công",
+                    status = true
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    msg = e.Message,
+                    status = false
+                });
+            }
+        }
+
+        #endregion product
 
         #region body
         public ActionResult Body()

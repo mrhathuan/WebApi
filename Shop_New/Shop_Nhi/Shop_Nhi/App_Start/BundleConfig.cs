@@ -59,6 +59,12 @@ namespace Shop_Nhi
                       "~/Scripts/toastr.js"
                      ));
 
+            bundles.Add(new ScriptBundle("~/bundles/app").Include(
+                    "~/Scripts/Admin/JS/app.js",
+                    "~/Scripts/Admin/JS/PRO_IndexCtr.js",
+                     "~/Scripts/Admin/JS/DASH_IndexCtr.js"
+                    ));
+
             bundles.Add(new StyleBundle("~/Content/CssAdmin").Include(
                        "~/Content/bootstrap.css",
                      "~/fonts/css/font-awesome.min.css",                    
