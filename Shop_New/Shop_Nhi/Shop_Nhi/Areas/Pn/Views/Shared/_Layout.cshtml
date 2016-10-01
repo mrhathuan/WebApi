@@ -11,6 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
+    <script src="//cdn.ckeditor.com/4.5.7/full-all/ckeditor.js"></script>
     <!--CSS-->
     @Styles.Render("~/Content/CssAdmin")   
     @RenderSection("CssHead", required: false)
@@ -76,18 +77,23 @@
     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
         @RenderBody()        
     </div>
+    <div ng-show="IsLoading" class="loading">
+        <i class="fa fa-spinner fa-spin"></i>
+    </div>
 
+    <!--Message-->
+    <span id="page-notification" kendo-notification="msg" k-options="msgOptions"></span>
         
         @Scripts.Render("~/bundles/JsAdmin")
          @Scripts.Render("~/bundles/app")
 
         @RenderSection("JsFooter", required: false)
         <!--Begin Ckeditor-->
-        <script>
+        @*<script>
             var editor = CKEDITOR.replace('txtContent', {
                 customConfig: '/Scripts/Plugin/ckeditor/config.js',
             });
-        </script>
+        </script>*@
         <!--Alert-->
         <script type="text/javascript">
             //var input = $('input[type=number]');

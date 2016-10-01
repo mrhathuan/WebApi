@@ -55,7 +55,7 @@ namespace Shop_Nhi
                      "~/Scripts/kendo/2016.2.607/kendo.aspnetmvc.min.js",
                      "~/Scripts/kendo/2016.2.607/jszip.min.js",
                      "~/ckfinder/ckfinder.js",
-                      "~/Scripts/Plugin/ckeditor/ckeditor.js",
+                       "~/Scripts/ng-ckeditor.js",
                       "~/Scripts/toastr.js"
                      ));
 
@@ -72,6 +72,7 @@ namespace Shop_Nhi
                       "~/Content/kendo/2016.2.607/kendo.dataviz.css",
                       "~/Content/kendo/2016.2.607/kendo.default.min.css",
                       "~/Content/kendo/2016.2.607/kendo.dataviz.default.min.css",
+                      "~/Content/ng-ckeditor.css",
                       "~/Content/toastr.css",
                       "~/Content/Admin/css/styles.css"
                       ));
