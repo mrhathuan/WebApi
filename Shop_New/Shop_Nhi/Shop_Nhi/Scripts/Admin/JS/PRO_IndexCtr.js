@@ -1,7 +1,8 @@
 ﻿'use strict'
 
-app.controller('PRO_IndexCtr', ['$http', '$scope', function ($http, $scope) {
-
+app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http, $scope, $rootScope) {
+    $rootScope.title = 'Quản lý sản phẩm';
+    $scope.Item = null;
     $scope.Pro_gridOptions = {
         height: 500, pageable: true, autoSync: true, sortable: true, columnMenu: false, resizable: true, reorderable: true, filterable: { mode: 'row' },
         excel: {
@@ -13,7 +14,7 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', function ($http, $scope) {
         columns: [
                 {
                     title: ' ', width: '130px',
-                    template: '<a href="\\#" class="event-button" ng-click="PRO_WinClick($event,PRO_Win)"><i class="fa fa-pencil"></i></a>' +
+                    template: '<a href="\\#" class="event-button" ng-click="PRO_WinClick($event,PRO_Win,#=id#)"><i class="fa fa-pencil"></i></a>' +
                         '<a href="\\#" class="event-button" onclick="RemoveItem(#=id#)"><i class="fa fa-trash"></i></a>' +
                         '<a href="\\#" data-id="#=id#" onclick="ManageImages(#=id#)" class="event-button btn-image"><i class="fa fa-picture-o"></i></a>',
                     filterable: false, sortable: false
@@ -88,7 +89,7 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', function ($http, $scope) {
     $scope.DropD_PROCateOptions={
         dataTextField: "name",
         dataValueField: "ID",
-        autoBind: true,
+        autoBind: false,
         optionLabel: "Tất cả",
         dataSource: {
             type: "Data",
@@ -112,15 +113,60 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', function ($http, $scope) {
         }
     }
 
+    $scope.Cate_Options={
+        dataTextField: "name",
+        dataValueField: "ID",
+        autoBind: false,
+        dataSource: {
+            type: "Data",
+            severFiltering: true,
+            transport: {
+                read: {
+                    url: "/Pn/Pn/PRO_Categories_Filter",
+                    contentType: "application/json",
+                    type: "GET"
+                }
+
+            }
+        },
+    }
+
     $scope.numFeeBase_options = { format: 'n0', spinners: false, culture: 'en-US', min: 0, step: 0.01 }
     $scope.editor_DetailOptions = {
         language: 'en'
     }
     //win
-    $scope.PRO_WinClick = function ($event, win) {
+    $scope.PRO_WinClick = function ($event, win,id) {
         $event.preventDefault();
-        win.center();
-        win.open()
+        $http.post("/Pn/Pn/PRO_Get", { id: id }).then(function success(response) {
+            debugger
+            $scope.Item = response.data.product;
+            win.center();
+            win.open();
+            win.toFront();
+            win.restore();
+            win.content();
+        })   
+    };
+    $scope.ChooseImage = function ($event) {
+        $event.preventDefault();
+        var finder = new CKFinder();       
+        finder.selectActionFunction = function (url) {
+            $rootScope.IsLoading = false;
+            $scope.Item.image = url;
+        };
+        finder.popup();
+    }
+
+    $scope.PRO_SaveClick = function ($event,win,vform) {
+        $event.preventDefault();
+        if (vform()) {
+            $http.post("/Pn/Pn/PRO_Save", { item: JSON.stringify($scope.Item) }).then(function success(response) {
+                debugger
+                win.close();
+                $scope.Pro_Grid.dataSource.read();
+            })
+        }
     }
 
     $scope.Close_Click = function ($event, win) {

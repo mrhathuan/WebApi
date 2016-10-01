@@ -5,7 +5,6 @@ C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Shop_Nhi.dll.config
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Shop_Nhi.dll
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Shop_Nhi.pdb
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Antlr3.Runtime.dll
-C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder.dll
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\EntityFramework.dll
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\EntityFramework.SqlServer.dll
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Kendo.Mvc.dll
@@ -51,11 +50,6 @@ C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Microsoft.Owin.Security
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\obj\Debug\Shop_Nhi.dll
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\obj\Debug\Shop_Nhi.pdb
-C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Config.dll
-C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Core.dll
-C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Host.Owin.dll
-C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.KeyValue.EntityFramework.dll
-C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Logs.NLog.dll
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.FileSystem.dll
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Autofac.dll
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\ImageProcessor.dll
@@ -75,11 +69,6 @@ C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\System.Net.Http.Extensi
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\System.Net.Http.Primitives.dll
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\System.Net.Http.WebRequest.dll
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Autofac.xml
-C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Config.xml
-C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Core.xml
-C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Host.Owin.xml
-C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.KeyValue.EntityFramework.xml
-C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Logs.NLog.xml
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.FileSystem.xml
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.FileSystem.Dropbox.xml
 C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.FileSystem.Local.xml
@@ -205,3 +194,10 @@ D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\obj\Debug\Interop.Accessibility.
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\obj\Debug\Shop_Nhi.csproj.ResolveComReference.cache
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\obj\Debug\Shop_Nhi.dll
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\obj\Debug\Shop_Nhi.pdb
+C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder.dll
+C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder_FileEditor.dll
+C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder_ImageResize.dll
+C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder_Watermark.dll
+C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder_FileEditor.pdb
+C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder_ImageResize.pdb
+C:\Thuan_No_delete\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder_Watermark.pdb

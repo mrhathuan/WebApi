@@ -1,24 +1,26 @@
 ﻿<!DOCTYPE html>
 
-<html ng-app="myapp">
+<html ng-app="myapp" ng-controller="indexController">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@ViewBag.Title</title>
+    <title>{{title}}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
-    <script src="//cdn.ckeditor.com/4.5.7/full-all/ckeditor.js"></script>
+    <script src="~/Plugin/ckeditor/ckeditor.js"></script>
+    <script src="~/Plugin/ckfinder/ckfinder.js"></script>
+    @*<script src="//cdn.ckeditor.com/4.5.7/full-all/ckeditor.js"></script>*@
     <!--CSS-->
     @Styles.Render("~/Content/CssAdmin")   
     @RenderSection("CssHead", required: false)
     <!---Script--->    
   
 </head>
-<body ng-controller="indexController">
+<body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -78,7 +80,7 @@
         @RenderBody()        
     </div>
     <div ng-show="IsLoading" class="loading">
-        <i class="fa fa-spinner fa-spin"></i>
+        <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
     </div>
 
     <!--Message-->

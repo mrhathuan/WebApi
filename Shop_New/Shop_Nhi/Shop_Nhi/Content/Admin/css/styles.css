@@ -11,7 +11,7 @@ body {
 	padding-top: 50px;
 	color: #5f6468;
 }
-body > .loading { text-align: center; height: 100%; width: 100%; background: #fff; position: absolute; z-index: 99999; top: 0; left: 0; opacity: 0.5; }
+body > .loading { text-align: center; height: 100%; width: 100%; background: #fff; position: absolute; z-index: 9999999; top: 50%; left: 0; opacity: 0.5; }
 
 p {
 	color: #777;
@@ -361,10 +361,19 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
 .cus-window.k-window-content .form-footer > div > a.k-button.accept:hover { background-color: #1da0e5; border-color: #1da0e5; }
 
 /*Navbar*/
-.cke_combo_text{
-    z-index:9999999999;
+.k-widget .k-window .k-window-titleless{
+    z-index:999;
 }
 
+.k-overlay{
+    z-index:1002;
+}
+.k-window{
+        z-index: 999 !important;
+  }
+.k-item .ng-scope .k-state-hover{
+    background-color:#fff;
+}
 .navbar {
 	border: 0;
 }

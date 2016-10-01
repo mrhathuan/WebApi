@@ -58,11 +58,11 @@ app.directive('vForm', [function () {
                 }
                 else if (options.model != '') {
                     var lst = $element.find("input[ng-model='" + options.model + "']");
-                    if (!Common.HasValue(lst))
+                    if (lst==null && lst==undefined)
                         lst = $element.find("textarea[ng-model='" + options.model + "']");
-                    if (Common.HasValue(lst)) {
+                    if (lst!=null && lst !=undefined) {
                         var error = angular.element(lst.closest('div.rowinput')).find('div.error');
-                        if (Common.HasValue(error)) {
+                        if (error != null && error != undefined) {
                             if (!error.hasClass('show'))
                                 error.addClass('show');
                             error.find('a').attr('title', options.error);
@@ -78,16 +78,16 @@ app.directive('vForm', [function () {
                         var bValid = true;
                         var sValid = '';
 
-                        if (angular.element(v).attr("v-form-cbb") == 'true') {
-                            var cbb = $scope[$(v).attr('kendo-combobox')];
-                            if (cbb.select() < 0) {
-                                bValid = false;
-                                sValid = 'Chưa nhập';
-                            }
-                        }
+                        //if (angular.element(v).attr("v-form-drdl") == 'true') {
+                        //    var cbb = $scope[$(v).attr('kendo-drop-down-list')];
+                        //    if (cbb.value() = 0 || cbb.value() == null) {
+                        //        bValid = false;
+                        //        sValid = 'Chưa nhập';
+                        //    }
+                        //}
 
                         if (angular.element(v).attr("v-form-require") == 'true') {
-                            if (!Common.HasValue(v.value) || v.value == '') {
+                            if (v.value == null || v.value == 0 || v.value == undefined || v.value == '') {
                                 bValid = false;
                                 sValid = 'Chưa nhập';
                             }
@@ -98,7 +98,7 @@ app.directive('vForm', [function () {
                                 sValid = 'Nhập sai email';
                             }
                         }
-                        if (bValid == true && Common.HasValue(angular.element(v).attr("v-form-length"))) {
+                        if (bValid == true && angular.element(v).attr("v-form-length") != null && angular.element(v).attr("v-form-length") != undefined) {
 
                             var val = angular.element(v).attr("v-form-length");
                             if (val.length > 0) {
@@ -133,7 +133,7 @@ app.directive('vForm', [function () {
                             IsValid = false;
 
                         var error = angular.element(v.closest('div.rowinput')).find('div.error');
-                        if (Common.HasValue(error)) {
+                        if (error != null && error !=undefined) {
                             if (bValid) {
                                 if (error.hasClass('show'))
                                     error.removeClass('show');
@@ -155,5 +155,6 @@ app.directive('vForm', [function () {
     return directive;
 }]);
 
-app.controller('indexController', ['$scope', function ($scope) {   
+app.controller('indexController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+    $rootScope.title = 'Quản trị';
 }])

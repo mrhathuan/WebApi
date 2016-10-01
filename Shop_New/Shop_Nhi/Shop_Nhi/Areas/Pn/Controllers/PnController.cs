@@ -118,6 +118,42 @@ namespace Shop_Nhi.Areas.Pn.Controllers
         }
 
         [HttpPost]
+        public JsonResult PRO_Get(long id)
+        {
+            var dao = new ProductDAO();
+            var product = new Product();
+            if (id == 0)
+            {
+                product = new Product();
+            }
+            else
+            {
+                var result = dao.GetById(id);
+                product.ID = result.ID;
+                product.code = result.code;
+                product.productName = result.productName;
+                product.image = result.image;
+                product.price = result.price;
+                product.promotionPrice = result.promotionPrice;
+                product.quantity = result.quantity;
+                product.madeIn = result.madeIn;
+                product.size = result.size;
+                product.chatlieu = result.chatlieu;
+                product.metatTitle = result.metatTitle;
+                product.categoryID = result.categoryID;
+                product.description = result.description;
+                product.detail = result.detail;
+                product.metaKeywords = result.metaKeywords;
+                product.metaDescription = result.metaDescription;
+            }
+            return Json(new
+            {
+                product
+            });
+        }
+
+
+        [HttpPost]
         [ValidateInput(false)]
         public JsonResult PRO_Save(string item)
         {
