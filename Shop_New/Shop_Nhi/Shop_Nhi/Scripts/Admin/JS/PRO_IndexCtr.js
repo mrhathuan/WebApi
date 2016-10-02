@@ -1,8 +1,14 @@
-﻿'use strict'
+﻿
+'use strict'
 
 app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http, $scope, $rootScope) {
     $rootScope.title = 'Quản lý sản phẩm';
     $scope.Item = null;
+    $scope.showModal = false;
+    $scope.images = [];
+
+    var btn_success = "btn_success",
+        btn_info = "btn_info";
     $scope.Pro_gridOptions = {
         height: 500, pageable: true, autoSync: true, sortable: true, columnMenu: false, resizable: true, reorderable: true, filterable: { mode: 'row' },
         excel: {
@@ -15,8 +21,8 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                 {
                     title: ' ', width: '130px',
                     template: '<a href="\\#" class="event-button" ng-click="PRO_WinClick($event,PRO_Win,#=id#)"><i class="fa fa-pencil"></i></a>' +
-                        '<a href="\\#" class="event-button" onclick="RemoveItem(#=id#)"><i class="fa fa-trash"></i></a>' +
-                        '<a href="\\#" data-id="#=id#" onclick="ManageImages(#=id#)" class="event-button btn-image"><i class="fa fa-picture-o"></i></a>',
+                        '<a href="\\#" class="event-button" ng-click="RemoveItem($event,#=id#)"><i class="fa fa-trash"></i></a>' +
+                        '<a href="\\#" data-id="#=id#" ng-click="ManageImages($event,ManageImages_Win,#=id#)" class="event-button btn-image"><i class="fa fa-picture-o"></i></a>',
                     filterable: false, sortable: false
                 },
                 { field: "image", width: "60px", title: "Ảnh", editable: false, filterable: false, template: "<img src='#=image#' class='product-img'/>" },
@@ -44,7 +50,11 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                     field: "categoryID", width: "300px", title: "Danh mục", template: "#=Category.name#",
                     filterable: false
                 },
-                { field: "status", width: "130px", title: "Trạng thái", editable: false, filterable: false, template: "#=status#" },
+                { 
+                    field: "status", width: "130px", title: "Trạng thái", editable: false, filterable: false, 
+                    template: '<a ng-click="ChangeStatus($event,#=id#)" href="/"><span class="btn_success" ng-show="#=status#">Đã về</span> ' +
+                        '<span class="btn_info" ng-show="!#=status#">Sắp về</span></a>'
+                },
                 { field: "createDate", width: "130px", title: "Ngày up", filterable: false, template: "#= kendo.toString(kendo.parseDate(createDate, 'yyyy-MM-dd'), 'dd/MM/yyyy')#" },
                 { field: "like", width: "100px", filterable: false, title: "Like" },
                 { field: "viewCount", width: "130px", filterable: false, title: "Lượt mua" },
@@ -105,6 +115,7 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     },
     change: function () {
         var value = this.value();
+        
         if (value) {
             $scope.Pro_Grid.dataSource.filter({ field: "categoryID", operator: "eq", value: parseInt(value) });
         } else {
@@ -113,12 +124,60 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
         }
     }
 
+    $scope.RemoveItem = function ($event, id) {
+        $event.preventDefault();
+        $http.post("/Pn/Pn/PRO_Delete", { id: id }).then(function success(res) {
+            if (res.data.status == true) {
+                toastr.success('Thành công', '');
+                $scope.Pro_Grid.dataSource.read();
+            }
+        })
+    }
+
+    $scope.ChangeStatus = function ($event,id) {
+        $event.preventDefault();
+        $http.post("/Pn/Pn/PRO_ChangeStatus", { id: id }).then(function success(res) {            
+            if (res.data.status == true) {
+                toastr.success('Thành công', '');
+                $scope.Pro_Grid.dataSource.read();
+            }                         
+        })
+    }
+
+    //quản lý ảnh
+    $scope.ManageImages = function ($event,win, id) {
+        $event.preventDefault();
+        $scope.productId = id;
+        $http.post("/Pn/Pn/PRO_LoadImages", { id: id }).then(function success(res) {                                 
+            if (res.data.status == true) {
+                $scope.showModal = true;               
+                $scope.images = res.data.producImages;                                        
+            } else {                
+                $scope.showModal = true;
+                $scope.images = [];
+            }            
+        })
+    }
+
+    $scope.ChooseImages_Mannage = function () {
+        var finder = new CKFinder();
+        finder.selectActionFunction = function (url) {
+            $scope.images.push(url);
+        };
+        finder.popup();
+        
+    }
+
+    $scope.DellImage = function ($event) {
+        $event.preventDefault();
+        $(this).parent().remove();
+    }
+
     $scope.Cate_Options={
         dataTextField: "name",
         dataValueField: "ID",
-        autoBind: false,
+        autoBind: false,       
         dataSource: {
-            type: "Data",
             severFiltering: true,
             transport: {
                 read: {
@@ -128,7 +187,9 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                 }
 
             }
-        },
+        }, change: function (e) {
+            
+        }
     }
 
     $scope.numFeeBase_options = { format: 'n0', spinners: false, culture: 'en-US', min: 0, step: 0.01 }
@@ -138,33 +199,40 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     //win
     $scope.PRO_WinClick = function ($event, win,id) {
         $event.preventDefault();
-        $http.post("/Pn/Pn/PRO_Get", { id: id }).then(function success(response) {
-            debugger
+        $http.post("/Pn/Pn/PRO_Get", { id: id }).then(function success(response) {         
             $scope.Item = response.data.product;
+            if ($scope.Item.code != null)
+                $scope.Item.code = $scope.Item.code.trim();
             win.center();
             win.open();
-            win.toFront();
-            win.restore();
-            win.content();
+            win.toFront();            
+            
         })   
     };
     $scope.ChooseImage = function ($event) {
         $event.preventDefault();
-        var finder = new CKFinder();       
-        finder.selectActionFunction = function (url) {
-            $rootScope.IsLoading = false;
+        var finder = new CKFinder();
+
+        finder.selectActionFunction = function (url) {            
+            $('#image').val(url);
             $scope.Item.image = url;
         };
         finder.popup();
+        
     }
 
     $scope.PRO_SaveClick = function ($event,win,vform) {
         $event.preventDefault();
         if (vform()) {
-            $http.post("/Pn/Pn/PRO_Save", { item: JSON.stringify($scope.Item) }).then(function success(response) {
-                debugger
-                win.close();
-                $scope.Pro_Grid.dataSource.read();
+            $http.post("/Pn/Pn/PRO_Save", { item: JSON.stringify($scope.Item) }).then(function success(res) {
+                if (res.data.status == true) {
+                    win.close();
+                    toastr.success(res.data.msg, '');
+                    $scope.Pro_Grid.dataSource.read();
+                } else {
+                    toastr.error(res.data.msg, '');
+                }
+                
             })
         }
     }

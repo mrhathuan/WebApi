@@ -33,7 +33,7 @@
     </div>
 </script>
 
-<!--Win-->
+<!--Win product-->
 <div class="cus-window" kendo-window="PRO_Win" k-draggable="true" k-title="false" k-width="650" k-height="550" k-visible="false" k-resizable="true" k-modal="true">
     <div class="cus-form">
         <div class="form-header">
@@ -63,7 +63,7 @@
                     <div class="rowinput">
                         <label><a href="/" ng-click="ChooseImage($event)" class="k-button accept" data-title="Lưu">Chọn ảnh<span class="required">*</span> </a></label>
                         <div>
-                            <input type="text" class="k-textbox" maxlength="300" ng-model="Item.image" value="{{Item.image}}" v-form-require="true" v-form-length="300" />
+                            <input type="text" id="image" class="k-textbox" maxlength="300" ng-model="Item.image" v-form-require="true" v-form-length="300" />
                         </div>
                         <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
                         <div class="clear"></div>
@@ -73,13 +73,15 @@
                         <div>
                             <input class="numFeeBase_options cus-number" kendo-numeric-text-box k-options="numFeeBase_options" v-form-require="true" ng-model="Item.price" style="width:100%" />
                         </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
                         <div class="clear"></div>
                     </div>
                     <div class="rowinput">
                         <label>Danh mục<span class="required">*</span> </label>
                         <div>
-                            <input class="cus-combobox" kendo-drop-down-list ng-model="Item.categoryID" v-form-drdl="true" v-form-require="true" k-options="Cate_Options" style="width: 100%" />
+                            <input class="cus-combobox" kendo-drop-down-list="drdpl" ng-model="Item.categoryID" v-form-drdl="true" k-options="Cate_Options" style="width: 100%" />
                         </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
                         <div class="clear"></div>
                     </div>
                     <div class="rowinput">
@@ -148,5 +150,35 @@
                 <a href="/" ng-click="Close_Click($event,PRO_Win)" class="k-button close" data-title="Đóng">Đóng</a>
             </div>
         </div>
+    </div>
+</div>
+
+
+
+
+<!--ManageImage-->
+<div id="imagesManage" class="modal fade" modal-show modal-visible="showModal" role="dialog" data-refresh="true">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Quản lý ảnh</h4>
+            </div>
+            <div class="modal-body">
+                <div id="imageList">
+                    <div ng-repeat="item in images" style="float:left">
+                        <img src="{{item}}" width="100" /><a class="btn-delImage" ng-click="DellImage($event)" href="/"><i class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <input type="button" id="btnChooImage" ng-click="ChooseImages_Mannage()" class="btn btn-info" value="Chọn ảnh" />               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnSaveImage">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
     </div>
 </div>

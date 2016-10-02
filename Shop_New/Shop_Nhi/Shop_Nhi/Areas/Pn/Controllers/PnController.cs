@@ -1,14 +1,16 @@
-﻿using Kendo.Mvc.Extensions;
-using Kendo.Mvc.UI;
-using Shop_Nhi.Common;
-using Shop_Nhi.Models.DAO;
+﻿using Shop_Nhi.Models.DAO;
 using Shop_Nhi.Models.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Shop_Nhi.Common;
 using System.Web.Script.Serialization;
+using System.Xml.Linq;
+using System.Reflection;
+using Kendo.Mvc.UI;
+using Kendo.Mvc.Extensions;
 
 namespace Shop_Nhi.Areas.Pn.Controllers
 {
@@ -185,6 +187,92 @@ namespace Shop_Nhi.Areas.Pn.Controllers
                 });
             }
         }
+
+        [HttpPost]
+        public JsonResult PRO_Delete(long id)
+        {
+            var result = new ProductDAO().Delete(id);
+            return Json(new
+            {
+                status = result
+            });
+        }
+        //Change status
+        [HttpPost]
+        public JsonResult PRO_ChangeStatus(long id)
+        {
+            var result = new ProductDAO().ChangeStatus(id);
+            return Json(new
+            {
+                status = result
+            });
+        }
+
+        //Quản lý ảnh
+        public JsonResult PRO_SaveImages(long id, string images)
+        {
+            JavaScriptSerializer seriaLizer = new JavaScriptSerializer();
+            var listImages = seriaLizer.Deserialize<List<string>>(images);
+            XElement xElement = new XElement("Images");
+            foreach (var item in listImages)
+            {
+
+                var subtringItem = item.Substring(23);//local
+               // var subtringItem = item.Substring(27);//zury
+                //var subtringItem = item.Substring(27);//nhi
+                xElement.Add(new XElement("Image", subtringItem));
+            }
+            ProductDAO dao = new ProductDAO();
+            try
+            {
+                dao.UpdateImages(id, xElement.ToString());
+                return Json(new
+                {
+                    status = true
+                });
+            }
+            catch (Exception e)
+            {                
+                return Json(new
+                {
+                    status = false
+                });
+            }
+
+        }
+
+        //Load ảnh
+        [HttpPost]
+        public JsonResult PRO_LoadImages(long id)
+        {            
+            try
+            {
+                var dao = new ProductDAO();
+                var images = dao.GetById(id).moreImages;
+                List<string> listImages = new List<string>();
+                XElement xImages = XElement.Parse(images);
+                var asd = xImages;               
+                foreach (XElement element in xImages.Elements())
+                {
+                    listImages.Add(element.Value);
+                }
+                return Json(new
+                {
+                    status = true,
+                    producImages = listImages
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    msg = e.Message,
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
 
         #endregion product
 
