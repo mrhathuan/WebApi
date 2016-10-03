@@ -6,9 +6,6 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     $scope.Item = null;
     $scope.showModal = false;
     $scope.images = [];
-
-    var btn_success = "btn_success",
-        btn_info = "btn_info";
     $scope.Pro_gridOptions = {
         height: 500, pageable: true, autoSync: true, sortable: true, columnMenu: false, resizable: true, reorderable: true, filterable: { mode: 'row' },
         excel: {
@@ -66,8 +63,7 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                   $http.post("/Pn/Pn/PRO_Read")
                   .then(function (response) {                      
                   e.success(response.data)
-                }, function error(response) {
-                  
+                }, function error(response) {                 
                   console.log(response);
                 })
               }
@@ -114,8 +110,7 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
         }
     },
     change: function () {
-        var value = this.value();
-        
+        var value = this.value();       
         if (value) {
             $scope.Pro_Grid.dataSource.filter({ field: "categoryID", operator: "eq", value: parseInt(value) });
         } else {
@@ -128,8 +123,8 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
         $event.preventDefault();
         $http.post("/Pn/Pn/PRO_Delete", { id: id }).then(function success(res) {
             if (res.data.status == true) {
-                toastr.success('Thành công', '');
                 $scope.Pro_Grid.dataSource.read();
+                toastr.success('Thành công', '');                
             }
         })
     }
@@ -138,8 +133,8 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
         $event.preventDefault();
         $http.post("/Pn/Pn/PRO_ChangeStatus", { id: id }).then(function success(res) {            
             if (res.data.status == true) {
-                toastr.success('Thành công', '');
                 $scope.Pro_Grid.dataSource.read();
+                toastr.success('Thành công', '');               
             }                         
         })
     }
@@ -199,7 +194,9 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     //win
     $scope.PRO_WinClick = function ($event, win,id) {
         $event.preventDefault();
-        $http.post("/Pn/Pn/PRO_Get", { id: id }).then(function success(response) {         
+        vform({ clear: true });
+        $http.post("/Pn/Pn/PRO_Get", { id: id }).then(function success(response) {
+            vform({ clear: true });
             $scope.Item = response.data.product;
             if ($scope.Item.code != null)
                 $scope.Item.code = $scope.Item.code.trim();
@@ -212,7 +209,6 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     $scope.ChooseImage = function ($event) {
         $event.preventDefault();
         var finder = new CKFinder();
-
         finder.selectActionFunction = function (url) {            
             $('#image').val(url);
             $scope.Item.image = url;
@@ -222,13 +218,15 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     }
 
     $scope.PRO_SaveClick = function ($event,win,vform) {
-        $event.preventDefault();
+        $event.preventDefault();       
         if (vform()) {
+            $rootScope.IsLoading = true;
             $http.post("/Pn/Pn/PRO_Save", { item: JSON.stringify($scope.Item) }).then(function success(res) {
                 if (res.data.status == true) {
-                    win.close();
+                    $rootScope.IsLoading = false;
+                    $scope.Pro_Grid.dataSource.read();                   
                     toastr.success(res.data.msg, '');
-                    $scope.Pro_Grid.dataSource.read();
+                    win.close();
                 } else {
                     toastr.error(res.data.msg, '');
                 }
