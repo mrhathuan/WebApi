@@ -275,7 +275,7 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
 .form-content-70 { padding-right: 30px; height: -moz-calc(100% - 5px); height: -webkit-calc(100% - 5px); height: -o-calc(100% - 5px); height: calc(100% - 5px); }
 .form-content-70 > .rowinput > label { width: 70px; }
 .form-content-70 > .rowinput > div { width: -moz-calc(100% - 98px); width: -webkit-calc(100% - 98px); width: -o-calc(100% - 98px); width: calc(100% - 98px); }
-.form-content-100 { padding-right: 30px; height: -moz-calc(100% - 5px); height: -webkit-calc(100% - 5px); height: -o-calc(100% - 5px); height: calc(100% - 5px); }
+.form-content-100 { padding-right: 15px; height: -moz-calc(100% - 5px); height: -webkit-calc(100% - 5px); height: -o-calc(100% - 5px); height: calc(100% - 5px); }
 .form-content-100 > .rowinput > label { width: 100px; }
 .form-content-100 > .rowinput > div { width: -moz-calc(100% - 128px); width: -webkit-calc(100% - 128px); width: -o-calc(100% - 128px); width: calc(100% - 128px); }
 .form-content-150 { padding-right: 30px; height: -moz-calc(100% - 5px); height: -webkit-calc(100% - 5px); height: -o-calc(100% - 5px); height: calc(100% - 5px); }
@@ -365,11 +365,23 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
     z-index:999;
 }
 
+
+/* Important part */
+.modal-dialog{
+    overflow-y: initial !important;
+	background-color:#fff;
+}
+.modal-body{
+    height: 500px;
+    overflow-y: auto;
+}
+
 .k-overlay{
     z-index:1002;
 }
 .k-window{
-        z-index: 999 !important;
+   z-index: 999 !important;
+	position:fixed;
   }
 .k-item .ng-scope .k-state-hover{
     background-color:#fff;

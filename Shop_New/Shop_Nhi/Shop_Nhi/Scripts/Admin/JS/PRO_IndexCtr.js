@@ -5,7 +5,7 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     $rootScope.title = 'Quản lý sản phẩm';
     $scope.Item = null;
     $scope.showModal = false;
-    $scope.images = [];
+   // $scope.images = [];
     $scope.Pro_gridOptions = {
         height: 500, pageable: true, autoSync: true, sortable: true, columnMenu: false, resizable: true, reorderable: true, filterable: { mode: 'row' },
         excel: {
@@ -157,11 +157,12 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     $scope.ChooseImages_Mannage = function () {
         var finder = new CKFinder();
         finder.selectActionFunction = function (url) {
-            $scope.images.push(url);
+            $scope.imageUrl = url;
         };
-        finder.popup();
-        
+        finder.popup();       
     }
+    
+   // $scope.images.push($scope.imageUrl);
 
     $scope.DellImage = function ($event) {
         $event.preventDefault();
@@ -194,15 +195,15 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     //win
     $scope.PRO_WinClick = function ($event, win,id) {
         $event.preventDefault();
-        vform({ clear: true });
+        //vform({ clear: true });
         $http.post("/Pn/Pn/PRO_Get", { id: id }).then(function success(response) {
-            vform({ clear: true });
+           // vform({ clear: true });
             $scope.Item = response.data.product;
             if ($scope.Item.code != null)
                 $scope.Item.code = $scope.Item.code.trim();
             win.center();
             win.open();
-            win.toFront();            
+            win.toFront();           
             
         })   
     };
