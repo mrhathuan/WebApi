@@ -210,7 +210,7 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
     background-color: #31b6fc;
     color: #fff;
 }
-.k-widget .k-numerictextbox .cus-number{
+.cus-number{
     border: solid 1px #c2cad8; border-radius: 0
 }
 
@@ -249,9 +249,9 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
 .rowinput.rowaction a.k-button.accept:hover { background-color: #1da0e5; border-color: #1da0e5; }
 
 .rowinput > div > input.k-textbox { width: 100%; border: solid 1px #c2cad8; border-radius: 0; }
-.rowinput > div > .k-widget > span {
+/*.rowinput > div > .k-widget > span {
     height: 26px;    
-}
+}*/
 
 .rowinput > div > input[type="text"] { width: 100%; border: solid 1px #c2cad8; border-radius: 0; }
 .rowinput > div > textarea { width: calc(100% - 7px); border: solid 1px #c2cad8; }
@@ -264,7 +264,7 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
 .rowinput > div > a.k-button { background: none; border: solid 1px #c2cad8; border-radius: 0; }
 .rowinput > div > a.k-button:hover { background-color: #c2cad8; border-radius: 0; }
 .rowinput > div > a.k-button:active { background: none; background-color: #fff; border: none; border-radius: 0; }
-.rowinput > div > .k-widget > span { height: 26px; }
+/*.rowinput > div > .k-widget > span { height: 26px; }*/
 .rowinput > div > form .k-widget > span { height: 26px; }
 
 .rowinput .k-select {height: 30px; }
@@ -275,7 +275,7 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
 .form-content-70 { padding-right: 30px; height: -moz-calc(100% - 5px); height: -webkit-calc(100% - 5px); height: -o-calc(100% - 5px); height: calc(100% - 5px); }
 .form-content-70 > .rowinput > label { width: 70px; }
 .form-content-70 > .rowinput > div { width: -moz-calc(100% - 98px); width: -webkit-calc(100% - 98px); width: -o-calc(100% - 98px); width: calc(100% - 98px); }
-.form-content-100 { padding-right: 15px; height: -moz-calc(100% - 5px); height: -webkit-calc(100% - 5px); height: -o-calc(100% - 5px); height: calc(100% - 5px); }
+.form-content-100 { padding-right: 30px; height: -moz-calc(100% - 5px); height: -webkit-calc(100% - 5px); height: -o-calc(100% - 5px); height: calc(100% - 5px); }
 .form-content-100 > .rowinput > label { width: 100px; }
 .form-content-100 > .rowinput > div { width: -moz-calc(100% - 128px); width: -webkit-calc(100% - 128px); width: -o-calc(100% - 128px); width: calc(100% - 128px); }
 .form-content-150 { padding-right: 30px; height: -moz-calc(100% - 5px); height: -webkit-calc(100% - 5px); height: -o-calc(100% - 5px); height: calc(100% - 5px); }
@@ -336,7 +336,9 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
 .cus-form > .form-footer > div a.k-button.accept { border: 1px solid #31b6fc; background-color: #31b6fc; color: #fff; }
 .cus-form > .form-footer > div a.k-button.accept:hover { background-color: #1da0e5; border-color: #1da0e5; }
 
-
+/*.btn-success.btn-save{
+    border: 1px solid #31b6fc; background-color: #31b6fc; color: #fff
+}*/
 
 /*window*/
 .cus-window.opacity90 { opacity: 1; }
@@ -360,28 +362,25 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
 .cus-window.k-window-content .form-footer > div > a.k-button.accept { border: 1px solid #31b6fc; background-color: #31b6fc; color: #fff; }
 .cus-window.k-window-content .form-footer > div > a.k-button.accept:hover { background-color: #1da0e5; border-color: #1da0e5; }
 
-/*Navbar*/
-.k-widget .k-window .k-window-titleless{
-    z-index:999;
-}
-
 
 /* Important part */
 .modal-dialog{
-    overflow-y: initial !important;
-	background-color:#fff;
+    overflow-y: initial !important
 }
 .modal-body{
-    height: 500px;
+    max-height: calc(100vh - 200px);
     overflow-y: auto;
+}
+
+.k-widget .k-window .k-window-titleless{
+    z-index:999;
 }
 
 .k-overlay{
     z-index:1002;
 }
 .k-window{
-   z-index: 999 !important;
-	position:fixed;
+        z-index: 999 !important;
   }
 .k-item .ng-scope .k-state-hover{
     background-color:#fff;

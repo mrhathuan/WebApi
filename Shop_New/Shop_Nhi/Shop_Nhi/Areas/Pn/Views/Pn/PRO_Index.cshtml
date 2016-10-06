@@ -24,7 +24,7 @@
     <div class="toolbar">
         <div class="toolbar-left" style="float:left;">
             <a data-toggle="tooltip" data-placement="top" title="Xuất Excel" class="k-button k-button-icontext k-grid-excel" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-file-excel-o"></span></a>
-            <a ng-click="PRO_WinClick($event,PRO_Win,0)" data-toggle="tooltip" data-placement="top" title="Thêm mới" class="k-button k-button-icontext k-grid-add" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-plus"></span></a>
+            <a ng-click="PRO_WinClick($event,0)" data-toggle="tooltip" data-placement="top" title="Thêm mới" class="k-button k-button-icontext k-grid-add" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-plus"></span></a>
         </div>
         <div style="float:right;">
             <label class="category-label" for="category">Hiện theo danh mục:</label>
@@ -33,131 +33,134 @@
     </div>
 </script>
 
-<!--Win product-->
-<div class="cus-window" kendo-window="PRO_Win" k-draggable="true" k-title="false" k-width="650" k-height="550" k-visible="false" k-resizable="true" k-modal="true">
-    <div class="cus-form">
-        <div class="form-header">
-            <div class="left title">Thông tin sản phẩm</div>
-            <div class="clear"></div>
-        </div>
-        <div class="form-body with-footer">
-            <form action="/" method="post">
-                <div class="form-content-100" v-form="vform_Pro">
-                    <input type="hidden" ng-model="Item.ID" value="{{Item.ID}}" />
-                    <div class="rowinput">
-                        <label>Mã sản phẩm <span class="required">*</span></label>
-                        <div>
-                            <input type="text" class="k-textbox" maxlength="20" ng-model="Item.code" v-form-require="true" v-form-length="20" />
-                        </div>
-                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Tên sản phẩm<span class="required">*</span> </label>
-                        <div>
-                            <input type="text" class="k-textbox" maxlength="100" ng-model="Item.productName" v-form-require="true" v-form-length="100" />
-                        </div>
-                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label><a href="/" ng-click="ChooseImage($event)" class="k-button accept" data-title="Lưu">Chọn ảnh<span class="required">*</span> </a></label>
-                        <div>
-                            <input type="text" id="image" class="k-textbox" maxlength="300" ng-model="Item.image" v-form-require="true" v-form-length="300" />
-                        </div>
-                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Giá sản phẩm<span class="required">*</span> </label>
-                        <div>
-                            <input class="numFeeBase_options cus-number" kendo-numeric-text-box k-options="numFeeBase_options" v-form-require="true" ng-model="Item.price" style="width:100%" />
-                        </div>
-                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Danh mục<span class="required">*</span> </label>
-                        <div>
-                            <input class="cus-combobox" kendo-drop-down-list="drdpl" ng-model="Item.categoryID" v-form-drdl="true" k-options="Cate_Options" style="width: 100%" />
-                        </div>
-                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Giá khuyến mãi</label>
-                        <div>
-                            <input class="numFeeBase_options cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="Item.promotionPrice" style="width:100%" />
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Số lượng</label>
-                        <div>
-                            <input class="numFeeBase_options cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="Item.quantity" style="width:100%" />
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Chất liệu</label>
-                        <div>
-                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.chatlieu" v-form-length="50" />
-                        </div>                     
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Xuất xứ</label>
-                        <div>
-                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.madeIn" v-form-length="50" />
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>metaKeywords</label>
-                        <div>
-                            <input type="text" class="k-textbox" maxlength="250" ng-model="Item.metaKeywords" v-form-length="250" />
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>metaDescription</label>
-                        <div>
-                            <textarea rows="4" maxlength="250" v-form-length="250" style="width:calc(100% - 7px)" ng-model="Item.Description"></textarea>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Mô tả</label>
-                        <div>
-                            <textarea rows="4" maxlength="250" v-form-length="250" style="width:calc(100% - 7px)" ng-model="Item.description"></textarea>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Mô tả chi tiết</label>
-                        <div>
-                            <textarea rows="4" ckEditor style="width:calc(100% - 7px)" ng-model="Item.detail"></textarea>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
+<div id="imagesManage" class="modal" modal-show modal-visible="showModal_pro" role="dialog" data-refresh="true">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Thông tin sản phẩm</h4>
+            </div>
+            <div class="modal-body cus-window">
+                <div class="cus-form">                    
+                    <div class="form-body">
+                        <form action="/" method="post">
+                            <div class="form-content-100" v-form="vform_Pro">
+                                <input type="hidden" ng-model="Item.ID" value="{{Item.ID}}" />
+                                <div class="rowinput">
+                                    <label>Mã sản phẩm <span class="required">*</span></label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="20" ng-model="Item.code" v-form-require="true" v-form-length="20" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tên sản phẩm<span class="required">*</span> </label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="100" ng-model="Item.productName" v-form-require="true" v-form-length="100" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label><a href="/" ng-click="ChooseImage($event)" class="k-button accept" data-title="Lưu">Chọn ảnh<span class="required">*</span> </a></label>
+                                    <div>
+                                        <input type="text" id="image" class="k-textbox" maxlength="300" ng-model="Item.image" v-form-require="true" v-form-length="300" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Giá sản phẩm<span class="required">*</span> </label>
+                                    <div>
+                                        <input class="numFeeBase_options cus-number" kendo-numeric-text-box k-options="numFeeBase_options" v-form-require="true" ng-model="Item.price" style="width:100%" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Danh mục<span class="required">*</span> </label>
+                                    <div>
+                                        <input class="cus-combobox" kendo-drop-down-list="drdpl" ng-model="Item.categoryID" v-form-drdl="true" k-options="Cate_Options" style="width: 100%" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Giá khuyến mãi</label>
+                                    <div>
+                                        <input class="numFeeBase_options cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="Item.promotionPrice" style="width:100%" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Số lượng</label>
+                                    <div>
+                                        <input class="numFeeBase_options cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="Item.quantity" style="width:100%" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Chất liệu</label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="50" ng-model="Item.chatlieu" v-form-length="50" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Xuất xứ</label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="50" ng-model="Item.madeIn" v-form-length="50" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>metaKeywords</label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="250" ng-model="Item.metaKeywords" v-form-length="250" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>metaDescription</label>
+                                    <div>
+                                        <textarea rows="4" maxlength="250" v-form-length="250" style="width:100%" ng-model="Item.Description"></textarea>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Mô tả</label>
+                                    <div>
+                                        <textarea rows="4" maxlength="250" v-form-length="250" style="width:100%" ng-model="Item.description"></textarea>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Mô tả chi tiết</label>
+                                    <div>
+                                        <textarea rows="4" ckEditor style="width:calc(100% - 7px)" ng-model="Item.detail"></textarea>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
 
+                            </div>
+                        </form>
+                    </div>                   
                 </div>
-            </form>
-        </div>
-        <div class="form-footer">
-            <div>
-                <a href="/" ng-click="PRO_SaveClick($event,PRO_Win,vform_Pro)" class="k-button accept" data-title="Lưu">Lưu</a>
-                <a href="/" ng-click="Close_Click($event,PRO_Win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+            <div class="modal-footer">
+                <a href="/" ng-click="PRO_SaveClick($event,vform_Pro)" class="btn btn-success btn-save" data-title="Lưu">Lưu</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
             </div>
         </div>
+
     </div>
 </div>
 
 
-
-
 <!--ManageImage-->
-<div id="imagesManage" class="modal fade" modal-show modal-visible="showModal" role="dialog" data-refresh="true">
+<div id="imagesManage" class="modal fade" modal-show modal-visible="showModalImg" role="dialog" data-refresh="true">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -166,114 +169,13 @@
                 <h4 class="modal-title">Quản lý ảnh</h4>
             </div>
             <div class="modal-body">
-			 <div class="cus-form">
-        
-				<div class="form-body with-footer">
-            <form action="/" method="post">
-                <div class="form-content-100" v-form="vform_Pro">
-                    <input type="hidden" ng-model="Item.ID" value="{{Item.ID}}" />
-                    <div class="rowinput">
-                        <label>Mã sản phẩm <span class="required">*</span></label>
-                        <div>
-                            <input type="text" class="k-textbox" maxlength="20" ng-model="Item.code" v-form-require="true" v-form-length="20" />
-                        </div>
-                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
-                        <div class="clear"></div>
+                <div id="imageList">
+                    <div ng-repeat="item in images" style="float:left">
+                        <img src="{{item}}" width="100" /><a class="btn-delImage" ng-click="DellImage($event,item)" href="/"><i class="glyphicon glyphicon-remove"></i></a>
                     </div>
-                    <div class="rowinput">
-                        <label>Tên sản phẩm<span class="required">*</span> </label>
-                        <div>
-                            <input type="text" class="k-textbox" maxlength="100" ng-model="Item.productName" v-form-require="true" v-form-length="100" />
-                        </div>
-                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label><a href="/" ng-click="ChooseImage($event)" class="k-button accept" data-title="Lưu">Chọn ảnh<span class="required">*</span> </a></label>
-                        <div>
-                            <input type="text" id="image" class="k-textbox" maxlength="300" ng-model="Item.image" v-form-require="true" v-form-length="300" />
-                        </div>
-                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Giá sản phẩm<span class="required">*</span> </label>
-                        <div>
-                            <input class="numFeeBase_options cus-number" kendo-numeric-text-box k-options="numFeeBase_options" v-form-require="true" ng-model="Item.price" style="width:100%" />
-                        </div>
-                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Danh mục<span class="required">*</span> </label>
-                        <div>
-                            <input class="cus-combobox" kendo-drop-down-list="drdpl" ng-model="Item.categoryID" v-form-drdl="true" k-options="Cate_Options" style="width: 100%" />
-                        </div>
-                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Giá khuyến mãi</label>
-                        <div>
-                            <input class="numFeeBase_options cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="Item.promotionPrice" style="width:100%" />
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Số lượng</label>
-                        <div>
-                            <input class="numFeeBase_options cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="Item.quantity" style="width:100%" />
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Chất liệu</label>
-                        <div>
-                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.chatlieu" v-form-length="50" />
-                        </div>                     
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Xuất xứ</label>
-                        <div>
-                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.madeIn" v-form-length="50" />
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>metaKeywords</label>
-                        <div>
-                            <input type="text" class="k-textbox" maxlength="250" ng-model="Item.metaKeywords" v-form-length="250" />
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>metaDescription</label>
-                        <div>
-                            <textarea rows="4" maxlength="250" v-form-length="250" style="width:calc(100% - 7px)" ng-model="Item.Description"></textarea>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Mô tả</label>
-                        <div>
-                            <textarea rows="4" maxlength="250" v-form-length="250" style="width:calc(100% - 7px)" ng-model="Item.description"></textarea>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="rowinput">
-                        <label>Mô tả chi tiết</label>
-                        <div>
-                            <textarea rows="4" ckEditor style="width:calc(100% - 7px)" ng-model="Item.detail"></textarea>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-
                 </div>
-            </form>
-        </div>
-        
-    </div>
+                <div class="clear"></div>
+                <input type="button" id="btnChooImage" ng-click="ChooseImages_Mannage()" class="btn btn-info" value="Chọn ảnh" />               
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="btnSaveImage">Save</button>
