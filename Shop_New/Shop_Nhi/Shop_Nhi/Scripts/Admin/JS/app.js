@@ -40,6 +40,20 @@ app.directive('ckEditor', function () {
     };
 })
 
+app.directive('html', ['$compile', function ($compile) {
+    return function (scope, element, attrs) {
+        scope.$watch(
+            function (scope) {
+                return scope.$eval(attrs.compile);
+            },
+            function (value) {                
+                element.html(value);      
+                $compile(element.contents())(scope);
+            }
+        );
+    };
+}])
+
 app.directive('vForm', [function () {
     var directive = {
         controller: function ($scope, $element, $attrs) {

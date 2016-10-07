@@ -11,8 +11,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
-    <script src="~/Plugin/ckeditor/ckeditor.js"></script>
-    <script src="~/Plugin/ckfinder/ckfinder.js"></script>
+    @*<script src="~/Plugin/ckeditor/ckeditor.js"></script>* 
+    <script src="~/Plugin/ckfinder/ckfinder.js"></script>*@
     @*<script src="//cdn.ckeditor.com/4.5.7/full-all/ckeditor.js"></script>*@
     <!--CSS-->
     @Styles.Render("~/Content/CssAdmin")   
@@ -21,6 +21,9 @@
   
 </head>
 <body>
+    <div ng-show="IsLoading" class="loading">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+    </div>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -79,9 +82,7 @@
     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
         @RenderBody()        
     </div>
-    <div ng-show="IsLoading" class="loading">
-        <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-    </div>
+ 
 
     <!--Message-->
     <span id="page-notification" kendo-notification="msg" k-options="msgOptions"></span>

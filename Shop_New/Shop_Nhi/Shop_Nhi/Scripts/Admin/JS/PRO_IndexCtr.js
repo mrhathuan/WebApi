@@ -1,4 +1,6 @@
-﻿
+﻿/// <reference path="../../angular.min.js" />
+
+
 'use strict'
 
 app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http, $scope, $rootScope) {
@@ -17,9 +19,9 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
         columns: [
                 {
                     title: ' ', width: '130px',
-                    template: '<a href="\\#" class="event-button" ng-click="PRO_WinClick($event,PRO_Win,#=id#)"><i class="fa fa-pencil"></i></a>' +
+                    template: '<a href="\\#" class="event-button" ng-click="PRO_WinClick($event,#=id#)"><i class="fa fa-pencil"></i></a>' +
                         '<a href="\\#" class="event-button" ng-click="RemoveItem($event,#=id#)"><i class="fa fa-trash"></i></a>' +
-                        '<a href="\\#" data-id="#=id#" ng-click="ManageImages($event,ManageImages_Win,#=id#)" class="event-button btn-image"><i class="fa fa-picture-o"></i></a>',
+                        '<a href="\\#" data-id="#=id#" ng-click="ManageImages($event,#=id#)" class="event-button btn-image"><i class="fa fa-picture-o"></i></a>',
                     filterable: false, sortable: false
                 },
                 { field: "image", width: "60px", title: "Ảnh", editable: false, filterable: false, template: "<img src='#=image#' class='product-img'/>" },
@@ -52,7 +54,10 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                     template: '<a ng-click="ChangeStatus($event,#=id#)" href="/"><span class="btn_success" ng-show="#=status#">Đã về</span> ' +
                         '<span class="btn_info" ng-show="!#=status#">Sắp về</span></a>'
                 },
-                { field: "createDate", width: "130px", title: "Ngày up", filterable: false, template: "#= kendo.toString(kendo.parseDate(createDate, 'yyyy-MM-dd'), 'dd/MM/yyyy')#" },
+                {
+                    field: "createDate", width: "130px", title: "Ngày up", filterable: false, template: "#= kendo.toString(kendo.parseDate(createDate, 'yyyy-MM-dd'), 'dd/MM/yyyy')#",
+                    filterable: { cell: { template: function (e) { e.element.kendoDatePicker({ format: 'dd/MM/yyyy' }); }, operator: 'equal', showOperators: false } },
+                },
                 { field: "like", width: "100px", filterable: false, title: "Like" },
                 { field: "viewCount", width: "130px", filterable: false, title: "Lượt mua" },
         ],
@@ -82,7 +87,7 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                         quantity: { type: "number" },
                         categoryID: { type: "number" },
                         status: { type: "boolean" },
-                        createDate: { editable: false, type: "date" },
+                        createDate: { type: "date" },
                         like: { editable: false },
                         viewCount: { editable: false }
                     }
@@ -140,33 +145,40 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     }
 
     //quản lý ảnh
-    $scope.ManageImages = function ($event,win, id) {
+    $scope.ManageImages = function ($event, id) {
         $event.preventDefault();
         $scope.productId = id;
         $http.post("/Pn/Pn/PRO_LoadImages", { id: id }).then(function success(res) {                                 
             if (res.data.status == true) {
-                $scope.showModal = true;               
+                $scope.showModalImg = true;
                 $scope.images = res.data.producImages;                                        
             } else {                
-                $scope.showModal = true;
+                $scope.showModalImg = true;
                 $scope.images = [];
             }            
         })
     }
 
-    $scope.ChooseImages_Mannage = function () {
+    $scope.ChooseImages_Mannage = function () {      
         var finder = new CKFinder();
         finder.selectActionFunction = function (url) {
-            $scope.imageUrl = url;
+            $scope.images.push(url);                       
+            $.each($scope.images, function (i, item) {
+                $scope.imgHtml = '<img src="' + item + '" width="100" /><a ng-click="DellImage($event,'+item+')" class="btn-delImage" href="#"><i class="glyphicon glyphicon-remove"></i></a>';
+            })            
         };
-        finder.popup();       
+        finder.popup();
+       
     }
     
-   // $scope.images.push($scope.imageUrl);
+   // 
 
-    $scope.DellImage = function ($event) {
+    $scope.DellImage = function ($event, item) {
         $event.preventDefault();
-        $(this).parent().remove();
+        $scope.images.splice($scope.images.indexOf(chat), 1);
+        $.each($scope.images, function (i, item) {
+            $scope.imgHtml = '<img src="' + item + '" width="100" /><a ng-click="DellImage($event,' + item + ')" class="btn-delImage" href="#"><i class="glyphicon glyphicon-remove"></i></a>';
+        })       
     }
 
     $scope.Cate_Options={
@@ -189,11 +201,11 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     }
 
     $scope.numFeeBase_options = { format: 'n0', spinners: false, culture: 'en-US', min: 0, step: 0.01 }
-    $scope.editor_DetailOptions = {
-        language: 'en'
-    }
+    //$scope.editor_DetailOptions = {
+    //    language: 'en'
+    //}
     //win
-    $scope.PRO_WinClick = function ($event, win,id) {
+    $scope.PRO_WinClick = function ($event,id) {
         $event.preventDefault();
         //vform({ clear: true });
         $http.post("/Pn/Pn/PRO_Get", { id: id }).then(function success(response) {
@@ -201,9 +213,7 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
             $scope.Item = response.data.product;
             if ($scope.Item.code != null)
                 $scope.Item.code = $scope.Item.code.trim();
-            win.center();
-            win.open();
-            win.toFront();           
+            $scope.showModal_pro = true;
             
         })   
     };
@@ -218,16 +228,16 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
         
     }
 
-    $scope.PRO_SaveClick = function ($event,win,vform) {
-        $event.preventDefault();       
-        if (vform()) {
-            $rootScope.IsLoading = true;
+    $scope.PRO_SaveClick = function ($event,vform) {
+        $event.preventDefault();
+        vform({ clear: true });
+        if (vform()) {            
             $http.post("/Pn/Pn/PRO_Save", { item: JSON.stringify($scope.Item) }).then(function success(res) {
                 if (res.data.status == true) {
-                    $rootScope.IsLoading = false;
+                    vform({ clear: true });
                     $scope.Pro_Grid.dataSource.read();                   
                     toastr.success(res.data.msg, '');
-                    win.close();
+                    $scope.showModal_pro = false;
                 } else {
                     toastr.error(res.data.msg, '');
                 }
