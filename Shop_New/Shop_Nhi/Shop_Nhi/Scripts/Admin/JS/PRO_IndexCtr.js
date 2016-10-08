@@ -1,6 +1,5 @@
 ﻿/// <reference path="../../angular.min.js" />
 
-
 'use strict'
 
 app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http, $scope, $rootScope) {
@@ -9,7 +8,8 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     $scope.showModal = false;
    // $scope.images = [];
     $scope.Pro_gridOptions = {
-        height: 500, pageable: true, autoSync: true, sortable: true, columnMenu: false, resizable: true, reorderable: true, filterable: { mode: 'row' },
+        height: 550, pageable: true, autoSync: true, sortable: true, columnMenu: false, resizable: true, reorderable: true, filterable: { mode: 'row' },
+        toolbar: kendo.template($('#ProGridTemplate').html()),
         excel: {
             fileName: "San_pham.xlsx",
             filterable: true,
@@ -46,18 +46,18 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                     filterable: { cell: { showOperators: false } }
                 },
                 {
+                    field: "createDate", width: "130px", title: "Ngày up", filterable: false, template: "#= kendo.toString(kendo.parseDate(createDate, 'yyyy-MM-dd'), 'dd/MM/yyyy')#",
+                    filterable: { cell: { template: function (e) { e.element.kendoDatePicker({ format: 'dd/MM/yyyy' }); }, operator: 'equal', showOperators: false } },
+                },
+                {
                     field: "categoryID", width: "300px", title: "Danh mục", template: "#=Category.name#",
                     filterable: false
                 },
                 { 
                     field: "status", width: "130px", title: "Trạng thái", editable: false, filterable: false, 
-                    template: '<a ng-click="ChangeStatus($event,#=id#)" href="/"><span class="btn_success" ng-show="#=status#">Đã về</span> ' +
-                        '<span class="btn_info" ng-show="!#=status#">Sắp về</span></a>'
-                },
-                {
-                    field: "createDate", width: "130px", title: "Ngày up", filterable: false, template: "#= kendo.toString(kendo.parseDate(createDate, 'yyyy-MM-dd'), 'dd/MM/yyyy')#",
-                    filterable: { cell: { template: function (e) { e.element.kendoDatePicker({ format: 'dd/MM/yyyy' }); }, operator: 'equal', showOperators: false } },
-                },
+                    template: kendo.template($('#statusTpl').html())
+                        
+                },               
                 { field: "like", width: "100px", filterable: false, title: "Like" },
                 { field: "viewCount", width: "130px", filterable: false, title: "Lượt mua" },
         ],
@@ -95,8 +95,7 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
             }
           }
     }
-    $scope.Pro_GridTemplate = $('#ProGridTemplate').html();
-
+   
     $scope.DropD_PROCateOptions={
         dataTextField: "name",
         dataValueField: "ID",
@@ -137,10 +136,8 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     $scope.ChangeStatus = function ($event,id) {
         $event.preventDefault();
         $http.post("/Pn/Pn/PRO_ChangeStatus", { id: id }).then(function success(res) {            
-            if (res.data.status == true) {
-                $scope.Pro_Grid.dataSource.read();
-                toastr.success('Thành công', '');               
-            }                         
+            $scope.Pro_Grid.dataSource.read();
+            toastr.success('Thành công', '');                                      
         })
     }
 
@@ -162,23 +159,29 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     $scope.ChooseImages_Mannage = function () {      
         var finder = new CKFinder();
         finder.selectActionFunction = function (url) {
-            $scope.images.push(url);                       
-            $.each($scope.images, function (i, item) {
-                $scope.imgHtml = '<img src="' + item + '" width="100" /><a ng-click="DellImage($event,'+item+')" class="btn-delImage" href="#"><i class="glyphicon glyphicon-remove"></i></a>';
-            })            
+            $scope.images.push(url);                                             
         };
-        finder.popup();
-       
+        finder.popup();     
     }
-    
-   // 
+    $scope.RefeshImages = function ($event) {
+        $event.preventDefault();
+        $scope.images;
+    }
 
     $scope.DellImage = function ($event, item) {
         $event.preventDefault();
-        $scope.images.splice($scope.images.indexOf(chat), 1);
-        $.each($scope.images, function (i, item) {
-            $scope.imgHtml = '<img src="' + item + '" width="100" /><a ng-click="DellImage($event,' + item + ')" class="btn-delImage" href="#"><i class="glyphicon glyphicon-remove"></i></a>';
-        })       
+        $scope.images.splice($scope.images.indexOf(item), 1);
+    }
+
+    $scope.SaveImages = function () {
+        $rootScope.IsLoading = true;
+        $http.post("/Pn/Pn/PRO_SaveImages", { id: $scope.productId, images: JSON.stringify($scope.images) }).then(function success(res) {
+            if (res.data.status == true) {
+                $rootScope.IsLoading = false;
+                $scope.showModalImg = false;
+                toastr.success('Thành công', '');
+            } 
+        })
     }
 
     $scope.Cate_Options={

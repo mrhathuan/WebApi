@@ -71,7 +71,7 @@ namespace Shop_Nhi
                      "~/fonts/css/font-awesome.min.css",                    
                      "~/Content/kendo/2016.2.607/kendo.common.min.css",
                       "~/Content/kendo/2016.2.607/kendo.default.min.css",
-                       "~/Content/kendo/2016.2.607/ng-ckeditor.css",
+                       "~/Content/ng-ckeditor.css",
                       "~/Content/toastr.css",
                       "~/Content/Admin/css/styles.css"
                       ));
