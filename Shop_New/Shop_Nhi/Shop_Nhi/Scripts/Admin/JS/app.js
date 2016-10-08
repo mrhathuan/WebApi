@@ -10,7 +10,11 @@ app.config(function ($routeProvider) {
     $routeProvider.when("/PRO_Index", {
         templateUrl: '/Pn/Pn/PRO_Index',
         controller: 'PRO_IndexCtr'
-    });    
+    });
+    $routeProvider.when("/CAT_Index", {
+        templateUrl: '/Pn/Pn/CAT_Index',
+        controller: 'CAT_IndexCtr'
+    });
     $routeProvider.otherwise({ redirectTo: "/DASH_Index" });
 });
 

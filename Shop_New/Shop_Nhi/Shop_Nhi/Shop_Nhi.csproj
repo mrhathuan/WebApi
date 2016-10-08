@@ -1142,6 +1142,7 @@
     <Content Include="Scripts\Admin\custom.js" />
     <Content Include="Scripts\Admin\JS\AjaxPro.js" />
     <Content Include="Scripts\Admin\JS\app.js" />
+    <Content Include="Scripts\Admin\JS\CAT_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\DASH_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\JsCategory.js" />
     <Content Include="Areas\Pn\Views\Users\ChangePassword.cshtml" />
@@ -1317,6 +1318,9 @@
     <Content Include="Plugin\ckfinder\skins\bootstrap\assets\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Plugin\ckfinder\skins\bootstrap\assets\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Plugin\ckfinder\userfiles\.htaccess" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Pn\CAT_Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

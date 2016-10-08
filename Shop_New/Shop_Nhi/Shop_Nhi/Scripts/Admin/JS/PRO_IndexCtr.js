@@ -57,9 +57,14 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                     field: "status", width: "130px", title: "Trạng thái", editable: false, filterable: false, 
                     template: kendo.template($('#statusTpl').html())
                         
-                },               
+                },
+                 {
+                     field: "modifiedByDate", width: "130px", title: "Ngày sửa", filterable: false, template: "#= kendo.toString(kendo.parseDate(modifiedByDate, 'yyyy-MM-dd'), 'dd/MM/yyyy')#",
+                     filterable: { cell: { template: function (e) { e.element.kendoDatePicker({ format: 'dd/MM/yyyy' }); }, operator: 'equal', showOperators: false } },
+                 },
                 { field: "like", width: "100px", filterable: false, title: "Like" },
                 { field: "viewCount", width: "130px", filterable: false, title: "Lượt mua" },
+                { field: "createByID", width: "200px", filterable: false, title: "Người tạo" },
         ],
           dataSource: {
             pageSize: 10,
@@ -88,8 +93,8 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                         categoryID: { type: "number" },
                         status: { type: "boolean" },
                         createDate: { type: "date" },
-                        like: { editable: false },
-                        viewCount: { editable: false }
+                        like: {type:"number", editable: false },
+                        viewCount: {type:"number", editable: false }
                     }
                 }
             }
@@ -159,7 +164,7 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     $scope.ChooseImages_Mannage = function () {      
         var finder = new CKFinder();
         finder.selectActionFunction = function (url) {
-            $scope.images.push(url);                                             
+            $scope.images.push(url);            
         };
         finder.popup();     
     }

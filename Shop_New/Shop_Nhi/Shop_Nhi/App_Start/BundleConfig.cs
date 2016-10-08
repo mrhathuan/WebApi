@@ -37,8 +37,7 @@ namespace Shop_Nhi
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/style.css",
+                      "~/Content/bootstrap.css",                      
                       "~/Content/jquery.smartmenus.bootstrap.css",
                       "~/Content/font-awesome.css",
                        "~/Content/slick.css",
@@ -46,11 +45,14 @@ namespace Shop_Nhi
                         "~/Content/sequence-theme.modern-slide-in.css",
                         "~/Content/eagle.gallery.css",                        
                         "~/Content/jquery-ui.css",
-                        "~/Content/toastr.css"
+                        "~/Content/toastr.css",
+                        "~/Content/style.css"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/JsAdmin").Include(
                      "~/Scripts/bootstrap.min.js",
+                    "~/Scripts/angular.min.js",
+                     "~/Scripts/angular-route.js",
                      "~/Scripts/kendo/2016.2.607/kendo.all.min.js",
                      "~/Scripts/kendo/2016.2.607/kendo.aspnetmvc.min.js",
                      "~/Scripts/kendo/2016.2.607/jszip.min.js",
@@ -63,7 +65,9 @@ namespace Shop_Nhi
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                     "~/Scripts/Admin/JS/app.js",
                     "~/Scripts/Admin/JS/PRO_IndexCtr.js",
+                    "~/Scripts/Admin/JS/CAT_IndexCtr.js",
                      "~/Scripts/Admin/JS/DASH_IndexCtr.js"
+                     
                     ));
 
             bundles.Add(new StyleBundle("~/Content/CssAdmin").Include(

@@ -7,18 +7,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{title}}</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="~/Scripts/angular.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
-    @*<script src="~/Plugin/ckeditor/ckeditor.js"></script>* 
-    <script src="~/Plugin/ckfinder/ckfinder.js"></script>*@
-    @*<script src="//cdn.ckeditor.com/4.5.7/full-all/ckeditor.js"></script>*@
+    <title>{{title}}</title>      
     <!--CSS-->
     @Styles.Render("~/Content/CssAdmin")   
     @RenderSection("CssHead", required: false)
     <!---Script--->    
-  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>    
 </head>
 <body>
     <div ng-show="IsLoading" class="loading">
@@ -56,8 +50,7 @@
         <ul class="nav menu">
             <li><a class="menuClick" href="/Pn/#/DASH_Index"><i class="fa fa-tachometer"></i> DASHBOARD</a></li>
             <li><a class="menuClick" href="/Pn/#/PRO_Index"><i class="fa fa-bars"></i> SẢN PHẨM</a></li>
-            @*<li><a class="menuClick" href="@Url.Action("Index","Category")"><i class="fa fa-list"></i> DANH MỤC</a></li>
-            <li><a class="menuClick" href="@Url.Action("Index","Order")"><i class="fa fa-taxi"></i> ĐƠN HÀNG</a></li>*@    
+            <li><a class="menuClick" href="/Pn/#/CAT_Index"><i class="fa fa-bars"></i> DANH MỤC</a></li>
             <li class="parent">
                 <a class="menuClick" href="#">
                     <span data-toggle="collapse" href="#sub-item-1"><i class="fa fa-cogs"></i> QUẢN TRỊ <i class="fa fa-arrow-circle-o-down"></i></span>
@@ -78,35 +71,15 @@
             </li>       
         </ul>
     </div><!--/.sidebar-->
-    <!---SCRIPT--> 
+    
     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
         @RenderBody()        
     </div>
- 
-
     <!--Message-->
     <span id="page-notification" kendo-notification="msg" k-options="msgOptions"></span>
         
         @Scripts.Render("~/bundles/JsAdmin")
          @Scripts.Render("~/bundles/app")
-
         @RenderSection("JsFooter", required: false)
-        <!--Begin Ckeditor-->
-        @*<script>
-            var editor = CKEDITOR.replace('txtContent', {
-                customConfig: '/Scripts/Plugin/ckeditor/config.js',
-            });
-        </script>*@
-        <!--Alert-->
-        <script type="text/javascript">
-            //var input = $('input[type=number]');
-            //input.kendoNumericTextBox({
-            //    format: "n0",
-            //    min: 0,               
-            //    step: 0.01
-            //});
-        </script>
-        <!---->
-  
 </body>
 </html>

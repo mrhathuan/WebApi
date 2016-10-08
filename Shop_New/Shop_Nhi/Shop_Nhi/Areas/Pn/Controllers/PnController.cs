@@ -88,6 +88,7 @@ namespace Shop_Nhi.Areas.Pn.Controllers
                 },
                 createDate = x.createDate,
                 modifiedByDate = x.modifiedByDate,
+                createByID = x.createByID,
                 like = x.like,
                 viewCount = x.viewCount,
                 status = x.status
@@ -98,7 +99,7 @@ namespace Shop_Nhi.Areas.Pn.Controllers
 
         //excel
         [HttpPost]
-        public ActionResult Excel_Export_Save(string contentType, string base64, string fileName)
+        public ActionResult PRO_Excel_Export_Save(string contentType, string base64, string fileName)
         {
             var fileContents = Convert.FromBase64String(base64);
 
@@ -217,10 +218,10 @@ namespace Shop_Nhi.Areas.Pn.Controllers
             foreach (var item in listImages)
             {
 
-                var subtringItem = item.Substring(23);//local
+               // var subtringItem = item.Substring(23);//local
                // var subtringItem = item.Substring(27);//zury
                 //var subtringItem = item.Substring(27);//nhi
-                xElement.Add(new XElement("Image", subtringItem));
+                xElement.Add(new XElement("Image", item));
             }
             ProductDAO dao = new ProductDAO();
             try
@@ -250,8 +251,7 @@ namespace Shop_Nhi.Areas.Pn.Controllers
                 var dao = new ProductDAO();
                 var images = dao.GetById(id).moreImages;
                 List<string> listImages = new List<string>();
-                XElement xImages = XElement.Parse(images);
-                var asd = xImages;               
+                XElement xImages = XElement.Parse(images);                        
                 foreach (XElement element in xImages.Elements())
                 {
                     listImages.Add(element.Value);
@@ -275,6 +275,35 @@ namespace Shop_Nhi.Areas.Pn.Controllers
 
 
         #endregion product
+
+        #region categories
+        [Authorize(Roles = "ADMIN,MANAGE")]
+        public ActionResult CAT_Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult CAT_Read([DataSourceRequest]DataSourceRequest request)
+        {
+            var dao = new CategoryDAO();
+            IList<Category> item = new List<Category>();
+            item = dao.ListAll().Select(x => new Category
+            {
+                ID = x.ID,
+                name = x.name,
+                createDate = x.createDate,
+                createByID = x.createByID,
+                modifiedByID = x.modifiedByID,
+                parentID = x.parentID,
+                status = x.status,
+                showOnHome = x.showOnHome,
+                modifiedByDate = x.modifiedByDate
+
+            }).ToList();
+            return Json(item.ToDataSourceResult(request));
+        }
+        #endregion categories
 
         #region body
         public ActionResult Body()

@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "DANH MỤC";
+}
+
+<div class="row">
+    <ol class="breadcrumb" style="font-size:16px;color:black">
+        <li><a href="/Pn"><i class="fa fa-home"></i></a></li>
+        <li class="active">Danh mục</li>
+    </ol>
+</div>
+<!--Grid-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default cus-grid" style="border:none;margin-top:5px">
+            <div class="panel-body">
+                <div expand-k-grid class="cus-grid" kendo-grid="Cat_Grid" k-options="Cat_gridOptions"></div>
+            </div>
+        </div>
+    </div>
+</div><!--/.Grid-->
+<!--toolbar-->
+<script type="text/x-kendo-template" id="CatGridTemplate">
+    <div class="gridtoolbar">
+        <div class="toolbar-left" style="float:left;">
+            <a class="k-button k-button-icontext k-grid-excel" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-file-excel-o"></span></a>
+            <a ng-click="CAT_WinClick($event,0)" class="k-button k-button-icontext" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-plus"><span class="tooltip">Thêm mới</span></span></a>
+        </div>
+    </div>
+</script>
+
