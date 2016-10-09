@@ -23,13 +23,16 @@ app.controller('CAT_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                         '<a href="\\#" class="event-button" ng-click="RemoveItem($event,#=id#)"><i class="fa fa-trash"></i></a>',                        
                     filterable: false, sortable: false
                 },
-                { field: "ID", width: "60px", title: "Mã", editable: false, filterable: false},
+                {
+                    field: "ID", width: "60px", title: "Mã", editable: false,
+                    filterable: { cell: { operator: 'contains', showOperators: false } }
+                },
                 {
                     field: "name", width: "250px", title: "Tên",
                     filterable: { cell: { operator: 'contains', showOperators: false } }
                 },
                 {
-                    field: "parentID", width: "60px", title: "Thuộc",
+                    field: "parentID", width: "100px", title: "Thuộc danh mục",
                     filterable: { cell: { showOperators: false } }
                 },
                 {
@@ -87,4 +90,42 @@ app.controller('CAT_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
         }
     }
   
+    $scope.RemoveItem = function ($event, id) {
+        $event.preventDefault();
+        $http.post("/Pn/Pn/CAT_Remove", { id: id }).then(function success(res) {
+            if (res.data.status == true) {
+                $scope.Cat_Grid.dataSource.read();
+                toastr.success('Thành công', '');
+            }
+        })
+    }
+
+    $scope.Cate_Options = {
+        dataTextField: "name",
+        dataValueField: "ID",
+        autoBind: false,
+        optionLabel: "",
+        dataSource: {
+            severFiltering: true,
+            transport: {
+                read: {
+                    url: "/Pn/Pn/PRO_Categories_Filter",
+                    contentType: "application/json",
+                    type: "GET"
+                }
+
+            }
+        }, change: function (e) {
+            debugger
+        }
+    }
+
+    $scope.CAT_WinClick = function ($event, id) {
+        $event.preventDefault();
+        $http.post("/Pn/Pn/CAT_Get", { id: id }).then(function success(res) {
+            $scope.Item = res.data.cat;
+            $scope.showModal_Cat = true;
+        })
+    }
+
 }]);

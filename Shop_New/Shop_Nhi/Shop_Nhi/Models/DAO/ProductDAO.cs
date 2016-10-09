@@ -15,12 +15,6 @@ namespace Shop_Nhi.Models.DAO
             db = new DBConnect();
         }
 
-        //Thêm sản phẩm
-        public void Create(Product pro)
-        {
-            db.Products.Add(pro);
-            db.SaveChanges();
-        }
 
         public void Save(Product pro)
         {
@@ -167,36 +161,7 @@ namespace Shop_Nhi.Models.DAO
         {
             return db.Products.Where(x => x.promotionPrice != null && x.status == true).OrderByDescending(x => x.createDate).Take(top).ToList();
         }
-
-        //Sửa
-        public bool Edit(Product pro)
-        {
-            var result = db.Products.Find(pro.ID);
-            try
-            {
-                result.code = pro.code;
-                result.productName = pro.productName;
-                result.price = pro.price;
-                result.image = pro.image;
-                result.promotionPrice = pro.promotionPrice;
-                result.quantity = pro.quantity;
-                result.categoryID = pro.categoryID;
-                result.metatTitle = pro.metatTitle;
-                result.metaKeywords = pro.metaKeywords;
-                result.metaDescription = pro.metaDescription;
-                result.chatlieu = pro.chatlieu;
-                result.madeIn = pro.madeIn;
-                result.detail = pro.detail;
-                result.modifiedByID = pro.modifiedByID;
-                result.modifiedByDate = DateTime.Now;
-                db.SaveChanges();
-                return true;
-            }
-            catch(Exception)
-            {
-                return false;
-            }
-        }
+       
         //Xóa
         public bool Delete(long id)
         {

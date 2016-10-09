@@ -31,6 +31,28 @@ namespace Shop_Nhi.Models.DAO
         {
             return db.Categories.Where(x => x.showOnHome == true).OrderBy(x => x.createDate).ToList();
         }
+
+        public void Save(Category cate)
+        {
+            var result = db.Categories.Find(cate.ID);
+            if(result == null || cate.ID == 0)
+            {
+                cate.ID = -1;
+                cate.createDate = DateTime.Now;
+                db.Categories.Add(cate);
+            }else
+            {
+                result.name = cate.name;
+                result.metatTitle = cate.metatTitle;
+                result.parentID = cate.parentID;
+                result.metaKeywords = cate.metaKeywords;
+                result.metaDescription = cate.metaDescription;
+                result.modifiedByID = cate.modifiedByID;
+                result.modifiedByDate = DateTime.Now;
+            }
+            db.SaveChanges();
+        }
+
         //Thêm
         public void Create(Category cate)
         {

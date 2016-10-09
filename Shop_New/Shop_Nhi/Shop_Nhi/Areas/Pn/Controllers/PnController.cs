@@ -303,6 +303,95 @@ namespace Shop_Nhi.Areas.Pn.Controllers
             }).ToList();
             return Json(item.ToDataSourceResult(request));
         }
+
+        [HttpPost]
+        public JsonResult CAT_Get(long id)
+        {
+            var dao = new CategoryDAO();
+            var cat = new Category();
+            if(id== 0)
+            {
+                cat = new Category();
+            }else
+            {
+                cat = dao.GetByID(id);
+            }
+            return Json(new
+            {
+                cat = cat
+            });
+        }
+
+        [HttpPost]
+        public JsonResult CAT_Save(string item)
+        {
+            try
+            {
+                var dao = new CategoryDAO();
+                JavaScriptSerializer seriaLizer = new JavaScriptSerializer();
+                Category cate = seriaLizer.Deserialize<Category>(item);
+                if (cate.ID == 0)
+                {
+                    cate.createDate = DateTime.Now;
+                    cate.createByID = (string)Session["username"];
+                }
+                else
+                {
+                    cate.modifiedByID = (string)Session["username"];
+                    cate.modifiedByDate = DateTime.Now;
+                }
+                cate.metatTitle = StringHelper.RemoveSpecialChars(cate.name.Trim()).Replace(" ", "-");
+                cate.status = true;
+                cate.showOnHome = false;
+                dao.Save(cate);
+                return Json(new
+                {
+                    msg = "Thành công",
+                    status = true
+                });
+            }
+            catch(Exception e)
+            {
+                return Json(new
+                {
+                    msg = e.Message,
+                    status = false
+                });
+            }
+        }      
+
+        [HttpPost]
+        public JsonResult CAT_Remove(long id)
+        {
+            var result = new CategoryDAO().Delete(id);
+            return Json(new
+            {
+                status = result
+            });
+        }
+
+        //Change Status
+        [HttpPost]
+        public JsonResult CAT_ChangeStatus(long id)
+        {
+            var result = new CategoryDAO().ChangeStatus(id);
+            return Json(new
+            {
+                status = result
+            });
+        }
+
+        //Show Home
+        [HttpPost]
+        public JsonResult CAT_ShowHome(long id)
+        {
+            var result = new CategoryDAO().ChangeShowHome(id);
+            return Json(new
+            {
+                status = result
+            });
+        }
+
         #endregion categories
 
         #region body
