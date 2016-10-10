@@ -24,26 +24,26 @@ app.controller('CAT_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                     filterable: false, sortable: false
                 },
                 {
-                    field: "ID", width: "60px", title: "Mã", editable: false,
-                    filterable: { cell: { operator: 'contains', showOperators: false } }
+                    field: "ID", width: "100px", title: "Mã", editable: false,
+                    filterable: { cell: { showOperators: false } }
                 },
                 {
                     field: "name", width: "250px", title: "Tên",
                     filterable: { cell: { operator: 'contains', showOperators: false } }
                 },
                 {
-                    field: "parentID", width: "100px", title: "Thuộc danh mục",
+                    field: "parentID", width: "120px", title: "Thuộc danh mục",
                     filterable: { cell: { showOperators: false } }
+                },               
+                {
+                    field: "createDate", width: "130px", title: "Ngày up", filterable: false, template: "#= kendo.toString(kendo.parseDate(createDate, 'yyyy-MM-dd'), 'dd/MM/yyyy')#",
+                    filterable: { cell: { template: function (e) { e.element.kendoDatePicker({ format: 'dd/MM/yyyy' }); }, operator: 'equal', showOperators: false } },
                 },
                 {
                     field: "status", width: "130px", title: "Trạng thái", editable: false, filterable: false
                 },
                 {
                     field: "showOnHome", width: "130px", title: "Hiện Menu", editable: false, filterable: false
-                },
-                {
-                    field: "createDate", width: "130px", title: "Ngày up", filterable: false, template: "#= kendo.toString(kendo.parseDate(createDate, 'yyyy-MM-dd'), 'dd/MM/yyyy')#",
-                    filterable: { cell: { template: function (e) { e.element.kendoDatePicker({ format: 'dd/MM/yyyy' }); }, operator: 'equal', showOperators: false } },
                 },
                 {
                     field: "createByID", width: "250px", title: "Người up",
@@ -78,7 +78,7 @@ app.controller('CAT_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                     id: "ID",
                     fields: {
                         ID: { type: 'number', editable: false, nullable: true },
-                        name: { type: "string", editable: false, filterable: false },
+                        name: { type: "string", editable: false},
                         parentID: { type: "number", editable: false },                     
                         createDate: { type: "date" },
                         modifiedByDate: { type: "date" },
@@ -102,21 +102,21 @@ app.controller('CAT_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
 
     $scope.Cate_Options = {
         dataTextField: "name",
-        dataValueField: "ID",
+        dataValueField: "ID",     
         autoBind: false,
         optionLabel: "",
         dataSource: {
             severFiltering: true,
             transport: {
                 read: {
-                    url: "/Pn/Pn/PRO_Categories_Filter",
+                    url: "/Pn/Pn/CAT_ParentIdIsNull",
                     contentType: "application/json",
                     type: "GET"
                 }
 
             }
         }, change: function (e) {
-            debugger
+            
         }
     }
 

@@ -304,6 +304,21 @@ namespace Shop_Nhi.Areas.Pn.Controllers
             return Json(item.ToDataSourceResult(request));
         }
 
+
+        public ActionResult CAT_ParentIdIsNull()
+        {
+            var dao = new CategoryDAO();
+            var categories = dao.ListAll()
+                 .Select(c => new Category
+                 {
+                     ID = c.ID,
+                     name = c.name
+                 })
+              .Where(x => x.parentID == null || x.parentID == 0);
+
+            return Json(categories, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult CAT_Get(long id)
         {
@@ -314,7 +329,12 @@ namespace Shop_Nhi.Areas.Pn.Controllers
                 cat = new Category();
             }else
             {
-                cat = dao.GetByID(id);
+                var result = dao.GetByID(id);
+                cat.ID = result.ID;
+                cat.name = result.name;
+                cat.parentID = result.parentID;
+                cat.metaKeywords = result.metaKeywords;
+                cat.metaDescription = result.metaDescription;
             }
             return Json(new
             {

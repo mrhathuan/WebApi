@@ -18,7 +18,7 @@
                     <div class="aa-sidebar-widget">
                         <h2>Danh mục</h2>
                         <ul class="aa-catg-nav">
-                            @foreach (var item in listCate.Where(x => x.parentID == null))
+                            @foreach (var item in listCate.Where(x => x.parentID == null || x.parentID == 0))
                             {
                                 var child = listCate.Where(x => x.parentID == item.ID);
                                 <li class="aa-catg-nav-item"><a href="/san-pham/@item.metatTitle-@item.ID" data-id="@item.ID">@item.name</a>
