@@ -15,6 +15,10 @@ app.config(function ($routeProvider) {
         templateUrl: '/Pn/Pn/CAT_Index',
         controller: 'CAT_IndexCtr'
     });
+    $routeProvider.when("/ORD_Index", {
+        templateUrl: '/Pn/Pn/ORD_Index',
+        controller: 'ORD_IndexCtr'
+    });
     $routeProvider.otherwise({ redirectTo: "/DASH_Index" });
 });
 

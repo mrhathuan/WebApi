@@ -308,13 +308,12 @@ namespace Shop_Nhi.Areas.Pn.Controllers
         public ActionResult CAT_ParentIdIsNull()
         {
             var dao = new CategoryDAO();
-            var categories = dao.ListAll()
+            var categories = dao.ListAll().Where(x => x.parentID == null || x.parentID == 0)
                  .Select(c => new Category
                  {
                      ID = c.ID,
                      name = c.name
-                 })
-              .Where(x => x.parentID == null || x.parentID == 0);
+                 });
 
             return Json(categories, JsonRequestBehavior.AllowGet);
         }
@@ -413,6 +412,53 @@ namespace Shop_Nhi.Areas.Pn.Controllers
         }
 
         #endregion categories
+
+        #region order
+        public ActionResult ORD_Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult ORD_Read([DataSourceRequest]DataSourceRequest request)
+        {
+            var dao = new OrderDAO();
+            IList<Order> item = new List<Order>();
+            item = dao.ListOrder().Select(x => new Order
+            {
+                ID = x.ID,
+                fullName = x.fullName,
+                dateSet = x.dateSet,
+                email = x.email,
+                phone = x.phone,
+                address = x.address,
+                payID = x.payID,
+                message = x.message,                
+                totalAmount = x.totalAmount,
+                Pay = new Pay
+                {
+                    ID = x.Pay.ID,
+                    name = x.Pay.name
+                },
+                status = x.status,
+                Payment = x.Payment,
+
+            }).ToList();
+            return Json(item.ToDataSourceResult(request));
+        }
+
+        [HttpPost]
+        public JsonResult ORD_Detail([DataSourceRequest]DataSourceRequest request,long id)
+        {
+            var dao = new OrderDetailsDAO();
+            IList<OrderDetail> item = new List<OrderDetail>();
+            item = dao.GetById(id).Select(x => new OrderDetail
+            {
+              
+            }).ToList();
+            return Json(item.ToDataSourceResult(request));
+        }
+        #endregion order
 
         #region body
         public ActionResult Body()

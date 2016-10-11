@@ -54,11 +54,11 @@ namespace Shop_Nhi
                     "~/Scripts/angular.min.js",
                      "~/Scripts/angular-route.js",
                      "~/Scripts/kendo/2016.2.607/kendo.all.min.js",
-                     "~/Scripts/kendo/2016.2.607/kendo.aspnetmvc.min.js",
-                     "~/Scripts/kendo/2016.2.607/jszip.min.js",
+                     "~/Scripts/kendo/2016.2.607/kendo.aspnetmvc.min.js",                     
                      "~/Plugin/ckeditor/ckeditor.js",
                      "~/Plugin/ckfinder/ckfinder.js",
                      "~/Scripts/ng-ckeditor.js",
+                     "~/Scripts/Confirmation.js",
                       "~/Scripts/toastr.js"
                      ));
 
@@ -66,6 +66,7 @@ namespace Shop_Nhi
                     "~/Scripts/Admin/JS/app.js",
                     "~/Scripts/Admin/JS/PRO_IndexCtr.js",
                     "~/Scripts/Admin/JS/CAT_IndexCtr.js",
+                    "~/Scripts/Admin/JS/ORD_IndexCtr.js",
                      "~/Scripts/Admin/JS/DASH_IndexCtr.js"
                      
                     ));

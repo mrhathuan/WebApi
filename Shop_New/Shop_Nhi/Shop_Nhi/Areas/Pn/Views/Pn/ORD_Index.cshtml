@@ -1,0 +1,49 @@
+﻿
+
+<div class="row">
+    <ol class="breadcrumb" style="font-size:16px;color:black">
+        <li><a href="/Pn"><i class="fa fa-home"></i></a></li>
+        <li class="active">Đơn hàng</li>
+    </ol>
+</div>
+<!--Grid-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default cus-grid" style="border:none;margin-top:5px">
+            <div class="panel-body">
+                <div expand-k-grid class="cus-grid" kendo-grid="Ord_Grid" k-options="Ord_gridOptions"></div>
+            </div>
+        </div>
+    </div>
+</div><!--/.Grid-->
+<!--toolbar-->
+<script type="text/x-kendo-template" id="ORDGridTemplate">
+    <div class="gridtoolbar">
+        <div class="toolbar-left" style="float:left;">
+            <a class="k-button k-button-icontext k-grid-excel" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-file-excel-o"></span></a>
+            <a ng-click="ORD_WinClick($event,0)" class="k-button k-button-icontext" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-plus"><span class="tooltip">Thêm mới</span></span></a>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-template" id="statusTpl">
+    #=status?'<span class="btn_success">Đã xem</span>':'<img src="/img/icon_new.gif" alt="New" />'#
+</script>
+
+<div class="cus-window" draggable-k-window kendo-window="ORDDetail_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chi tiết đơn hàng</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="ORDDetail_grid" expand-k-grid k-options="ORDDetail_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="AreaNotInDetail_AddNewClick($event,AreaDetailEdit_winPopup,vform_AreaDetail)" class="k-button accept" data-title="Thêm mới">Thêm mới</a>
+                <a href="/" ng-click="Close_Click($event,AreaDetail_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

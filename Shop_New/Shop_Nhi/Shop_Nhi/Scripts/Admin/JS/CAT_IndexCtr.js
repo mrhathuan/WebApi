@@ -28,7 +28,7 @@ app.controller('CAT_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                     filterable: { cell: { showOperators: false } }
                 },
                 {
-                    field: "name", width: "250px", title: "Tên",
+                    field: "name", width: "300px", title: "Tên",
                     filterable: { cell: { operator: 'contains', showOperators: false } }
                 },
                 {
@@ -40,10 +40,12 @@ app.controller('CAT_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                     filterable: { cell: { template: function (e) { e.element.kendoDatePicker({ format: 'dd/MM/yyyy' }); }, operator: 'equal', showOperators: false } },
                 },
                 {
-                    field: "status", width: "130px", title: "Trạng thái", editable: false, filterable: false
+                    field: "status", width: "130px", title: "Trạng thái", editable: false, filterable: false,
+                    template: kendo.template($('#statusTpl').html())
                 },
                 {
-                    field: "showOnHome", width: "130px", title: "Hiện Menu", editable: false, filterable: false
+                    field: "showOnHome", width: "130px", title: "Hiện Menu", editable: false, filterable: false,
+                    template: kendo.template($('#ShowhomeTpl').html())
                 },
                 {
                     field: "createByID", width: "250px", title: "Người up",
@@ -104,27 +106,64 @@ app.controller('CAT_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
         dataTextField: "name",
         dataValueField: "ID",     
         autoBind: false,
-        optionLabel: "",
         dataSource: {
-            severFiltering: true,
-            transport: {
-                read: {
-                    url: "/Pn/Pn/CAT_ParentIdIsNull",
-                    contentType: "application/json",
-                    type: "GET"
+            data: [],
+            model: {
+                id: 'ID',
+                fields: {
+                    ID: { type: 'number' },
+                    name: { type: 'string' },
                 }
-
             }
-        }, change: function (e) {
-            
+        }, change: function (e) {            
         }
     }
+
+    $http.post("/Pn/Pn/CAT_ParentIdIsNull", {}).then(function success(res) {        
+        var catItem = { ID: null, name: '' };
+        res.data.unshift(catItem);
+        $scope.drdpl_Cat.dataSource.data(res.data);
+    })
 
     $scope.CAT_WinClick = function ($event, id) {
         $event.preventDefault();
         $http.post("/Pn/Pn/CAT_Get", { id: id }).then(function success(res) {
             $scope.Item = res.data.cat;
             $scope.showModal_Cat = true;
+        })
+    }
+
+    $scope.CAT_SaveClick = function ($event, vform) {
+        $event.preventDefault();
+        vform({ clear: true });
+        if (vform()) {
+            $http.post("/Pn/Pn/CAT_Save", { item: JSON.stringify($scope.Item) }).then(function success(res) {
+                if (res.data.status == true) {
+                    vform({ clear: true });
+                    $scope.Cat_Grid.dataSource.read();
+                    toastr.success(res.data.msg, '');
+                    $scope.showModal_Cat = false;
+                } else {
+                    toastr.error(res.data.msg, '');
+                }
+
+            })
+        }
+    }
+
+    $scope.ChangeStatus = function ($event, id) {
+        $event.preventDefault();
+        $http.post("/Pn/Pn/CAT_ChangeStatus", { id: id }).then(function success(res) {
+            $scope.Cat_Grid.dataSource.read();
+            toastr.success('Thành công', '');
+        })
+    }
+
+    $scope.ChangeShowhome = function ($event, id) {
+        $event.preventDefault();
+        $http.post("/Pn/Pn/CAT_ShowHome", { id: id }).then(function success(res) {
+            $scope.Cat_Grid.dataSource.read();
+            toastr.success('Thành công', '');
         })
     }
 

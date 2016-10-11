@@ -95,6 +95,11 @@ h3, h4 {
     background-color: #31b6fc;
     border-color: #31b6fc;
 }
+.btn-success:focus {
+    color: #fff;
+    background-color: #31b6fc;
+    border-color: #31b6fc;
+}
 .cus-grid{
     border: none;
     padding: 0;
@@ -142,11 +147,6 @@ img.product-img{
     cursor:pointer;   
     color:#fff;
 }
-a.k-button > .tooltip { visibility: hidden; width: 80px; background-color: black; color: #fff; text-align: center; padding: 5px 5px; border-radius: 4px; top: 100%; left: -38px; position: absolute; z-index: 1; font-size: 13px; }
-a.k-button > .tooltip::after { content: ''; position: absolute; bottom: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: transparent transparent black transparent; }
-a.k-button:hover > .tooltip { visibility: visible; opacity: 0.8; z-index: 999; }
-a.k-button > .tooltip.is-right { left: -60px; }
-a.k-button > .tooltip.is-right::after { left: 76px; }
 .btn_info{
     background: #ffb53e;
     border: 1px solid #ffb53e;
@@ -157,6 +157,23 @@ a.k-button > .tooltip.is-right::after { left: 76px; }
     cursor:pointer;   
     color:#fff;
 }
+.btn_block{
+    background: #f9243f;
+    border: 1px solid #f9243f;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    cursor:pointer;   
+    color:#fff;
+}
+
+a.k-button > .tooltip { visibility: hidden; width: 80px; background-color: black; color: #fff; text-align: center; padding: 5px 5px; border-radius: 4px; top: 100%; left: -38px; position: absolute; z-index: 1; font-size: 13px; }
+a.k-button > .tooltip::after { content: ''; position: absolute; bottom: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: transparent transparent black transparent; }
+a.k-button:hover > .tooltip { visibility: visible; opacity: 0.8; z-index: 999; }
+a.k-button > .tooltip.is-right { left: -60px; }
+a.k-button > .tooltip.is-right::after { left: 76px; }
+
 .k-animation-container .k-list-container .k-item.k-state-selected {
     background: none;
     background-color: #31b6fc;

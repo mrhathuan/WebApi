@@ -21,7 +21,7 @@ namespace Shop_Nhi.Models.DAO
             db.OrderDetails.Add(od);
             db.SaveChanges();
         }
-        //Add
+        //get
         public List<OrderDetail> GetById(long id)
         {
             return db.OrderDetails.Where(x=>x.orderID == id).ToList();

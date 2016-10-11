@@ -20,7 +20,7 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                 {
                     title: ' ', width: '130px',
                     template: '<a href="\\#" class="event-button" ng-click="PRO_WinClick($event,#=id#)"><i class="fa fa-pencil"></i></a>' +
-                        '<a href="\\#" class="event-button" ng-click="RemoveItem($event,#=id#)"><i class="fa fa-trash"></i></a>' +
+                        '<a href="\\#" id="RemoveItem" class="event-button" ng-click="RemoveItem($event,#=id#)"><i class="fa fa-trash"></i></a>' +
                         '<a href="\\#" data-id="#=id#" ng-click="ManageImages($event,#=id#)" class="event-button btn-image"><i class="fa fa-picture-o"></i></a>',
                     filterable: false, sortable: false
                 },
@@ -133,9 +133,9 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
         $http.post("/Pn/Pn/PRO_Delete", { id: id }).then(function success(res) {
             if (res.data.status == true) {
                 $scope.Pro_Grid.dataSource.read();
-                toastr.success('Thành công', '');                
+                toastr.success('Thành công', '');
             }
-        })
+        })           
     }
 
     $scope.ChangeStatus = function ($event,id) {
