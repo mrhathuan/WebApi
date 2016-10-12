@@ -6,9 +6,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Kendo.Mvc;
 using Shop_Nhi.Models.Framework;
 using Shop_Nhi.Models.DAO;
 using Shop_Nhi.Common;
+using Kendo.Mvc.UI;
+using Kendo.Mvc.Extensions;
+using System.Web.Script.Serialization;
 
 namespace Shop_Nhi.Areas.Pn.Controllers
 {
@@ -18,164 +22,108 @@ namespace Shop_Nhi.Areas.Pn.Controllers
     {
 
         // GET: Thuankay/Users
-        public ActionResult Index()
-        {
-            var users = new UserDAO();
-            return View(users.ListUsers());
-        }
-
-        // GET: Thuankay/Users/Details/5
-
-
-        // GET: Thuankay/Users/Create
-        [HttpGet]
-        public ActionResult Create()
-        {
-            GetRole();
+        public ActionResult USER_Index()
+        {            
             return View();
         }
 
-        // POST: Thuankay/Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create(User user, string password2)
+        public JsonResult USER_Read([DataSourceRequest]DataSourceRequest request)
         {
             var dao = new UserDAO();
-            if (dao.CheckUsername(user.userName))
+            IList<User> item = new List<User>();
+            item = dao.ListUsers().Select(x => new User
             {
-                SetAlert("Thêm thất bại! Tài khoản đã tồn tại", "error");
-            }
-            else
-            {
-                if (dao.CheckEmail(user.email))
+                ID = x.ID,
+                userName= x.userName,
+                fullname = x.fullname,
+                email = x.email,
+                roleID = x.roleID,
+                Role = new Role
                 {
-                    SetAlert("Thêm thất bại! Email đã tồn tại", "error");
-                }
-                else
-                {
-                    user.status = true;
-                    user.password = Encryptor.MD5Hash(password2.Replace(" ", ""));
-                    dao.Create(user);
-                    SetAlert("Tạo mới tài khoản thành công", "success");
-                    return RedirectToAction("Index");
-                }
-            }
-            GetRole();
-            return View();
+                    ID = x.Role.ID,
+                    Name = x.Role.Name
+                },
+                status = x.status
+            }).ToList();
+            return Json(item.ToDataSourceResult(request));
         }
 
-        // GET: Thuankay/Users/Edit/5
-        [HttpGet]
-        public ActionResult Edit(long id)
+        [HttpPost]
+        public JsonResult USER_Get(long id)
         {
+            var dao = new UserDAO();
+            var user = new User();
             if (id == 0)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var user = new UserDAO();
-            var result = user.GetByID(id);
-            if (result == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.Username = user.GetByID(id).userName;
-            GetRole();
-            return View(result);
-        }
-
-        // POST: Thuankay/Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        public ActionResult Edit(User user)
-        {
-            var dao = new UserDAO();
-            var result = dao.Edit(user);
-            if (result)
-            {
-                SetAlert("Sửa thông tin tài khoản thành công", "success");
-                return RedirectToAction("Index");
+                user = new User();
             }
             else
             {
-                SetAlert("Sửa thông tin tài khoản thất bại", "error");
-                return View();
+                var result = dao.GetByID(id);
+                user.ID = result.ID;
+                user.email = result.email;
+                user.userName = result.userName;
+                user.password = result.password;
+                user.fullname = result.fullname;
+                user.roleID = result.roleID;               
             }
-
+            return Json(new
+            {
+                user = user
+            });
         }
-
-        // GET: Thuankay/Users/Delete/5
-        public ActionResult Delete(long id)
+        
+        [HttpPost]
+        public JsonResult USER_Save(string item)
         {
             try
             {
                 var dao = new UserDAO();
-                dao.Delete(id);
-                SetAlert("Xóa thành công một tài khoản", "success");
-                return RedirectToAction("Index");
+                JavaScriptSerializer seriaLizer = new JavaScriptSerializer();
+                User user = seriaLizer.Deserialize<User>(item);
+                if (dao.CheckUsername(user.userName.Trim()))
+                    throw new Exception("TÀI KHOẢN ĐÃ TỒN TẠI.KHÔNG THỂ LƯU.");
+                if (dao.CheckEmail(user.email.Trim()))
+                    throw new Exception("EMAIL ĐÃ TỒN TẠI.KHÔNG THỂ LƯU.");                                        
+                dao.Save(user);
+                return Json(new
+                {
+                    msg = "Thành công",
+                    status = true
+                });
             }
-            catch
+            catch (Exception e)
             {
-                return HttpNotFound();
+                return Json(new
+                {
+                    msg = e.Message,
+                    status = false
+                });
             }
         }
 
-        //Change Password
-
         [HttpGet]
-        public ActionResult ChangePassword()
+        public ActionResult GET_Role()
         {
-            return View();
+            var dao = new UserDAO();
+            var result = dao.ListRole().Select(x => new Role
+            {
+                ID = x.ID,
+                Name = x.Name
+            }).ToList();
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult ChangePassword(string password, string password3)
+        public JsonResult USER_Delete(long id)
         {
-            string username = null;
-            if (Session["username"] != null)
-            {
-                username = (string)Session["username"];
-            }
-            var dao = new UserDAO();
-            var user = dao.GetByUsername(username);
-            if (!dao.ChekcPassword(Encryptor.MD5Hash(password)))
-            {
-                SetAlert("Mật khẩu không đúng", "error");
-            }
-            else
-            {
-                user.password = Encryptor.MD5Hash(password3.Replace(" ", ""));
-                var result = dao.ChangePassword(user);
-                if (result)
-                {
-                    SetAlert("Đổi mật khẩu thành công", "success");
-                    return Redirect("/Pn");
-                }
-                else
-                {
-                    return HttpNotFound();
-                }
-            }
-            return View();
-        }
-
-        //change status
-        public JsonResult ChangeStatus(long id)
-        {
-            var result = new UserDAO().ChangeStatus(id);
+            var result = new UserDAO().Delete(id);
             return Json(new
             {
                 status = result
             });
-        }
 
-        //Get ROLE
-        public void GetRole(int? selectedId = null)
-        {
-            var dao = new UserDAO();
-            ViewBag.RoleID = new SelectList(dao.ListRole(), "ID", "Name", selectedId);
         }
-
     }
 }

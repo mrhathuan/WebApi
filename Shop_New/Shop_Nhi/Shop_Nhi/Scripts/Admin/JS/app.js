@@ -19,6 +19,11 @@ app.config(function ($routeProvider) {
         templateUrl: '/Pn/Pn/ORD_Index',
         controller: 'ORD_IndexCtr'
     });
+    //user
+    $routeProvider.when("/USER_Index", {
+        templateUrl: '/Pn/Users/USER_Index',
+        controller: 'USER_IndexCtr'
+    });
     $routeProvider.otherwise({ redirectTo: "/DASH_Index" });
 });
 

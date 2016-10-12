@@ -92,15 +92,6 @@ D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Shop_Nhi.dll
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Shop_Nhi.pdb
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Antlr3.Runtime.dll
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Autofac.dll
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder.dll
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder_FileEditor.dll
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder_ImageResize.dll
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder_Watermark.dll
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Config.dll
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Core.dll
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Host.Owin.dll
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.KeyValue.EntityFramework.dll
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Logs.NLog.dll
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.FileSystem.dll
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.FileSystem.Dropbox.dll
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.FileSystem.Local.dll
@@ -149,11 +140,6 @@ D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\Autofac.xml
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder_FileEditor.pdb
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder_ImageResize.pdb
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKFinder_Watermark.pdb
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Config.xml
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Core.xml
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Host.Owin.xml
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.KeyValue.EntityFramework.xml
-D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.CKFinder.Connector.Logs.NLog.xml
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.FileSystem.xml
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.FileSystem.Dropbox.xml
 D:\SourceCode\WebApi\Shop_New\Shop_Nhi\Shop_Nhi\bin\CKSource.FileSystem.Local.xml

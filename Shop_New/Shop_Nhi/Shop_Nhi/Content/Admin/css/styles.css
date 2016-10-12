@@ -158,8 +158,8 @@ img.product-img{
     color:#fff;
 }
 .btn_block{
-    background: #f9243f;
-    border: 1px solid #f9243f;
+    background: #d43f3a;
+    border: 1px solid #d43f3a;
     border-radius: 3px;
     padding: 1px 5px;
     font-size: 12px;
@@ -566,7 +566,43 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
 .cus-window.k-window-content .form-footer > div > a.k-button.accept { border: 1px solid #31b6fc; background-color: #31b6fc; color: #fff; }
 .cus-window.k-window-content .form-footer > div > a.k-button.accept:hover { background-color: #1da0e5; border-color: #1da0e5; }
 
-
+.k-checkbox-label {
+    position: relative;
+    padding-left: 1.5em;
+    padding-bottom: 1em;
+    vertical-align: middle;
+    line-height: .875em; 
+    cursor: pointer;    
+    border-radius: 0; 
+}
+.k-checkbox:focus{
+    border-color: #31b6fc;
+}
+.k-checkbox:hover{
+    border-color: #31b6fc;
+}
+.k-checkbox:checked+.k-checkbox-label::before {
+    border-color: #31b6fc;
+    color: #fff; 
+    background-color: #31b6fc;
+    border-radius:0;
+}
+.k-checkbox-label:before {
+    content: "";
+    position: absolute;
+    top: 0;  
+    left: 1em; 
+    border-width: 1px;
+    border-style: solid;
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+     border-color: #31b6fc;
+    background: #fff;
+    border-radius: 0; 
+}
 /* Important part */
 .modal-dialog{
     overflow-y: initial !important
@@ -576,16 +612,6 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
     overflow-y: auto;
 }
 
-.k-widget .k-window .k-window-titleless{
-    z-index:999;
-}
-
-.k-overlay{
-    z-index:1002;
-}
-.k-window{
-        z-index: 999 !important;
-  }
 .k-item .ng-scope .k-state-hover{
     background-color:#fff;
 }

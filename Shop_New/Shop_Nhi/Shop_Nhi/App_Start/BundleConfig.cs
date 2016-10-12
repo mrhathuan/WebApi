@@ -64,11 +64,11 @@ namespace Shop_Nhi
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                     "~/Scripts/Admin/JS/app.js",
+                    "~/Scripts/Admin/JS/DASH_IndexCtr.js",
                     "~/Scripts/Admin/JS/PRO_IndexCtr.js",
                     "~/Scripts/Admin/JS/CAT_IndexCtr.js",
-                    "~/Scripts/Admin/JS/ORD_IndexCtr.js",
-                     "~/Scripts/Admin/JS/DASH_IndexCtr.js"
-                     
+                    "~/Scripts/Admin/JS/ORD_IndexCtr.js",                     
+                     "~/Scripts/Admin/JS/USER_IndexCtr.js"
                     ));
 
             bundles.Add(new StyleBundle("~/Content/CssAdmin").Include(

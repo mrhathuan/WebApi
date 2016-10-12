@@ -454,10 +454,47 @@ namespace Shop_Nhi.Areas.Pn.Controllers
             IList<OrderDetail> item = new List<OrderDetail>();
             item = dao.GetById(id).Select(x => new OrderDetail
             {
-              
+              orderID = x.orderID,
+              productID = x.productID,
+              productCode = x.productCode,
+              productName = x.productName,
+              productPrice = x.productPrice,
+              Amount = x.Amount,
+              quantity = x.quantity
             }).ToList();
             return Json(item.ToDataSourceResult(request));
         }
+
+        [HttpPost]
+        public JsonResult ORD_Remove(long id)
+        {
+            var result = new OrderDAO().Delete(id);
+            return Json(new
+            {
+                status = result
+            });
+        }
+
+        [HttpPost]
+        public JsonResult ORD_ChangeStatus(long id)
+        {
+            var result = new OrderDAO().ChangeStatus(id);
+            return Json(new
+            {
+                status = result
+            });
+        }
+
+        [HttpPost]
+        public JsonResult ORD_ChangePayment(long id)
+        {
+            var result = new OrderDAO().ChangePayment(id);
+            return Json(new
+            {
+                status = result
+            });
+        }
+
         #endregion order
 
         #region body

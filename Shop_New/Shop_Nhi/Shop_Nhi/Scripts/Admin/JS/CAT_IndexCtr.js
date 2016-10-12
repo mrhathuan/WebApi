@@ -5,8 +5,6 @@
 app.controller('CAT_IndexCtr', ['$http', '$scope', '$rootScope', function ($http, $scope, $rootScope) {
     $rootScope.title = 'Quản lý danh mục';
     $scope.Item = null;
-    $scope.showModal = false;
-    // $scope.images = [];
     $scope.Cat_gridOptions = {
         height: 550, pageable: true, autoSync: true, sortable: true, columnMenu: false, resizable: true, reorderable: true, filterable: { mode: 'row' },
         toolbar: kendo.template($('#CatGridTemplate').html()),

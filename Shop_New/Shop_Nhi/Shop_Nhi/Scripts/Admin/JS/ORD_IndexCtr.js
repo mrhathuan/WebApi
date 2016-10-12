@@ -5,6 +5,7 @@
 app.controller('ORD_IndexCtr', ['$http', '$scope', '$rootScope', function ($http, $scope, $rootScope) {
     $rootScope.title = 'Quản lý đơn hàng';
     $scope.Item = null;
+    $scope.OrderID = 0;
     $scope.showModal = false;
     // $scope.images = [];
     $scope.Ord_gridOptions = {
@@ -48,11 +49,18 @@ app.controller('ORD_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                     filterable: { cell: { template: function (e) { e.element.kendoDatePicker({ format: 'dd/MM/yyyy' }); }, operator: 'equal', showOperators: false } },
                 },
                 {
+                    field: "payID", width: "300px", title: "Phương thức thanh toán", filterable: false, template: "#=Pay.name#"                   
+                },
+                {
+                    field: "totalAmount", width: "150px", title: "Tổng tiền", filterable: false, template: "#:kendo.toString(totalAmount,'n0')#"
+                },
+                {
                     field: "status", width: "130px", title: "Trạng thái", editable: false, filterable: false,
                     template: kendo.template($('#statusTpl').html())
                 },
                 {
-                    field: "Payment", width: "130px", title: "Tình trạng", editable: false, filterable: false                    
+                    field: "Payment", width: "130px", title: "Tình trạng", editable: false, filterable: false,
+                    template: kendo.template($('#paymentTpl').html())
                 }
         ],
         dataSource: {
@@ -79,7 +87,8 @@ app.controller('ORD_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
                         dateSet: { type: "date" },
                         phone: { type: "string" },
                         status: { type: "boolean" },
-                        Payment: { type: "boolean" }
+                        Payment: { type: "boolean" },
+                        totalAmount:{type:"number"}
                     }
                 }
             }
@@ -88,9 +97,10 @@ app.controller('ORD_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
 
     $scope.RemoveItem = function ($event, id) {
         $event.preventDefault();
-        $http.post("/Pn/Pn/CAT_Remove", { id: id }).then(function success(res) {
+        $http.post("/Pn/Pn/ORD_Remove", { id: id }).then(function success(res) {
             if (res.data.status == true) {
-                $scope.Cat_Grid.dataSource.read();
+                $scope.Ord_Grid.dataSource.read();
+                $scope.Ord_Grid.refresh();
                 toastr.success('Thành công', '');
             }
         })
@@ -99,45 +109,94 @@ app.controller('ORD_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
 
     $scope.ORDDetail_WinClick = function ($event,win, id) {
         $event.preventDefault();
-        $scope.orderID = id;
-        win.center();
-        win.open();
-        $scope.ORDDetail_gridOptions.dataSource.read();
-        $scope.AreaDetail_grid.refresh();
+        if (id > 0) {
+            $http.post("/Pn/Pn/ORD_ChangeStatus", { id: id }).then(function success(res) {
+                if (res.data.status == true) {
+                    $scope.OrderID = id;
+                    win.center();
+                    win.open();
+                    $scope.ORDDetail_grid.dataSource.read();
+                    $scope.ORDDetail_grid.refresh();
+                }
+            })           
+        }       
     }
 
-    $scope.CAT_SaveClick = function ($event, vform) {
-        $event.preventDefault();
-        vform({ clear: true });
-        if (vform()) {
-            $http.post("/Pn/Pn/CAT_Save", { item: JSON.stringify($scope.Item) }).then(function success(res) {
-                if (res.data.status == true) {
-                    vform({ clear: true });
-                    $scope.Cat_Grid.dataSource.read();
-                    toastr.success(res.data.msg, '');
-                    $scope.showModal_Cat = false;
-                } else {
-                    toastr.error(res.data.msg, '');
+    $scope.ORDDetail_gridOptions = {
+        height: '100%', pageable: true, autoSync: true, sortable: true, columnMenu: false, resizable: true, reorderable: true, filterable: { mode: 'row' },        
+        columns: [                
+                {
+                    field: "orderID", width: "130px", title: "Mã đơn hàng", editable: false,
+                    filterable: { cell: { showOperators: false } }
+                },
+                {
+                    field: "productCode", width: "130px", title: "Mã sản phẩm",
+                    filterable: { cell: { operator: 'contains', showOperators: false } }
+                },
+                {
+                    field: "productName", width: "400px", title: "Tên sản phẩm",
+                    filterable: { cell: { operator: 'contains', showOperators: false } }
+                },
+                {
+                    field: "productPrice", width: "130px", title: "Giá sản phẩm", template: "#:kendo.toString(productPrice,'n0')#",
+                    filterable: { cell: { showOperators: false } }
+                },
+                {
+                    field: "quantity", width: "100px", title: "Số lượng",
+                    filterable: { cell: { showOperators: false } }
+                },
+                {
+                    field: "Amount", width: "150px", title: "Thành tiền", filterable: false, template: "#:kendo.toString(Amount,'n0')#",
+                    filterable: { cell: { showOperators: false } }
+                }                            
+        ],
+        dataSource: {
+            pageSize: 10,
+            readparam: function () {
+                return {
+                    id: $scope.OrderID
                 }
-
-            })
+            },
+            transport: {
+                read: function (e) {
+                    $http.post("/Pn/Pn/ORD_Detail", { id: $scope.OrderID })
+                    .then(function (response) {
+                        e.success(response.data)
+                    }, function error(response) {
+                        console.log(response);
+                    })
+                    
+                }
+            },
+            schema: {
+                data: "Data",
+                total: "Total",
+                model: { 
+                    id: "orderID",
+                    fields: {
+                        orderID: { type: 'number', editable: false, nullable: true },
+                        productCode: { type: "string", editable: false },
+                        productName: { type: "string", editable: false },
+                        productPrice: { type: "number" },
+                        quantity: { type: "number" },
+                        Amount: { type: "number" }                       
+                    }
+                }
+            }
         }
     }
 
-    $scope.ChangeStatus = function ($event, id) {
-        $event.preventDefault();
-        $http.post("/Pn/Pn/CAT_ChangeStatus", { id: id }).then(function success(res) {
-            $scope.Cat_Grid.dataSource.read();
-            toastr.success('Thành công', '');
+
+    $scope.ORD_ChangePayment = function (id) {
+        $http.post("/Pn/Pn/ORD_ChangePayment", { id: id }).then(function success(res) {
+            $scope.Ord_Grid.dataSource.read();
+            toastr.success('Duyệt đơn hàng thành công', '');
         })
     }
 
-    $scope.ChangeShowhome = function ($event, id) {
+    $scope.Close_Click = function ($event, win) {
         $event.preventDefault();
-        $http.post("/Pn/Pn/CAT_ShowHome", { id: id }).then(function success(res) {
-            $scope.Cat_Grid.dataSource.read();
-            toastr.success('Thành công', '');
-        })
+        win.close();
     }
 
 }]);

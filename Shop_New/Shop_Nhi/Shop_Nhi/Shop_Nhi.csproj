@@ -260,7 +260,6 @@
     <Compile Include="Areas\Pn\Controllers\BaseController.cs" />
     <Compile Include="Areas\Pn\Controllers\LoginController.cs" />
     <Compile Include="Areas\Pn\Controllers\PnController.cs" />
-    <Compile Include="Areas\Pn\Controllers\ProductController.cs" />
     <Compile Include="Areas\Pn\Controllers\UsersController.cs" />
     <Compile Include="Areas\Pn\Models\CustomRoleProvider.cs" />
     <Compile Include="Areas\Pn\Models\LoginModel.cs" />
@@ -1140,31 +1139,29 @@
     <Content Include="Plugin\ckfinder\skins\v1\uipanel.css" />
     <Content Include="Plugin\ckfinder\translations.txt" />
     <Content Include="Scripts\Admin\custom.js" />
-    <Content Include="Scripts\Admin\JS\AjaxPro.js" />
     <Content Include="Scripts\Admin\JS\app.js" />
     <Content Include="Scripts\Admin\JS\CAT_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\DASH_IndexCtr.js" />
-    <Content Include="Scripts\Admin\JS\JsCategory.js" />
     <Content Include="Areas\Pn\Views\Users\ChangePassword.cshtml" />
     <Content Include="Areas\Pn\Views\Users\Create.cshtml" />
     <Content Include="Areas\Pn\Views\Users\Delete.cshtml" />
     <Content Include="Areas\Pn\Views\Users\Details.cshtml" />
     <Content Include="Areas\Pn\Views\Users\Edit.cshtml" />
-    <Content Include="Areas\Pn\Views\Product\Create.cshtml" />
-    <Content Include="Areas\Pn\Views\Product\Edit.cshtml" />
-    <Content Include="Areas\Pn\Views\Product\Index.cshtml" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fonts\FontAwesome.otf" />
+    <Content Include="Scripts\Admin\JS\ORD_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\PRO_IndexCtr.js" />
+    <Content Include="Scripts\Admin\JS\USER_IndexCtr.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-ui-router.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Admin\Chart.min.js" />
     <Content Include="Scripts\ckeditor.js" />
+    <Content Include="Scripts\Confirmation.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\eagle.gallery.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
@@ -1237,9 +1234,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Pn\Views\Users\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -1321,6 +1315,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Pn\Views\Pn\CAT_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Pn\ORD_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Users\USER_Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

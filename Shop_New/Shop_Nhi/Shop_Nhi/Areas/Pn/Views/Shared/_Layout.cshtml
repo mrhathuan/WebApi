@@ -27,10 +27,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><span>N.FASHION</span> ADMIN</a>
+                <a class="navbar-brand" href="/"><span>N.FASHION</span> ADMIN</a>
                 <ul class="user-menu">
                     <li class="dropdown pull-right">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa user"></i> @Session["username"]<span class="caret"></span></a>
+                        <a href="//#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa user"></i> @Session["username"]<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">                            
                             <li><a href="#"><i class="fa fa-key"></i> Đổi mật khẩu</a></li>
                             <li><a href="#"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
@@ -53,23 +53,24 @@
             <li><a class="menuClick" href="/Pn/#/CAT_Index"><i class="fa fa-clipboard"></i> DANH MỤC</a></li>
             <li><a class="menuClick" href="/Pn/#/ORD_Index"><i class="fa fa-file-text-o"></i> ĐƠN HÀNG</a></li>
             <li class="parent">
-                <a class="menuClick" href="#">
-                    <span data-toggle="collapse" href="#sub-item-1"><i class="fa fa-cogs"></i> QUẢN TRỊ <i class="fa fa-arrow-circle-o-down"></i></span>
+                <a class="menuClick" href="#sub-item-1" data-toggle="collapse">
+                    <i class="fa fa-caret-down"></i> QUẢN TRỊ
                 </a>
                 <ul class="children collapse" id="sub-item-1">
                     <li>
-                        <a class="" href="#">
+                        <a class="" href="//#">
                             <i class="fa fa-cog"></i> Nội dung
                         </a>
                     </li>
                     <li>
-                        <a class="" href="#">
+                        <a class="" href="//#">
                             <i class="fa fa-book"></i> Bài viết
                         </a>
                     </li>
                     
                 </ul>
-            </li>       
+            </li> 
+            <li><a class="menuClick" href="/Pn/#/USER_Index"><i class="fa fa-user"></i> TÀI KHOẢN</a></li>      
         </ul>
     </div><!--/.sidebar-->
     

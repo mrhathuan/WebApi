@@ -1,4 +1,5 @@
-﻿using Shop_Nhi.Models.Framework;
+﻿using Shop_Nhi.Common;
+using Shop_Nhi.Models.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,22 +68,29 @@ namespace Shop_Nhi.Models.DAO
             return db.Users.SingleOrDefault(x => x.email == email);
         }
 
-        //Add
-        public void Create(User user)
-        {
-            db.Users.Add(user);
-            db.SaveChanges();
-        }
-
-        //Edit
-        public bool Edit(User user)
+        public void Save(User user)
         {
             var result = db.Users.Find(user.ID);
-            try
+            if(result== null || user.ID == 0)
+            {
+                user.ID = -1;
+                user.password = Encryptor.MD5Hash(user.password.Trim().Replace(" ", ""));
+                user.status = true;
+                db.Users.Add(user);
+            }else
             {
                 result.fullname = user.fullname;
-                result.email = user.email;
                 result.roleID = user.roleID;
+            }
+            db.SaveChanges();
+        }
+        //Delete
+        public bool Delete(long id)
+        {
+           try
+            {
+                var result = db.Users.Find(id);
+                db.Users.Remove(result);
                 db.SaveChanges();
                 return true;
             }
@@ -90,14 +98,6 @@ namespace Shop_Nhi.Models.DAO
             {
                 return false;
             }
-        }
-
-        //Delete
-        public void Delete(long id)
-        {
-            var result = db.Users.Find(id);
-            db.Users.Remove(result);
-            db.SaveChanges();
         }
 
 
