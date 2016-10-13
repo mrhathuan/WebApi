@@ -21,7 +21,8 @@ namespace Shop_Nhi.Models.DAO
             var result = db.Products.Find(pro.ID);
             if (result == null || pro.ID ==0)
             {
-                pro.ID = -1;               
+                pro.ID = -1;
+                pro.createDate = DateTime.Now;              
                 db.Products.Add(pro);
             }
             else

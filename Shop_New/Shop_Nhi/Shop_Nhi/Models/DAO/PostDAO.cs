@@ -1,4 +1,5 @@
-﻿using Shop_Nhi.Models.Framework;
+﻿using Shop_Nhi.Common;
+using Shop_Nhi.Models.Framework;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -36,6 +37,33 @@ namespace Shop_Nhi.Models.DAO
         public Tag GetTag(string id)
         {
             return db.Tags.Find(id);
+        }
+
+        public void Save(Post post)
+        {
+            var result = db.Posts.Find(post.ID);
+            if(result == null || post.ID == 0)
+            {
+                post.ID = -1;
+                post.createDate= DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                post.metatTitle = StringHelper.RemoveSpecialChars(post.name.Trim()).Replace(" ", "-").ToLower();
+                post.status = true;
+                db.Posts.Add(post);
+                 
+            }else
+            {
+                result.name = post.name;
+                result.description = post.description;
+                result.image = post.image;
+                result.metatTitle = StringHelper.RemoveSpecialChars(post.name.Trim()).Replace(" ", "-").ToLower();
+                result.metaKeywords = post.metaKeywords;
+                result.metaDescription = post.metaDescription;
+                result.modifiedByID = post.modifiedByID;
+                result.modifiedByDate = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                result.detail = post.detail;
+                result.tag = post.tag;
+            }
+            db.SaveChanges();           
         }
 
         public IEnumerable<Tag> ListAllTag()

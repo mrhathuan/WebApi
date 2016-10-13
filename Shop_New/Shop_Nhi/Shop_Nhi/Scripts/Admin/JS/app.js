@@ -29,6 +29,11 @@ app.config(function ($routeProvider) {
         controller: 'USER_ChangePassCtr'
     });
 
+    $routeProvider.when("/POST_Index", {
+        templateUrl: '/Pn/Post/POST_Index',
+        controller: 'POST_IndexCtr'
+    });
+
     $routeProvider.otherwise({ redirectTo: "/DASH_Index" });
 });
 

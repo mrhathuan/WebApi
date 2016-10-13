@@ -260,6 +260,7 @@
     <Compile Include="Areas\Pn\Controllers\BaseController.cs" />
     <Compile Include="Areas\Pn\Controllers\LoginController.cs" />
     <Compile Include="Areas\Pn\Controllers\PnController.cs" />
+    <Compile Include="Areas\Pn\Controllers\PostController.cs" />
     <Compile Include="Areas\Pn\Controllers\UsersController.cs" />
     <Compile Include="Areas\Pn\Models\CustomRoleProvider.cs" />
     <Compile Include="Areas\Pn\Models\LoginModel.cs" />
@@ -319,8 +320,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Pn\Template\DASH_Index.html" />
-    <Content Include="Areas\Pn\Template\PRO_Index.html" />
     <Content Include="Common\neworder.html" />
     <Content Include="Content\Admin\css\custom.min.css" />
     <Content Include="Content\Admin\css\styles.css" />
@@ -1149,6 +1148,7 @@
     <Content Include="fonts\fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fonts\FontAwesome.otf" />
     <Content Include="Scripts\Admin\JS\ORD_IndexCtr.js" />
+    <Content Include="Scripts\Admin\JS\POST_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\PRO_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\USER_ChangePassCtr.js" />
     <Content Include="Scripts\Admin\JS\USER_IndexCtr.js" />
@@ -1324,6 +1324,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Pn\Views\Users\USER_ChangePasss.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Post\POST_Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
