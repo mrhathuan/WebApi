@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
 
 namespace Shop_Nhi.Controllers
 {
@@ -235,8 +236,8 @@ namespace Shop_Nhi.Controllers
                 content = content.Replace("{{Email}}", email);
                 content = content.Replace("{{Address}}", address);
                 content = content.Replace("{{Total}}", tongtien.ToString("N0"));
-                var toEmail = "mrhathuan@gmail.com";
-                new Mail().SendMail(toEmail.Trim(), "Đơn hàng mới từ shop", content);               
+                var toEmail = ConfigurationManager.AppSettings["toEmail"].ToString();
+                new Mail().SendMail(toEmail, "Đơn hàng mới từ shop", content);               
                 Session["CartSession"] = null;  
               return Json(new{
                     status = true

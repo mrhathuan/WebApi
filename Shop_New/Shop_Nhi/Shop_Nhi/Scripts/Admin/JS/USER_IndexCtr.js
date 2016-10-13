@@ -102,6 +102,14 @@ app.controller('USER_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
         }
     }
 
+    $scope.ChangeStatus = function ($event, id) {
+        $event.preventDefault();
+        $http.post("/Pn/Users/USER_ChangeStatus", { id: id }).then(function success(res) {
+            $scope.User_Grid.dataSource.read();
+            toastr.success('Thành công', '');
+        })
+    }
+
     $scope.USER_WinClick = function ($event, id) {
         $event.preventDefault();
         $http.post("/Pn/Users/USER_Get", { id: id }).then(function success(res) {

@@ -27,6 +27,11 @@ namespace Shop_Nhi.Areas.Pn.Controllers
             return View();
         }
 
+        public ActionResult USER_ChangePasss()
+        {
+            return View();
+        }
+
         [HttpPost]
         public JsonResult USER_Read([DataSourceRequest]DataSourceRequest request)
         {
@@ -82,6 +87,11 @@ namespace Shop_Nhi.Areas.Pn.Controllers
                 var dao = new UserDAO();
                 JavaScriptSerializer seriaLizer = new JavaScriptSerializer();
                 User user = seriaLizer.Deserialize<User>(item);
+                if(user.ID > 0)
+                {
+                    user.userName = "";
+                    user.email = "";
+                }
                 if (dao.CheckUsername(user.userName.Trim()))
                     throw new Exception("TÀI KHOẢN ĐÃ TỒN TẠI.KHÔNG THỂ LƯU.");
                 if (dao.CheckEmail(user.email.Trim()))
@@ -124,6 +134,48 @@ namespace Shop_Nhi.Areas.Pn.Controllers
                 status = result
             });
 
+        }
+
+        [HttpPost]
+        public JsonResult USER_ChangeStatus(long id)
+        {
+            var result = new UserDAO().ChangeStatus(id);
+            return Json(new
+            {
+                status = result
+            });
+        }
+        
+        [HttpPost]
+        public JsonResult ChangePassword(string password,string renewPassword)
+        {
+            try
+            {                
+                var dao = new UserDAO();
+                if (!dao.ChekcPassword(Encryptor.MD5Hash(password)))
+                    throw new Exception("MẬT KHẨU KHÔNG ĐÚNG.");
+                string username = null;
+                if (Session["username"] != null)
+                {
+                    username = (string)Session["username"];
+                }
+                var user = dao.GetByUsername(username);
+                user.password = Encryptor.MD5Hash(renewPassword.Replace(" ","").Trim());
+                var result = dao.ChangePassword(user);
+                return Json(new
+                {
+                    msg = "Thành công",
+                    status = result
+                });
+            }
+            catch(Exception e)
+            {
+                return Json(new
+                {
+                    msg = e.Message,
+                    status = false
+                });
+            }           
         }
     }
 }

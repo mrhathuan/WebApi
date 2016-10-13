@@ -435,7 +435,8 @@
     <Content Include="img\flag\Vietnamese.png" />
     <Content Include="img\icon_new.gif" />
     <Content Include="img\ico_setting2_active.png" />
-    <Content Include="img\logo.jpg" />
+    <Content Include="img\logo_nfashion.jpg" />
+    <Content Include="img\logo_zuryshop.jpg" />
     <Content Include="img\logo\logo.png" />
     <Content Include="img\promo\icon-s1.png" />
     <Content Include="img\promo\icon-s2.png" />
@@ -1142,11 +1143,6 @@
     <Content Include="Scripts\Admin\JS\app.js" />
     <Content Include="Scripts\Admin\JS\CAT_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\DASH_IndexCtr.js" />
-    <Content Include="Areas\Pn\Views\Users\ChangePassword.cshtml" />
-    <Content Include="Areas\Pn\Views\Users\Create.cshtml" />
-    <Content Include="Areas\Pn\Views\Users\Delete.cshtml" />
-    <Content Include="Areas\Pn\Views\Users\Details.cshtml" />
-    <Content Include="Areas\Pn\Views\Users\Edit.cshtml" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
@@ -1154,6 +1150,7 @@
     <Content Include="fonts\fonts\FontAwesome.otf" />
     <Content Include="Scripts\Admin\JS\ORD_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\PRO_IndexCtr.js" />
+    <Content Include="Scripts\Admin\JS\USER_ChangePassCtr.js" />
     <Content Include="Scripts\Admin\JS\USER_IndexCtr.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-ui-router.js" />
@@ -1324,6 +1321,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Pn\Views\Users\USER_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Users\USER_ChangePasss.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -48,6 +48,8 @@ h2 {
 
 img {
   border: none;
+  max-width:100%;
+  height:auto;
 }
 #cusform label.error{
     display: inline;
@@ -980,9 +982,7 @@ img {
   float: left;
   width: 100%;
 }
-#aa-product .aa-product-area .aa-product-inner .aa-product-catg {
-  float: left;
-}
+
 #aa-product .aa-product-area .aa-product-inner #men {
   text-align: center;
   padding-bottom: 35px;
@@ -2086,9 +2086,6 @@ img {
 .aa-product-img > img{
     height:300px;
     width:253px;
-    display:block;
-    margin-left:auto;
-    margin-right:auto;
      -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
   -ms-transition: all 0.5s;

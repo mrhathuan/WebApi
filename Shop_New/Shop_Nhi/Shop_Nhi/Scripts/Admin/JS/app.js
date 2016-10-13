@@ -24,6 +24,11 @@ app.config(function ($routeProvider) {
         templateUrl: '/Pn/Users/USER_Index',
         controller: 'USER_IndexCtr'
     });
+    $routeProvider.when("/USER_ChangePasss", {
+        templateUrl: '/Pn/Users/USER_ChangePasss',
+        controller: 'USER_ChangePassCtr'
+    });
+
     $routeProvider.otherwise({ redirectTo: "/DASH_Index" });
 });
 

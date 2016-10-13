@@ -148,10 +148,7 @@ namespace Shop_Nhi.Models.Framework
             modelBuilder.Entity<Role>()
                 .Property(e => e.Name)
                 .IsFixedLength();
-
-            modelBuilder.Entity<Theme>()
-                .Property(e => e.link)
-                .IsUnicode(false);
+            
 
             modelBuilder.Entity<User>()
                 .Property(e => e.userName)

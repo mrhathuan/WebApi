@@ -1,0 +1,71 @@
+﻿
+<div class="row">
+    <ol class="breadcrumb" style="font-size:16px;color:black">
+        <li><a href="/Pn/#/DASH_Index"><i class="fa fa-home"></i></a></li>
+        <li class="active">Đổi mật khẩu</li>
+    </ol>
+</div>
+<!--Grid-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default cus-grid" style="border:none;margin-top:5px">
+            <div class="panel-body">
+                <div class="cus-form">
+                    <div class="form-content-100">
+                        <div class="changepass" v-form="UserProfile_vform">
+                            <div class="rowinput">
+                                <label>Mật khẩu cũ<span class="required">*</span></label>
+                                <div>
+                                    <input type="password" class="k-textbox" maxlength="50" ng-model="Password" v-form-require="true" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Nhập mật khẩu mới<span class="required">*</span></label>
+                                <div>
+                                    <input type="password" class="k-textbox" maxlength="50" ng-model="NewPassword" v-form-require="true" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Nhập lại mật khâu mới<span class="required">*</span></label>
+                                <div>
+                                    <input type="password" class="k-textbox" maxlength="50" ng-model="renewPassword" v-form-require="true" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput rowaction">
+                                <div>
+                                    <a href="/" ng-click="Return_Data($event)" class="k-button">Làm lại</a>
+                                    <a href="/" ng-click="Save_Click($event,UserProfile_vform)" class="k-button accept">Lưa mật khẩu</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--/.Grid-->
+
+<style>
+    .changepass{
+         width: -moz-calc(100% - 30%);
+        width: -webkit-calc(100% - 30%);
+        width: -o-calc(100% - 30%);
+        width: calc(100% - 30%);
+        float: right;
+        padding-top: 20px;
+    }
+    .rowaction div {
+        width: calc(50% - 1px) !important;
+        text-align: right;
+    }
+    .changepass .rowinput label {
+        width: calc(25% - 4px);
+        margin-top: 7px;
+    }
+</style>

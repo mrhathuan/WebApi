@@ -32,8 +32,8 @@
                     <li class="dropdown pull-right">
                         <a href="//#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa user"></i> @Session["username"]<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">                            
-                            <li><a href="#"><i class="fa fa-key"></i> Đổi mật khẩu</a></li>
-                            <li><a href="#"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
+                            <li><a href="/Pn/#/USER_ChangePasss"><i class="fa fa-key"></i> Đổi mật khẩu</a></li>
+                            <li><a href="@Url.Action("Logout","Login")"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -48,13 +48,13 @@
             </div>
         </form>
         <ul class="nav menu">
-            <li><a class="menuClick" href="/Pn/#/DASH_Index"><i class="fa fa-tachometer"></i> DASHBOARD</a></li>
+            <li class="active"><a class="menuClick" href="/Pn/#/DASH_Index"><i class="fa fa-tachometer"></i> DASHBOARD</a></li>
             <li><a class="menuClick" href="/Pn/#/PRO_Index"><i class="fa fa-bars"></i> SẢN PHẨM</a></li>
             <li><a class="menuClick" href="/Pn/#/CAT_Index"><i class="fa fa-clipboard"></i> DANH MỤC</a></li>
             <li><a class="menuClick" href="/Pn/#/ORD_Index"><i class="fa fa-file-text-o"></i> ĐƠN HÀNG</a></li>
             <li class="parent">
                 <a class="menuClick" href="#sub-item-1" data-toggle="collapse">
-                    <i class="fa fa-caret-down"></i> QUẢN TRỊ
+                    <i class="fa fa-cog"></i> QUẢN TRỊ
                 </a>
                 <ul class="children collapse" id="sub-item-1">
                     <li>
@@ -83,5 +83,12 @@
         @Scripts.Render("~/bundles/JsAdmin")
          @Scripts.Render("~/bundles/app")
         @RenderSection("JsFooter", required: false)
+
+    <script>
+        $(".nav li").on("click", function () {
+            $(".nav li").removeClass("active");
+            $(this).addClass("active");
+        });
+    </script>
 </body>
 </html>

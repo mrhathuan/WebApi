@@ -102,7 +102,7 @@
                         </h3>
                         <h3 class="detail-sp">
                             <i class="glyphicon glyphicon-heart-empty"></i>Giá khuyến mãi: <span class="blue-sp sale">
-                            @(Model.promotionPrice.HasValue? string.Format("{0:0,0}<sup><u>đ</u></sup>"):"")
+                            @(Model.promotionPrice.HasValue? string.Format("{0:0,0}đ", Model.promotionPrice) :"")
                             </span>
                         </h3>
             
