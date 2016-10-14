@@ -54,11 +54,11 @@ namespace Shop_Nhi
                     "~/Scripts/angular.min.js",
                      "~/Scripts/angular-route.js",
                      "~/Scripts/kendo/2016.2.607/kendo.all.min.js",
-                     "~/Scripts/kendo/2016.2.607/kendo.aspnetmvc.min.js",                     
+                     "~/Scripts/kendo/2016.2.607/kendo.aspnetmvc.min.js",
+                     "~/Scripts/kendo/2016.2.607/jszip.min.js",
                      "~/Plugin/ckeditor/ckeditor.js",
                      "~/Plugin/ckfinder/ckfinder.js",
-                     "~/Scripts/ng-ckeditor.js",
-                     "~/Scripts/Confirmation.js",
+                     "~/Scripts/ng-ckeditor.js",                    
                       "~/Scripts/toastr.js"
                      ));
 
@@ -70,7 +70,8 @@ namespace Shop_Nhi
                     "~/Scripts/Admin/JS/ORD_IndexCtr.js",                     
                      "~/Scripts/Admin/JS/USER_IndexCtr.js",
                      "~/Scripts/Admin/JS/USER_ChangePassCtr.js",
-                     "~/Scripts/Admin/JS/POST_IndexCtr.js"
+                     "~/Scripts/Admin/JS/POST_IndexCtr.js",
+                     "~/Scripts/Admin/JS/CONTENT_IndexCtr.js"
                     ));
 
             bundles.Add(new StyleBundle("~/Content/CssAdmin").Include(

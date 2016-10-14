@@ -11,9 +11,10 @@ using System.Web.Script.Serialization;
 
 namespace Shop_Nhi.Areas.Pn.Controllers
 {
-    public class PostController : Controller
+    public class PostController : BaseController
     {
         // GET: Pn/Post
+        [Authorize(Roles = "ADMIN,MANAGE")]
         public ActionResult POST_Index()
         {
             return View();
@@ -58,12 +59,11 @@ namespace Shop_Nhi.Areas.Pn.Controllers
                 post.description = result.description;                
                 post.metaKeywords = result.metaKeywords;
                 post.metaDescription = result.metaDescription;
-                post.status = post.status;
-                post.tag = post.tag;               
+                post.tag = result.tag;               
             }
             return Json(new
             {
-                post = post
+                data = post
             });
         }
 
@@ -74,7 +74,14 @@ namespace Shop_Nhi.Areas.Pn.Controllers
             {
                 var dao = new PostDAO();
                 JavaScriptSerializer seriaLizer = new JavaScriptSerializer();
-                Post post = seriaLizer.Deserialize<Post>(item);                             
+                Post post = seriaLizer.Deserialize<Post>(item);
+                if(post.ID == 0)
+                {
+                    post.createByID = (string)Session["username"];
+                }else
+                {
+                    post.modifiedByID = (string)Session["username"];
+                }                             
                 dao.Save(post);
                 return Json(new
                 {
@@ -87,6 +94,36 @@ namespace Shop_Nhi.Areas.Pn.Controllers
                 return Json(new
                 {
                     msg = e.Message,
+                    status = false
+                });
+            }
+        }
+
+        public JsonResult POST_Delete(long id)
+        {
+            var result = new PostDAO().Delete(id);
+            return Json(new
+            {
+                status = result         
+            });
+        }
+
+        [HttpPost]
+        public JsonResult POST_ChangeStatus(long id)
+        {
+            try
+            {
+                var dao = new PostDAO();
+                dao.ChangeStatus(id);
+                return Json(new
+                {
+                    status = true
+                });
+            }
+            catch
+            {
+                return Json(new
+                {
                     status = false
                 });
             }

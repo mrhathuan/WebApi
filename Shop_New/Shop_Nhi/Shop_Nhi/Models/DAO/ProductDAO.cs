@@ -22,7 +22,9 @@ namespace Shop_Nhi.Models.DAO
             if (result == null || pro.ID ==0)
             {
                 pro.ID = -1;
-                pro.createDate = DateTime.Now;              
+                pro.createDate = DateTime.Now;
+                pro.viewCount = 0;
+                pro.like = 0;           
                 db.Products.Add(pro);
             }
             else

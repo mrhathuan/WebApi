@@ -216,8 +216,10 @@ app.controller('PRO_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
     $scope.PRO_WinClick = function ($event,id) {
         $event.preventDefault();
         //vform({ clear: true });
+        $rootScope.IsLoading = true;
         $http.post("/Pn/Pn/PRO_Get", { id: id }).then(function success(response) {
-           // vform({ clear: true });
+            // vform({ clear: true });
+            $rootScope.IsLoading = false;
             $scope.Item = response.data.product;
             if ($scope.Item.code != null)
                 $scope.Item.code = $scope.Item.code.trim();

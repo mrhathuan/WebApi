@@ -258,6 +258,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Pn\Controllers\BaseController.cs" />
+    <Compile Include="Areas\Pn\Controllers\ContentController.cs" />
     <Compile Include="Areas\Pn\Controllers\LoginController.cs" />
     <Compile Include="Areas\Pn\Controllers\PnController.cs" />
     <Compile Include="Areas\Pn\Controllers\PostController.cs" />
@@ -1141,6 +1142,7 @@
     <Content Include="Scripts\Admin\custom.js" />
     <Content Include="Scripts\Admin\JS\app.js" />
     <Content Include="Scripts\Admin\JS\CAT_IndexCtr.js" />
+    <Content Include="Scripts\Admin\JS\CONTENT_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\DASH_IndexCtr.js" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
@@ -1327,6 +1329,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Pn\Views\Post\POST_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Content\CONTENT_Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

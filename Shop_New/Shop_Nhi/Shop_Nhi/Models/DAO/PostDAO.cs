@@ -41,16 +41,37 @@ namespace Shop_Nhi.Models.DAO
 
         public void Save(Post post)
         {
-            var result = db.Posts.Find(post.ID);
+            var result = db.Posts.Find(post.ID);            
             if(result == null || post.ID == 0)
             {
                 post.ID = -1;
                 post.createDate= DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                 post.metatTitle = StringHelper.RemoveSpecialChars(post.name.Trim()).Replace(" ", "-").ToLower();
                 post.status = true;
-                db.Posts.Add(post);
-                 
-            }else
+                var postNew = db.Posts.Add(post);
+                db.SaveChanges();
+                //Xử lý tag
+                if (!string.IsNullOrEmpty(post.tag))
+                {
+                    string[] tags = post.tag.Trim().Split(',');
+                    foreach (var tag in tags)
+                    {
+                        var tagId = StringHelper.RemoveSpecialChars(tag.Trim()).Replace(" ", "-");
+                        var existedTag = this.CheckTag(tagId);
+
+                        //insert to to tag table
+                        if (!existedTag)
+                        {
+                            this.InsertTag(tagId, tag);
+                        }
+
+                        //insert to content tag
+                        this.InsertContentTag(postNew.ID, tagId);
+
+                    }
+                }
+            }
+            else
             {
                 result.name = post.name;
                 result.description = post.description;
@@ -62,28 +83,34 @@ namespace Shop_Nhi.Models.DAO
                 result.modifiedByDate = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                 result.detail = post.detail;
                 result.tag = post.tag;
-            }
-            db.SaveChanges();           
+                db.SaveChanges();
+                if (!string.IsNullOrEmpty(post.tag))
+                {
+                    this.RemoveAllContentTag(post.ID);
+                    string[] tags = post.tag.Trim().Split(',');
+                    foreach (var tag in tags)
+                    {
+                        var tagId = StringHelper.RemoveSpecialChars(tag.Trim()).Replace(" ", "-");
+                        var existedTag = this.CheckTag(tagId);
+                        //insert to to tag table
+                        if (!existedTag)
+                        {
+                            this.InsertTag(tagId, tag);
+                        }
+                        //insert to content tag
+                        this.InsertContentTag(post.ID, tagId);
+
+                    }
+                }
+            }            
+            
         }
 
         public IEnumerable<Tag> ListAllTag()
         {
             return db.Tags.ToList();
         }
-        public long Create(Post post)
-        {
-            try
-            {
-                var result = db.Posts.Add(post);
-                db.SaveChanges();
-                return result.ID;
-            }
-            catch
-            {
-                return 0;
-            }
-            
-        }
+       
         public void InsertTag(string id, string name)
         {
             var tag = new Tag();
@@ -138,22 +165,14 @@ namespace Shop_Nhi.Models.DAO
         {
             return db.Posts.Find(id);
         }
-        //Edit
-        public bool Edit(Post post)
+
+        //Delete
+        public bool Delete(long id)
         {
-            var result = db.Posts.Find(post.ID);
             try
             {
-                result.name = post.name;
-                result.description = post.description;
-                result.image = post.image;
-                result.metatTitle = post.metatTitle;
-                result.metaKeywords = post.metaKeywords;
-                result.metaDescription = post.metaDescription;
-                result.modifiedByID = post.modifiedByID;
-                result.modifiedByDate = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-                result.detail = post.detail;
-                result.tag = post.tag;
+                var result = db.Posts.Find(id);
+                db.Posts.Remove(result);
                 db.SaveChanges();
                 return true;
             }
@@ -161,14 +180,6 @@ namespace Shop_Nhi.Models.DAO
             {
                 return false;
             }
-        }
-
-        //Delete
-        public void Delete(long id)
-        {
-            var result = db.Posts.Find(id);            
-            db.Posts.Remove(result);
-            db.SaveChanges();
         }
 
         //Change Status

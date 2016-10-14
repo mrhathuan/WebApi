@@ -34,6 +34,11 @@ app.config(function ($routeProvider) {
         controller: 'POST_IndexCtr'
     });
 
+    $routeProvider.when("/CONTENT_Index", {
+        templateUrl: '/Pn/Content/CONTENT_Index',
+        controller: 'CONTENT_IndexCtr'
+    });
+
     $routeProvider.otherwise({ redirectTo: "/DASH_Index" });
 });
 

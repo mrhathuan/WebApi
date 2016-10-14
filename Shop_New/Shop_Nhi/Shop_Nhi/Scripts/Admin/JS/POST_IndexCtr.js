@@ -6,7 +6,7 @@ app.controller('POST_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
     $rootScope.title = 'Quản lý bài viết';
     $scope.Item = null;
 
-    $scope.User_gridOptions = {
+    $scope.Post_gridOptions = {
         height: 550, pageable: true, autoSync: true, sortable: true, columnMenu: false, resizable: true, reorderable: true, filterable: { mode: 'row' },
         toolbar: kendo.template($('#PostGridTemplate').html()),
         excel: {
@@ -22,22 +22,34 @@ app.controller('POST_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
                          '<a href="\\#" class="event-button" ng-click="RemoveItem($event,#=id#)"><i class="fa fa-trash"></i></a>',
                      filterable: false, sortable: false
                  },
+                 {
+                     field: "image", width: "60px", title: "Ảnh bài viết", editable: false, filterable: false,
+                     template: "<img src='#=image#' class='product-img'/>"
+                 },
                 {
-                    field: "userName", width: "300px", title: "Tài khoản", editable: false,
+                    field: "name", width: "300px", title: "Tên bài viết",
                     filterable: { cell: { operator: 'contains', showOperators: false } }
                 },
                 {
-                    field: "fullName", width: "300px", title: "Họ tên",
+                    field: "tag", width: "300px", title: "Tags",
                     filterable: { cell: { operator: 'contains', showOperators: false } }
                 },
                 {
-                    field: "email", width: "300px", title: "Email",
+                    field: "createByID", width: "200px", title: "Người up", editable: false, filterable: false,
                     filterable: { cell: { operator: 'contains', showOperators: false } }
                 },
                 {
-                    field: "Role", width: "130px", title: "Quyền", editable: false, filterable: false,
-                    template: "#=Role.Name#"
+                    field: "createDate", width: "130px", title: "Ngày up", filterable: false,
+                    filterable: { cell: { template: function (e) { e.element.kendoDatePicker({ format: 'dd/MM/yyyy' }); }, operator: 'contains', showOperators: false } },
                 },
+                 {
+                     field: "modifiedByID", width: "200px", title: "Người sửa", editable: false, filterable: false,
+                     filterable: { cell: { operator: 'contains', showOperators: false } }
+                 },
+                 {
+                     field: "modifiedByDate", width: "130px", title: "Ngày sửa", filterable: false,
+                     filterable: { cell: { template: function (e) { e.element.kendoDatePicker({ format: 'dd/MM/yyyy' }); }, operator: 'contains', showOperators: false } },
+                 },
                 {
                     field: "status", width: "130px", title: "Trạng thái", editable: false, filterable: false,
                     template: kendo.template($("#statusTpl").html())
@@ -47,9 +59,9 @@ app.controller('POST_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
             pageSize: 10,
             transport: {
                 read: function (e) {
-                    $http.post("/Pn/Users/USER_Read")
+                    $http.post("/Pn/Post/POST_Read")
                     .then(function (response) {
-                        e.success(response.data)
+                        e.success(response.data)                       
                     }, function error(response) {
                         console.log(response);
                     })
@@ -58,14 +70,13 @@ app.controller('POST_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
             schema: {
                 data: "Data",
                 total: "Total",
-                model: { // define the model of the data source. Required for validation and property types.
+                model: { 
                     id: "ID",
                     fields: {
                         ID: { type: 'number', editable: false, nullable: true },
-                        fullName: { type: "string", editable: false },
-                        email: { type: "string", editable: false },
-                        userName: { type: "string" },
-                        status: { type: "boolean" }
+                        name: { type: "string", editable: false },
+                        createByID: { type: "string", editable: false },
+                        tag:{type:"string"}
                     }
                 }
             }
@@ -74,60 +85,60 @@ app.controller('POST_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
 
     $scope.RemoveItem = function ($event, id) {
         $event.preventDefault();
-        $http.post("/Pn/Users/USER_Delete", { id: id }).then(function success(res) {
+        $http.post("/Pn/Post/POST_Delete", { id: id }).then(function success(res) {
             if (res.data.status == true) {
-                $scope.User_Grid.dataSource.read();
-                $scope.User_Grid.refresh();
+                $scope.Post_Grid.dataSource.read();
+                $scope.Post_Grid.refresh();
                 toastr.success('Thành công', '');
             }
         })
     }
 
-    $scope.Role_drdlOptions = {
-        dataTextField: "Name",
-        dataValueField: "ID",
-        autoBind: false,
-        dataSource: {
-            severFiltering: true,
-            transport: {
-                read: {
-                    url: "/Pn/Users/GET_Role",
-                    contentType: "application/json",
-                    type: "GET"
-                }
-
-            }
-        }, change: function (e) {
-
-        }
-    }
-
     $scope.ChangeStatus = function ($event, id) {
         $event.preventDefault();
-        $http.post("/Pn/Users/USER_ChangeStatus", { id: id }).then(function success(res) {
-            $scope.User_Grid.dataSource.read();
-            toastr.success('Thành công', '');
+        $rootScope.IsLoading = true;
+        $http.post("/Pn/Post/POST_ChangeStatus", { id: id }).then(function success(res) {
+            if (res.data.status == true) {
+                $rootScope.IsLoading = false;
+                $scope.Post_Grid.dataSource.read();
+                toastr.success('Thành công', '');
+            }
         })
     }
 
-    $scope.USER_WinClick = function ($event, id) {
+    $scope.POST_WinClick = function ($event, id) {
         $event.preventDefault();
-        $http.post("/Pn/Users/USER_Get", { id: id }).then(function success(res) {
-            $scope.Item = res.data.user;
-            $scope.showModal_User = true;
+        $rootScope.IsLoading = true;
+        $http.post("/Pn/Post/POST_Get", { id: id }).then(function success(res) {
+            $rootScope.IsLoading = false;
+            $scope.Item = res.data.data;            
+            $scope.showModal_POST = true;            
         })
     }
 
-    $scope.USER_SaveClick = function ($event, vform) {
+    $scope.ChooseImage = function ($event) {
         $event.preventDefault();
-        vform({ clear: true });
+        var finder = new CKFinder();
+        finder.selectActionFunction = function (url) {
+            $('#image').val(url);
+            $scope.Item.image = url;
+        };
+        finder.popup();
+
+    }
+
+    $scope.POST_SaveClick = function ($event, vform) {
+        $event.preventDefault();
+        vform({ clear: true });        
         if (vform()) {
-            $http.post("/Pn/Users/USER_Save", { item: JSON.stringify($scope.Item) }).then(function success(res) {
+            $rootScope.IsLoading = true;
+            $http.post("/Pn/Post/POST_Save", { item: JSON.stringify($scope.Item) }).then(function success(res) {
+                $rootScope.IsLoading = false;
                 if (res.data.status == true) {
                     vform({ clear: true });
-                    $scope.User_Grid.dataSource.read();
+                    $scope.Post_Grid.dataSource.read();
                     toastr.success(res.data.msg, '');
-                    $scope.showModal_User = false;
+                    $scope.showModal_POST = false;
                 } else {
                     toastr.error(res.data.msg, '');
                 }

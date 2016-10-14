@@ -125,7 +125,9 @@ app.controller('CAT_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
 
     $scope.CAT_WinClick = function ($event, id) {
         $event.preventDefault();
+        $rootScope.IsLoading = true;
         $http.post("/Pn/Pn/CAT_Get", { id: id }).then(function success(res) {
+            $rootScope.IsLoading = false;
             $scope.Item = res.data.cat;
             $scope.showModal_Cat = true;
         })
@@ -133,9 +135,11 @@ app.controller('CAT_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
 
     $scope.CAT_SaveClick = function ($event, vform) {
         $event.preventDefault();
-        vform({ clear: true });
+        vform({ clear: true });       
         if (vform()) {
+            $rootScope.IsLoading = true;
             $http.post("/Pn/Pn/CAT_Save", { item: JSON.stringify($scope.Item) }).then(function success(res) {
+                $rootScope.IsLoading = false;
                 if (res.data.status == true) {
                     vform({ clear: true });
                     $scope.Cat_Grid.dataSource.read();

@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "QUẢN TRỊ NỘI DUNG";
+}
+
+<div class="row">
+    <ol class="breadcrumb" style="font-size:16px;color:black">
+        <li><a href="/Pn/#/DASH_Index"><i class="fa fa-home"></i></a></li>
+        <li class="active">Quản trị nội dung</li>
+    </ol>
+</div>
+<!--Grid-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default cus-grid" style="border:none;margin-top:5px">
+            <div class="panel-body">
+                
+                <div class="brand-body-item">
+                    <a href="@Url.Action("Index","Contacts")">
+                        <div class="brand-body-item-icon">
+                            <div class="icon-icon abouts">
+                            </div>
+                        </div>
+                        <div class="brand-body-item-icon-title">TRANG LIÊN HỆ</div>
+                    </a>
+                </div>
+
+                <div class="brand-body-item">
+                    <a href="//#" ng-click="Modal_THEME($event)">
+                        <div class="brand-body-item-icon">
+                            <div class="icon-icon theme">
+                            </div>
+                        </div>
+                        <div class="brand-body-item-icon-title">THEME</div>
+                    </a>
+                </div>
+
+                <div class="brand-body-item">
+                    <a href="@Url.Action("GetContentSeo","Pn")">
+                        <div class="brand-body-item-icon">
+                            <div class="icon-icon seo">
+                            </div>
+                        </div>
+                        <div class="brand-body-item-icon-title">CẤU HÌNH SEO</div>
+                    </a>
+                </div>
+
+                <div class="brand-body-item">
+                    <a href="@Url.Action("Index","Menu")">
+                        <div class="brand-body-item-icon">
+                            <div class="icon-icon page">
+                            </div>
+                        </div>
+                        <div class="brand-body-item-icon-title">MENU</div>
+                    </a>
+                </div>
+
+                <div class="brand-body-item">
+                    <a href="@Url.Action("Index","PageBody")">
+                        <div class="brand-body-item-icon">
+                            <div class="icon-icon page">
+                            </div>
+                        </div>
+                        <div class="brand-body-item-icon-title">DANH SÁCH TRANG</div>
+                    </a>
+                </div>
+
+                <div class="brand-body-item">
+                    <a href="@Url.Action("Index","Slide")">
+                        <div class="brand-body-item-icon">
+                            <div class="icon-icon slide">
+                            </div>
+                        </div>
+                        <div class="brand-body-item-icon-title">SLIDE</div>
+                    </a>
+                </div>
+
+                <div class="brand-body-item">
+                    <a href="@Url.Action("Index", "Notifications")">
+                        <div class="brand-body-item-icon">
+                            <div class="icon-icon noti">
+                            </div>
+                        </div>
+                        <div class="brand-body-item-icon-title">THÔNG BÁO</div>
+                    </a>
+                </div>
+
+                <div class="brand-body-item">
+                    <a href="@Url.Action("Index","Footer")">
+                        <div class="brand-body-item-icon">
+                            <div class="icon-icon seo">
+                            </div>
+                        </div>
+                        <div class="brand-body-item-icon-title">FOOTER</div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div><!--/.Grid-->
+
+
+<!--Theme-->
+<div class="modal" modal-show modal-visible="showModal_Theme" role="dialog" data-refresh="true">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Chọn màu cho trang chủ</h4>
+            </div>
+            <div class="modal-body cus-window">
+                <a href="#" ng-repeat="theme in themes" class="change-theme">
+                    <div class="theme-color" style="background-color:#ff871c;"></div>
+                </a>  
+            </div>
+            <div class="modal-footer">                
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>

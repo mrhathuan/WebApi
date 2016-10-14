@@ -615,6 +615,138 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
 .k-item .ng-scope .k-state-hover{
     background-color:#fff;
 }
+
+/*body page*/
+.brand-body{
+    width:100%;
+    height:calc(100% - 101px);
+    overflow-y:auto;
+    position:relative;
+    padding:25px;
+}
+.brand-body-item{
+    float: left;
+    height: 165px;
+    margin: 0;
+    padding: 10px;
+    width: 175px;
+}
+@media only screen and (max-width: 320px) {
+    .brand-body-item{
+        width:48%;
+        float:left;
+    }
+}
+@media only screen and (max-width: 480px) {
+    .brand-body-item{
+        width:48%;
+        float:left;
+    }
+}
+.brand-body-item > a{
+    color: #000;
+    display: block;
+    height: 100%;
+    text-align: center;
+    text-decoration: none !important;
+    width: 100%;
+}
+.brand-body-item > a .brand-body-item-icon{
+    display: block;
+    height: 115px;
+    text-align: center;
+}
+.brand-body-item > a .brand-body-item-icon .icon-icon{
+     /*background-image: url("/img/ico_setting2_active.png");*/
+     background-position: center center;
+    background-repeat: no-repeat;
+    border: 1px solid #eaeaeb;
+    height: 113px;
+    margin: 0 25px;
+    visibility: visible;
+    width: 113px;
+    position:relative;
+    color: #000;
+    font-size:34px;    
+}
+.abouts::before{
+    content: "\f003";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    color:#1ABB9C;
+    left: 40px;
+    top:30px;
+    position:absolute;
+}
+.theme::before{
+    content: "\f042";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    color:#1ABB9C;
+    left: 40px;
+    top:30px;
+    position:absolute;
+}
+.seo::before{
+    content: "\f013";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    color:#1ABB9C;
+    left: 40px;
+    top:30px;
+    position:absolute;
+}
+.page::before{
+    content: "\f0f6";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    color:#1ABB9C;
+    left: 40px;
+    top:30px;
+    position:absolute;
+}
+
+.slide::before{
+    content: "\f03e";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    color:#1ABB9C;
+    left: 40px;
+    top:30px;
+    position:absolute;
+}
+
+.noti::before{
+    content: "\f0a1";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    color:#1ABB9C;
+    left: 40px;
+    top:30px;
+    position:absolute;
+}
+
+.brand-body-item > a .brand-body-item-icon .brand-body-item-icon-title{
+    color: #6f8ba9;
+    font-size: 15px;
+    height: 30px;
+    line-height: 30px;
+    padding: 10px 0;
+    width: 100%;
+}
+
 .navbar {
 	border: 0;
 }

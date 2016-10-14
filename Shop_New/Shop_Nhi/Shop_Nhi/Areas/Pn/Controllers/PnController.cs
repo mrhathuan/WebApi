@@ -16,8 +16,6 @@ namespace Shop_Nhi.Areas.Pn.Controllers
 {
     public class PnController : BaseController
     {
-
-        private ProductDAO productDao = new ProductDAO();
         //
         // GET: /Pn/Pn/
 
