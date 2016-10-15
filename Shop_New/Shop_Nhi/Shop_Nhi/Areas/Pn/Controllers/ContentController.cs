@@ -32,7 +32,7 @@ namespace Shop_Nhi.Areas.Pn.Controllers
                 return Json(new
                 {
                     status = false
-                })
+                });
             }
         }
     }

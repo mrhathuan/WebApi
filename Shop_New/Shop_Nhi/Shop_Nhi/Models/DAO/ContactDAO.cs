@@ -25,24 +25,37 @@ namespace Shop_Nhi.Models.DAO
         {
             return db.Contacts.Find(id);
         }
-        public void Create(Contact contact)
-        {
-            db.Contacts.Add(contact);
-            db.SaveChanges();
-        }
 
-        //Edit
-        public bool Edit(Contact contact)
+        public void Save(Contact contact)
         {
             var result = db.Contacts.Find(contact.ID);
-            try
+            if(result == null || contact.ID == 0)
+            {
+                contact.ID = -1;
+                contact.createDate = DateTime.Now;
+                db.Contacts.Add(contact);
+            }
+            else
             {
                 result.detail = contact.detail;
                 result.name = contact.name;
                 result.map = contact.map;
+                result.modifiedByDate = DateTime.Now;
+                result.modifiedByID = contact.modifiedByID;
                 result.metatTitle = contact.metatTitle;
                 result.metaKeywords = contact.metaKeywords;
                 result.metaDescription = contact.metaDescription;
+            }
+            db.SaveChanges();
+        }
+
+        //Delete
+        public bool Delete(long id)
+        {
+            try
+            {
+                var result = db.Contacts.Find(id);
+                db.Contacts.Remove(result);
                 db.SaveChanges();
                 return true;
             }
@@ -50,14 +63,7 @@ namespace Shop_Nhi.Models.DAO
             {
                 return false;
             }
-        }
-
-        //Delete
-        public void Delete(long id)
-        {
-            var result = db.Contacts.Find(id);            
-            db.Contacts.Remove(result);
-            db.SaveChanges();
+            
         }
 
         //Change Status

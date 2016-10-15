@@ -39,6 +39,16 @@ app.config(function ($routeProvider) {
         controller: 'CONTENT_IndexCtr'
     });
 
+    $routeProvider.when("/CONTACT_Index", {
+        templateUrl: '/Pn/CONTACT/CONTACT_Index',
+        controller: 'CONTACT_IndexCtr'
+    });
+
+    $routeProvider.when("/MENU_Index", {
+        templateUrl: '/Pn/Menu/MENU_Index',
+        controller: 'MENU_IndexCtr'
+    });
+
     $routeProvider.otherwise({ redirectTo: "/DASH_Index" });
 });
 
@@ -247,4 +257,14 @@ app.directive("modalShow", function () {
 
 app.controller('indexController', ['$scope', '$rootScope', function ($scope, $rootScope) {
     $rootScope.title = 'Quản trị';
+    $rootScope.ShowMenu_Children = false;
+    Date.prototype.addDays = function (days) {
+        var dat = new Date(this.valueOf());
+        dat.setDate(dat.getDate() + days);
+        return dat;
+    };
+    $rootScope.menuClick_Children = function ($event) {
+        $event.preventDefault();
+        //$rootScope.ShowMenu_Children = !$rootScope.ShowMenu_Children;
+    }
 }])

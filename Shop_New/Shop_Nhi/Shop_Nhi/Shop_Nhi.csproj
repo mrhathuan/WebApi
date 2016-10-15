@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -24,6 +25,7 @@
     <RestorePackages>true</RestorePackages>
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -258,8 +260,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Pn\Controllers\BaseController.cs" />
+    <Compile Include="Areas\Pn\Controllers\ContactController.cs" />
     <Compile Include="Areas\Pn\Controllers\ContentController.cs" />
     <Compile Include="Areas\Pn\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Pn\Controllers\MenuController.cs" />
     <Compile Include="Areas\Pn\Controllers\PnController.cs" />
     <Compile Include="Areas\Pn\Controllers\PostController.cs" />
     <Compile Include="Areas\Pn\Controllers\UsersController.cs" />
@@ -1142,6 +1146,7 @@
     <Content Include="Scripts\Admin\custom.js" />
     <Content Include="Scripts\Admin\JS\app.js" />
     <Content Include="Scripts\Admin\JS\CAT_IndexCtr.js" />
+    <Content Include="Scripts\Admin\JS\CONTACT_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\CONTENT_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\DASH_IndexCtr.js" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
@@ -1149,6 +1154,7 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fonts\FontAwesome.otf" />
+    <Content Include="Scripts\Admin\JS\MENU_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\ORD_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\POST_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\PRO_IndexCtr.js" />
@@ -1232,6 +1238,7 @@
     <Content Include="Areas\Pn\Views\Pn\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
@@ -1333,11 +1340,18 @@
   <ItemGroup>
     <Content Include="Areas\Pn\Views\Content\CONTENT_Index.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Contact\CONTACT_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Menu\MENU_Index.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

@@ -15,7 +15,7 @@
             <div class="panel-body">
                 
                 <div class="brand-body-item">
-                    <a href="@Url.Action("Index","Contacts")">
+                    <a href="/Pn/#/CONTACT_Index">
                         <div class="brand-body-item-icon">
                             <div class="icon-icon abouts">
                             </div>
@@ -110,9 +110,45 @@
                 <h4 class="modal-title">Chọn màu cho trang chủ</h4>
             </div>
             <div class="modal-body cus-window">
-                <a href="#" ng-repeat="theme in themes" class="change-theme">
+                <a href="#" ng-click="Change_THEME($event)" data-link="/Content/theme-color/orange-theme.css" class="change-theme">
                     <div class="theme-color" style="background-color:#ff871c;"></div>
-                </a>  
+                </a>
+                <a href="#" ng-click="Change_THEME($event)" id="bridge" data-link="/Content/theme-color/bridge-theme.css" class="change-theme">
+                    <div class="theme-color" style="background-color:#a5d549;"></div>
+                </a>
+
+                <a href="#" ng-click="Change_THEME($event)" id="dark-red" data-link="/Content/theme-color/dark-red-theme.css" class="change-theme">
+                    <div class="theme-color" style="background-color:#970001;"></div>
+                </a>
+
+                <a href="#" ng-click="Change_THEME($event)" id="rose" class="change-theme" data-link="/Content/theme-color/rose-theme.css">
+                    <div class="theme-color" style="background-color:#ff6666;"></div>
+                </a>
+
+                <a href="#" ng-click="Change_THEME($event)" id="green" class="change-theme" data-link="/Content/theme-color/green-theme.css">
+                    <div class="theme-color" style="background-color:#3fc35f;"></div>
+                </a>
+
+                <a href="#" ng-click="Change_THEME($event)" id="lite-blue" class="change-theme" data-link="/Content/theme-color/lite-blue-theme.css">
+                    <div class="theme-color" style="background-color:#37c6f5;"></div>
+                </a>
+
+                <a href="#" ng-click="Change_THEME($event)" id="pink" class="change-theme" data-link="/Content/theme-color/pink-theme.css">
+                    <div class="theme-color" style="background-color:#ff2851;"></div>
+                </a>
+
+                <a href="#" ng-click="Change_THEME($event)" id="purple" class="change-theme" data-link="/Content/theme-color/purple-theme.css">
+                    <div class="theme-color" style="background-color:#c762cb;"></div>
+                </a>
+
+                <a href="#" ng-click="Change_THEME($event)" id="red" class="change-theme" data-link="/Content/theme-color/red-theme.css">
+                    <div class="theme-color" style="background-color:#ee4532;"></div>
+                </a>
+
+                <a href="#" ng-click="Change_THEME($event)" id="yellow" class="change-theme" data-link="/Content/theme-color/yellow-theme.css">
+                    <div class="theme-color" style="background-color:#f7c510;"></div>
+                </a>
+ 
             </div>
             <div class="modal-footer">                
                 <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>

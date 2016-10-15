@@ -616,6 +616,19 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
     background-color:#fff;
 }
 
+/*Theme*/
+.theme-color{
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;   
+    width:50px;
+    height:50px;
+    float:left;
+    margin-right:7px;
+    position:relative;
+    margin-bottom:15px;
+}
+
 /*body page*/
 .brand-body{
     width:100%;
@@ -788,13 +801,11 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
 	display: block;
 	background-color: #fff;
 	padding: 0;
-	display: none;
+	display: none;  
+    margin-top:10px; 
 }
-
-.sidebar form {
-	padding: 20px 15px 5px 15px;
-	border-bottom: 1px solid #eee;
-	margin-bottom: 20px;
+.main{
+    margin-top:10px;
 }
 
 @media (min-width: 768px) {
@@ -806,7 +817,7 @@ autocomplete.k-state-hover, .k-dropdown-wrap.k-state-hover, .k-numeric-wrap.k-st
 		left: 0;
 		z-index: 1000;
 		display: block;
-		margin: 0;
+		margin-top: 10px;
 		padding: 0;
 		overflow-x: hidden;
 		overflow-y: auto; 

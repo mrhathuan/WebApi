@@ -1,4 +1,5 @@
-﻿using Shop_Nhi.Models.Framework;
+﻿using Shop_Nhi.Common;
+using Shop_Nhi.Models.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,38 @@ namespace Shop_Nhi.Models.DAO
         {
             return db.Menus.OrderBy(x => x.dislayOrder).ToList();
         }
+
+        public void Save(Menu menu)
+        {
+            var result = db.Menus.Find(menu.ID);
+            if (result == null || menu.ID == 0)
+            {
+                menu.ID = -1;
+                menu.status = true;
+                menu.link = StringHelper.RemoveSpecialChars(menu.Name.Trim()).Replace(" ", "-").ToLower();
+                var newMenu = db.Menus.Add(menu);
+                db.SaveChanges();
+                var page = new PageBody();
+                page.metatTitle = StringHelper.RemoveSpecialChars(menu.Name.Trim()).Replace(" ", "-").ToLower();
+                page.createDate = DateTime.Now;
+                page.menuID = newMenu.ID;
+                db.PageBodies.Add(page);
+                db.SaveChanges();
+            }
+            else
+            {
+                var page = db.PageBodies.SingleOrDefault(z => z.menuID == menu.ID);
+                result.Name = menu.Name;
+                result.link = menu.link;
+                result.taget = menu.taget;
+                result.typeID = menu.typeID;
+                page.metatTitle = menu.link;
+                db.SaveChanges();                
+            }
+            
+        }
+
+        
 
         public int Create(Menu menu)
         {
