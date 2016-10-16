@@ -18,7 +18,7 @@ app.controller('PAGE_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
         columns: [
                  {
                      title: ' ', width: '110px',
-                     template: '<a href="\\#" class="event-button" ng-click="PAGE_WinClick($event,#=id#)"><i class="fa fa-pencil"></i></a>',                         
+                     template: '<a href="\\#" class="event-button" ng-click="PAGE_WinClick($event,#=id#)"><i class="fa fa-folder-open-o"></i></a>',
                      filterable: false, sortable: false
                  },
                 {
@@ -68,53 +68,17 @@ app.controller('PAGE_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
         }
     }
 
-    $scope.RemoveItem = function ($event, id) {
+    $scope.BACK_Click = function ($event) {
         $event.preventDefault();
-        var cf = confirm('Bạn chắc chắn muốn xóa PAGE này?');
-        if (cf) {
-            $http.post("/Pn/Page/PAGE_Delete", { id: id }).then(function success(res) {
-                if (res.data.status == true) {
-                    $scope.PAGE_Grid.dataSource.read();
-                    $scope.PAGE_Grid.refresh();
-                    toastr.success('Thành công', '');
-                }
-            })
-        }
-    }
-
-    $scope.Type_drdlOptions = {
-        dataTextField: "name",
-        dataValueField: "ID",
-        autoBind: false,
-        dataSource: {
-            severFiltering: true,
-            transport: {
-                read: {
-                    url: "/Pn/Page/GET_Type",
-                    contentType: "application/json",
-                    type: "GET"
-                }
-
-            }
-        }, change: function (e) {
-
-        }
-    }
-
-    $scope.numFeeBase_options = { format: 'n0', spinners: false, culture: 'en-US', min: 0, step: 0.01 }
-
-    $scope.ChangeStatus = function ($event, id) {
-        $event.preventDefault();
-        $http.post("/Pn/Page/PAGE_ChangeStatus", { id: id }).then(function success(res) {
-            $scope.PAGE_Grid.dataSource.read();
-            toastr.success('Thành công', '');
-        })
+        window.location.href = '/Pn/#/CONTENT_Index';
     }
 
     $scope.PAGE_WinClick = function ($event, id) {
         $event.preventDefault();
+        $rootScope.IsLoading = true;
         $http.post("/Pn/Page/PAGE_Get", { id: id }).then(function success(res) {
-            $scope.Item = res.data.PAGE;
+            $rootScope.IsLoading = false;
+            $scope.Item = res.data.page;
             $scope.showModal_PAGE = true;
         })
     }

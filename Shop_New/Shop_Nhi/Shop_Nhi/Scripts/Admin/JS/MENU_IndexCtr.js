@@ -83,6 +83,11 @@ app.controller('MENU_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
         }      
     }
 
+    $scope.BACK_Click = function ($event) {
+        $event.preventDefault();
+        window.location.href = '/Pn/#/CONTENT_Index';
+    }
+
     $scope.Type_drdlOptions = {
         dataTextField: "name",
         dataValueField: "ID",
@@ -114,7 +119,9 @@ app.controller('MENU_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
 
     $scope.MENU_WinClick = function ($event, id) {
         $event.preventDefault();
+        $rootScope.IsLoading = true;
         $http.post("/Pn/Menu/MENU_Get", { id: id }).then(function success(res) {
+            $rootScope.IsLoading = false;
             $scope.Item = res.data.menu;
             $scope.showModal_MENU = true;
         })

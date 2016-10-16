@@ -23,13 +23,61 @@
 <!--toolbar-->
 <script type="text/x-kendo-template" id="PAGEGridTemplate">
     <div class="gridtoolbar">
-        <div class="toolbar-left" style="float:left;">
-            <a class="k-button k-button-icontext k-grid-excel" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-file-excel-o"></span></a>
-            <a ng-click="PAGE_WinClick($event,0)" class="k-button k-button-icontext" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-plus"><span class="tooltip">Thêm mới</span></span></a>
+        <div class="toolbar-left" style="float:left;">            
+            <a ng-click="BACK_Click($event)" class="k-button k-button-icontext" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-arrow-left"><span class="tooltip">Quay lại</span></span></a>
         </div>
     </div>
 </script>
 
-<script type="text/x-kendo-template" id="statusTpl">
-    <a href="\\#" ng-click="ChangeStatus($event,#=id#)">#=status?'<span class="btn_success"><i class="fa fa-unlock"></i> Kích hoạt</span>':'<span class="btn_block"><i class="fa fa-lock"></i> Khóa</span>'#</a>
-</script>
+<!--Win-->
+<div class="modal" modal-show modal-visible="showModal_PAGE" role="dialog" data-refresh="true">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Chi tiết bài viết</h4>
+            </div>
+            <div class="modal-body cus-window">
+                <div class="cus-form">
+                    <div class="form-body">
+                        <form action="/" method="PAGE">
+                            <div class="form-content-100" v-form="vform_PAGE">
+                                <input type="hidden" ng-model="Item.ID" value="{{Item.ID}}" />
+                              
+                                <div class="rowinput">
+                                    <label>metaKeywords</label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="250" ng-model="Item.metaKeywords" v-form-length="250" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>metaDescription</label>
+                                    <div>
+                                        <textarea rows="4" maxlength="250" v-form-length="250" style="width:100%" ng-model="Item.metaDescription"></textarea>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            
+                                <div class="rowinput">
+                                    <label>Chi tiết</label>
+                                    <div>
+                                        <textarea rows="4" ckEditor style="width:calc(100% - 7px)" ng-model="Item.detail"></textarea>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="/" ng-click="PAGE_SaveClick($event,vform_PAGE)" class="btn btn-success btn-save" data-title="Lưu">Lưu</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>
