@@ -29,26 +29,22 @@ namespace Shop_Nhi.Models.DAO
                 menu.ID = -1;
                 menu.status = true;
                 menu.link = StringHelper.RemoveSpecialChars(menu.Name.Trim()).Replace(" ", "-").ToLower();
-                var newMenu = db.Menus.Add(menu);
-                db.SaveChanges();
-                var page = new PageBody();
-                page.metatTitle = StringHelper.RemoveSpecialChars(menu.Name.Trim()).Replace(" ", "-").ToLower();
-                page.createDate = DateTime.Now;
-                page.menuID = newMenu.ID;
-                db.PageBodies.Add(page);
-                db.SaveChanges();
+                db.Menus.Add(menu);                
+               // return newMenu.ID;
             }
             else
             {
                 var page = db.PageBodies.SingleOrDefault(z => z.menuID == menu.ID);
                 result.Name = menu.Name;
-                result.link = menu.link;
+                result.link = StringHelper.RemoveSpecialChars(menu.Name.Trim()).Replace(" ", "-").ToLower();
                 result.taget = menu.taget;
                 result.typeID = menu.typeID;
-                page.metatTitle = menu.link;
-                db.SaveChanges();                
+                page.metatTitle = StringHelper.RemoveSpecialChars(menu.Name.Trim()).Replace(" ", "-").ToLower();
+                //db.SaveChanges();
+                //return menu.ID;               
             }
-            
+            db.SaveChanges();
+
         }
 
         

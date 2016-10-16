@@ -88,9 +88,20 @@ namespace Shop_Nhi.Areas.Pn.Controllers
                 JavaScriptSerializer seriaLizer = new JavaScriptSerializer();
                 Shop_Nhi.Models.Framework.Menu menu = seriaLizer.Deserialize<Shop_Nhi.Models.Framework.Menu>(item);
                 string link = StringHelper.RemoveSpecialChars(menu.Name.Trim()).Replace(" ", "-");
+                var idOld = menu.ID;
                 if (dao.CheckLink(link.ToLower()))
                     throw new Exception("MENU NÀY ĐÃ TỒN TẠI.KHÔNG THỂ LƯU.");                
                 dao.Save(menu);
+                if(idOld == 0)
+                {
+                    var page = new PageBody();
+                    page.createDate = DateTime.Now;
+                    page.createByID = (string)Session["username"];
+                    page.metatTitle = link.ToLower();
+                    page.menuID = menu.ID;
+                    page.status = true;
+                    new PageBodyDAO().Create(page);                    
+                }
                 return Json(new
                 {
                     msg = "Thành công",

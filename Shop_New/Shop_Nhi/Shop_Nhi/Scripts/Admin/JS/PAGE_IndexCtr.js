@@ -18,36 +18,35 @@ app.controller('PAGE_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
         columns: [
                  {
                      title: ' ', width: '110px',
-                     template: '<a href="\\#" class="event-button" ng-click="PAGE_WinClick($event,#=id#)"><i class="fa fa-pencil"></i></a>' +
-                         '<a href="\\#" class="event-button" ng-click="RemoveItem($event,#=id#)"><i class="fa fa-trash"></i></a>',
+                     template: '<a href="\\#" class="event-button" ng-click="PAGE_WinClick($event,#=id#)"><i class="fa fa-pencil"></i></a>',                         
                      filterable: false, sortable: false
                  },
                 {
-                    field: "Name", width: "300px", title: "Tên", editable: false,
+                    field: "menuID", width: "300px", title: "Trang", template: "#=Menu.Name#", editable: false,
                     filterable: { cell: { operator: 'contains', showOperators: false } }
                 },
                 {
-                    field: "link", width: "400px", title: "Link",
+                    field: "createByID", width: "400px", title: "Người tạo",
                     filterable: { cell: { operator: 'contains', showOperators: false } }
                 },
                 {
-                    field: "typeID", width: "100", title: "Thuộc", template: "#=PAGEType.name#",
-                    filterable: { cell: { operator: 'contains', showOperators: false } }
+                    field: "createDate", width: "150px", title: "Ngày tạo", filterable: false, template: "#= kendo.toString(kendo.parseDate(createDate, 'yyyy-MM-dd'), 'dd/MM/yyyy')#",
+                    filterable: { cell: { template: function (e) { e.element.kendoDatePicker({ format: 'dd/MM/yyyy' }); }, operator: 'equal', showOperators: false } },
                 },
                  {
-                     field: "dislayOrder", width: "100", title: "Thứ tự",
-                     filterable: { cell: { operator: 'contains', showOperators: false } }
+                    field: "modifiedByDate", width: "130px", title: "Ngày sửa", filterable: false, template: "#= kendo.toString(kendo.parseDate(modifiedByDate, 'yyyy-MM-dd'), 'dd/MM/yyyy')#",
+                    filterable: { cell: { template: function (e) { e.element.kendoDatePicker({ format: 'dd/MM/yyyy' }); }, operator: 'equal', showOperators: false } },
                  },
-                {
-                    field: "status", width: "130px", title: "Trạng thái", editable: false, filterable: false,
-                    template: kendo.template($("#statusTpl").html())
-                }
+                 {
+                     field: "modifiedByID", width: "250px", title: "Người sửa",
+                     filterable: { cell: { showOperators: false, operator: 'contains' }}
+                 }
         ],
         dataSource: {
             pageSize: 10,
             transport: {
                 read: function (e) {
-                    $http.post("/Pn/PAGE/PAGE_Read")
+                    $http.post("/Pn/Page/PAGE_Read")
                     .then(function (response) {
                         e.success(response.data)
                     }, function error(response) {
@@ -73,7 +72,7 @@ app.controller('PAGE_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
         $event.preventDefault();
         var cf = confirm('Bạn chắc chắn muốn xóa PAGE này?');
         if (cf) {
-            $http.post("/Pn/PAGE/PAGE_Delete", { id: id }).then(function success(res) {
+            $http.post("/Pn/Page/PAGE_Delete", { id: id }).then(function success(res) {
                 if (res.data.status == true) {
                     $scope.PAGE_Grid.dataSource.read();
                     $scope.PAGE_Grid.refresh();
@@ -91,7 +90,7 @@ app.controller('PAGE_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
             severFiltering: true,
             transport: {
                 read: {
-                    url: "/Pn/PAGE/GET_Type",
+                    url: "/Pn/Page/GET_Type",
                     contentType: "application/json",
                     type: "GET"
                 }
@@ -106,7 +105,7 @@ app.controller('PAGE_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
 
     $scope.ChangeStatus = function ($event, id) {
         $event.preventDefault();
-        $http.post("/Pn/PAGE/PAGE_ChangeStatus", { id: id }).then(function success(res) {
+        $http.post("/Pn/Page/PAGE_ChangeStatus", { id: id }).then(function success(res) {
             $scope.PAGE_Grid.dataSource.read();
             toastr.success('Thành công', '');
         })
@@ -114,7 +113,7 @@ app.controller('PAGE_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
 
     $scope.PAGE_WinClick = function ($event, id) {
         $event.preventDefault();
-        $http.post("/Pn/PAGE/PAGE_Get", { id: id }).then(function success(res) {
+        $http.post("/Pn/Page/PAGE_Get", { id: id }).then(function success(res) {
             $scope.Item = res.data.PAGE;
             $scope.showModal_PAGE = true;
         })
@@ -124,7 +123,7 @@ app.controller('PAGE_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
         $event.preventDefault();
         vform({ clear: true });
         if (vform()) {
-            $http.post("/Pn/PAGE/PAGE_Save", { item: JSON.stringify($scope.Item) }).then(function success(res) {
+            $http.post("/Pn/Page/PAGE_Save", { item: JSON.stringify($scope.Item) }).then(function success(res) {
                 if (res.data.status == true) {
                     vform({ clear: true });
                     $scope.PAGE_Grid.dataSource.read();

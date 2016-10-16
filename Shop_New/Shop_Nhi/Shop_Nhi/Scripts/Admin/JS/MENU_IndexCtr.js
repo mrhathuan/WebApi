@@ -31,11 +31,11 @@ app.controller('MENU_IndexCtr', ['$http', '$scope', '$rootScope', function ($htt
                     filterable: { cell: { operator: 'contains', showOperators: false } }
                 },
                 {
-                    field: "typeID", width: "100", title: "Thuộc",template:"#=MenuType.name#",
+                    field: "typeID", width: "100px", title: "Thuộc",template:"#=MenuType.name#",
                     filterable: { cell: { operator: 'contains', showOperators: false } }
                 },
                  {
-                     field: "dislayOrder", width: "100", title: "Thứ tự",
+                     field: "dislayOrder", width: "100px", title: "Thứ tự",
                      filterable: { cell: { operator: 'contains', showOperators: false } }
                  },
                 {
