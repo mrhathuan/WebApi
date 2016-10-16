@@ -73,8 +73,10 @@ namespace Shop_Nhi
                      "~/Scripts/Admin/JS/POST_IndexCtr.js",
                      "~/Scripts/Admin/JS/CONTENT_IndexCtr.js",
                       "~/Scripts/Admin/JS/CONTACT_IndexCtr.js",
-                      "~/Scripts/Admin/JS/MENU_IndexCtr.js"
-                    ));            
+                      "~/Scripts/Admin/JS/MENU_IndexCtr.js",
+                      "~/Scripts/Admin/JS/PAGE_IndexCtr.js"
+                    )); 
+                       
 
             bundles.Add(new StyleBundle("~/Content/CssAdmin").Include(
                        "~/Content/bootstrap.css",

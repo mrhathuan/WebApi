@@ -1,13 +1,14 @@
 ﻿
 
 @{
-    ViewBag.Title = "BÀI VIẾT";
+    ViewBag.Title = "MENU";
 }
 
 <div class="row">
     <ol class="breadcrumb" style="font-size:16px;color:black">
         <li><a href="/Pn/#/DASH_Index"><i class="fa fa-home"></i></a></li>
-        <li class="active">Menu</li>
+        <li><a href="/Pn/#/CONTENT_Index">Quản trị nội dung</a></li>
+        <li class="active">Quản trị Menu</li>
     </ol>
 </div>
 <!--Grid-->
@@ -41,7 +42,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Chi tiết bài viết</h4>
+                <h4 class="modal-title">Thông tin Menu</h4>
             </div>
             <div class="modal-body cus-window">
                 <div class="cus-form">
@@ -50,51 +51,29 @@
                             <div class="form-content-100" v-form="vform_MENU">
                                 <input type="hidden" ng-model="Item.ID" value="{{Item.ID}}" />
                                 <div class="rowinput">
-                                    <label>Tên bài viết<span class="required">*</span> </label>
+                                    <label>Tên<span class="required">*</span> </label>
                                     <div>
-                                        <input type="text" class="k-textbox" maxlength="100" ng-model="Item.name" v-form-require="true" v-form-length="100" />
+                                        <input type="text" class="k-textbox" maxlength="100" ng-model="Item.Name" v-form-require="true" v-form-length="100" />
                                     </div>
                                     <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
                                     <div class="clear"></div>
                                 </div>
-
                                 <div class="rowinput">
-                                    <label>Tag</label>
+                                    <label>Thuộc<span class="required">*</span> </label>
                                     <div>
-                                        <input type="text" class="k-textbox" maxlength="100" ng-model="Item.tag" />
+                                        <input class="cus-combobox" kendo-drop-down-list="Type_drdpl" ng-model="Item.typeID" v-form-drdl="true" k-options="Type_drdlOptions" style="width: 100%" />
                                     </div>
                                     <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
                                     <div class="clear"></div>
                                 </div>
-
                                 <div class="rowinput">
-                                    <label>metaKeywords</label>
+                                    <label>Thứ tự</label>
                                     <div>
-                                        <input type="text" class="k-textbox" maxlength="250" ng-model="Item.metaKeywords" v-form-length="250" />
+                                        <input class="numFeeBase_options cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="Item.dislayOrder" style="width:100%" />
                                     </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
                                     <div class="clear"></div>
-                                </div>
-                                <div class="rowinput">
-                                    <label>metaDescription</label>
-                                    <div>
-                                        <textarea rows="4" maxlength="250" v-form-length="250" style="width:100%" ng-model="Item.metaDescription"></textarea>
-                                    </div>
-                                    <div class="clear"></div>
-                                </div>
-                                <div class="rowinput">
-                                    <label>Mô tả</label>
-                                    <div>
-                                        <textarea rows="4" maxlength="250" v-form-length="250" style="width:100%" ng-model="Item.description"></textarea>
-                                    </div>
-                                    <div class="clear"></div>
-                                </div>
-                                <div class="rowinput">
-                                    <label>Chi tiết</label>
-                                    <div>
-                                        <textarea rows="4" ckEditor style="width:calc(100% - 7px)" ng-model="Item.detail"></textarea>
-                                    </div>
-                                    <div class="clear"></div>
-                                </div>
+                                </div>           
 
                             </div>
                         </form>

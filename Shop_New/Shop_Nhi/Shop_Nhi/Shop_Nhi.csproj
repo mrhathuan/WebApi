@@ -264,6 +264,7 @@
     <Compile Include="Areas\Pn\Controllers\ContentController.cs" />
     <Compile Include="Areas\Pn\Controllers\LoginController.cs" />
     <Compile Include="Areas\Pn\Controllers\MenuController.cs" />
+    <Compile Include="Areas\Pn\Controllers\PageController.cs" />
     <Compile Include="Areas\Pn\Controllers\PnController.cs" />
     <Compile Include="Areas\Pn\Controllers\PostController.cs" />
     <Compile Include="Areas\Pn\Controllers\UsersController.cs" />
@@ -1156,6 +1157,7 @@
     <Content Include="fonts\fonts\FontAwesome.otf" />
     <Content Include="Scripts\Admin\JS\MENU_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\ORD_IndexCtr.js" />
+    <Content Include="Scripts\Admin\JS\PAGE_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\POST_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\PRO_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\USER_ChangePassCtr.js" />
@@ -1345,6 +1347,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Pn\Views\Menu\MENU_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Page\PAGE_Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

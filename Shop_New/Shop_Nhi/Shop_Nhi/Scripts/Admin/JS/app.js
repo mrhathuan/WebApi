@@ -49,6 +49,11 @@ app.config(function ($routeProvider) {
         controller: 'MENU_IndexCtr'
     });
 
+    $routeProvider.when("/PAGE_Index", {
+        templateUrl: '/Pn/Page/PAGE_Index',
+        controller: 'PAGE_IndexCtr'
+    });
+
     $routeProvider.otherwise({ redirectTo: "/DASH_Index" });
 });
 

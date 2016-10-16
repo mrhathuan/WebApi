@@ -97,13 +97,16 @@ app.controller('ORD_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
 
     $scope.RemoveItem = function ($event, id) {
         $event.preventDefault();
-        $http.post("/Pn/Pn/ORD_Remove", { id: id }).then(function success(res) {
-            if (res.data.status == true) {
-                $scope.Ord_Grid.dataSource.read();
-                $scope.Ord_Grid.refresh();
-                toastr.success('Thành công', '');
-            }
-        })
+        var cf = confirm('Bạn muốn xóa đơn hàng này?');
+        if (cf) {
+            $http.post("/Pn/Pn/ORD_Remove", { id: id }).then(function success(res) {
+                if (res.data.status == true) {
+                    $scope.Ord_Grid.dataSource.read();
+                    $scope.Ord_Grid.refresh();
+                    toastr.success('Thành công', '');
+                }
+            })
+        }       
     }
 
 
