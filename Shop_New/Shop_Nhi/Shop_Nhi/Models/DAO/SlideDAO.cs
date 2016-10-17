@@ -19,6 +19,11 @@ namespace Shop_Nhi.Models.DAO
         {
             return db.Slides.SingleOrDefault(x => x.status == true);
         }
+
+        public Slide GetById(int id)
+        {
+            return db.Slides.Find(id);
+        }
         //list
         public List<Slide> GetListSlide()
         {
@@ -31,39 +36,38 @@ namespace Shop_Nhi.Models.DAO
             return db.Slides.Where(x=>x.status == true).OrderBy(x => x.dislayOrder).ToList();
         }
 
-        //thêm
-        public void Create(Slide slide)
+        public void Save(Slide slide)
         {
-            db.Slides.Add(slide);
-            db.SaveChanges();
-        }
-        public Slide GetSlideById(int id)
-        {
-            return db.Slides.Find(id);
-        }
-        //sửa
-        public bool Edit(Slide slide)
-        {
-            try
+            var result = db.Slides.Find(slide.ID);
+            if(result == null || slide.ID == 0)
             {
-                var result = db.Slides.Find(slide.ID);
+                slide.ID = -1;
+                slide.status = true;
+                db.Slides.Add(slide);
+            }
+            else
+            {
                 result.name = slide.name;
                 result.image = slide.image;
                 result.dislayOrder = slide.dislayOrder;
+            }
+            db.SaveChanges();
+        }
+  
+        //xóa
+        public bool Delete(int id)
+        {
+            try
+            {
+                var result = db.Slides.Find(id);
+                db.Slides.Remove(result);
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
-        }
-        //xóa
-        public void Delete(int id)
-        {
-            var result = db.Slides.Find(id);
-            db.Slides.Remove(result);
-            db.SaveChanges();
         }
         //Sửa trạng thái
         public bool ChangeStatus(int id)

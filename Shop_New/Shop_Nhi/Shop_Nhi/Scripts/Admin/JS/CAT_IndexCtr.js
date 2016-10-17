@@ -92,12 +92,16 @@ app.controller('CAT_IndexCtr', ['$http', '$scope', '$rootScope', function ($http
   
     $scope.RemoveItem = function ($event, id) {
         $event.preventDefault();
-        $http.post("/Pn/Pn/CAT_Remove", { id: id }).then(function success(res) {
-            if (res.data.status == true) {
-                $scope.Cat_Grid.dataSource.read();
-                toastr.success('Thành công', '');
-            }
-        })
+        var cf = confirm('Bạn chắc chắn muốn xóa?');
+        if (cf) {
+            $http.post("/Pn/Pn/CAT_Remove", { id: id }).then(function success(res) {
+                if (res.data.status == true) {
+                    $scope.Cat_Grid.dataSource.read();
+                    toastr.success('Thành công', '');
+                }
+            })
+        }
+        
     }
 
     $scope.Cate_Options = {

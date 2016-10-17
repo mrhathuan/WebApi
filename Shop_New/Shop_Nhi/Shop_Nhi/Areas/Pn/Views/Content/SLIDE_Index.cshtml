@@ -1,0 +1,107 @@
+﻿
+
+@{
+    ViewBag.Title = "SLIDE";
+}
+
+<div class="row">
+    <ol class="breadcrumb" style="font-size:16px;color:black">
+        <li><a href="/Pn/#/DASH_Index"><i class="fa fa-home"></i></a></li>
+        <li><a href="/Pn/#/CONTENT_Index">Quản trị nội dung</a></li>
+        <li class="active">Slide</li>
+    </ol>
+</div>
+<!--Grid-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default cus-grid" style="border:none;margin-top:5px">
+            <div class="panel-body">
+                <div expand-k-grid class="cus-grid" kendo-grid="SLIDE_Grid" k-options="SLIDE_gridOptions"></div>
+            </div>
+        </div>
+    </div>
+</div><!--/.Grid-->
+<!--toolbar-->
+<script type="text/x-kendo-template" id="SLIDEGridTemplate">
+    <div class="gridtoolbar">
+        <div class="toolbar-left" style="float:left;">
+            <a ng-click="BACK_Click($event)" class="k-button k-button-icontext" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-arrow-left"></span></a>
+            <a ng-click="SLIDE_WinClick($event,0)" class="k-button k-button-icontext" style="font-size:20px;color:black;font-weight:bold;border:none" href="\#"><span class="fa fa-plus"><span class="tooltip">Thêm mới</span></span></a>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-template" id="statusTpl">
+    <a href="\\#" ng-click="ChangeStatus($event,#=id#)">#=status?'<span class="btn_success">Kích hoạt</span>':'<span class="btn_block"><i class="fa fa-lock"></i> Khóa</span>'#</a>
+</script>
+
+
+<!--win-->
+<div class="modal" modal-show modal-visible="showModal_SLIDE" role="dialog" data-refresh="true">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Thông tin danh mục</h4>
+            </div>
+            <div class="modal-body cus-window">
+                <div class="cus-form">
+                    <div class="form-body">
+                        <form action="/" method="post">
+                            <div class="form-content-100" v-form="vform_SLIDE">
+                                <input type="hidden" ng-model="Item.ID" value="{{Item.ID}}" />
+                                <div class="rowinput">
+                                    <label><a href="/" ng-click="ChooseImage($event)" class="k-button accept" data-title="Lưu">Chọn ảnh<span class="required">*</span> </a></label>
+                                    <div>
+                                        <input type="text" id="image" class="k-textbox" maxlength="300" ng-model="Item.image" v-form-require="true" v-form-length="300" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tên</label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="100" ng-model="Item.name" v-form-length="100" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tiêu đề</label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="100" ng-model="Item.title"/>
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Mô tả</label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="100" ng-model="Item.detail" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Thứ tự</label>
+                                    <div>
+                                        <input class="numFeeBase_options cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="Item.dislayOrder" style="width:100%" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="/" ng-click="SLIDE_SaveClick($event,vform_SLIDE)" class="btn btn-success btn-save" data-title="Lưu">Lưu</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+

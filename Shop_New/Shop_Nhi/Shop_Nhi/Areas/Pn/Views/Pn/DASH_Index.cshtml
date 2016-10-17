@@ -3,5 +3,110 @@
     ViewBag.Title = "DASH_Index";
 }
 
-<h2>{{dash}}</h2>
+<div class="row">
+    <ol class="breadcrumb" style="font-size:16px;color:black">
+        <li><a href="/Pn/#/DASH_Index"><i class="fa fa-home"></i></a></li>
+    </ol>
+</div>
+<!--Grid-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default cus-grid" style="border:none;margin-top:5px">
+            <div class="panel-body">
+                <div class="dashboard">
+                    <div class="dashboard-mid">
+                        <!--Đơn hàng-->
+                        <div class="dashboard-mid-content">
+                            <div class="dashboard-content-top">
+                                <span class="dashboard-title">
+                                    THỐNG KÊ ĐƠN HÀNG
+                                </span>
+                            </div>
+                            <div class="dashboard-content-bottom">
+                                <span class="dashboard-icon order">
+                                    <i class="fa fa-wpforms"></i>
+                                </span>
+                                <div class="number">
+                                    <div class="value">
+                                        {{totalOrder}}
+                                    </div>
+                                    <div class="name">
+                                        Đơn hàng
+                                    </div>
+                                </div>
+                                <div class="sumary">
+                                    <span>{{newOrder}} Mới</span>
+                                    <span>{{viewOrder}} Đã xem</span>
+                                    <span>{{okOrder}} Đã giao</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!--Sản phẩm-->
+                        <div class="dashboard-mid-content">
+                            <div class="dashboard-content-top">
+                                <span class="dashboard-title">
+                                    THỐNG KÊ SẢN PHẨM
+                                </span>
+                            </div>
+                            <div class="dashboard-content-bottom">
+                                <span class="dashboard-icon order">
+                                    <i class="fa fa-wpforms"></i>
+                                </span>
+                                <div class="number">
+                                    <div class="value">
+                                        {{totalProduct}}
+                                    </div>
+                                    <div class="name">
+                                        sản phẩm
+                                    </div>
+                                </div>
+                                <div class="sumary">
+                                    <span>{{totalProductTrue}} Đã về</span>
+                                    <span>{{totalProductFalse}} Sắp về</span>
+                                    <span>{{totalProductNull}} Hết hàng</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <!--Sản phẩm-->
+                        <div class="dashboard-mid-content">
+                            <div class="dashboard-content-top">
+                                <span class="dashboard-title">THỐNG KÊ BÀI VIẾT</span>
+
+                            </div>
+                            <div class="dashboard-content-bottom">
+                                <span class="dashboard-icon order">
+                                    <i class="fa fa-wpforms"></i>
+                                </span>
+                                <div class="number">
+                                    <div class="value">
+                                        {{totalPost}}
+                                    </div>
+                                    <div class="name">
+                                        Bài viết
+                                    </div>
+                                </div>
+                                <div class="sumary">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--Chart-->
+    <div class="col-lg-12">
+        <div class="x_content">
+            <canvas id="chartOrder"></canvas>
+        </div>
+    </div>
+</div>
+
 

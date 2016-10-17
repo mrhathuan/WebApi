@@ -38,6 +38,26 @@ app.config(function ($routeProvider) {
         templateUrl: '/Pn/Content/CONTENT_Index',
         controller: 'CONTENT_IndexCtr'
     });
+    $routeProvider.when("/NOTI_Index", {
+        templateUrl: '/Pn/Content/NOTI_Index',
+        controller: 'NOTI_IndexCtr'
+    });
+    $routeProvider.when("/SLIDE_Index", {
+        templateUrl: '/Pn/Content/SLIDE_Index',
+        controller: 'SLIDE_IndexCtr'
+    });
+    $routeProvider.when("/NOTI_Index", {
+        templateUrl: '/Pn/Content/NOTI_Index',
+        controller: 'NOTI_IndexCtr'
+    });
+    $routeProvider.when("/FOOTER_Index", {
+        templateUrl: '/Pn/Content/FOOTER_Index',
+        controller: 'FOOTER_IndexCtr'
+    })
+    $routeProvider.when("/SEO_Index", {
+        templateUrl: '/Pn/Content/SEO_Index',
+        controller: 'SEO_IndexCtr'
+    })
 
     $routeProvider.when("/CONTACT_Index", {
         templateUrl: '/Pn/CONTACT/CONTACT_Index',
@@ -53,6 +73,7 @@ app.config(function ($routeProvider) {
         templateUrl: '/Pn/Page/PAGE_Index',
         controller: 'PAGE_IndexCtr'
     });
+   
 
     $routeProvider.otherwise({ redirectTo: "/DASH_Index" });
 });
@@ -263,6 +284,7 @@ app.directive("modalShow", function () {
 app.controller('indexController', ['$scope', '$rootScope', function ($scope, $rootScope) {
     $rootScope.title = 'Quản trị';
     $rootScope.ShowMenu_Children = false;
+
     Date.prototype.addDays = function (days) {
         var dat = new Date(this.valueOf());
         dat.setDate(dat.getDate() + days);

@@ -15,6 +15,7 @@ namespace Shop_Nhi.Areas.Pn.Controllers
     public class PageController : BaseController
     {
         // GET: Pn/Page
+        [Authorize(Roles = "ADMIN")]
         public ActionResult PAGE_Index()
         {
             return View();

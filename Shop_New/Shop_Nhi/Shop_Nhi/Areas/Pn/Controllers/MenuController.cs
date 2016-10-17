@@ -15,7 +15,7 @@ namespace Shop_Nhi.Areas.Pn.Controllers
     public class MenuController : BaseController
     {
         // GET: Pn/Menu
-        [Authorize(Roles = "ADMIN,MANAGE")]
+        [Authorize(Roles = "ADMIN")]
         public ActionResult MENU_Index()
         {
             return View();

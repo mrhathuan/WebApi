@@ -23,19 +23,51 @@ namespace Shop_Nhi.Areas.Pn.Controllers
 
         public ActionResult Index()
         {
+            return View();           
+        }
+
+      
+        #endregion Index
+     
+
+        #region DASH
+        [Authorize(Roles = "ADMIN,MANAGE")]
+        public ActionResult DASH_Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult DASH_Read()
+        {
             var productDao = new ProductDAO();
             var orderDao = new OrderDAO();
             var postDao = new PostDAO();
-            ViewBag.Product = productDao.ListAll().Count;
-            ViewBag.Order = orderDao.ListOrder().Count;
-            ViewBag.ProductTrue = productDao.ListByStatusTrue().Count;
-            ViewBag.ProductFalse = productDao.ListByStatusFalse().Count;
-            ViewBag.ProductNull = (productDao.ListAll().Where(x => x.quantity == null).ToList()).Count;
-            ViewBag.Post = postDao.List().ToList().Count;
-            return View(orderDao.ListOrder());
+            var totalProduct = productDao.ListAll().Count;
+            var totalOrder = orderDao.ListOrder().Count;
+            var totalProductTrue = productDao.ListByStatusTrue().Count;
+            var totalProductFalse = productDao.ListByStatusFalse().Count;
+            var totalProductNull = (productDao.ListAll().Where(x => x.quantity == null).ToList()).Count;
+            var totalPost = postDao.List().ToList().Count;
+            var newOrder = orderDao.ListOrder().Where(x => x.status == false).ToList().Count;
+            var viewOrder = orderDao.ListOrder().Where(x => x.status == true).ToList().Count;
+            var okOrder = orderDao.ListOrder().Where(x => x.Payment == true).ToList().Count;
+            return Json(new
+            {
+                totalProduct = totalProduct,
+                totalOrder = totalOrder,
+                totalProductTrue = totalProductTrue,
+                totalProductFalse = totalProductFalse,
+                totalProductNull = totalProductNull,
+                totalPost = totalPost,
+                newOrder = newOrder,
+                viewOrder = viewOrder,
+                okOrder = okOrder
+            });
         }
 
-        public JsonResult OrderCharts(string dFrom, string dTo)
+        [HttpPost]
+        public JsonResult DASH_OrderCharts(string dFrom, string dTo)
         {
             DateTime dateF = DateTime.Parse(dFrom);
             DateTime dateT = DateTime.Parse(dTo);
@@ -44,17 +76,9 @@ namespace Shop_Nhi.Areas.Pn.Controllers
             return Json(new
             {
                 result = result
-            },JsonRequestBehavior.AllowGet);
+            });
         }
-        #endregion action
 
-
-        #region DASH
-        public ActionResult DASH_Index()
-        {
-
-            return View();
-        }
         #endregion DASH
 
         #region product

@@ -1144,7 +1144,6 @@
     <Content Include="Plugin\ckfinder\skins\v1\skin.js" />
     <Content Include="Plugin\ckfinder\skins\v1\uipanel.css" />
     <Content Include="Plugin\ckfinder\translations.txt" />
-    <Content Include="Scripts\Admin\custom.js" />
     <Content Include="Scripts\Admin\JS\app.js" />
     <Content Include="Scripts\Admin\JS\CAT_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\CONTACT_IndexCtr.js" />
@@ -1155,11 +1154,15 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fonts\FontAwesome.otf" />
+    <Content Include="Scripts\Admin\JS\FOOTER_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\MENU_IndexCtr.js" />
+    <Content Include="Scripts\Admin\JS\NOTI_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\ORD_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\PAGE_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\POST_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\PRO_IndexCtr.js" />
+    <Content Include="Scripts\Admin\JS\SEO_IndexCtr.js" />
+    <Content Include="Scripts\Admin\JS\SLIDE_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\USER_ChangePassCtr.js" />
     <Content Include="Scripts\Admin\JS\USER_IndexCtr.js" />
     <Content Include="Scripts\angular-route.js" />
@@ -1294,7 +1297,6 @@
     <Content Include="Views\Home\Demo.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Pn\Views\Login\Error.cshtml" />
     <Content Include="Areas\Pn\Views\Login\Index.cshtml" />
     <Content Include="Areas\Pn\Views\Login\Quenmatkhau.cshtml" />
   </ItemGroup>
@@ -1350,6 +1352,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Pn\Views\Page\PAGE_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Content\NOTI_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Content\SLIDE_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Content\FOOTER_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Content\SEO_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Login\Error.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -25,34 +25,19 @@ namespace Shop_Nhi.Models.DAO
             return db.Footers.Find(id);
         }
         //Edit
-        public bool Edit(Footer footer)
+        public void Edit(Footer footer)
         {
             var result = db.Footers.Find(footer.ID);
-            try
-            {
-                result.name = footer.name;
-                result.metatTitle = footer.metatTitle;
-                result.metaKeywords = footer.metaKeywords;
-                result.metaDescription = footer.metaDescription;
-                result.modifiedByID = footer.modifiedByID;
-                result.modifiedByDate = DateTime.Now;
-                result.detail = result.detail;
-                db.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        //Delete
-        public void Delete(long id)
-        {
-            var result = db.Footers.Find(id);
-            db.Footers.Remove(result);
+            result.name = footer.name;
+            result.metatTitle = footer.metatTitle;
+            result.metaKeywords = footer.metaKeywords;
+            result.metaDescription = footer.metaDescription;
+            result.modifiedByID = footer.modifiedByID;
+            result.modifiedByDate = DateTime.Now;
+            result.detail = footer.detail;
             db.SaveChanges();
         }
+
 
         //Change Status
         public bool ChangeStatus(long id)

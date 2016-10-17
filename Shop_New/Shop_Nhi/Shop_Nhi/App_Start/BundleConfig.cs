@@ -59,7 +59,8 @@ namespace Shop_Nhi
                      "~/Plugin/ckeditor/ckeditor.js",
                      "~/Plugin/ckfinder/ckfinder.js",
                      "~/Scripts/ng-ckeditor.js",                    
-                      "~/Scripts/toastr.js"
+                      "~/Scripts/toastr.js",
+                      "~/Scripts/Admin/Chart.min.js"
                      ));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
@@ -72,11 +73,15 @@ namespace Shop_Nhi
                      "~/Scripts/Admin/JS/USER_ChangePassCtr.js",
                      "~/Scripts/Admin/JS/POST_IndexCtr.js",
                      "~/Scripts/Admin/JS/CONTENT_IndexCtr.js",
+                      "~/Scripts/Admin/JS/NOTI_IndexCtr.js",
                       "~/Scripts/Admin/JS/CONTACT_IndexCtr.js",
                       "~/Scripts/Admin/JS/MENU_IndexCtr.js",
-                      "~/Scripts/Admin/JS/PAGE_IndexCtr.js"
-                    )); 
-                       
+                      "~/Scripts/Admin/JS/PAGE_IndexCtr.js",
+                      "~/Scripts/Admin/JS/SLIDE_IndexCtr.js",
+                      "~/Scripts/Admin/JS/FOOTER_IndexCtr.js",
+                      "~/Scripts/Admin/JS/SEO_IndexCtr.js"
+                    ));
+            
 
             bundles.Add(new StyleBundle("~/Content/CssAdmin").Include(
                        "~/Content/bootstrap.css",
