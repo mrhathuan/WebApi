@@ -53,7 +53,7 @@
                                         {
                                             <li>
                                                 <figure>
-                                                    <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
+                                                    <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="http://zuryshop.net/@item.image" alt="@item.productName"></a>
                                                     @if (item.quantity > 0)
                                                     {
                                                         <div class="btn-product_@item.ID">
@@ -70,7 +70,13 @@
                                                         {
                                                             <span class="aa-product-price">@string.Format("{0:0,0}", item.price)<sup><u>đ</u></sup></span>
                                                         }
-                                                    </figcaption>
+                                                        
+                                                        <div class="btn-product-mb">
+                                                            <a href="#" class="aa-add-card-btn-mb action like" id="like_@item.ID" data-id="@item.ID" data-toggle="tooltip" data-placement="top" title="Yêu thích"><span class="fa fa-heart-o"></span></a>
+                                                            <a class="aa-add-card-btn-mb action-addcart" data-loading-text="Loading..." role="button" href="#" data-id="@item.ID"><span class="fa fa-shopping-cart"></span> MUA HÀNG</a>
+                                                            <a href="#" class="aa-add-card-btn-mb action quick-view" data-id="@item.ID" data-toggle2="tooltip" data-placement="top" title="Xem nhanh"><span class="fa fa-search"></span></a>
+                                                        </div>
+                                                    </figcaption>                                                   
                                                 </figure>
                                                 <div class="aa-product-hvr-content" id="aa-product-hvr-content_@item.ID">
                                                     <a href="#" class="like" id="like_@item.ID" data-id="@item.ID" data-toggle="tooltip" data-placement="top" title="Yêu thích"><span class="fa fa-heart-o"></span></a>

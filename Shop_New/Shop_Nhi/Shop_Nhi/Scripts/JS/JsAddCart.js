@@ -5,10 +5,9 @@ toastr.options = {
 };
 
 $(document).ready(function () {
-    $('.like').off('click').on('click', function (e) {
+    $('.aa-add-card-btn-mb.action.like').off('click').on('click', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
-        var aapro = '#aa-product-hvr-content_' + id;
         var like = '#like_' + id;
         $.ajax({
             url: "/Home/SetLike",
@@ -27,7 +26,7 @@ $(document).ready(function () {
 });
 //get product
 $(document).ready(function () {
-    $('.quick-view').off('click').on('click', function (e) {
+    $('.aa-add-card-btn-mb.action.quick-view').off('click').on('click', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
         $('#hidProductId').val($(this).data('id'));
@@ -199,7 +198,7 @@ $(document).ready(function () {
                         $(this).parent().remove();
                     });
                 },
-                error: function () {
+                error: function (errormessage) {
                     alert(errormessage.responseText);
                 }
             });//End:ajax
@@ -223,18 +222,19 @@ $(document).ready(function () {
                 data: { id: id, qty: qty },
                 type: 'POST',
                 dataType: 'JSON',
-                success: function (res) {
+                success: function(res) {
                     if (res.productItem != null) {
                         toastr.success('Thêm sản phẩm vào giỏ thành công', '');
-                        setTimeout(function () {
-                            location.href = '/';
-                        }, 2300);
+                        setTimeout(function() {
+                                location.href = '/gio-hang';
+                            },
+                            1000);
                     }
                 },
-                error: function () {
+                error: function(errormessage) {
                     alert(errormessage.responseText);
                 }
-            })
+            });
         } else {
             toastr.error('Số lượng không đúng', '');
         }

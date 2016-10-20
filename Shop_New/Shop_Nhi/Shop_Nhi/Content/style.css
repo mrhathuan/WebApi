@@ -1067,7 +1067,7 @@ img {
 .aa-product-catg li {
   display: block;
   float: left;
-  height: 380px;
+  height: 390px;
   text-align: center;
   margin: 0 0 20px 55px;
   width: 20.5%;
@@ -1154,6 +1154,26 @@ img {
   -webkit-transform: scale(0);
   transform: scale(0);
 }
+.aa-product-catg li figure .btn-product-mb {
+    margin: 5px auto;
+}
+.aa-product-catg li figure .aa-add-card-btn-mb {
+    border: 1px solid hsl(0, 0%, 92%);
+    display: inline-block;
+    font-size: 14px;
+    height: 36px;
+    line-height: 35px;
+    margin: 0 2px;
+    padding: 0 7px;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #ff2851;
+}
+.aa-product-catg li figure .aa-add-card-btn-mb.action {    
+    background-color: #fff;
+    padding: 0 10px;
+    color: #000000;
+}
 .aa-product-catg li figure .aa-add-card-btn span {
   margin-right: 5px;
 }
@@ -1182,6 +1202,7 @@ img {
   letter-spacing: 0.5px;
   font-size: 16px;
   color:#cd2d2d;
+  margin-bottom: 10px;
 }
 .aa-product-catg li .aa-product-price del {
   margin-left: 5px;
