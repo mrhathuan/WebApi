@@ -432,6 +432,7 @@
     <Content Include="img\brand_prlx_bg-small.jpg" />
     <Content Include="img\btnAddCart.png" />
     <Content Include="img\card\card.jpg" />
+    <Content Include="img\cart.png" />
     <Content Include="img\cartzury.jpg" />
     <Content Include="img\close-icon.png" />
     <Content Include="img\fashion-banner.jpg" />

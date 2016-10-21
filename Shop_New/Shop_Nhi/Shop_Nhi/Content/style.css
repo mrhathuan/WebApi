@@ -11,7 +11,10 @@ body {
 .no-padding {
   padding: 0;
 }
-
+a.disabled {
+  opacity: 0.65; 
+  cursor: not-allowed;
+}
 /* MODULES - Individual site components */
 ul {
   padding: 0;
@@ -1072,36 +1075,13 @@ img {
   margin: 0 0 20px 55px;
   width: 20.5%;
   position: relative;
-  overflow: hidden;
+ 
 }
-.aa-product-catg li:hover figure .aa-product-img {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-.aa-product-catg li:hover figure .aa-add-card-btn {
-  -moz-transform: scale(1);
-  -o-transform: scale(1);
-  -ms-transform: scale(1);
-  -webkit-transform: scale(1);
-  transform: scale(1);
-}
-.aa-product-catg li:hover figure .aa-add-card-btn-ok {
-  -moz-transform: scale(1);
-  -o-transform: scale(1);
-  -ms-transform: scale(1);
-  -webkit-transform: scale(1);
-  transform: scale(1);
-}
-.aa-product-catg li:hover .aa-product-hvr-content {
-  -moz-transform: translateX(0%);
-  -o-transform: translateX(0%);
-  -ms-transform: translateX(0%);
-  -webkit-transform: translateX(0%);
-  transform: translateX(0%);
-}
+
+
 .aa-product-catg li figure {
   position: relative;
-  height: 300px;
-  
+  height: 300px;  
 }
 .aa-product-catg li figure .aa-product-img {
   background-color: #f9f9fb;
@@ -1112,52 +1092,11 @@ img {
   -o-transition: all 0.5s;
   transition: all 0.5s;
 }
-.aa-product-catg li figure .aa-add-card-btn {
-  background: #000 none repeat scroll 0 0;
-  bottom: 0;
-  color: #fff;
-  font-size: 16px;
-  left: 0;
-  padding: 12px 10px;
-  position: absolute;
-  right: 0;
-  text-transform: uppercase;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -ms-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  transition: all 0.5s;
-  -moz-transform: scale(0);
-  -o-transform: scale(0);
-  -ms-transform: scale(0);
-  -webkit-transform: scale(0);
-  transform: scale(0);
-}
-.aa-product-catg li figure .aa-add-card-btn-ok {
-  background: #000 none repeat scroll 0 0;
-  bottom: 0;
-  color: #fff;
-  font-size: 16px;
-  left: 0;
-  padding: 12px 10px;
-  position: absolute;
-  right: 0;
-  text-transform: uppercase;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -ms-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  transition: all 0.5s;
-  -moz-transform: scale(0);
-  -o-transform: scale(0);
-  -ms-transform: scale(0);
-  -webkit-transform: scale(0);
-  transform: scale(0);
-}
+
 .aa-product-catg li figure .btn-product-mb {
     margin: 5px auto;
 }
-.aa-product-catg li figure .aa-add-card-btn-mb {
+.aa-add-card-btn-mb {
     border: 1px solid hsl(0, 0%, 92%);
     display: inline-block;
     font-size: 14px;
@@ -1167,12 +1106,13 @@ img {
     padding: 0 7px;
     text-transform: uppercase;
     color: #fff;
-    background-color: #ff2851;
 }
-.aa-product-catg li figure .aa-add-card-btn-mb.action {    
+.aa-add-card-btn-mb:hover {
+    color: #fff;
+}
+.aa-add-card-btn-mb.action {    
     background-color: #fff;
-    padding: 0 10px;
-    color: #000000;
+    padding: 0 10px;    
 }
 .aa-product-catg li figure .aa-add-card-btn span {
   margin-right: 5px;
@@ -2113,9 +2053,7 @@ img {
   -o-transition: all 0.5s;
   transition: all 0.5s;
 }
-.aa-product-img:hover img{
-    opacity:1;
-}
+
 #aa-product-category .aa-product-catg-content .aa-product-catg-body .list li figure .aa-add-card-btn {
   bottom: 35%;
   left: 40%;
@@ -2318,12 +2256,12 @@ h3.detail-sp{
     width: 100%;
 }
 .blue-sp{
-	color:#cd2d2d;
-    font-size:14px;
+	color:#ff3366;
+    font-size:16px;
     font-weight:500;
 }
 .blue-sp.sale{
-	color: #ed1c24;
+	color: #ff3366;
     font-size: 20px;
     font-weight: 700;
     white-space: nowrap;
@@ -2331,7 +2269,7 @@ h3.detail-sp{
 .btn-addcart{
 	background:#4F4C4C;
 	padding:5px;
-	color:#FFFFFF;
+	color:#ffffff;
 	border-radius:3px;
 	margin-top:7px;	
 }
@@ -2340,6 +2278,14 @@ h3.detail-sp{
     width:100%;
     float:left;
     margin-bottom:30px;
+}
+.aa-add-card-btn-mb.btn-add-card-detail:before {
+    width: 16px;
+    height: 100%;
+    float: left;
+    background: url(../img/cart.png) no-repeat scroll left center;
+    content: " ";
+    margin-right: 10px;
 }
 /*==================
  CHECKOUT PAGE

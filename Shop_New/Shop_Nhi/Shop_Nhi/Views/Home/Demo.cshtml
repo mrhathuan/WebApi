@@ -53,13 +53,7 @@
                                         {
                                             <li>
                                                 <figure>
-                                                    <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="http://zuryshop.net/@item.image" alt="@item.productName"></a>
-                                                    @if (item.quantity > 0)
-                                                    {
-                                                        <div class="btn-product_@item.ID">
-                                                            <a class="aa-add-card-btn" data-loading-text="Loading..." role="button" href="#" data-id="@item.ID"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
-                                                        </div>
-                                                    }
+                                                    <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="http://zuryshop.net/@item.image" alt="@item.productName"></a>                                                   
                                                     <figcaption>
                                                         <div class="aa-product-title"><a title="@item.productName" href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></div>
                                                         @if (item.promotionPrice > 0)
@@ -73,16 +67,19 @@
                                                         
                                                         <div class="btn-product-mb">
                                                             <a href="#" class="aa-add-card-btn-mb action like" id="like_@item.ID" data-id="@item.ID" data-toggle="tooltip" data-placement="top" title="Yêu thích"><span class="fa fa-heart-o"></span></a>
-                                                            <a class="aa-add-card-btn-mb action-addcart" data-loading-text="Loading..." role="button" href="#" data-id="@item.ID"><span class="fa fa-shopping-cart"></span> MUA HÀNG</a>
+                                                            @if (item.quantity > 0)
+                                                            {
+                                                                <a class="aa-add-card-btn-mb action-addcart" role="button" href="#" data-id="@item.ID"><span class="fa fa-shopping-cart"></span> MUA HÀNG</a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a class="aa-add-card-btn-mb disabled" role="button"><span class="fa fa-shopping-cart"></span> MUA HÀNG</a>
+                                                            }
                                                             <a href="#" class="aa-add-card-btn-mb action quick-view" data-id="@item.ID" data-toggle2="tooltip" data-placement="top" title="Xem nhanh"><span class="fa fa-search"></span></a>
                                                         </div>
                                                     </figcaption>                                                   
                                                 </figure>
-                                                <div class="aa-product-hvr-content" id="aa-product-hvr-content_@item.ID">
-                                                    <a href="#" class="like" id="like_@item.ID" data-id="@item.ID" data-toggle="tooltip" data-placement="top" title="Yêu thích"><span class="fa fa-heart-o"></span></a>
-                                                    <a href="/chi-tiet/@item.metatTitle-@item.ID" data-toggle="tooltip" data-placement="top" title="Chi tiết"><span class="fa fa-exchange"></span></a>
-                                                    <a href="#" class="quick-view" data-id="@item.ID" data-toggle2="tooltip" data-placement="top" title="Xem nhanh" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>
-                                                </div>
+                                               
                                                 <!-- product badge -->
                                                 @if (item.quantity == null || item.quantity == 0)
                                                 {
@@ -102,14 +99,9 @@
                                             <li>
                                                 <figure>
                                                     <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
-                                                    @if (item.quantity > 0)
-                                                    {
-                                                        <div class="btn-product_@item.ID">
-                                                            <a class="aa-add-card-btn" data-loading-text="Loading..." role="button" href="#" data-id="@item.ID"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
-                                                        </div>
-                                                    }
+                                                    
                                                     <figcaption>
-                                                        <div class="aa-product-title"><a title="@item.productName" href="#">@item.productName</a></div>
+                                                        <div class="aa-product-title"><a title="@item.productName" href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></div>
                                                         @if (item.promotionPrice > 0)
                                                         {
                                                             <span class="aa-product-price">@string.Format("{0:0,0}", item.promotionPrice)<sup><u>đ</u></sup></span><span class="aa-product-price"><del>@string.Format("{0:0,0}", item.price)<sup><u>đ</u></sup></del></span>
@@ -118,13 +110,21 @@
                                                         {
                                                             <span class="aa-product-price">@string.Format("{0:0,0}", item.price)<sup><u>đ</u></sup></span>
                                                         }
+                                                        <div class="btn-product-mb">
+                                                            <a href="#" class="aa-add-card-btn-mb action like" id="like_@item.ID" data-id="@item.ID" data-toggle="tooltip" data-placement="top" title="Yêu thích"><span class="fa fa-heart-o"></span></a>
+                                                            @if (item.quantity > 0)
+                                                            {
+                                                                <a class="aa-add-card-btn-mb action-addcart" role="button" href="#" data-id="@item.ID"><span class="fa fa-shopping-cart"></span> MUA HÀNG</a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a class="aa-add-card-btn-mb disabled" role="button"><span class="fa fa-shopping-cart"></span> MUA HÀNG</a>
+                                                            }
+                                                            <a href="#" class="aa-add-card-btn-mb action quick-view" data-id="@item.ID" data-toggle2="tooltip" data-placement="top" title="Xem nhanh"><span class="fa fa-search"></span></a>
+                                                        </div>
                                                     </figcaption>
                                                 </figure>
-                                                <div class="aa-product-hvr-content" id="aa-product-hvr-content_@item.ID">
-                                                    <a href="#" class="like" id="like_@item.ID" data-id="@item.ID" data-toggle="tooltip" data-placement="top" title="Yêu thích"><span class="fa fa-heart-o"></span></a>
-                                                    <a href="/chi-tiet/@item.metatTitle-@item.ID" data-toggle="tooltip" data-placement="top" title="Chi tiết"><span class="fa fa-exchange"></span></a>
-                                                    <a href="#" class="quick-view" data-id="@item.ID" data-toggle2="tooltip" data-placement="top" title="Xem nhanh" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>
-                                                </div>
+                                              
                                                 <!-- product badge -->
                                                 @if (item.quantity == null || item.quantity == 0)
                                                 {
@@ -146,14 +146,9 @@
                                             <li>
                                                 <figure>
                                                     <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
-                                                    @if (item.quantity > 0)
-                                                    {
-                                                        <div class="btn-product_@item.ID">
-                                                            <a class="aa-add-card-btn" data-loading-text="Loading..." role="button" href="#" data-id="@item.ID"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
-                                                        </div>
-                                                    }
+                                                   
                                                     <figcaption>
-                                                        <div class="aa-product-title"><a title="@item.productName" href="#">@item.productName</a></div>
+                                                        <div class="aa-product-title"><a title="@item.productName" href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></div>
                                                         @if (item.promotionPrice > 0)
                                                         {
                                                             <span class="aa-product-price">@string.Format("{0:0,0}", item.promotionPrice)<sup><u>đ</u></sup></span><span class="aa-product-price"><del>@string.Format("{0:0,0}", item.price)<sup><u>đ</u></sup></del></span>
@@ -162,13 +157,21 @@
                                                         {
                                                             <span class="aa-product-price">@string.Format("{0:0,0}", item.price)<sup><u>đ</u></sup></span>
                                                         }
+                                                        <div class="btn-product-mb">
+                                                            <a href="#" class="aa-add-card-btn-mb action like" id="like_@item.ID" data-id="@item.ID" data-toggle="tooltip" data-placement="top" title="Yêu thích"><span class="fa fa-heart-o"></span></a>
+                                                            @if (item.quantity > 0)
+                                                            {
+                                                                <a class="aa-add-card-btn-mb action-addcart" role="button" href="#" data-id="@item.ID"><span class="fa fa-shopping-cart"></span> MUA HÀNG</a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a class="aa-add-card-btn-mb disabled" role="button"><span class="fa fa-shopping-cart"></span> MUA HÀNG</a>
+                                                            }
+                                                            <a href="#" class="aa-add-card-btn-mb action quick-view" data-id="@item.ID" data-toggle2="tooltip" data-placement="top" title="Xem nhanh"><span class="fa fa-search"></span></a>
+                                                        </div>
                                                     </figcaption>
                                                 </figure>
-                                                <div class="aa-product-hvr-content" id="aa-product-hvr-content_@item.ID">
-                                                    <a href="#" class="like" id="like_@item.ID" data-id="@item.ID" data-toggle="tooltip" data-placement="top" title="Yêu thích"><span class="fa fa-heart-o"></span></a>
-                                                    <a href="/chi-tiet/@item.metatTitle-@item.ID" data-toggle="tooltip" data-placement="top" title="Chi tiết"><span class="fa fa-exchange"></span></a>
-                                                    <a href="#" class="quick-view" data-id="@item.ID" data-toggle2="tooltip" data-placement="top" title="Xem nhanh" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>
-                                                </div>
+                                              
                                                 <!-- product badge -->
                                                 @if (item.quantity == null || item.quantity == 0)
                                                 {
@@ -206,7 +209,7 @@
                                                         <div class="aa-prod-quantity">
                                                             <input type="number" size="4" value="1" id="quantity" />
                                                             <p class="aa-prod-category">
-                                                                Danh mục: <a href="#">Polo T-Shirt</a>
+                                                                Danh mục: <a href="#">Test</a>
                                                             </p>
                                                         </div>
                                                         <input type="hidden" id="hidProductId" value="0" />
@@ -272,12 +275,7 @@
                                                             <span class="aa-product-price">@string.Format("{0:0,0}", item.price)<sup><u>đ</u></sup></span>
                                                         }
                                                     </figcaption>
-                                                </figure>
-                                                <div class="aa-product-hvr-content" id="aa-product-hvr-content_@item.ID">
-                                                    <a href="#" class="like" id="like_@item.ID" data-id="@item.ID" data-toggle="tooltip" data-placement="top" title="Yêu thích"><span class="fa fa-heart-o"></span></a>
-                                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Chi tiết"><span class="fa fa-exchange"></span></a>
-                                                    <a href="#" class="quick-view" data-id="@item.ID" data-toggle2="tooltip" data-placement="top" title="Xem nhanh" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>
-                                                </div>
+                                                </figure>                                               
                                                 <!-- product badge -->
                                                 <span class="aa-badge aa-sold-out" href="#">Hết hàng!</span>
                                             </li>

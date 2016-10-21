@@ -120,6 +120,12 @@ h2 {
 .aa-product-catg li .aa-product-title a:hover, .aa-product-catg li .aa-product-title a:focus {
   color: #ff871c;
 }
+.aa-add-card-btn-mb {
+    background-color: #ff871c;
+}
+.aa-add-card-btn-mb.action {    
+    color: #ff871c;
+}
 .aa-product-catg li .aa-product-price {
   color: #ff871c;  
 }

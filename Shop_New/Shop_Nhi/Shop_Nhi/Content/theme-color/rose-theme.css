@@ -116,6 +116,12 @@ h2 {
 .aa-product-catg li figure .aa-add-card-btn:hover {
   color: #ff6666;
 }
+.aa-add-card-btn-mb {
+    background-color: #ff6666;
+}
+.aa-add-card-btn-mb.action {    
+    color: #ff6666;
+}
 .aa-product-catg li figure .aa-add-card-btn-ok:hover {
   color: #ff6666;
 }

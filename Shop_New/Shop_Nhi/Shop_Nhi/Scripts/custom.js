@@ -41,6 +41,12 @@ jQuery(function($){
   /* ----------------------------------------------------------- */    
     jQuery('[data-toggle="tooltip"]').tooltip();
     jQuery('[data-toggle2="tooltip"]').tooltip();
+    $('a[rel=popover]').popover({
+        html: true,
+        trigger: 'hover',
+        placement: 'right',
+        content: function () { return '<img src="' + $(this).data('img') + '" />'; }
+    });
 
   /* ----------------------------------------------------------- */
   /*  3. PRODUCT VIEW SLIDER 

@@ -126,6 +126,12 @@ h2 {
 .aa-product-catg li .aa-product-price {
   color: #c762cb;  
 }
+.aa-add-card-btn-mb {
+    background-color: #c762cb;
+}
+.aa-add-card-btn-mb.action {    
+    color: #c762cb;
+}
 .aa-product-catg li .aa-product-hvr-content a:hover, .aa-product-catg li .aa-product-hvr-content a:focus {
   color: #c762cb;
 }

@@ -112,6 +112,12 @@ h2 {
 .aa-products-tab li.active a:hover, .aa-products-tab li.active a:focus {  
   border-bottom: 1px solid #a5d549;
 }
+.aa-add-card-btn-mb {
+    background-color: #a5d549;
+}
+.aa-add-card-btn-mb.action {    
+    color: #a5d549;
+}
 .aa-product-catg li figure .aa-add-card-btn:hover {
   color: #a5d549;
 }
