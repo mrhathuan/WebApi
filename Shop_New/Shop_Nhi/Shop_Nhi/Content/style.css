@@ -15,6 +15,26 @@ a.disabled {
   opacity: 0.65; 
   cursor: not-allowed;
 }
+.popover {
+    max-width:700px;    
+}
+.popover-content {
+    min-width: 320px;  
+}
+.popover-content img {
+    width: 100%;
+    height: 100%;
+}
+.tooltip {
+   max-width:700px;  
+}
+.tooltip-inner {
+    width: auto;
+}
+.tooltip-inner img {
+    width: 100%;
+    height: 100%;
+}
 /* MODULES - Individual site components */
 ul {
   padding: 0;
@@ -1107,7 +1127,7 @@ img {
     text-transform: uppercase;
     color: #fff;
 }
-.aa-add-card-btn-mb:hover {
+.aa-add-card-btn-mb:hover,.aa-add-card-btn-mb:focus,.aa-add-card-btn-mb:active {
     color: #fff;
 }
 .aa-add-card-btn-mb.action {    

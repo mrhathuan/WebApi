@@ -44,7 +44,8 @@ jQuery(function($){
     $('a[rel=popover]').popover({
         html: true,
         trigger: 'hover',
-        placement: 'right',
+        placement: 'auto right',
+        container: "body",
         content: function () { return '<img src="' + $(this).data('img') + '" />'; }
     });
 

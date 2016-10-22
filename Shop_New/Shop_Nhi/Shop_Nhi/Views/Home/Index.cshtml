@@ -54,7 +54,7 @@
                                         {
                                             <li>
                                                 <figure>
-                                                    <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
+                                                    <a data-toggle="tooltip" data-trigger="hover" data-placement="auto right" data-html="true" title="<img src='http://zuryshop.net/@item.image'/>" class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="http://zuryshop.net/@item.image" /></a>
                                                     <figcaption>
                                                         <div class="aa-product-title"><a title="@item.productName" href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></div>
                                                         @if (item.promotionPrice > 0)
@@ -262,9 +262,9 @@
 
                                             <li>
                                                 <figure>
-                                                    <a class="aa-product-img" href="#"><img src="@item.image" alt="@item.productName"></a>
+                                                    <a class="aa-product-img" href="javascript:;"><img src="@item.image" alt="@item.productName"></a>
                                                     <figcaption>
-                                                        <div class="aa-product-title"><a title="@item.productName" href="#">@item.productName</a></div>
+                                                        <div class="aa-product-title"><a title="@item.productName" href="javascript:;">@item.productName</a></div>
                                                         @if (item.promotionPrice > 0)
                                                         {
                                                             <span class="aa-product-price">@string.Format("{0:0,0}", item.promotionPrice)<sup><u>đ</u></sup></span><span class="aa-product-price"><del>@string.Format("{0:0,0}", item.price)<sup><u>đ</u></sup></del></span>
