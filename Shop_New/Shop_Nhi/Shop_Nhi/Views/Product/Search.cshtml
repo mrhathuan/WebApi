@@ -73,7 +73,7 @@
                             {
                                 <li>
                                     <figure>
-                                        <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
+                                        <a rel=popover data-img="@item.image" class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
                                         <figcaption>
                                             <div class="aa-product-title"><a title="@item.productName" href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></div>
                                             @if (item.promotionPrice > 0)
@@ -139,8 +139,7 @@
                                                         </p>
                                                     </div>
                                                     <input type="hidden" id="hidProductId" value="0" />
-                                                    <div class="aa-prod-view-bottom">
-                                                        <a href="#" class="aa-add-to-cart-btn" id="add-cart-modal"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
+                                                    <div class="aa-prod-view-bottom">                                                     
                                                         <a href="#" id="aa-cart-modal-detail" class="aa-add-to-cart-btn">Xem chi tiết</a>
                                                     </div>
                                                 </div>

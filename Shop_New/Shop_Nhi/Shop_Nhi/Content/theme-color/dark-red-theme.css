@@ -79,15 +79,7 @@ h2 {
 .scrollToTop:focus { 
   color: #970001; 
 }
-#wpf-loader-two .wpf-loader-two-inner:before {
-  background: #970001;  
-}
-#wpf-loader-two .wpf-loader-two-inner:after {
-  background: #970001;  
-}
-#wpf-loader-two {
-  background-color: #970001;  
-}
+
 #aa-slider .aa-slider-area .seq-title span {
   color: #970001;  
 }

@@ -1,29 +1,31 @@
 ﻿// <!--DelItem-->
 
 $(document).ready(function () {
-    $('.remove').off('click').on('click', function (e) {
-        e.preventDefault();
-        var cf = confirm("Bạn chắc chắn muốn xóa sản phẩm này?");
-        var id = $(this).data('id');
-        var cartitem = '#cartitem_' + id;
-        if (cf) {
-            $.ajax({
-                url: "/Cart/DelItemCart",
-                data:{id:id},
-                type:"POST",
-                dataType:"JSON",
-                success: function (res) {
-                    if (res.status == true) {
+    $('.remove')
+        .off('click')
+        .on('click',
+            function (e) {
+                e.preventDefault();               
+                var id = $(this).data('id');
+                var cartitem = '#cartitem_' + id;
+                $('.loading').removeClass('hide');
+                $.ajax({
+                    url: "/Cart/DelItemCart",
+                    data: { id: id },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (res) {
+                        $('.loading').addClass('hide');
+                        if (res.status == true) {
+                            window.location.href = '/gio-hang';
+                        }
+                    },
+                    error: function (errormessage) {
                         window.location.href = '/gio-hang';
+                        toastr.error('Xóa thất bại', '');
                     }
-                },
-                error: function (errormessage) {
-                    window.location.href = '/gio-hang';
-                    toastr.error('Xóa thất bại', '');
-                }
-            })
-                }
-    })
+                });
+            });
 return false;
 });
 
@@ -54,8 +56,7 @@ $(document).ready(function () {
     $('.aa-cart-quantity').bind({
         change: function () {
             var id = $(this).data('id');
-            var qty = $(this).val();
-            var gia_now = '#thanhtien_' + id;
+            var qty = $(this).val();            
             if (qty > 0 && $.isNumeric(qty)) {
                 $.ajax({
                     url: "/Cart/UpdateCart",

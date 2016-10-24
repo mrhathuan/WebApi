@@ -30,7 +30,7 @@
                 if ($.trim(data.pay) == 0) {
                     toastr.error('Phương thức thanh toán không hợp lệ', '');
                 } else {
-                   // $('#send-order').button('loading');
+                    $('.loading').removeClass('hide');
                     $.ajax({
                         url: '@Url.Action("SendOrder", "Cart")',
                         type: 'GET',
@@ -44,11 +44,13 @@
                             pay:data.pay
                         },
                         success: function (res) {
-                            if (res.status == true) {
-                                toastr.success('Gửi đơn hàng thành công', '');                                                           
-                                setTimeout(function () {
-                                    location.href = '/gio-hang';
-                                }, 1000)                                
+                            $('.loading').addClass('hide');
+                            if (res.status == true) {                               
+                                toastr.success('Gửi đơn hàng thành công', '');
+                                setTimeout(function() {
+                                        location.href = '/gio-hang';
+                                    },
+                                    1000);
                             } else {
                                 toastr.warning('Lỗi thanh toán', '');
                                 location.href = '/thanh-toan-don-hang';

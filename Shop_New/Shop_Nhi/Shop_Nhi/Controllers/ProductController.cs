@@ -84,15 +84,12 @@ namespace Shop_Nhi.Controllers
             ViewBag.TotalPage = totalPage;
             ViewBag.MaxPage = maxPage;
 
-
-
             ViewBag.First = 1;
             ViewBag.Last = totalPage;
             ViewBag.Next = page + 1;
             ViewBag.Prev = page - 1;
             return View(model);
         }
-
 
         //Search
         [HttpGet]
@@ -158,9 +155,7 @@ namespace Shop_Nhi.Controllers
             {
                 return Redirect("/");
             }
-        }
-
-       
+        }  
         //
     }
 }

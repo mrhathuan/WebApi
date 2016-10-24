@@ -1,4 +1,4 @@
-﻿ @model Shop_Nhi.Models.Framework.Product
+﻿@model Shop_Nhi.Models.Framework.Product
 
 @{
     ViewBag.Title = Model.productName;
@@ -10,8 +10,8 @@
 }
 
 @section JsFooter{
-<script src="~/Scripts/eagle.gallery.min.js"></script>
-<script>
+    <script src="~/Scripts/eagle.gallery.min.js"></script>
+    <script>
     $(document).ready(function () {
         $('.eagle-gallery').eagleGallery({
             miniSliderArrowPos: 'outside',
@@ -25,9 +25,9 @@
             }
         });
     });
-</script>
- <!--Comment-->
-<script>
+    </script>
+    <!--Comment-->
+    <script>
     window.fbAsyncInit = function () {
         FB.init({
             appId: '283485375367823',
@@ -43,8 +43,8 @@
         js.src = "//connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
-</script>
-<script src="~/Scripts/JS/JsAddCart.js"></script>
+    </script>
+    <script src="~/Scripts/JS/JsAddCart.js"></script>
 }
 <section id="aa-product-category">
     <div class="container">
@@ -57,10 +57,10 @@
                 @Model.productName
             </nav>
 
-            <div class="col-lg-9 col-md-9 col-sm-8 col-md-push-3">              
+            <div class="col-lg-9 col-md-9 col-sm-8 col-md-push-3">
                 <!--Detail-->
-                 <div class="row">
-                   
+                <div class="row">
+
                     <div class="col-md-5">
                         <div class="eagle-gallery img500">
                             <div class="owl-carousel">
@@ -80,12 +80,12 @@
 
                     <div class="col-md-7">
                         <h3 class="tensanpham"><i class="glyphicon glyphicon-star"></i>@Model.productName</h3>
-                        
+
                         <h3 class="detail-sp">
                             <i class="glyphicon glyphicon-heart-empty"></i> Mã sản phẩm: <span class="blue-sp">@Model.code</span>
                         </h3>
                         <h3 class="detail-sp">
-                            <i class="glyphicon glyphicon-heart-empty"></i>Giá sản phẩm: 
+                            <i class="glyphicon glyphicon-heart-empty"></i>Giá sản phẩm:
                             @if (Model.promotionPrice != null || Model.promotionPrice > 0)
                             {
                                 <span class="blue-sp"><del>@string.Format("{0:0,0}", Model.price)<sup><u>đ</u></sup></del></span>
@@ -94,43 +94,44 @@
                             {
                                 <span class="blue-sp sale">@string.Format("{0:0,0}", Model.price)<sup><u>đ</u></sup></span>
                             }
-                            
+
                         </h3>
                         <h3 class="detail-sp">
-                            <i class="glyphicon glyphicon-heart-empty"></i>Giá khuyến mãi: 
+                            <i class="glyphicon glyphicon-heart-empty"></i>Giá khuyến mãi:
                             @if (Model.promotionPrice != null || Model.promotionPrice > 0)
                             {
                                 <span class="blue-sp sale">@string.Format("{0:0,0}", Model.promotionPrice)<sup><u>đ</u></sup></span>
-                            }                            
+                            }
                         </h3>
-            
+
                         <h3 class="detail-sp">
                             <i class="glyphicon glyphicon-heart-empty"></i> Xuất xứ: <span class="blue-sp">@Model.madeIn</span>
                         </h3>
-                       
+
                         <h3 class="detail-sp">
                             <i class="glyphicon glyphicon-heart-empty"></i> Chất liệu: <span class="blue-sp">@Model.chatlieu</span>
                         </h3>
-                        
+
                         <h3 class="detail-sp">
                             <i class="glyphicon glyphicon-heart-empty"></i> Tình trạng hàng: <span class="blue-sp">@(Model.quantity > 0 ? "CÒN HÀNG" : "HẾT HÀNG")</span>
                         </h3>
-                    
+
                         <h3 class="detail-sp">
                             Số lượng mua: <span><input maxlength="2" id="quantity" size="10" min="1" max="99" value="1" type="number"></span>
                         </h3>
-                  
+
                         <h3 class="detail-sp" id="btn-detail">
-                            @if (Model.quantity > 0  && Model.status == true) { 
+                            @if (Model.quantity > 0 && Model.status == true)
+                            {
                                 <a id="AddCartDetail" class="aa-add-card-btn-mb btn-add-card-detail" data-id="@Model.ID" href="#">ĐẶT MUA</a>
                             }
                             else
                             {
                                 <a role="button" class="aa-add-card-btn-mb disabled"><span class="fa fa-ban"></span> Đặt mua</a>
                             }
-                            
+
                         </h3>
-                        
+
                         <div class="fb-like"></div>
                         <div class="fb-share-button" data-layout="button_count"></div>
                         <br>
@@ -138,7 +139,7 @@
                         <div class="g-plus" data-action="share"></div>
 
                     </div>
-                </div>   
+                </div>
 
                 <!--Description-->
                 <div class="decriptions">
@@ -155,15 +156,15 @@
                             <div id="fb-root"></div>
                             <div class="fb-comments" data-href="@Request.Url.AbsoluteUri" data-width="100%" data-numposts="5"></div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <!--/Description-->
 
                 <div class="aa-product-catg-content">
-                        <h1 class="page-heading">
-                            <span class="page-heading-title">Sản phẩm liên quan</span>
-                        </h1>
+                    <h1 class="page-heading">
+                        <span class="page-heading-title">Sản phẩm liên quan</span>
+                    </h1>
                     <div class="aa-product-catg-body">
                         <ul class="aa-product-catg">
                             <!-- start single product item -->
@@ -171,7 +172,7 @@
                             {
                                 <li>
                                     <figure>
-                                        <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
+                                        <a rel=popover data-img="@item.image" class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
                                         <figcaption>
                                             <div class="aa-product-title"><a title="@item.productName" href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></div>
                                             @if (item.promotionPrice > 0)
@@ -206,7 +207,7 @@
                                 </li>
                             }
                             <!-- start single product item -->
-                           
+
                         </ul>
                         <!-- quick view modal -->
                         <div class="modal fade" id="quick-view-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -237,7 +238,6 @@
                                                     </div>
                                                     <input type="hidden" id="hidProductId" value="0" />
                                                     <div class="aa-prod-view-bottom">
-                                                        <a href="#" class="aa-add-to-cart-btn" id="add-cart-modal"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
                                                         <a href="#" id="aa-cart-modal-detail" class="aa-add-to-cart-btn">Xem chi tiết</a>
                                                     </div>
                                                 </div>
@@ -249,14 +249,13 @@
                         </div><!-- / quick view modal -->
                         <!-- / quick view modal -->
                     </div>
-               
+
                 </div>
 
-             </div>
+            </div>
 
 
             @{Html.RenderAction("_Category", "Home");}
         </div>
     </div>
 </section>
-

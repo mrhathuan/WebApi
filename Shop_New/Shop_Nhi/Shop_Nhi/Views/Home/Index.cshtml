@@ -54,7 +54,7 @@
                                         {
                                             <li>
                                                 <figure>
-                                                    <a data-toggle="tooltip" data-trigger="hover" data-placement="auto right" data-html="true" title="<img src='http://zuryshop.net/@item.image'/>" class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="http://zuryshop.net/@item.image" /></a>
+                                                    <a rel=popover data-img="http://zuryshop.net/@item.image" class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="http://zuryshop.net/@item.image" /></a>
                                                     <figcaption>
                                                         <div class="aa-product-title"><a title="@item.productName" href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></div>
                                                         @if (item.promotionPrice > 0)
@@ -89,7 +89,9 @@
                                             </li>
                                         }
                                     </ul>
-                                    <a class="aa-browse-btn" href="/san-pham-moi">Xem tất cả <span class="fa fa-long-arrow-right"></span></a>
+                                    <div class="aa-more-show">
+                                        <a class="aa-browse-btn" href="/san-pham-moi">Xem thêm<span class="fa fa-long-arrow-right"></span></a>
+                                    </div>  
                                 </div>
                                 <!-- / hot product category -->
                                 <!-- start sale product category -->
@@ -99,8 +101,7 @@
                                         {
                                             <li>
                                                 <figure>
-                                                    <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
-
+                                                    <a rel=popover data-img="@item.image" class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
                                                     <figcaption>
                                                         <div class="aa-product-title"><a title="@item.productName" href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></div>
                                                         @if (item.promotionPrice > 0)
@@ -134,7 +135,9 @@
                                             </li>
                                         }
                                     </ul>
-                                    <a class="aa-browse-btn" href="/san-pham-moi">Xem thêm<span class="fa fa-long-arrow-right"></span></a>
+                                    <div class="aa-more-show">
+                                        <a class="aa-browse-btn" href="/san-pham-moi">Xem thêm<span class="fa fa-long-arrow-right"></span></a>
+                                    </div>                                    
                                 </div>
                                 <!-- / sale product category -->
                                 <!-- start new product category -->
@@ -146,7 +149,7 @@
 
                                             <li>
                                                 <figure>
-                                                    <a class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
+                                                    <a rel=popover data-img="@item.image" class="aa-product-img" href="/chi-tiet/@item.metatTitle-@item.ID"><img src="@item.image" alt="@item.productName"></a>
 
                                                     <figcaption>
                                                         <div class="aa-product-title"><a title="@item.productName" href="/chi-tiet/@item.metatTitle-@item.ID">@item.productName</a></div>
@@ -181,7 +184,9 @@
                                             </li>
                                         }
                                     </ul>
-
+                                    <div class="aa-more-show">
+                                        <a class="aa-browse-btn" href="/san-pham-moi">Xem thêm<span class="fa fa-long-arrow-right"></span></a>
+                                    </div> 
                                 </div>
                                 <!-- / new product category -->
 
@@ -214,8 +219,7 @@
                                                             </p>
                                                         </div>
                                                         <input type="hidden" id="hidProductId" value="0" />
-                                                        <div class="aa-prod-view-bottom">
-                                                            <a href="#" class="aa-add-to-cart-btn" id="add-cart-modal"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
+                                                        <div class="aa-prod-view-bottom">                                                            
                                                             <a href="#" id="aa-cart-modal-detail" class="aa-add-to-cart-btn">Xem chi tiết</a>
                                                         </div>
                                                     </div>
@@ -262,7 +266,7 @@
 
                                             <li>
                                                 <figure>
-                                                    <a class="aa-product-img" href="javascript:;"><img src="@item.image" alt="@item.productName"></a>
+                                                    <a rel=popover data-img="@item.image" class="aa-product-img" href="javascript:;"><img src="@item.image" alt="@item.productName"></a>
                                                     <figcaption>
                                                         <div class="aa-product-title"><a title="@item.productName" href="javascript:;">@item.productName</a></div>
                                                         @if (item.promotionPrice > 0)

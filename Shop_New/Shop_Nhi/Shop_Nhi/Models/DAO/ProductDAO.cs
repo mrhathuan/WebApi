@@ -65,7 +65,6 @@ namespace Shop_Nhi.Models.DAO
             return db.Products.Where(x => x.status == true).OrderByDescending(x => x.createDate).Take(top).ToList();
         }
 
-     
         //product sort
         public List<Product> ProductCategory(int sort, long cateId, ref int totalRecord, int pageIndex = 1, int pageSize = 2)
         {

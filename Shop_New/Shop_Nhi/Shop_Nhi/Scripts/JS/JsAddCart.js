@@ -26,36 +26,83 @@ $(document).ready(function () {
 });
 //get product
 $(document).ready(function () {
-    $('.aa-add-card-btn-mb.action.quick-view').off('click').on('click', function (e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-        $('#hidProductId').val($(this).data('id'));
-        $.ajax({
-            url: '/Home/GetProduct',
-            data: { id: id },
-            type: 'POST',
-            dataType: 'JSON',
-            success: function (res) {
-                var data = res.product;
-                var cate = res.category;
-                $('#quick-view-modal').modal('show');
-                $('.aa-product-view-slider').html('<img class="img-responsive" src="'+data.image+'" />');                
-                $('.aa-product-view-content h3').html('' + data.productName);
-                if (data.description !== null) {
-                    $('.aa-product-view-content p').html('' + data.description);
-                }                
-                $('.aa-product-view-price').html('' + addPeriod(data.price) + '<sup><u>đ</u></sup>');
-                $('.aa-prod-category').html('Danh mục:' + ' ' + '<a href="/san-pham/' + cate.metatTitle + '-' + cate.ID + '">' + cate.name + '</a>');
-                if (data.quantity == null || data.quantity == 0 || data.status == false) {                    
-                    $('#add-cart-modal').remove();
-                }
-                
-                $('#aa-cart-modal-detail').attr("href", "/chi-tiet/" + data.metatTitle + "-" + data.ID + "");
-                
-            }
-        })
-    })
+    $('.aa-add-card-btn-mb.action.quick-view')
+        .off('click')
+        .on('click',
+            function(e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                $('#hidProductId').val($(this).data('id'));
+                $('.loading').removeClass('hide');
+                $.ajax({
+                    url: '/Home/GetProduct',
+                    data: { id: id },
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: function(res) {
+                        $('.loading').addClass('hide');
+                        var data = res.product;
+                        var cate = res.category;
+                        $('#quick-view-modal').modal('show');
+                        $('.aa-product-view-slider').html('<img class="img-responsive" src="' + data.image + '" />');
+                        $('.aa-product-view-content h3').html('' + data.productName);
+                        if (data.description !== null) {
+                            $('.aa-product-view-content p').html('' + data.description);
+                        }
+                        $('.aa-product-view-price').html('' + addPeriod(data.price) + '<sup><u>đ</u></sup>');
+                        $('.aa-prod-category')
+                            .html('Danh mục:' +
+                                ' ' +
+                                '<a href="/san-pham/' +
+                                cate.metatTitle +
+                                '-' +
+                                cate.ID +
+                                '">' +
+                                cate.name +
+                                '</a>');
+                        $('#aa-cart-modal-detail').attr("href", "/chi-tiet/" + data.metatTitle + "-" + data.ID + "");
+                        if (data.quantity > 0 && data.status == true) {
+                            $('.aa-prod-view-bottom')
+                                .append('<a href="#" class="aa-add-to-cart-btn" id="add-cart-modal"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>');
+                        }
+
+                        //region add cart modal
+                        $('#add-cart-modal').off('click').on('click', function (e) {
+                            e.preventDefault();
+                            var id = $('#hidProductId').val();
+                            var qty = $('#quantity').val();
+                            if (qty > 0) {
+                                $.ajax({
+                                    url: '/Cart/AddCartItem',
+                                    data: { id: id, qty: qty },
+                                    type: 'POST',
+                                    dataType: 'JSON',
+                                    success: function (res) {
+                                        if (res.productItem != null) {                                            
+                                            setTimeout(function () {
+                                                location.href = '/gio-hang';
+                                            },
+                                            500);
+                                        }
+                                    },
+                                    error: function (errormessage) {
+                                        alert(errormessage.responseText);
+                                    }
+                                });
+                            } else {
+                                toastr.error('Số lượng không đúng', '');
+                            }
+                        });
+                        //#end region add cart modal
+                    }
+                });
+            });
 });
+$('#quick-view-modal')
+    .on('hidden.bs.modal',
+        function(e) {
+            $('#add-cart-modal').remove();
+        });
 //Add cart
 $(document).ready(function () {
     toastr.options = {
@@ -64,8 +111,7 @@ $(document).ready(function () {
     $('.action-addcart').off('click').on('click', function (e) {
         e.preventDefault();
         var btn = $(this);     
-        var id = $(this).data('id');
-        var btn_id = '.btn-product_' + id;
+        var id = $(this).data('id');       
         $.ajax({
             url: '/Cart/AddCartItem',
             type: 'GET',
@@ -120,13 +166,13 @@ $(document).ready(function () {
                         data: { id: id },
                         type: "POST",
                         dataType: "JSON",
-                        success: function (res) {
+                        success: function(res) {
                             if (res.tongtien != 0) {
                                 $(this).remove();
                                 $('#cart-total').empty().append('' + addPeriod(res.tongtien) + '<sup><u>đ</u></sup>');
                                 $('.aa-cartbox-total-price').empty().append(addPeriod(res.tongtien));
                                 $('.aa-cart-notify').empty().append(res.soluong);
-                       
+
                             } else {
                                 $(this).parent().remove();
                                 $('.aa-cart-notify').empty().append('0');
@@ -136,12 +182,12 @@ $(document).ready(function () {
                                 $('.checkout-area').empty().append('<p>Chưa có sản phẩm nào trong giỏ</p>');
                             }
                         },
-                        error: function (errormessage) {
+                        error: function(errormessage) {
                             alert(errormessage.responseText);
                             toastr.error('Xóa thất bại', '');
                         }
-                    })
-                   // $(this).parent().remove();
+                    });
+                    // $(this).parent().remove();
                 });
             },
             error: function (errormessage) {
@@ -256,6 +302,7 @@ $(document).ready(function () {
         } else {
             toastr.error('Số lượng không đúng', '');
         }
-    });   
+    });
+
 });
 

@@ -82,14 +82,11 @@ h2 {
 .scrollToTop:focus { 
   color: #ff2851; 
 }
-#wpf-loader-two .wpf-loader-two-inner:before {
-  background: #ff2851;  
-}
 #wpf-loader-two .wpf-loader-two-inner:after {
-  background: #ff2851;  
+  background: #fff;  
 }
 #wpf-loader-two {
-  background-color: #ff2851;  
+  background-color: #fff;  
 }
 #aa-slider .aa-slider-area .seq-title span {
   color: #ff2851;  
@@ -145,6 +142,9 @@ h2 {
 #quick-view-modal .modal-content .aa-product-view-content .aa-prod-view-size a:hover, #quick-view-modal .modal-content .aa-product-view-content .aa-prod-view-size a:focus {
   border-color: #ff2851;
   color: #ff2851;
+}
+#quick-view-modal .modal-content .aa-product-view-content .aa-price-block .aa-product-view-price {
+    color: #ff2851;
 }
 #quick-view-modal .modal-content .aa-product-view-content .aa-prod-quantity .aa-prod-category a {
   color: #ff2851; 
@@ -330,10 +330,3 @@ h2 {
   background-color: #ff2851;
 }
 
-
-
-
-/*=======================================
-Template Design By MarkUps.
-Author URI : http://www.markups.io/
-========================================*/

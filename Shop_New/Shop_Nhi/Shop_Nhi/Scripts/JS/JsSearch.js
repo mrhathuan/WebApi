@@ -24,7 +24,6 @@
             },
             select: function (event, ui) {
                 $("#txtKeyword").val(ui.item.name);
-
                 return false;
             }
         })

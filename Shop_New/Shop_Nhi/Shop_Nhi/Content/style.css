@@ -16,14 +16,15 @@ a.disabled {
   cursor: not-allowed;
 }
 .popover {
-    max-width:700px;    
+    max-width:500px; 
 }
 .popover-content {
-    min-width: 320px;  
+    min-width: 320px;
+    min-height: 200px;
 }
 .popover-content img {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 .tooltip {
    max-width:700px;  
@@ -35,6 +36,13 @@ a.disabled {
     width: 100%;
     height: 100%;
 }
+/*auto complete*/
+.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front {
+    max-height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
 /* MODULES - Individual site components */
 ul {
   padding: 0;
@@ -639,7 +647,6 @@ img {
 }
 #aa-header .aa-header-bottom .aa-cartbox .aa-cartbox-summary ul li .aa-cartbox-info p {
   font-size: 16px;
-  color:#cd2d2d;
 }
 #aa-header .aa-header-bottom .aa-cartbox .aa-cartbox-summary ul li .aa-remove-product {
   border: 1px solid transparent;
@@ -674,7 +681,6 @@ img {
   font-size: 16px;
   font-family: "Lato", sans-serif;
   letter-spacing: 0.5px;
-  color:#cd2d2d;
 }
 
 /*==================
@@ -761,111 +767,8 @@ img {
   text-decoration: none;
   outline: none;
 }
-
-/*Preloader*/
-@-webkit-keyframes loader-two-before-transition {
-  50% {
-    left: -154px;
-  }
-
-  100% {
-    left: -97px;
-  }
-}
-
-@keyframes loader-two-before-transition {
-  50% {
-    left: -154px;
-  }
-
-  100% {
-    left: -97px;
-  }
-}
-
-@-webkit-keyframes loader-two-after-transition {
-  50% {
-    left: 54px;
-  }
-
-  100% {
-    left: -4px;
-  }
-}
-
-@keyframes loader-two-after-transition {
-  50% {
-    left: 54px;
-  }
-
-  100% {
-    left: -4px;
-  }
-}
-
-#wpf-loader-two {
-  height: 100%;
-  bottom: 0;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 100%;
-  z-index: 99999;
-}
-
-#wpf-loader-two .wpf-loader-two-inner {
-  border: 2px solid #fff;
-  border-radius: 50%;
-  height: 100px;
-  left: 46%;
-  position: absolute;
-  top: 40%;
-  width: 100px;
-  text-align: center;
-}
-
-#wpf-loader-two .wpf-loader-two-inner:before {
-  content: "";
-  height: 57%;
-  left: -204px;
-  position: absolute;
-  top: -5px;
-  transition: all 0.5s ease 0s;
-  width: 200px;
-  -webkit-animation-name: loader-two-before-transition;
-  -webkit-animation-duration: 1.5s;
-  -webkit-animation-timing-function: linear;
-  -webkit-animation-iteration-count: infinite;
-  animation-name: loader-two-before-transition;
-  animation-duration: 1.5s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
-#wpf-loader-two .wpf-loader-two-inner:after {
-  content: "";
-  height: 57%;
-  left: 104%;
-  position: absolute;
-  top: 50%;
-  transition: all 0.5s ease 0s;
-  width: 200px;
-  -webkit-animation-name: loader-two-after-transition;
-  -webkit-animation-duration: 1.5s;
-  -webkit-animation-timing-function: linear;
-  -webkit-animation-iteration-count: infinite;
-  animation-name: loader-two-after-transition;
-  animation-duration: 1.5s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
-#wpf-loader-two .wpf-loader-two-inner span {
-  color: #fff;
-  display: inline-block;
-  margin-top: 42%;
-}
+body > .loading { text-align: center; height: 100%; width: 100%; background: #fff; position: fixed; z-index: 99999; top: 0; left: 0;right: 0;bottom: 0;opacity: 0.8; }
+body > .loading > i { position: absolute; font-size: 50px; left: 50%; top: 50%; margin-left: -25px; margin-top: -25px; }
 
 /*==================
   SLIDER SECTION
@@ -1098,7 +1001,6 @@ img {
  
 }
 
-
 .aa-product-catg li figure {
   position: relative;
   height: 300px;  
@@ -1209,7 +1111,11 @@ img {
 .aa-product-catg li .aa-hot {
   background-color: #ff6600;
 }
-
+.aa-more-show {
+    width: 100%;
+    float: right;
+    text-align: center;
+}
 /*=== modal window ===*/
 
 #quick-view-modal .modal-dialog {
@@ -1266,7 +1172,6 @@ img {
 }
 #quick-view-modal .modal-content .aa-product-view-content .aa-price-block .aa-product-view-price {
   font-size: 18px;
-  color:#cd2d2d;
 }
 #quick-view-modal .modal-content .aa-product-view-content .aa-price-block .aa-product-avilability {
   position: absolute;
