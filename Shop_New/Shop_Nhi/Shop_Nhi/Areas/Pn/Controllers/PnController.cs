@@ -24,9 +24,7 @@ namespace Shop_Nhi.Areas.Pn.Controllers
         public ActionResult Index()
         {
             return View();           
-        }
-
-      
+        }      
         #endregion Index
      
 
@@ -519,68 +517,105 @@ namespace Shop_Nhi.Areas.Pn.Controllers
 
         #endregion order
 
-        #region body
-        public ActionResult Body()
+        #region payment
+        [Authorize(Roles = "ADMIN")]
+        public ActionResult PAYMENT_Index()
         {
             return View();
         }
-
-        [Authorize(Roles = "ADMIN")]
-        public JsonResult ChangeTheme(int id, string link)
+        [HttpPost]
+        public JsonResult PAYMENT_Read([DataSourceRequest]DataSourceRequest request)
         {
-            try
+            var dao = new PayDAO();
+            IList<Pay> item = new List<Pay>();
+            item = dao.ListAll().Select(x => new Pay
             {
-                var dao = new ThemeDAO();
-                dao.ChangeTheme(id, link);
-                return Json(new
-                {
-                    status = true
-                },JsonRequestBehavior.AllowGet);
-            }
-            catch
-            {
-                return Json(new
-                {
-                    status = false
-                }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        #endregion body
-
-
-        #region seo
-        [Authorize(Roles = "ADMIN,MANAGE")]
-        public ActionResult GetContentSeo()
-        {
-            var dao = new SeoDAO();
-            return View(dao.List());
-        }
-
-
-        [HttpGet]
-        [Authorize(Roles = "ADMIN,MANAGE")]
-        public ActionResult EditSeo(int id)
-        {
-            var dao = new SeoDAO();
-            return View(dao.GetContent(id));
+                ID = x.ID,
+                name = x.name
+            }).ToList();
+            return Json(item.ToDataSourceResult(request));
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN,MANAGE")]
-        public ActionResult EditSeo(Seo seo)
+        public JsonResult PAYMENT_Get(int id)
+        {
+            var dao = new PayDAO();
+            var pay = new Pay();
+            if (id == 0)
+            {
+                pay = new Pay();
+            }
+            else
+            {
+                var result = dao.GetByID(id);
+                pay.ID = result.ID;
+                pay.name = result.name;               
+            }
+            return Json(new
+            {
+                pay = pay
+            });
+        }
+
+        [HttpPost]
+        public JsonResult PAYMENT_Save(string item)
         {
             try
             {
-                var dao = new SeoDAO();
-                dao.Edit(seo);
-                return RedirectToAction("GetContentSeo","Pn");
+                var dao = new PayDAO();
+                JavaScriptSerializer seriaLizer = new JavaScriptSerializer();
+                Pay pay = seriaLizer.Deserialize<Pay>(item);                                
+                dao.Save(pay);
+                return Json(new
+                {
+                    msg = "Thành công",
+                    status = true
+                });
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return Json(new
+                {
+                    msg = e.Message,
+                    status = false
+                });
             }
         }
-        #endregion seo
+
+        [HttpPost]
+        public JsonResult PAYMENT_Remove(int id)
+        {
+            try
+            {
+                var dao = new PayDAO();
+                if (dao.CheckOrder(id))
+                    throw new Exception("PHƯƠNG THỨC RÀNG BUỘC ĐƠN HÀNG.KHÔNG THỂ XÓA.");
+                dao.Delete(id);
+                return Json(new
+                {
+                    msg="Thành công",
+                    status = true
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    msg = e.Message,
+                    status = false
+                });
+            }            
+        }
+
+        #endregion payment
+
+        #region error
+        [Authorize(Roles = "ADMIN,MANAGE")]
+        public ActionResult ERROR_Index()
+        {
+            return View();
+        }
+        #endregion error
+
     }
 }

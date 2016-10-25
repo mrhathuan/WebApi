@@ -79,7 +79,9 @@ namespace Shop_Nhi
                       "~/Scripts/Admin/JS/PAGE_IndexCtr.js",
                       "~/Scripts/Admin/JS/SLIDE_IndexCtr.js",
                       "~/Scripts/Admin/JS/FOOTER_IndexCtr.js",
-                      "~/Scripts/Admin/JS/SEO_IndexCtr.js"
+                      "~/Scripts/Admin/JS/SEO_IndexCtr.js",
+                      "~/Scripts/Admin/JS/PAYMENT_IndexCtr.js",
+                      "~/Scripts/Admin/JS/ERROR_IndexCtr.js"
                     ));
             
 

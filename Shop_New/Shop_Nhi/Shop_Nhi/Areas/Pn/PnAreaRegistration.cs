@@ -27,14 +27,6 @@ namespace Shop_Nhi.Areas.Pn
                 new { controller = "Login", action = "Quenmatkhau", id = UrlParameter.Optional }
             );
 
-            //error
-            context.MapRoute(
-              "Error",
-              "loi-truy-xuat",
-              new { controller = "Login", action = "Error", id = UrlParameter.Optional }
-          );
-
-
             //Đăng nhập
             context.MapRoute(
                 "Login",

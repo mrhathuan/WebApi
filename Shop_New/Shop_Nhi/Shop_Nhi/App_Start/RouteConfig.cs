@@ -94,8 +94,13 @@ namespace Shop_Nhi
                 defaults: new { controller = "Product", action = "ListAll", id = UrlParameter.Optional },
                 namespaces: new[] { "Shop_Nhi.Controllers" }
                 );
+            routes.MapRoute(
+                name: "ListAllTrue",
+                url: "san-pham-khuyen-mai",
+                defaults: new { controller = "Product", action = "ListAllSale", id = UrlParameter.Optional },
+                namespaces: new[] { "Shop_Nhi.Controllers" }
+                );
 
-          
 
             //Search
             routes.MapRoute(

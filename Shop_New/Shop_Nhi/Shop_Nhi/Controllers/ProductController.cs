@@ -91,6 +91,42 @@ namespace Shop_Nhi.Controllers
             return View(model);
         }
 
+        //Sale
+        [OutputCache(Duration = 30)]
+        public ActionResult ListAllSale(string sort, int page = 1, int pageSize = 48)
+        {
+            var dao = new ProductDAO();
+            int orderBy = 0;
+            ViewBag.Sort = null;
+            if (string.IsNullOrEmpty(sort))
+            {
+                orderBy = 1;
+                ViewBag.Sort = 1;
+            }
+            else
+            {
+                orderBy = Int32.Parse(sort);
+                ViewBag.Sort = sort;
+            }
+            int totalRecord = 0;
+            var model = dao.ListAllSale(orderBy, ref totalRecord, page, pageSize);
+            ViewBag.Total = totalRecord;
+            ViewBag.Page = page;
+
+            int maxPage = 5;
+            int totalPage = 0;
+
+            totalPage = (int)Math.Ceiling((double)((double)totalRecord / (double)pageSize));
+            ViewBag.TotalPage = totalPage;
+            ViewBag.MaxPage = maxPage;
+
+            ViewBag.First = 1;
+            ViewBag.Last = totalPage;
+            ViewBag.Next = page + 1;
+            ViewBag.Prev = page - 1;
+            return View(model);
+        }
+
         //Search
         [HttpGet]
         public ActionResult Search(string sort,string keyword, int page = 1, int pageSize = 48)

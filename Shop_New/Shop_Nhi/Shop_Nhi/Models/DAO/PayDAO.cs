@@ -20,46 +20,38 @@ namespace Shop_Nhi.Models.DAO
         {
             return db.Pays.OrderByDescending(x=>x.ID).ToList();
         }
-             
-        public void Create(Pay Pay)
+
+        public void Save(Pay pay)
         {
-            db.Pays.Add(Pay);
+            var result = db.Pays.Find((pay.ID));
+            if (result == null || pay.ID == 0)
+            {
+                pay.ID = -1;
+                db.Pays.Add(pay);
+            }
+            else
+            {
+                result.name = pay.name;
+            }
+            db.SaveChanges();
+        }
+       
+      
+        //Xóa
+        public void Delete(int id)
+        {
+            var result = db.Pays.Find(id);
+            db.Pays.Remove(result);
             db.SaveChanges();
         }
 
-        //Sửa
-        public bool Edit(Pay pay)
+        public bool CheckOrder(int id)
         {
-            var result = db.Pays.Find(pay.ID);
-            try
-            {
-                result.name = pay.name;
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return db.Orders.Count(x => x.payID == id) > 0;
         }
-        //Xóa
-        public bool Delete(long id)
-        {
-            var result = db.Pays.Find(id);           
-            try
-            {                
-                db.Pays.Remove(result);
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        
+
         //Get ID
-        public Pay GetByID(long id)
+        public Pay GetByID(int id)
         {
             return db.Pays.Find(id);
         }

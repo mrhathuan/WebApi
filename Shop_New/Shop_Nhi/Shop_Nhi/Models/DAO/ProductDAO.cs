@@ -103,8 +103,6 @@ namespace Shop_Nhi.Models.DAO
         {
             return db.Products.Where(x => x.productName.Contains(keyword)).ToList();
         }
-
-
         //Search
         public List<Product> ListSearch(int sort,string keyword, ref int totalRecord, int pageIndex = 1, int pageSize = 2)
         {
@@ -163,7 +161,31 @@ namespace Shop_Nhi.Models.DAO
         {
             return db.Products.Where(x => x.promotionPrice != null && x.status == true).OrderByDescending(x => x.createDate).Take(top).ToList();
         }
-       
+
+        public List<Product> ListAllSale(int sort, ref int totalRecord, int pageIndex = 1, int pageSize = 2)
+        {
+            var listProduct = db.Products.Where(x => x.promotionPrice != null && x.status == true);
+            totalRecord = listProduct.Count();
+            switch (sort)
+            {
+                case 1:
+                    listProduct = listProduct.OrderByDescending(x => x.createDate);
+                    break;
+                case 2:
+                    listProduct = listProduct.OrderBy(x => x.price);
+                    break;
+                case 3:
+                    listProduct = listProduct.OrderByDescending(x => x.viewCount);
+                    break;
+                case 4:
+                    listProduct = listProduct.OrderByDescending(x => x.like);
+                    break;
+                default:
+                    listProduct = listProduct.OrderByDescending(x => x.createDate);
+                    break;
+            }
+            return listProduct.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+        }
         //Xóa
         public bool Delete(long id)
         {

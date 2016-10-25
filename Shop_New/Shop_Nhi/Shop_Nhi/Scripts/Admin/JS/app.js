@@ -19,6 +19,14 @@ app.config(function ($routeProvider) {
         templateUrl: '/Pn/Pn/ORD_Index',
         controller: 'ORD_IndexCtr'
     });
+    $routeProvider.when("/PAYMENT_Index", {
+        templateUrl: '/Pn/Pn/PAYMENT_Index',
+        controller: 'PAYMENT_IndexCtr'
+    });
+    $routeProvider.when("/ERROR_Index", {
+        templateUrl: '/Pn/Pn/ERROR_Index',
+        controller: 'ERROR_IndexCtr'
+    });
     //user
     $routeProvider.when("/USER_Index", {
         templateUrl: '/Pn/Users/USER_Index',
@@ -50,14 +58,16 @@ app.config(function ($routeProvider) {
         templateUrl: '/Pn/Content/NOTI_Index',
         controller: 'NOTI_IndexCtr'
     });
-    $routeProvider.when("/FOOTER_Index", {
+    $routeProvider.when("/FOOTER_Index",
+    {
         templateUrl: '/Pn/Content/FOOTER_Index',
         controller: 'FOOTER_IndexCtr'
-    })
-    $routeProvider.when("/SEO_Index", {
+    });
+    $routeProvider.when("/SEO_Index",
+    {
         templateUrl: '/Pn/Content/SEO_Index',
         controller: 'SEO_IndexCtr'
-    })
+    });
 
     $routeProvider.when("/CONTACT_Index", {
         templateUrl: '/Pn/CONTACT/CONTACT_Index',
@@ -73,36 +83,39 @@ app.config(function ($routeProvider) {
         templateUrl: '/Pn/Page/PAGE_Index',
         controller: 'PAGE_IndexCtr'
     });
-   
 
     $routeProvider.otherwise({ redirectTo: "/DASH_Index" });
 });
 
 
-app.directive('ckEditor', function () {
-    return {
-        require: '?ngModel',
-        link: function (scope, elm, attr, ngModel) {
-            var ck = CKEDITOR.replace(elm[0]);
-            if (!ngModel) return;
-            ck.on('instanceReady', function () {
-                ck.setData(ngModel.$viewValue);
-            });
-            function updateModel() {
-                scope.$apply(function () {
-                    ngModel.$setViewValue(ck.getData());
-                });
-            }
-            ck.on('change', updateModel);
-            ck.on('key', updateModel);
-            ck.on('dataReady', updateModel);
+app.directive('ckEditor',
+    function() {
+        return {
+            require: '?ngModel',
+            link: function(scope, elm, attr, ngModel) {
+                var ck = CKEDITOR.replace(elm[0]);
+                if (!ngModel) return;
+                ck.on('instanceReady',
+                    function() {
+                        ck.setData(ngModel.$viewValue);
+                    });
 
-            ngModel.$render = function (value) {
-                ck.setData(ngModel.$viewValue);
-            };
-        }
-    };
-})
+                function updateModel() {
+                    scope.$apply(function() {
+                        ngModel.$setViewValue(ck.getData());
+                    });
+                }
+
+                ck.on('change', updateModel);
+                ck.on('key', updateModel);
+                ck.on('dataReady', updateModel);
+
+                ngModel.$render = function(value) {
+                    ck.setData(ngModel.$viewValue);
+                };
+            }
+        };
+    });
 
 app.directive('html', ['$compile', function ($compile) {
     return function (scope, element, attrs) {
@@ -116,7 +129,7 @@ app.directive('html', ['$compile', function ($compile) {
             }
         );
     };
-}])
+}]);
 
 app.directive('vForm', [function () {
     var directive = {
@@ -281,17 +294,21 @@ app.directive("modalShow", function () {
 
 });
 
-app.controller('indexController', ['$scope', '$rootScope', function ($scope, $rootScope) {
-    $rootScope.title = 'Quản trị';
-    $rootScope.ShowMenu_Children = false;
+app.controller('indexController',
+[
+    '$scope', '$rootScope', function($scope, $rootScope) {
+        $rootScope.title = 'Quản trị';
+        $rootScope.ShowMenu_Children = false;
 
-    Date.prototype.addDays = function (days) {
-        var dat = new Date(this.valueOf());
-        dat.setDate(dat.getDate() + days);
-        return dat;
-    };
-    $rootScope.menuClick_Children = function ($event) {
-        $event.preventDefault();
-        //$rootScope.ShowMenu_Children = !$rootScope.ShowMenu_Children;
+        Date.prototype.addDays = function(days) {
+            var dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        };
+        $rootScope.menuClick_Children = function($event) {
+            $event.preventDefault();
+            //$rootScope.ShowMenu_Children = !$rootScope.ShowMenu_Children;
+        }
     }
-}])
+]);
+

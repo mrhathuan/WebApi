@@ -1155,11 +1155,13 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fonts\FontAwesome.otf" />
+    <Content Include="Scripts\Admin\JS\ERROR_Index.js" />
     <Content Include="Scripts\Admin\JS\FOOTER_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\MENU_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\NOTI_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\ORD_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\PAGE_IndexCtr.js" />
+    <Content Include="Scripts\Admin\JS\PAYMENT_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\POST_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\PRO_IndexCtr.js" />
     <Content Include="Scripts\Admin\JS\SEO_IndexCtr.js" />
@@ -1368,6 +1370,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Pn\Views\Login\Error.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Product\ListAllSale.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Pn\PAYMENT_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Pn\Views\Pn\ERROR_Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
