@@ -9,10 +9,10 @@
     <meta property="og:locale" content="vi_VN" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="@ViewBag.Title" />
-    <meta property="og:url" content="http://zuryshop.net/" />
+    <meta property="og:url" content="http://nhinguyenfashion.com/" />
     <meta property="og:site_name" content="@ViewBag.Description" />
-    <meta property="og:image" content="http://zuryshop.net/img/cartzury.jpg" />
-    <meta property="fb:app_id" content="283485375367823" />
+    <meta property="og:image" content="http://nhinguyenfashion.com/img/card_nfashion.jpg" />
+    <meta property="fb:app_id" content="1280909935293735" />
     @{
         HttpApplicationState theme = HttpContext.Current.ApplicationInstance.Application;
     }
@@ -24,123 +24,70 @@
 
     <link rel="shortcut icon" href="/favicon.ico">
     <link href="@theme["Theme"]" rel="stylesheet" />
-    <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-78229970-1', 'auto');
-  ga('send', 'pageview');
-
-    </script>
 </head>
 <body class="" style="">
-
-    <!--CONTENT-->
-    <!--Loading-->
-    @*<div id="wpf-loader-two">
-            <div class="wpf-loader-two-inner">
-                <span>Đang tải...</span>
-            </div>
-        </div>*@
-    <!-- SCROLL TOP BUTTON -->
-    <a class="scrollToTop" href="#"><i class="fa fa-chevron-up"></i></a>
-    <!-- END SCROLL TOP BUTTON -->
-    <!-- Start header section -->
-    <header id="aa-header">
-        <!-- start header top  -->
-        <div class="aa-header-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="aa-header-top-area">
-                            <!-- start header top left -->
-                            <div class="aa-header-top-left">
-                                <div class="cellphone">
-                                    <p><span class="fa fa-phone"></span>0972-722-144</p>
-                                </div>
-                                <!-- start language -->
-                                <div class="aa-language hidden-xs">
-                                    <div class="dropdown">
-                                        <a class="btn dropdown-toggle" href="/lien-he" type="button">
-                                            <i class="fa fa-map-marker"></i> LIÊN HỆ
-                                        </a>
-                                    </div>
-                                </div>
-
+    <div class="loading hide">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+    </div>
+<a class="scrollToTop" href="#"><i class="fa fa-chevron-up"></i></a>
+<header id="aa-header">
+    <!-- start header top -->
+    <div class="aa-header-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="aa-header-top-area">
+                        <!-- start header top left -->
+                        <div class="aa-header-top-left">
+                            <div class="cellphone">
+                                <p><span class="fa fa-phone"></span>0906-20-20-50
+                                </p>
                             </div>
-                            <!-- / header top left -->
-                            @{Html.RenderAction("_TopMenu", "Home");}
+                            <!-- start language -->
+                            <div class="aa-language hidden-xs">
+                                <div class="dropdown">
+                                    <a class="btn dropdown-toggle" href="/lien-he" type="button">
+                                        <i class="fa fa-map-marker"></i> LIÊN HỆ
+                                    </a>
+                                </div>
+                            </div>
+
                         </div>
+                        <!-- / header top left -->
+                        @{Html.RenderAction("_TopMenu", "Home");}
                     </div>
                 </div>
             </div>
         </div>
-        <!-- / header top  -->
-        @{Html.RenderAction("_Header", "Home");}
-    </header>
-    <!-- End header section -->
-    @{Html.RenderAction("_Menu", "Home");}
+    </div>
+    <!-- / header top -->
+    @{Html.RenderAction("_Header", "Home");}
+</header>
+<!-- End header section -->
+@{Html.RenderAction("_Menu", "Home");}
 
-    @RenderBody()
+@RenderBody()
 
-    @{Html.RenderAction("_Footer", "Home");}
+@{Html.RenderAction("_Footer", "Home");}
 
-    <!--/CONTENT-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    @Scripts.Render("~/Scripts/js")
-    <!---->
-    <script>
-        var stickyOffset = $('#menu').offset().top;
+<!--/CONTENT-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+@Scripts.Render("~/Scripts/js")
+<!---->
+<script>
+    var stickyOffset = $('#menu').offset().top;
 
-        $(window).scroll(function () {
+    $(window)
+        .scroll(function() {
             var menu = $('#menu'),
                 scroll = $(window).scrollTop();
 
             if (scroll >= stickyOffset) menu.addClass('menu_scroll');
             else menu.removeClass('menu_scroll');
         });
-    </script>
-    <script src="~/Scripts/JS/JsSearch.js"></script>
-    @RenderSection("JsFooter", required: false)
-    <!--remove cart-->
-    <script type="text/javascript">
-    $(document).ready(function () {
-        $('.aa-remove-product').off('click').on('click', function (e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            var cartitem = '#aa-cartbox-item_' + id;
-            $.ajax({
-                url: "@Url.Action("DelItemCart","Cart")",
-                data: { id: id },
-                type: "POST",
-                dataType: "JSON",
-                success: function (res) {
-                    if (res.tongtien != 0) {
-                        $(cartitem).remove();
-                        $('#cart-total').empty().append('' + addPeriod(res.tongtien) + '<sup><u>đ</u></sup>');
-                        $('.aa-cartbox-total-price').empty().append(addPeriod(res.tongtien));
-                        $('.aa-cart-notify').empty().append(res.soluong);
-
-                    } else {
-                        $(cartitem).remove();
-                        $('.aa-cart-notify').empty().append('0');
-                        $('.aa-cartbox-total-price').empty().append('0<sup><u>đ</u></sup>');
-                        $('.cart-view-table').remove();
-                        $('.cart-view-area').empty().append('<p>Chưa có sản phẩm nào trong giỏ</p>');
-                        $('.checkout-area').empty().append('<p>Chưa có sản phẩm nào trong giỏ</p>');
-                    }
-                },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                    toastr.error('Xóa thất bại', '');
-                }
-            })
-        })
-        return false;
-    });
-    </script>
-    @RenderSection("Popup", required: false)
+</script>
+<script src="~/Scripts/JS/JsSearch.js"></script>
+@RenderSection("JsFooter", required: false)
+@RenderSection("Popup", required: false)
 </body>
 </html>
