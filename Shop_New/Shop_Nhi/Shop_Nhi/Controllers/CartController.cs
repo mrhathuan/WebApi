@@ -39,8 +39,6 @@ namespace Shop_Nhi.Controllers
                 var product = new ProductDAO().GetById(id);
                 var cart = Session["CartSession"];
                 var cartItem = new List<CartItem>();
-                decimal tongtien = 0;
-                decimal gia = 0;
                 //Kiểm tra giỏ hàng
                 if (cart != null)
                 {
@@ -75,33 +73,11 @@ namespace Shop_Nhi.Controllers
                     item.quantity = qty;
                     cartItem.Add(item);
                     Session["CartSession"] = cartItem;
-                }
-                foreach (var item in cartItem)
-                {
-                    if (item.product.promotionPrice > 0)
-                    {
-                        gia = item.product.promotionPrice.Value;
-                        tongtien += (item.product.promotionPrice.GetValueOrDefault(0) * item.quantity);
-                    }
-                    else
-                    {
-                        gia = item.product.price.Value;
-                        tongtien += (item.product.price.GetValueOrDefault(0) * item.quantity);
-                    }
-                }
+                }               
                 return Json(new
                 {
                     status = true,
-                    soluong = cartItem.Count,
-                    tongtien,
-                    productItem = cartItem.Select(p => new
-                    {
-                        ID = p.product.ID,
-                        productName = p.product.productName,
-                        price = p.product.promotionPrice.HasValue ? p.product.promotionPrice : p.product.price,
-                        image = p.product.image,
-                        quantity = p.quantity
-                    })
+                    soluong = cartItem.Count                   
                 }, JsonRequestBehavior.AllowGet);
             }
             catch
@@ -255,24 +231,5 @@ namespace Shop_Nhi.Controllers
         }
 
         #endregion payment
-
-        public ActionResult Success()
-        {
-            return View();
-        }
-
-        public JsonResult CheckCode(string code)
-        {
-            var status = false;
-            var dao = new CodeDAO();
-            TempData["Code"] = null;
-            if (dao.CheckCode(code.Trim().Replace(" ", "")))
-            {
-                TempData["Code"] = code.Trim().Replace(" ", ""); ;
-                status = true;
-            }
-            return Json(status);
-        }
-
     }
 }

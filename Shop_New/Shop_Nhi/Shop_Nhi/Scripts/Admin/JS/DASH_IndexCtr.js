@@ -19,7 +19,7 @@ app.controller('DASH_IndexCtr', ['$scope', '$http', function ($scope, $http) {
     var dNow = new Date();
     $scope.Filter = {
         DateFrom: dNow.addDays(-7).toISOString(),
-        DateTo: dNow.toISOString(),
+        DateTo: dNow.toISOString()
     };
     //chart line
     $scope.options = {
