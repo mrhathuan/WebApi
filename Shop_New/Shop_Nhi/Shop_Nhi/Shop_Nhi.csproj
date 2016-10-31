@@ -1298,9 +1298,6 @@
     <Content Include="Views\Home\Contact.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\Demo.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Pn\Views\Login\Index.cshtml" />
     <Content Include="Areas\Pn\Views\Login\Quenmatkhau.cshtml" />
   </ItemGroup>

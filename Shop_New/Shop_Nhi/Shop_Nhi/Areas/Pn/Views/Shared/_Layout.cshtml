@@ -12,7 +12,7 @@
     @Styles.Render("~/Content/CssAdmin")   
     @RenderSection("CssHead", required: false)
     <!---Script--->    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>  
 </head>
 <body>
     <div ng-show="IsLoading" class="loading">
@@ -82,10 +82,20 @@
         @RenderBody()        
     </div>
     <!--Message-->
-    <span id="page-notification" kendo-notification="msg" k-options="msgOptions"></span>
-        
-        @Scripts.Render("~/bundles/JsAdmin")
-         @Scripts.Render("~/bundles/app")
+<span id="page-notification" kendo-notification="msg" k-options="msgOptions"></span>  
+    <script src="~/Scripts/bootstrap.min.js"></script>
+<script src="/Scripts/angular.min.js"></script>
+    <script src="/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/kendo/2016.2.607/kendo.all.min.js"></script>
+    <script src="~/Scripts/kendo/2016.2.607/kendo.aspnetmvc.min.js"></script>
+    <script src="~/Scripts/kendo/2016.2.607/jszip.min.js"></script>
+    <script src="~/Plugin/ckeditor/ckeditor.js"></script>
+    <script src="~/Plugin/ckfinder/ckfinder.js"></script>
+    <script src="~/Scripts/ng-ckeditor.js"></script>
+    <script src="~/Scripts/Admin/Chart.min.js"></script>  
+    <!--App-->
+    <script src="~/Scripts/Admin/JS/app.js"></script>
+        @Scripts.Render("~/bundles/app");
         @RenderSection("JsFooter", required: false)
 
     <script>

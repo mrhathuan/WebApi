@@ -17,13 +17,11 @@
         HttpApplicationState theme = HttpContext.Current.ApplicationInstance.Application;
     }
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-
     <link rel="shortcut icon" href="/favicon.ico">
     <link href="@theme["Theme"]" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>   
 </head>
 <body class="" style="">
     <div class="loading hide">
@@ -71,8 +69,8 @@
 @{Html.RenderAction("_Footer", "Home");}
 
 <!--/CONTENT-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-@Scripts.Render("~/Scripts/js")
+@Scripts.Render("~/bundles/js")
+@Scripts.Render("~/bundles/jsController")
 <!---->
 <script>
     var stickyOffset = $('#menu').offset().top;
@@ -86,7 +84,6 @@
             else menu.removeClass('menu_scroll');
         });
 </script>
-<script src="~/Scripts/JS/JsSearch.js"></script>
 @RenderSection("JsFooter", required: false)
 @RenderSection("Popup", required: false)
 </body>
