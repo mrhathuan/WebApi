@@ -1,0 +1,12 @@
+D:\SourceCode\WebApi\Shop_NoiThat\ClientWeb\DataEntity\bin\Debug\DataEntity.dll.config
+D:\SourceCode\WebApi\Shop_NoiThat\ClientWeb\DataEntity\bin\Debug\DataEntity.dll
+D:\SourceCode\WebApi\Shop_NoiThat\ClientWeb\DataEntity\bin\Debug\DataEntity.pdb
+D:\SourceCode\WebApi\Shop_NoiThat\ClientWeb\DataEntity\bin\Debug\EntityFramework.dll
+D:\SourceCode\WebApi\Shop_NoiThat\ClientWeb\DataEntity\bin\Debug\EntityFramework.SqlServer.dll
+D:\SourceCode\WebApi\Shop_NoiThat\ClientWeb\DataEntity\bin\Debug\RestSharp.dll
+D:\SourceCode\WebApi\Shop_NoiThat\ClientWeb\DataEntity\bin\Debug\EntityFramework.xml
+D:\SourceCode\WebApi\Shop_NoiThat\ClientWeb\DataEntity\bin\Debug\EntityFramework.SqlServer.xml
+D:\SourceCode\WebApi\Shop_NoiThat\ClientWeb\DataEntity\bin\Debug\RestSharp.xml
+D:\SourceCode\WebApi\Shop_NoiThat\ClientWeb\DataEntity\obj\Debug\DataEntity.csprojResolveAssemblyReference.cache
+D:\SourceCode\WebApi\Shop_NoiThat\ClientWeb\DataEntity\obj\Debug\DataEntity.dll
+D:\SourceCode\WebApi\Shop_NoiThat\ClientWeb\DataEntity\obj\Debug\DataEntity.pdb
