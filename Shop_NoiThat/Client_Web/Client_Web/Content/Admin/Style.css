@@ -1,0 +1,71 @@
+﻿html, body { height: 100%; width: 100%; position: relative; padding: 0; margin: 0; font-size: 12px; font-family: Arial, Tahoma; min-width: 700px; background-color: #eaeaea; overflow: hidden; }
+.clear { clear: both; font-size: 1px; }
+
+.page-top { background-color: #31B6FC; position: relative; height: 59px; width: 100%; }
+.page-top > .left { float: left; }
+.page-top > .header > .logo { float: left; height: 59px; width: 220px; }
+.page-top > .header > .logo img { height: 37px; padding: 11px 40px 11px 0; }
+.page-top > .header > .buttonmenu { float: left; margin-top: 16px; margin-right: 0; color: #fff; }
+.page-top > .header > .buttonmenu a { width: 36px; height: 30px; line-height: 36px; display: block; text-decoration: none; text-align: center; }
+.page-top > .header > .buttonmenu a > i { color: #fff; font-size: 20px; }
+
+
+.page-top > .header > a.common-action { margin: 17px 0 17px 10px; display: block; float: left; line-height: 25px; background-color: #F4EB48; text-decoration: none; border-radius: 4px; width: 25px; font-size: 16px; text-align: center; color: #2f2d0f; }
+.page-top > .header > a.common-action > i { font-size: 13px; }
+.page-top > .header > a.common-action:active { color: #fff; }
+.page-top > .header > a.common-action:hover { color: #fff; background-color: #c9c468; }
+
+
+.page-top > .right { float: right; text-align: right; }
+.page-top > .right .info > ul { list-style: none; padding: 0; margin: 0; height: 100%; width: 100%; }
+.page-top > .right .info > ul > li { list-style: none; position: relative; float: left; margin: 0; padding: 11px 15px; border: none; line-height: 14px; }
+.page-top > .right .info > ul > li:hover { background-color: #2ba0dd; }
+.page-top > .right .info > ul > li a { display: block; text-decoration: none; color: #fff; }
+.page-top > .right .info > ul > li > a > i { font-size: 25px; margin: 0; padding: 7px 0; line-height: 23px; }
+.page-top > .right .info > ul > li > a > span.number { position: absolute; display: inline-block; left: 23px; top: 15px; border-radius: 15px; margin: -6px 0 0 0; padding: 4px 7px; color: #fff; white-space: nowrap; text-align: center; vertical-align: middle; font-size: 11px; font-weight: 600; text-shadow: none; border: none; box-shadow: none; background: none; background-color: red; }
+.page-top > .right .info > ul > li > a > span { position: relative; top: -14px; font-size: 13px; cursor: pointer; }
+.page-top > .right .info > ul > li > a > img { width: 34px; height: 34px; border: none; border-radius: 50%; }
+.page-top > .right .info > ul > li > ul { list-style: none; padding: 0; position: absolute; top: 59px; right: 0; z-index: 9999; width: 160px; background-color: #fff; box-shadow: -2px 2px 3px #d7e3f0; }
+.page-top > .right .info > ul > li > ul > li { list-style: none; padding: 0; margin: 0; height: 32px; border-bottom: 1px solid #d7e3f0; }
+.page-top > .right .info > ul > li > ul > li a { display: block; padding: 0 7px; color: #6f8ba9; font-size: 13px; height: 100%; text-align: left; line-height: 32px; }
+.page-top > .right .info > ul > li > ul > li a:hover { background-color: #31BCFC; color: #fff; }
+.page-top > .right .info > ul > li > ul > li a > i { padding: 8px 0px; float: right; font-size: 16px; text-align: center; width: 20px; }
+.page-top > .header > .time { float: left; margin-top: 16px; line-height: 32px; color: #fff; }
+
+.page-body { width: 100%; margin: 0; position: relative; height: -moz-calc(100% - 59px); height: -webkit-calc(100% - 59px); height: -o-calc(100% - 59px); height: calc(100% - 59px); }
+.page-body.page-login { height: 100%; background-image: url("../Images/login/bkg.png"); background-repeat: no-repeat; background-color: #efefef; background-position: center; }
+.content { height: 100%; width: 100%; }
+
+body > .loading { text-align: center; height: 100%; width: 100%; background: #fff; position: absolute; z-index: 99999; top: 0; left: 0; opacity: 0.5; }
+body > .loading > i { position: absolute; font-size: 50px; left: 50%; top: 50%; margin-left: -25px; margin-top: -25px; }
+.cus-window .winloading { background-color: #fff; }
+
+.mainform > .mainmenu > div {
+    height: 100%;
+    width: 220px;
+    position: relative;
+    overflow-y: auto;
+    padding-right: 17px;
+}
+.mainform > .mainmenu > div > .visible { height: 100%; width: 220px;}
+.mainform > .mainmenu > div > .visible > .parent > .title { line-height: 24px; font-size: 13px; color: #31b6fc; text-transform: uppercase; font-weight: bold; height: 24px; margin-top: 16px; padding-left: 12px; }
+.mainform > .mainmenu > div > .visible > .parent > .child > .title { float: left; height: 35px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+.mainform > .mainmenu > div > .visible > .parent > .child > .title a { padding-left: 12px; text-decoration: none; font-size: 13px; color: #6f8ba9; line-height: 35px; height: 35px; display: block; }
+.mainform > .mainmenu > div > .visible > .parent > .child > .title a > i { font-size: 16px; width: 16px; text-align: center; color: #cadbec; padding: 0 5px; }
+.mainform > .mainmenu > div > .visible > .parent > .child.active > .title a { color: #31b6fc; }
+.mainform > .mainmenu > div > .visible > .parent > .child.active > .title a > i { color: #31b6fc; }
+.mainform > .mainmenu > div > .visible > .parent > .child.active > .title { border-left: solid 3px #07a9e1; width: calc(100% - 3px); }
+.mainform > .mainmenu > div > .visible > .parent > .child.active > .title a { padding-left: 9px; }
+.mainform > .mainmenu > div > .visible > .parent > .child > .title:hover { background-color: #F2F6F9; color: #b0c0cf; }
+.mainform > .mainmenu > div > .visible > .parent > .child > .title:hover > a > i { color: #b0c0cf; }
+
+.mainform > .mainmenu { transition: 0.1s linear all; position: absolute; left: 0; top: 5px; background-color: #fff; width: 220px; height: calc(100% - 30px); z-index: 2; overflow: hidden; }
+.mainform > .mainmenu.ng-hide { transition: 0.1s linear all; position: absolute; display: block !important; left: -157px; top: 15px; background-color: #fff; width: 220px; height: calc(100% - 30px); z-index: 2; }
+.mainform > .mainbody { transition: 0.1s linear all; position: relative; display: block !important; height: calc(100% - 30px); padding-left: 235px; z-index: 1; top: 5px; }
+.mainform > .mainbody.ng-hide { transition: 0.1s linear all; position: relative; display: block !important; height: calc(100% - 30px); opacity: 1; padding-left: 78px; z-index: 1; top: 15px; }
+.mainform > .mainbody.hascomment { transition: 0.1s linear all; position: relative; display: block !important; height: calc(100% - 30px); padding-left: 235px; padding-right: 202px; z-index: 1; top: 15px; }
+.mainform > .mainbody.hascomment.ng-hide { transition: 0.1s linear all; position: relative; display: block !important; height: calc(100% - 30px); opacity: 1; padding-left: 73px; padding-right: 202px; z-index: 1; top: 15px; }
+.mainform > .maincomment { width: 200px; position: absolute; top: 15px; right: 0; z-index: 2; height: calc(100% - 30px); background-color: #fff; border-left: #d7e3f0 solid 2px; }
+
+.mainform > .mainbody > .mainview { height: 100%; position: relative; }
+.mainform > .mainbody > .mainview > .view { height: 100%; position: relative; background-color: #fff; }

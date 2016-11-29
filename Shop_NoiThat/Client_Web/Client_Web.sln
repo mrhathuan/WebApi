@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client_Web", "Client_Web\Client_Web.csproj", "{DE84386A-7560-40C4-A50E-7012428E2B55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataEntities", "DataEntities\DataEntities.csproj", "{C35F0D7B-F7BC-4E0D-BD99-9F21BC7B962B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE84386A-7560-40C4-A50E-7012428E2B55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE84386A-7560-40C4-A50E-7012428E2B55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE84386A-7560-40C4-A50E-7012428E2B55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE84386A-7560-40C4-A50E-7012428E2B55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C35F0D7B-F7BC-4E0D-BD99-9F21BC7B962B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C35F0D7B-F7BC-4E0D-BD99-9F21BC7B962B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C35F0D7B-F7BC-4E0D-BD99-9F21BC7B962B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C35F0D7B-F7BC-4E0D-BD99-9F21BC7B962B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
