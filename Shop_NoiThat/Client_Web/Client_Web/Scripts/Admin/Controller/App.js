@@ -36,16 +36,53 @@ app.controller('indexController',
     '$scope', '$rootScope', function ($scope, $rootScope) {
         $rootScope.title = 'Quản trị';
         $scope.Default_ShowProfile = false;
-        $scope.IsActive = false;
+        $scope.MenuItems = [
+            {
+                Name: 'Tổng quan', Childs: [{
+                    NameChild: 'Dashboard',
+                    IsActive: true,
+                    Link: '#',
+                    Icon: 'fa fa-tachometer'
+                }]
+            },
+            {
+                Name: 'Vận hành', Childs: [{
+                    NameChild: 'Sản phẩm',
+                    IsActive: false,
+                    Link: 'zuryshop.net',
+                    Icon: 'fa fa-tachometer'
+                },
+                {
+                    NameChild: 'Danh mục',
+                    IsActive: false,
+                    Link: '#',
+                    Icon: 'fa fa-tachometer'
+                },
+                {
+                    NameChild: 'Đơn hàng',
+                    IsActive: false,
+                    Link: '#',
+                    Icon: 'fa fa-tachometer'
+                }
+                ]
+            }
+        ];
 
         $scope.ShowProfileClick = function ($event) {
             $event.preventDefault();
             $scope.Default_ShowProfile = !$scope.Default_ShowProfile;
         }
 
-        $scope.ItemMenu_Click = function ($event) {
+        $scope.ItemMenu_Click = function ($event, item) {
             $event.preventDefault();
-            $scope.IsActive = true;
+            angular.forEach($scope.MenuItems, function (parent, i) {
+                angular.forEach(parent.Childs, function (child, j) {
+                    if (child.IsActive == true)
+                        child.IsActive = false;
+                });
+            });
+            item.IsActive = true;
+            location.href = item.Link;
         }
     }
 ]);

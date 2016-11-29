@@ -15,10 +15,11 @@
     <link href="~/Content/Admin/kendo/2016.2.607/kendo.dataviz.min.css" rel="stylesheet" />
     <link href="~/Content/Admin/kendo/2016.2.607/kendo.dataviz.default.min.css" rel="stylesheet" />
     <link href="~/Content/Admin/kendo/2016.2.607/kendo.default.min.css" rel="stylesheet" />
-    @Styles.Render("~/Content/Admin/Css");
+    @Styles.Render("~/Content/Admin/Css")
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
 </head>
 <body>
+
     <div class="page-top" ng-click="HideProfileClick()">
         <div class="header left">
             <div class="logo"><a ui-sref="main"><img alt="" src="Images/Icon_LogoV2.png" /></a></div>
@@ -63,33 +64,18 @@
             <div class="mainmenu">
                 <div class="container" scrolldiv>
                     <div class="visible">
-                        <div class="parent">
+                        <div class="parent" ng-repeat="menu in MenuItems">
                             <div class="title">
-                                <span>Tổng quan</span>
+                                <span>{{menu.Name}}</span>
                             </div>
-                            <div class="child active">
-                                <div class="title"><a href="#"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></div>                                
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="parent">
-                            <div class="title">
-                                <span>Vận hành</span>
-                            </div>
-                            <div class="child">
-                                <div class="title"><a href="#"><i class="fa fa-clipboard"></i><span>Sản phẩm</span></a></div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="child">
-                                <div class="title"><a href="#"><i class="fa fa-sliders"></i><span>Danh mục</span></a></div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="child">
-                                <div class="title"><a href="#"><i class="fa fa-file-text-o"></i><span>Đơn hàng</span></a></div>
-                                <div class="clear"></div>
+                            <div ng-repeat="childMenu in menu.Childs" ng-class="childMenu.IsActive==true?'child active':'child'">
+                                <div class="title">
+                                    <a ng-click="ItemMenu_Click($event,childMenu)" href="{{childMenu.Link}}"><i class="{{childMenu.Icon}}"></i><span>{{childMenu.NameChild}}</span></a>
+                                </div> 
+                                <div class="clear"></div>                               
                             </div>                            
                         </div>
-
+                          
                     </div>
                 </div>
             </div>
@@ -100,6 +86,10 @@
             </div>
         </div>        
     </div>
+    <div ng-show="IsLoading" class="loading">
+        <i class="fa fa-spinner fa-spin"></i>
+    </div>
+
     <span id="page-notification" kendo-notification="msg" k-options="msgOptions"></span>
     <!--Scripts-->
     <script src="/Scripts/Admin/angular.min.js"></script>
@@ -109,9 +99,8 @@
     <script src="/Scripts/Admin/kendo/2016.2.607/jszip.min.js"></script>
 
     <script src="/Scripts/Admin/Chart.min.js"></script>    
-
     <!--App-->
     <script src="~/Scripts/Admin/Controller/App.js"></script>
-    @Scripts.Render("~/bundles/app");
+    @Scripts.Render("~/bundles/app")
 </body>
 </html>
