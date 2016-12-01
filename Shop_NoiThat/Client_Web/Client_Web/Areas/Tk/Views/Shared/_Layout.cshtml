@@ -19,7 +19,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
 </head>
 <body>
-
     <div class="page-top" ng-click="HideProfileClick()">
         <div class="header left">
             <div class="logo"><a ui-sref="main"><img alt="" src="Images/Icon_LogoV2.png" /></a></div>
@@ -31,7 +30,33 @@
         </div>
         <div class="header right">
             <div class="info">
-                <ul>                    
+                <ul>
+                    <li>
+                        <a href="/" ng-click="UserMessage_Click($event)">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="number bg-red">99</span>
+                        </a>
+                        <ul ng-show="Default_ShowUserMessage" style="width: 370px; text-align: left;" click-anywhere-but-message="UserMessage_CheckClose($event)">
+                            <li>
+                                <div class="msg-container no-border-bottom">
+                                    <div ng-show="UserMessage_IsLoadMore" class="loading-msg">
+                                        <i class="fa fa-spinner fa-spin"></i>
+                                    </div>
+                                    <div class="max-height-400 lazyload">
+                                        <div ng-repeat="msg in UserMessage.All.Data" class="msg-item">
+                                            <div class="msg-icon"></div>
+                                            <div class="msg-html" ng-bind-html="HTML(msg.Message)"></div>
+                                            <div class="msg-createdate" ng-bind-html="HTML(msg.CreatedDate)"></div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="msg-container no-border-top">
+                                    <a href="/" ng-click="UserMessage_ViewAll_Click($event, UserMessageViewAll_win)" class="text-center">Xem tất cả</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>                    
                     <li>
                         <a href="/" ng-click="ShowProfileClick($event)">
                             <span>Admin</span>
@@ -59,11 +84,11 @@
         <div class="clear"></div>
     </div>
 
-    <div class="page-body">
+    <div class="page-body" ng-click="HideProfileClick()">
         <div class="mainform ">
             <div class="mainmenu">
                 <div class="container" scrolldiv>
-                    <div class="visible">
+                    <div ng-show="IsShowMenu" class="visible">
                         <div class="parent" ng-repeat="menu in MenuItems">
                             <div class="title">
                                 <span>{{menu.Name}}</span>
@@ -74,8 +99,21 @@
                                 </div> 
                                 <div class="clear"></div>                               
                             </div>                            
+                        </div>                        
+                    </div>
+
+                    <div ng-show="!IsShowMenu" class="invisible">
+                        <div class="parent" ng-repeat="menu in MenuItems">
+                            <div class="title">
+                                <span>{{menu.Name}}</span>
+                            </div>
+                            <div ng-repeat="childMenu in menu.Childs" ng-class="childMenu.IsActive==true?'child active':'child'">
+                                <div class="title">
+                                    <a ng-click="ItemMenu_Click($event,childMenu)" href="{{childMenu.Link}}"><i class="{{childMenu.Icon}}"></i><span>{{childMenu.NameChild}}</span></a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
                         </div>
-                          
                     </div>
                 </div>
             </div>
@@ -91,6 +129,26 @@
     </div>
 
     <span id="page-notification" kendo-notification="msg" k-options="msgOptions"></span>
+    <!--Window Message-->
+    <div class="cus-window" draggable-k-window kendo-window="winmessage" k-title="false" k-width="500" k-height="150" k-visible="false" k-resizable="false" k-modal="true" k-on-close="winmessage_Win_Close()">
+        <div class="cus-form">
+            <div class="form-header">
+                <div class="left title">
+                    {{winmessage_title}}
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="form-body with-footer">
+                <div class="winmessage_msg"><span>{{winmessage_msg}}</span></div>
+            </div>
+            <div class="form-footer">
+                <div class="winmessage_button">
+                    <a href="/" ng-keydown="winmessage_Keydown($event)" ng-show="!winmessage_IsAlert" ng-click="winmessage_Save_Click($event,winmessage)" class="accept k-button">Đồng ý</a>
+                    <a href="/" ng-keydown="winmessage_Keydown($event)" ng-click="winmessage_Close_Click($event,winmessage)" class="close k-button k-button-icontext">Đóng</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--Scripts-->
     <script src="/Scripts/Admin/angular.min.js"></script>
     <script src="/Scripts/Admin/angular-route.js"></script>
