@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <base href="http://demos.telerik.com/kendo-ui/grid/events">
+    <style>html { font-size: 14px; font-family: Arial, Helvetica, sans-serif; }</style>
+    <title></title>
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2015.3.930/styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2015.3.930/styles/kendo.moonlight.min.css" />
+
+    <script src="//kendo.cdn.telerik.com/2015.3.930/js/jquery.min.js"></script>
+    <script src="//kendo.cdn.telerik.com/2015.3.930/js/kendo.all.min.js"></script>
+    <link rel="stylesheet" href="../content/shared/styles/examples-offline.css">
+    <script src="../content/shared/js/console.js"></script>
+</head>
+<body>
+        
+        <div id="example">
+            
+            <div id="grid"></div>
+
+            <script>
+                function onChange(arg) {
+                    var selected = $.map(this.select(), function(item) {
+                        return $(item).text();
+                    });
+
+                    kendoConsole.log("Selected: " + selected.length + " item(s), [" + selected.join(", ") + "]");
+                }
+
+                function onDataBound(arg) {
+                  debugger
+                    kendoConsole.log("Grid data bound");
+                }
+
+                function onDataBinding(arg) {
+                    kendoConsole.log("Grid data binding");
+                }
+
+                $(document).ready(function () {
+                    $("#grid").kendoGrid({
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "//demos.telerik.com/kendo-ui/service/Products",
+                                    dataType: "jsonp"
+                                }
+                            },
+                            pageSize: 20
+                        },
+                        height: 350,
+                        change: onChange,
+                        dataBound: onDataBound,
+                        dataBinding: onDataBinding,
+                        selectable: "multiple cell",
+                        pageable: true,
+                        sortable: true,
+                        columns: [
+                            {
+                                field: "ProductName",
+                                title: "Product Name"
+                            },
+                            {
+                                field: "UnitPrice",
+                                title: "Unit Price",
+                                format: "{0:c}"
+                            },
+                            {
+                                field: "UnitsInStock",
+                                title: "Units In Stock"
+                            }
+                        ]
+                    });
+                });
+            </script>
+            <div class="box wide">
+                <h4>Console log</h4>
+                <div class="console"></div>
+            </div>
+        </div>
+        
+
+</body>
+</html>

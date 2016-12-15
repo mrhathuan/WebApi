@@ -1,0 +1,26 @@
+﻿<ion-view view-title="Chi phát sinh">
+    <ion-content class="padding">
+        <input id='file' type="file" style="display: none;" onchange="angular.element(this).scope().filesChanged(this)" />
+        <select class="trouble-input" ng-model="TroubleItem.GroupOfTroubleID" style="width:100%;margin-bottom:8px;">
+            <option value="" disabled selected style="opacity:0.5">Loại chi phí</option>
+            <option ng-repeat="option in ListGroupTrouble" value="{{option.ID}}">{{option.Name}}</option>
+        </select>
+        <input class="trouble-input" type="number" placeholder="Chi phí" ng-model="TroubleItem.Cost" />
+        <input class="trouble-input" placeholder="Chi tiết" ng-model="TroubleItem.Description" />
+        <div ng-click="SaveTrouble()" style="margin:auto;color:white;width: 288px;height: 40px;background-color:#4caf50;margin-top:20px;border-radius: 40px;text-align:center;padding:10px"><span>Gửi phát sinh</span> </div>
+        <div class="div-empty h10p"></div>
+        <h2>Danh sách phát sinh</h2>
+        <ion-list>
+            <ion-item ng-repeat="o in TroubleList">
+                <div>{{o.GroupOfTroubleName}}:{{o.Cost| currency:"":0}}</div> <br />
+                <ion-scroll direction="x" class="item wide-item">
+                    <span><img class="miniphoto" ng-click="BtnUpload(o)" src="img/iplus.png" /></span>
+                    <span ng-repeat="p in o.lstFile">
+                        <img class="miniphoto" ng-click="showImages($index,o.lstFile)" src="{{Host}}{{p.FilePath}}" alt="{{p.FileName}}" title="{{p.FileName}}" />
+                    </span>
+                </ion-scroll>
+            </ion-item>
+        </ion-list>
+        
+    </ion-content>
+</ion-view>

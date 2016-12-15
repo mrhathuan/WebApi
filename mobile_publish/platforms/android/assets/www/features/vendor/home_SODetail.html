@@ -1,0 +1,22 @@
+﻿<ion-view view-title="Danh sách SO">
+    <ion-content class="" scroll="true">
+        <input id='file' type="file" style="display: none;" onchange="angular.element(this).scope().filesChanged(this)" />
+        <div class="bar-status" ng-click="LocationComplete()">
+            <div ng-class="{'status-active':statusID == 1}">Đến</div>
+            <div ng-class="{'status-active':statusID == 2}">Vào máng</div>
+            <div ng-class="{'status-active':statusID == 3}">Ra máng</div>
+            <div ng-class="{'status-active':statusID == 4}">Rời</div>
+        </div>
+        <ion-list>
+            <ion-item ng-repeat="item in SOList">
+                SO:{{item.SOCode}}  Tấn:{{item.Ton}}  Khối:{{item.CBM}} <br />
+                <ion-scroll direction="x" class="item wide-item">
+                    <span><img class="miniphoto" ng-click="BtnUpload(item)" src="img/iplus.png" /></span>
+                    <span ng-repeat="p in item.lstFile">
+                        <img class="miniphoto" ng-click="showImages($index,item.lstFile)" src="{{Host}}{{p.FilePath}}" alt="{{p.FileName}}" title="{{p.FileName}}" />
+                    </span>
+                </ion-scroll>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

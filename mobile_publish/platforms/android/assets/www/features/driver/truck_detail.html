@@ -1,0 +1,232 @@
+﻿<ion-view hide-nav-bar="true">
+    <ion-content class="" scroll="false">
+        <div class="bar bar-header bar-calm">
+            <button class="button button-clear" ng-click="BackToTruck()"><img src="img/back.png" /></button>
+            <h1 class="title">Danh sách SO</h1>
+            <button ng-show="selectedTab==2 && ShowReturnDetail==false" class="button button-clear" ng-click="ReturnAdd()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        </div>
+        <div style="height:100%;" class="content has-header">
+            <div class="itab">
+                <ul class="itab-title">
+                    <li ng-class="{'tab-noactive': selectedTab!=1}" ng-click="SwicthTab(1)">Danh sách SO</li>
+                    <li ng-class="{'tab-noactive': selectedTab!=2}" ng-click="SwicthTab(2)">Hàng trả về</li>
+                </ul>
+                <ul class="itab-footer">
+                    <li ng-class="{ 'tab-active': selectedTab==1}" ng-click="selectedTab=1"></li>
+                    <li ng-class="{ 'tab-active': selectedTab==2}" ng-click="selectedTab=2"></li>
+                </ul>
+                <div ng-show="selectedTab==1" class="">
+                    <ion-scroll style="height:100vh">
+                        <div class="bar-status" ng-click="LocationComplete()">
+                            <div ng-class="{'status-active':statusID == 1}">Đến</div>
+                            <div ng-class="{'status-active':statusID == 2}">Vào máng</div>
+                            <div ng-class="{'status-active':statusID == 3}">Ra máng</div>
+                            <div ng-class="{'status-active':statusID == 4}">Rời</div>
+                        </div>
+                        <div class="bar-status" ng-click="TempClick()">
+                            <div><i class="icon ion-thermometer"></i> Nhiệt độ hiện tại: {{CurrentTemperature}}</div>
+                        </div>
+                        <ion-list>
+                            <ion-item ng-repeat="item in SOList" class="nopadding">
+                                <div style="float:right">
+                                    <a ng-click="AddNewSO_Click(item)" style="font-size:22px;color:#000"><i class="fa fa-plus"></i></a>
+                                </div>                                                         
+                                    <div class="cus-table" style="padding:10px 10px 5px 5px;line-height:10px;font-size:13px;color:#41484b;">
+                                        <div>Mã SO: <strong>{{item.SOCode}}</strong> </div>                                       
+                                        <!--<div>
+                                            <label class="item-input">
+                                                <span class="input-label" ng-show="!showBntQtyTranfer" style="padding-right:0px;font-size:14px;">SL Giao:</span>
+                                                <span class="input-label" style="padding-right:0px;" ng-show="showBntQtyTranfer">
+                                                    <a href="#"><i class="fa fa-check"></i></a> |
+                                                    <button style="border:none;padding:0;background:none" ng-click="cancelQtyTranferClick(item.QuantityTranfer)"><i class="fa fa-ban"></i></button>
+                                                </span>
+                                                <input ng-change="changeQtyTranfer()" type="number" min="0" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="item.QuantityTranfer" />
+                                            </label>                                           
+                                        </div>-->                                        
+                                        <div ng-click="SOQtyTranferEdit(item)">
+                                            SL Giao: <strong>{{item.QuantityTranfer}}</strong>                 
+                                        </div>
+                                        <div ng-click="SOQtyReturnEdit(item)">SL Trả: <strong>{{item.QuantityReturn}}</strong></div>
+                                    </div>
+                                <div class="cus-table" style="padding:10px 10px 5px 5px;line-height:10px;font-size:13px;color:#41484b;">
+                                    <div style="width:50%">Nhóm SP: <strong>{{item.GroupProductName}}</strong></div>
+                                    <div style="width:50%">SP: <strong>{{item.ProductName}}</strong></div>
+                                </div>
+                                <ion-scroll direction="x" overflow-scroll="false" scrollbar-x="false" class="item wide-item" style="border:none;padding-bottom: 5px;">
+                                    <div class="slide-img">
+                                        <div ng-click="imageModal_Click(item)" style="background-color: grey;overflow: hidden;display:inline-block;">
+                                            <img style="display:table-cell;margin: 20px 0px 0px 15px;" src="img/icam.png" />
+                                        </div>
+                                        <div ng-repeat="p in item.lstFile" style="padding-right:3px;">
+                                            <img class="miniphoto" ng-click="showImages($index,item.lstFile)" src="{{Host}}/{{p.FilePath}}" alt="{{p.FileName}}" title="{{p.FileName}}" />
+                                        </div>
+                                    </div>
+                                </ion-scroll>
+                                <div class="cus-table" ng-click="SONoteEdit(item)">
+                                    <span style="font-size:14px;line-height: 10px;">Ghi chú</span>
+                                    <textarea readonly style="border:1px solid rgba(0,0,0,.15);width:100%" ng-model="item.Note" rows="5"></textarea>                   
+                                </div>                                                                                                              
+                                <div class="div-empty h10p"></div>
+                            </ion-item>
+                        </ion-list>
+                        <div class="div-empty h110p"></div>
+                    </ion-scroll>
+                </div>
+                <div class="" ng-show="selectedTab==2" style="height: 100%;">
+                    <div>
+                        <ion-list>
+                            <ion-item ng-repeat="o in ReturnList" ng-click="GOPReturnEdit(o)">
+                                <div style="float:left;width: 70%;overflow: hidden;text-overflow: ellipsis;">Nhóm hàng {{o.GroupProductName}} <br /> Hàng hóa: {{o.ProductName}} <br />Ghi chú: {{o.Note}}</div>
+                                <div style="float:right">{{o.Quantity}} cái</div>
+                            </ion-item>
+                        </ion-list>
+                    </div>
+                    <!--edit popup-->
+                    <div class="return-edit" ng-class="{'show-info':ShowReturnDetail==true}">
+                        <div class="div-empty bgr-grey h10p"></div>
+                        <div class="button-bar">
+                            <a class="button button-positive" ng-click="GOPReturn_Save()">Lưu</a>
+                            <a class="button button-outline button-assertive" ng-click="GOPReturnCancel()">Quay lại</a>
+                        </div>
+                        <multiselect m-this="SOAddressCombobox" m-data="SOAddressList" m-text-field="Text" m-value-field="ValueInt" m-model="GOPItem.OrderGroupID" m-placeholder="Địa chỉ"></multiselect>
+                        <multiselect m-this="GOPCombobox" m-data="GOPReturnList" m-text-field="Text" m-value-field="ValueInt" m-model="GOPItem.GroupProductID" m-placeholder="Chọn nhóm hàng hóa" m-call-back="ReloadProduct()"></multiselect>
+                        <multiselect m-this="ProductCombobox" m-data="ProductReturnList" m-text-field="ProductName" m-value-field="ID" m-model="GOPItem.ProductID" m-placeholder="Chọn hàng hóa"></multiselect>
+
+                        <input class="cus-textbox" type='text' ng-model="GOPItem.Quantity" placeholder="Số lượng" />
+                        <input class="cus-textbox" type='text' ng-model="GOPItem.Note" placeholder="Ghi chú" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input id='file' type="file" multiple style="display: none;" onchange="angular.element(this).scope().filesChanged(this)" />
+        
+    </ion-content>
+</ion-view>
+<script type="text/ng-template" id="tpl.html">
+    <div class="select">
+        <input ng-readonly="true" ng-click="toggleSelect()" class="cus-textbox" type='text' ng-model="DisplayText" placeholder="{{mPlaceholder}}" />
+        <div class="cbb-popup" ng-show="isPopupVisible">
+            <ion-scroll style="max-height:100px">
+                <ion-item style="line-height: 0px;" ng-repeat="o in Data" ng-click="SelectItem(o)">
+                    {{o.text}}
+                </ion-item>
+            </ion-scroll>
+        </div>
+    </div>
+</script>
+
+
+<!--AddNewSO-->
+<script id="addNewSO.html" type="text/ng-template">
+    <div class="list">
+        <div style="width:100%;margin-bottom:8px">
+            <label style="width:100%">Nhóm sản phẩm<code style="color:red">*</code></label>
+            <multiselect m-this="SOGOPCombobox" m-data="SOListGOP" m-text-field="GroupProductCode" m-value-field="GroupProductID" m-model="GroupProductItem.GroupProductID" m-call-back="SOReloadProduct()"></multiselect>           
+        </div>        
+        <div style="width:100%;margin-bottom:8px">
+            <label style="width:100%">Sản phẩm<code style="color:red">*</code></label>
+            <multiselect m-this="SOProductCombobox" m-data="SOListProduct" m-text-field="ProductCode" m-value-field="ID" m-model="GroupProductItem.ID"></multiselect>           
+        </div>    
+        <div style="width:100%;margin-bottom:8px">
+            <label style="width:100%">Sản lượng<code style="color:red">*</code></label>
+            <input style="border:solid 1px #aaa" type="number" min="0" ng-model="GroupProductItem.Quantity" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+        </div> 
+        <div style="width:100%;margin-bottom:8px">
+            <label style="width:100%">Ghi chú</label>
+            <textarea style="border:1px solid rgba(0,0,0,.15)" ng-model="GroupProductItem.Note" rows="4" cols="10"></textarea>
+        </div>   
+    </div>
+</script>
+
+<!--DemoSelectImage-->
+<script id="selectImage.html" type="text/ng-template">
+
+    <ion-modal-view class="adic-popup">
+        <button class="button button-full button-positive" ng-click="takePicture()">
+            CHỤP ẢNH
+        </button>
+        <button class="button button-full button-positive" ng-click="choosePicture()">
+            CHỌN ẢNH
+        </button>
+        <button class="button button-full button-positive" ng-click="closeModal()">
+            CANCEL
+        </button>
+    </ion-modal-view>
+
+</script>
+
+<style>
+     .select {
+        width: 100%;
+        max-height: 300px;
+        position: relative;
+    }
+    option{
+        line-height:16px;
+    }
+    .cbb-popup {
+        margin: 0;
+        background: #fff;
+        border: 1px solid #aaa;
+        box-shadow: 0 4px 5px rgba(0,0,0,.15);
+        z-index: 1010;
+        width: 100%;
+        ppadding: 0px;
+        border-radius: 4px;
+        margin-top: 1px;
+        position: absolute;
+    }
+
+    .return-edit {
+        position: absolute;
+        width: 100%;
+        height: 300px;
+        bottom: -310px;
+        z-index: 100;
+        -webkit-transition: bottom 0.5s;
+        transition: bottom .5s;
+    }
+
+        .return-edit.show-info {
+            bottom: 0px;
+        }
+
+    input.input-temp {
+        background-color: #3fafff;
+        color: #fff;
+        text-indent: 5px;
+    }
+
+    .input-temp::-webkit-input-placeholder {
+        color: #fff;
+        text-indent: 5px;
+    }
+
+    .backdrop {
+        height: 30%;
+    }
+
+    .adic-popup {     
+        height: 30%;
+        top: 70%;
+        width:100%;
+        background-color:transparent;
+    }
+   .modal-backdrop-bg {
+    -webkit-transition: opacity 300ms ease-in-out;
+    transition: opacity 300ms ease-in-out;
+    background-color: #000;
+    opacity: 0.4;
+}
+    .popup{
+        width:100%;
+        background-color:#808080;
+    }
+     @media (min-width: 680px){
+    .modal {
+        left:0;
+        bottom:0; 
+        right:0;               
+        }
+    }
+</style>

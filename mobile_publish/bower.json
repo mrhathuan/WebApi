@@ -1,0 +1,12 @@
+{
+  "name": "HelloIonic",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.2.4",
+    "angular-ui-chart": "latest"
+  },
+  "dependencies": {
+    "font-awesome": "fontawesome#^4.6.2",
+    "lie": "^3.1.0"
+  }
+}

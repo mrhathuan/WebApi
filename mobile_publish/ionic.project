@@ -1,0 +1,22 @@
+{
+  "name": "mobile",
+  "app_id": "",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ],
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://tmsdemo.smartlog.vn/api"
+    },
+	{
+	  "path": "/dto_flmdriver_schedule_mobile",
+	  "proxyUrl": "http://admin:123456789@125.212.248.62:5984/dto_flmdriver_schedule_mobile"
+	}
+  ]
+}

@@ -1,0 +1,134 @@
+﻿<ion-view view-title="Trang chủ">
+    <ion-content scroll="false">
+        <div class="itab">
+            <ul class="itab-title">
+                <li ng-class="{'tab-noactive': selectedTab!=1}" ng-click="selectedTab=1">Lệnh mới</li>
+                <li ng-class="{'tab-noactive': selectedTab!=2}" ng-click="selectedTab=2">Đã nhận</li>
+                <li ng-class="{'tab-noactive': selectedTab!=3}" ng-click="selectedTab=3">Lệnh chờ</li>
+            </ul>
+            <ul class="itab-footer">
+                <li ng-class="{ 'tab-active': selectedTab==1}" ng-click="selectedTab=1"></li>
+                <li ng-class="{ 'tab-active': selectedTab==2}" ng-click="selectedTab=2"></li>
+                <li ng-class="{ 'tab-active': selectedTab==3}" ng-click="selectedTab=3"></li>
+            </ul>
+            <div ng-show="selectedTab==1">
+                <ion-scroll style="height:100vh">
+                    <ion-refresher pulling-text="Pull to refresh..."
+                                   on-refresh="LoadData()">
+                    </ion-refresher>
+                    <div class="master" ng-repeat="o in RequestList">
+                        <div class="master-header" ui-sref="vendor.home_detail({id:o.TOMasterID,venid:o.CreateVendorID})">
+                            <div><div class="master-icon"><img src="img/ico_truck.png" /></div></div>
+                            <div class="master-header-mid">
+                                <strong style="font-size:15px;">{{o.MasterCode}}</strong> <br />
+                                <span style="font-size:12px;">{{o.CreateVehicleCode}}</span>
+                            </div>
+                            <div class="master-header-right">
+                                <span style="font-size:13px;">Tấn: {{o.Ton}}</span><br />
+                                <span style="font-size:13px;">Khối: {{o.CBM}}</span>
+                            </div>
+                        </div>
+                        <div style="background-color:white;">
+                            <div class="location-title">ĐIỂM NHẬN</div>
+                            <div class="location-list">
+                                <div class="location-item" ng-repeat="p in o.lstLocationFrom" ng-class="{ 'opa50': p.IsLeave==true}">
+                                    <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_blue.png" /></div>
+                                    <div class="location-info">{{p.LocationAddress}}</div>
+                                </div>
+                            </div>
+                            <div class="location-title">ĐIỂM GIAO</div>
+                            <div class="location-list">
+                                <div class="location-item" ng-repeat="p in o.lstLocationTo" ng-class="{ 'opa50': p.IsLeave==true}">
+                                    <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_pink.png" /></div>
+                                    <div class="location-info">{{p.LocationAddress}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="master-control">
+                            <div style="width:50%"><div ng-click="TenderReject({{o.TOMasterID}})" class="btn-active btn-cancel">Hủy lệnh</div></div>
+                            <div style="width:50%"><div ui-sref="vendor.home_detail({id:o.TOMasterID,venid:o.CreateVendorID})" class="btn-active btn-accept">Nhận lệnh</div></div>
+                        </div>
+                    </div>
+                    <div class="div-empty h110p"></div>
+                </ion-scroll>
+            </div>
+            <div ng-show="selectedTab==2">
+                <ion-scroll style="height:100vh">
+                    <ion-refresher pulling-text="Pull to refresh..."
+                                   on-refresh="LoadData()">
+                    </ion-refresher>
+                    <div class="master" ng-repeat="o in AcceptList">
+                        <div class="master-header">
+                            <div><div class="master-icon"><img src="img/ico_truck.png" /></div></div>
+                            <div class="master-header-mid">
+                                <strong style="font-size:15px;">{{o.MasterCode}}</strong> <br />
+                                <span style="font-size:12px;">{{o.CreateVehicleCode}}</span>
+                            </div>
+                            <div class="master-header-right">
+                                <span style="font-size:13px;">Tấn: {{o.Ton}}</span><br />
+                                <span style="font-size:13px;">Khối: {{o.CBM}}</span>
+                            </div>
+                        </div>
+                        <div class="location-title">ĐIỂM NHẬN</div>
+                        <div class="location-list">
+                            <div class="location-item" ng-repeat="p in o.lstLocationFrom" ng-class="{ 'opa50': p.IsLeave==true}">
+                                <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_blue.png" /></div>
+                                <div class="location-info" ui-sref="vendor.home_SODetail({id:{{o.TOMasterID}},locationID:{{p.LocationID}}})">{{p.LocationAddress}}</div>
+                                <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                            </div>
+                        </div>
+                        <div class="location-title">ĐIỂM GIAO</div>
+                        <div class="location-list">
+                            <div class="location-item" ng-repeat="p in o.lstLocationTo" ng-class="{ 'opa50': p.IsLeave==true}">
+                                <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_pink.png" /></div>
+                                <div class="location-info" ui-sref="vendor.home_SODetail({id:{{o.TOMasterID}},locationID:{{p.LocationID}}})">{{p.LocationAddress}}</div>
+                                <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                            </div>
+                        </div>
+                        <div class="master-control">
+                            <div style="width:50%"><div ui-sref="vendor.home_acceptDetail({id:{{o.TOMasterID}}})" class="btn-active btn-accept">Chi tiết</div></div>
+                        </div>
+                    </div>
+                    <div class="div-empty h110p"></div>
+                </ion-scroll>
+            </div>
+            <div ng-show="selectedTab==3">
+                <ion-scroll style="height:100vh">
+                    <ion-refresher pulling-text="Pull to refresh..."
+                                   on-refresh="LoadData()">
+                    </ion-refresher>
+                    <div class="master" ng-repeat="o in RejectList">
+                        <div class="master-header" ui-sref="vendor.home_detail({id:o.TOMasterID,venid:o.CreateVendorID})">
+                            <div><div class="master-icon"><img src="img/ico_truck.png" /></div></div>
+                            <div class="master-header-mid">
+                                <strong style="font-size:15px;">{{o.MasterCode}}</strong> <br />
+                                <span style="font-size:12px;">{{o.CreateVehicleCode}}</span>
+                            </div>
+                            <div class="master-header-right">
+                                <span style="font-size:13px;">Tấn: {{o.Ton}}</span><br />
+                                <span style="font-size:13px;">Khối: {{o.CBM}}</span>
+                            </div>
+                        </div>
+                        <div style="background-color:white;">
+                            <div class="location-title">ĐIỂM NHẬN</div>
+                            <div class="location-list">
+                                <div class="location-item" ng-repeat="p in o.lstLocationFrom" ng-class="{ 'opa50': p.IsLeave==true}">
+                                    <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_blue.png" /></div>
+                                    <div class="location-info">{{p.LocationAddress}}</div>
+                                </div>
+                            </div>
+                            <div class="location-title">ĐIỂM GIAO</div>
+                            <div class="location-list">
+                                <div class="location-item" ng-repeat="p in o.lstLocationTo" ng-class="{ 'opa50': p.IsLeave==true}">
+                                    <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_pink.png" /></div>
+                                    <div class="location-info">{{p.LocationAddress}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="div-empty h110p"></div>
+                </ion-scroll>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

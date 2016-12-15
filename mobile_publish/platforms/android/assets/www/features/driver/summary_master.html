@@ -1,0 +1,138 @@
+﻿<ion-view hide-nav-bar ="true">
+    <ion-content scroll="true" style="padding:0px;">
+        <div class="bar bar-header bar-calm">
+            <button class="button button-clear" ng-click="BackToTruck()"><img src="img/back.png" /></button>
+            <h1 class="title">Thông tin chuyến</h1>
+        </div>
+        <div class="content has-header" style="width: 100%; height: 100%;">
+            <!--xe tai-->
+            <ion-scroll style="width: 100%; height: 100%;" ng-show="!AcceptedItem.IsContainer">
+                <div class="div-empty h10p"></div>
+                <div class="master-header" style="background-color:#fff;padding:3px;">
+                    <div><div class="master-icon"><img src="img/ico_truck.png" /></div></div>
+                    <div class="master-header-mid">
+                        <strong class="master-code">{{AcceptedItem.MasterCode}}</strong> <br />
+                        <span style="font-size:12px;">{{AcceptedItem.RegNo}}</span>
+                    </div>
+                    <div>
+                        <span style="font-size:13px;">Tấn: {{AcceptedItem.Ton}}</span><br />
+                        <span style="font-size:13px;">Khối: {{AcceptedItem.CBM}}</span>
+                    </div>
+                </div>
+                <div class="master-etime"><div><i class="fa fa-2x fa-sign-out" aria-hidden="true"></i> {{AcceptedItem.ETD | date:'HH:mm dd/MM'}}</div><div><i class="fa fa-2x fa-sign-in" aria-hidden="true"></i> {{AcceptedItem.ETA | date:'HH:mm dd/MM'}}</div></div>
+                <div class="div-empty h1p bgr-munsell"></div>
+                <div class="received-toolbar-top">
+                    <div ng-click="ShowMapRoute(0)" class="skyblue" style="width:50%"><img src="img/icon_route.png" /> Xem lộ trình</div>
+                    <div class="radicalred" style="width:50%"><img src="img/iclose.png" /> Hủy đơn hàng</div>
+                </div>
+                <div class="div-empty h10p"></div>
+                <div style="background-color:white;">
+                    <div class="location-title">ĐIỂM NHẬN</div>
+                    <div class="location-list">
+                        <div class="location-item" ng-repeat="p in AcceptedItem.lstLocationFrom">
+                            <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_blue.png" /></div>
+                            <div class="location-info" ng-click="ShowSOList(AcceptedItem.TOMasterID,p.LocationID,p.Status,AcceptedItem.TimeSheetDriverID,AcceptedItem.TimeSheetID)">{{p.LocationName}}, {{p.LocationAddress}} <br /> <span class="location-time">{{p.DateComeEstimate | date:'HH:mm dd/MM'}}</span></div>
+                            <div ng-click="ShowSOList(AcceptedItem.TOMasterID,p.LocationID,p.Status,AcceptedItem.TimeSheetDriverID,AcceptedItem.TimeSheetID)"><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                        </div>
+                    </div>
+                    <div class="location-title">ĐIỂM GIAO</div>
+                    <div class="location-list">
+                        <div class="location-item" ng-repeat="p in AcceptedItem.lstLocationTo">
+
+                            <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_pink.png" /></div>
+                            <div class="location-info" ng-click="ShowSOList(AcceptedItem.TOMasterID,p.LocationID,p.Status,AcceptedItem.TimeSheetDriverID,AcceptedItem.TimeSheetID)">{{p.LocationName}}, {{p.LocationAddress}}<br /> <span class="location-time">{{p.DateComeEstimate | date:'HH:mm dd/MM'}}</span></div>
+                            <div ng-click="ShowSOList(AcceptedItem.TOMasterID,p.LocationID,p.Status,AcceptedItem.TimeSheetDriverID,AcceptedItem.TimeSheetID)"><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="div-empty h10p"></div>
+                <div class="master-trouble">
+                    <div style="width:60px;"><img style="max-height:20px;max-width:20px;" src="img/iplus.png" /></div>
+                    <div ng-click="AddTrouble('truck')">Thêm chi phí phát sinh </div>
+                    <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                </div>
+                <div class="div-empty h10p"></div>
+                <div class="master-trouble">
+                    <div style="width:60px;"><img style="max-height:20px;max-width:20px;" src="img/location.png" /></div>
+                    <div ng-click="ViewStation('truck')">Danh sách trạm </div>
+                    <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                </div>
+                <div class="div-empty h110p"></div>
+            </ion-scroll>
+            <!--container-->
+            <ion-scroll style="width: 100%; height: 100%;" ng-show="AcceptedItem.IsContainer">
+                <div class="div-empty h10p"></div>
+                <div class="master-header" style="background-color:#fff;padding:3px;">
+                    <div><div class="master-icon"><img src="img/ico_truck.png" /></div></div>
+                    <div class="master-header-mid">
+                        <strong class="master-code">{{AcceptedItem.MasterCode}}</strong> <br />
+                        <span style="font-size:12px;">{{AcceptedItem.RegNo}}</span>
+                    </div>
+                    <div>
+                        <span style="font-size:13px;">{{AcceptedItem.GroupOfVehicle}}</span>
+                    </div>
+                </div>
+                <div class="div-empty h1p bgr-munsell"></div>
+                <div class="received-toolbar-top">
+                    <div ng-click="ShowMapRoute(3)" class="skyblue" style="width:50%"><img src="img/icon_route.png" /> Xem lộ trình</div>
+                </div>
+                <div class="div-empty h10p"></div>
+                <div style="background-color:white;">
+                    <div class="location-title">Lấy Romooc: {{AcceptedItem.RomoocNo}}</div>
+                    <div class="location-list">
+                        <div class="location-item" ng-repeat="p in AcceptedItem.lstLocationGetRomooc">
+                            <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_blue.png" /></div>
+                            <div class="location-info">{{p.LocationName}}, {{p.LocationAddress}}</div>
+                            <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                        </div>
+                    </div>
+                    <div class="location-title">Trả Romooc: {{AcceptedItem.RomoocNo}}</div>
+                    <div class="location-list">
+                        <div class="location-item" ng-repeat="p in AcceptedItem.lstLocationReturnRomooc">
+                            <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_pink.png" /></div>
+                            <div class="location-info">{{p.LocationName}}, {{p.LocationAddress}}</div>
+                            <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                        </div>
+                    </div>
+                    <div class="location-title">ĐIỂM NHẬN</div>
+                    <div class="location-list">
+                        <div class="location-item" ng-repeat="p in AcceptedItem.lstLocationFrom">
+                            <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_blue.png" /></div>
+                            <div class="location-info">{{p.LocationName}}, {{p.LocationAddress}}</div>
+                            <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                        </div>
+                    </div>
+                    <div class="location-title">ĐIỂM GIAO</div>
+                    <div class="location-list">
+                        <div class="location-item" ng-repeat="p in AcceptedItem.lstLocationTo">
+                            <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_pink.png" /></div>
+                            <div class="location-info">{{p.LocationName}}, {{p.LocationAddress}}</div>
+                            <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="div-empty h10p"></div>
+                <div class="master-trouble">
+                    <div style="width:60px;"><img style="max-height:20px;max-width:20px;" src="img/iplus.png" /></div>
+                    <div ng-click="AddTrouble('container')">Thêm chi phí phát sinh </div>
+                    <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                </div>
+                <div class="div-empty h10p"></div>
+                <div class="master-trouble">
+                    <div style="width:60px;"><img style="max-height:20px;max-width:20px;" src="img/location.png" /></div>
+                    <div ng-click="ViewStation('container')">Danh sách trạm </div>
+                    <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                </div>
+                <div class="div-empty h110p"></div>
+            </ion-scroll>
+        </div>
+    </ion-content>
+    </ion-view>
+    <style>
+        .location-time { color: #ababab; font-size: 12px; }
+        .master-etime { font-size: 12px; color: #ef6969; width: 100%; line-height: 22px; text-align: center; background-color: #fff; padding-left: 8px; padding-top: 3px; }
+            .master-etime > div { text-align: center; width: 50%; display: inline-block; }
+            .master-etime i { color: #757575; float: left; }
+        input.input-temp { background-color: #3fafff; color: #fff; text-indent: 5px; }
+        .input-temp::-webkit-input-placeholder { color: #fff; text-indent: 5px; }
+    </style>
