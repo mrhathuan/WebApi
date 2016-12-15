@@ -1,0 +1,10 @@
+<div class="select">
+    <input ng-readonly="true" ng-click="toggleSelect()" class="cus-textbox" type='text' ng-model="DisplayText" placeholder="{{mPlaceholder}}" />
+    <div class="cbb-popup" ng-show="isPopupVisible">
+        <ion-scroll style="max-height:100px">
+            <ion-item style="line-height: 0px;" ng-repeat="o in Data" ng-click="SelectItem(o)">
+                {{o.text}}
+            </ion-item>
+        </ion-scroll>
+    </div>
+</div>

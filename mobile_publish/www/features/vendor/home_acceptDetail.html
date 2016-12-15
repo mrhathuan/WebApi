@@ -1,0 +1,62 @@
+﻿<ion-view hide-nav-bar="true" view-title="Chi tiết chuyến">
+    <ion-content scroll="false">
+        <div class="bar bar-header bar-calm">
+            <button ng-click="BackToHome()" class="button button-icon icon ion-chevron-left"></button>
+            <h1 class="title">Chi tiết chuyến</h1>
+        </div>
+        <div class="content has-header">
+            <div style="width: 100%; height: 100%;">
+                <ion-scroll style="width: 100%; height: 100%;">
+                    <div class="div-empty h10p"></div>
+                    <div class="received-header">
+                        <div style="height:42px;width:42px;background-image:url('img/pcon.png');background-size: 42px 42px;padding: 4px 0px 0px 2px;"><img src="img/ico_truck.png" /></div>
+                        <div class="master-header-mid">
+                            <strong style="font-size:15px;">{{AcceptedItem.MasterCode}}</strong> <br />
+                            <span style="font-size:12px;">{{AcceptedItem.RegNo}}</span>
+                        </div>
+                        <div>
+                            <span style="font-size:13px;">Tấn: {{AcceptedItem.Ton}}</span><br />
+                            <span style="font-size:13px;">Khối: {{AcceptedItem.CBM}}</span>
+                        </div>
+                    </div>
+                    <div class="div-empty h1p bgr-munsell"></div>
+                    <div class="received-toolbar-top">
+                        <div ng-click="ShowMapRoute()" class="skyblue" style="width:50%"><img src="img/icon_route.png" /> Xem lộ trình</div>
+                        <div class="radicalred" style="width:50%"><img src="img/iclose.png" /> Hủy đơn hàng</div>
+                    </div>
+                    <div class="div-empty h10p"></div>
+                    <div style="background-color:white;">
+                        <div class="location-title">ĐIỂM NHẬN</div>
+                        <div class="location-list">
+                            <div class="location-item" ng-repeat="p in AcceptedItem.lstLocationFrom" ng-class="{ 'opa50': p.IsLeave==true}">
+                                <div class="location-button bgr-seagreen" ng-click="LocationComplete(AcceptedItem.TOMasterID,p.LocationID,4)" ng-show="p.IsLeave==false"><img style="max-height: 10px;" src="img/icheck2.png" /></div>
+                                <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_blue.png" /></div>
+                                <div class="location-info" ui-sref="vendor.home_SODetail({masterID:{{AcceptedItem.TOMasterID}},locationID:{{p.LocationID}},statusID:{{p.DITOLocationStatusID}}})">{{p.LocationAddress}}</div>
+                                <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                            </div>
+                        </div>
+                        <div class="location-title">ĐIỂM GIAO</div>
+                        <div class="location-list">
+                            <div class="location-item" ng-repeat="p in AcceptedItem.lstLocationTo" ng-class="{ 'opa50': p.IsLeave==true}">
+                                <div class=" location-button bgr-seagreen" ng-click="LocationComplete(AcceptedItem.TOMasterID,p.LocationID,4)" ng-show="p.IsLeave==false && IsReceiveFull==true"><img style="max-height: 10px;" src="img/icheck2.png" /></div>
+                                <div class="location-img"><img style="max-height:20px;max-width:20px;" src="img/marker_pink.png" /></div>
+                                <div class="location-info" ui-sref="vendor.home_SODetail({masterID:{{AcceptedItem.TOMasterID}},locationID:{{p.LocationID}},statusID:{{p.DITOLocationStatusID}}})">{{p.LocationAddress}}</div>
+                                <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="div-empty h10p"></div>
+                    <div class="master-trouble">
+                        <div style="width:60px;"><img style="max-height:20px;max-width:20px;" src="img/iplus.png" /></div>
+                        <div ng-click="AddTrouble()">Thêm chi phí phát sinh </div>
+                        <div><img style="max-width:7px;float:right" src="img/inext.png" /></div>
+                    </div>
+                    <div class="div-empty h110p"></div>
+                </ion-scroll>
+                <div class="received-toolbar-footer">
+                    <div><a href="tel:+84835106383"> GỌI ĐIỆN</a></div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,39 @@
+﻿<ion-view hide-nav-bar="true">
+    <ion-content class="">
+        <div class="bar bar-header bar-calm">
+            <button class="button button-clear" ng-click="BackToTruck()"><img src="img/back.png" /></button>
+            <h1 class="title">Chi phí phát sinh</h1>
+            <button ng-show="selectedTab==2 && ShowReturnDetail==false" class="button button-clear" ng-click="ReturnAdd()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        </div>
+        <div style="height:100%;" class="padding content has-header">
+            <input id='file' type="file" style="display: none;" onchange="angular.element(this).scope().filesChanged(this)" />
+            <select class="trouble-input" ng-model="TroubleItem.GroupOfTroubleID" style="width:100%;margin-bottom:8px;">
+                <option value="" disabled selected style="opacity:0.5">Loại chi phí</option>
+                <option ng-repeat="option in ListGroupTrouble" value="{{option.ID}}">{{option.Name}}</option>
+            </select>
+            <input class="trouble-input" type="number" min="0" placeholder="Chi phí" ng-model="TroubleItem.Cost" />
+            <input class="trouble-input" placeholder="Chi tiết" ng-model="TroubleItem.Description" />
+            <div ng-click="SaveTrouble()" style="margin:auto;color:white;width: 288px;height: 40px;background-color:#4caf50;margin-top:20px;border-radius: 40px;text-align:center;padding:10px"><span>Gửi phát sinh</span> </div>
+            <div class="div-empty h10p"></div>
+            <h3 style="text-align: center;">Danh sách phát sinh</h3>
+            <ion-list>
+                <ion-item ng-repeat="o in TroubleList">
+                    <div>{{o.GroupOfTroubleName}}:  {{o.Cost| currency:"":0}} đ</div> <br />
+                    <ion-scroll direction="x" overflow-scroll="false" scrollbar-x="false" class="item wide-item" style="border:none;padding-bottom: 5px;">
+                        <div class="slide-img">
+                            <div ng-click="takePicture(o)" style="background-color: grey;overflow: hidden;display:inline-block;">
+                                <img style="display:table-cell;margin: 20px 0px 0px 15px;" src="img/icam.png" />
+                            </div>
+                            <div ng-repeat="p in o.lstFile">
+                                <img class="miniphoto" ng-click="showImages($index,o.lstFile)" src="{{Host}}/{{p.FilePath}}" alt="{{p.FileName}}" title="{{p.FileName}}" />
+                            </div>
+                        </div>
+                    </ion-scroll>
+                </ion-item>
+            </ion-list>
+        </div>
+    </ion-content>
+</ion-view>
+<style>
+
+</style>

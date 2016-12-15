@@ -1,0 +1,11 @@
+<ion-view view-title="Home">
+    <ion-content class="padding">
+        <br />
+        <br />
+        <input id='file' type="file" style="display: none;" onchange="angular.element(this).scope().filesChanged(this)" />
+        <br />
+        <div ng-repeat="item in lstPOD">
+            <button ng-click="BtnUpload(item.ID)">Upload POD</button> : {{CustomerCode}}-{{DNABA}}-{{GroupOfProductCode}}
+        </div>
+    </ion-content>
+</ion-view>

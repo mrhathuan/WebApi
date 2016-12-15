@@ -1,0 +1,65 @@
+﻿<ion-view hide-nav-bar="true">
+    <ion-content class="" scroll="false">
+        <div class="bar bar-header bar-calm">
+            <button class="button button-clear" ng-click="BackToTruck()"><img src="img/back.png" /></button>
+            <h1 class="title">Danh sách container</h1>
+            <button ng-show="selectedTab==2 && ShowReturnDetail==false" class="button button-clear" ng-click="ReturnAdd()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        </div>
+        <div style="height:100%;" class="content has-header">
+            <ion-scroll style="height:100vh">
+                <ion-list>
+                    <ion-item ng-repeat="item in SOList" class="nopadding">
+                        <div class="cus-table" style="padding:10px 10px 5px 5px;line-height:10px;font-size:13px;color:#41484b;">
+                            <div style="width:50%">Số Container:{{item.SOCode}}</div>
+                        </div>
+                        <ion-scroll direction="x" class="item wide-item" style="border:none;padding-bottom: 5px;">
+                            <div class="slide-img">
+                                <div ng-click="imageModal_Click(item)" style="background-color: grey;overflow: hidden;display:inline-block;">
+                                    <img style="display:table-cell;margin: 20px 0px 0px 15px;" src="img/icam.png" />
+                                </div>
+                                <div ng-repeat="p in item.lstFile">
+                                    <img class="miniphoto" ng-click="showImages($index,item.lstFile)" src="{{Host}}/{{p.FilePath}}" alt="{{p.FileName}}" title="{{p.FileName}}" />
+                                </div>
+                            </div>
+                        </ion-scroll>
+                        <span style="font-size:12px;color:#8e9699;line-height: 10px;">&nbsp;&nbsp;Chụp hóa đơn chứng từ</span>
+                        <div class="div-empty h10p"></div>
+                    </ion-item>
+                </ion-list>
+                <div class="div-empty h110p"></div>
+            </ion-scroll>
+        </div>
+        <!--<input id='file' type="file" style="display: none;" onchange="angular.element(this).scope().filesChanged(this)" />       -->
+    </ion-content>
+</ion-view>
+!--DemoSelectImage-->
+<script id="selectImage.html" type="text/ng-template">
+
+    <ion-modal-view class="adic-popup">
+        <button class="button button-full button-positive" ng-click="takePicture()">
+            CHỤP ẢNH
+        </button>
+        <button class="button button-full button-positive" ng-click="choosePicture()">
+            CHỌN ẢNH
+        </button>
+        <button class="button button-full button-positive" ng-click="closeModal()">
+            CANCEL
+        </button>
+    </ion-modal-view>
+
+</script>
+<style>
+    .select { width: 100%; max-height: 300px; position: relative;}
+    .cbb-popup { margin: 0; background: #fff; border: 1px solid #aaa; box-shadow: 0 4px 5px rgba(0,0,0,.15); z-index: 1010; width: 100%; padding: 0px; border-radius: 4px; margin-top: 1px; position: absolute; }
+
+    .return-edit{position:absolute;width:100%;height:300px;bottom:-310px;z-index:100;-webkit-transition: bottom 0.5s;transition: bottom .5s;}
+    .return-edit.show-info {bottom:0px;}
+    input.input-temp { background-color: #3fafff; color: #fff;text-indent:5px; }
+    .input-temp::-webkit-input-placeholder {color:#fff;text-indent:5px; }
+     .adic-popup { height: 30%; top: 70%; width:100%; background-color:transparent; } 
+     .modal-backdrop-bg { -webkit-transition:
+opacity 300ms ease-in-out; transition: opacity 300ms ease-in-out; background-color: #000; opacity: 0.5; }
+ .popup{ width:100%;
+background-color:#808080; }
+ @media (min-width: 680px){ .modal { left:0; bottom:0; right:0; } }
+</style>

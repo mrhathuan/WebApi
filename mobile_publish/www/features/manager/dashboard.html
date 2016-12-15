@@ -1,0 +1,147 @@
+﻿<ion-view hide-nav-bar="true" view-title="Dashboard">
+    <ion-content scroll="false">
+        <div class="bar bar-header bar-royal">
+            <button class="button button-clear" ng-click="BackToTruck()"><img src="img/find.png" /></button>
+            <h1 class="title">Dashboard</h1>
+            <button ng-show="false" class="button button-clear" ng-click="PickDate()"><img src="img/slide.png" /></button>
+            <button class="button button-clear" ui-sref="manage.charts"><i class="fa fa-area-chart" aria-hidden="true"></i></button>          
+        </div>
+        <div style="height:100%" class="content has-header has-tabs">
+            <div ng-show="selectedTab==1" style="width:100%;height:calc(100% - 93px);">
+                <div style="width:100%;height:50%;min-height:140px;">
+                    <div class="menu-metro">
+                        <div class="metro-row">
+                            <div ui-sref="manage.order" class="metro-cell">
+                                <div><img style="height:40px" src="img/order.png" /></div>
+                                <div>Đơn hàng</div>
+                            </div>
+                            <div ui-sref="manage.ops" class="metro-cell">
+                                <div><img style="height:40px" src="img/xe.png" /></div>
+                                <div>Xe</div>
+                            </div>
+                        </div>
+                        <div class="metro-row">
+                            <div ui-sref="manage.finance" class="metro-cell">
+                                <div><img style="height:40px" src="img/taichinh.png" /></div>
+                                <div>Tài chính</div>
+                            </div>
+                            <div ui-sref="manage.cost" class="metro-cell">
+                                <div><img style="height:40px" src="img/phatsinh.png" /></div>
+                                <div>Phát sinh</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="ChartView==1" style="width:100%;height:50%;background-color:rgba(59, 59, 62,1)">
+                    <div style="height:15%;width:100%;display:table;table-layout:fixed;color:#fff">
+                        <div style="display:table-cell">MON</div>
+                        <div style="display:table-cell">TUE</div>
+                        <div style="display:table-cell">WEN</div>
+                        <div style="display:table-cell">THU</div>
+                        <div style="display:table-cell">FRI</div>
+                        <div style="display:table-cell">SAT</div>
+                        <div style="display:table-cell">SUN</div>
+                    </div>
+                    <div style="height:85%;" id="orderChart"></div>
+                </div>
+                <div ng-show="ChartView==2" style="width:100%;height:50%;">
+                    <div style="height:100%;" id="orderOverviewChart"></div>
+                </div>
+                <div ng-show="ChartView==3" style="width:100%;height:50%;">
+                    <div style="height:100%;" id="orderTonCBMChart"></div>
+                </div>
+                <div ng-show="ChartView==4" style="width:100%;height:50%;">
+                    <div style="height:100%;" id="XeChart"></div>
+                </div>
+                <div ng-show="ChartView==5" style="width:100%;height:50%;background-color:rgba(59, 59, 62,1)">
+                    <div style="height:15%;width:100%;display:table;table-layout:fixed;color:#fff">
+                        <div style="display:table-cell">MON</div>
+                        <div style="display:table-cell">TUE</div>
+                        <div style="display:table-cell">WEN</div>
+                        <div style="display:table-cell">THU</div>
+                        <div style="display:table-cell">FRI</div>
+                        <div style="display:table-cell">SAT</div>
+                        <div style="display:table-cell">SUN</div>
+                    </div>
+                    <div style="height:85%;" id="MasterChart"></div>
+                </div>
+            </div>
+            <div ng-show="selectedTab==2" style="width:100%;height:90%;">
+                <div id="mapManage" class="cus-map" style="width:100%; height:100%;"></div>
+            </div>
+            <ion-scroll ng-show="selectedTab==3" style="width:100%;height:90%;">
+                <div class="cus-list">
+                    <div ng-repeat="o in NotifyData" class="cus-item">
+                        <div class="cus-item-icon"><img class="" src="{{o.Img}}"></div>
+                        <div ng-bind-html="o.Message"></div>
+                        <div class="cus-item-note color-grey">{{o.CreatedDate | date:'HH:mm dd/MM'}}</div>
+                    </div>
+                </div>
+            </ion-scroll>
+            <div ng-show="selectedTab==4" style="width:100%;height:90%;">
+                <div style="height:200px;" id="salaryChart"></div>
+            </div>
+            <div ng-show="selectedTab==5">
+                <div style="height:100%;" id="salaryChart1"></div>
+            </div>           
+        </div>
+        <div class="tabs tabs-icon-top">
+            <div class="select-pane" ng-class="{'actived':ShowSelectPane==true}">
+                <div class="select-pane-header">
+                    <div class="row">
+                        <div class="col col-80"><input ng-model="ComoboboxKey" style="width:100%;border-radius:5px;margin-top: 6px;" type="search" placeholder="Search"></div>
+                        <div class="col col-20"><button class="button button-clear" style="color:#fff" ng-click="CloseSelectPane()"> Cancel</button></div>
+                    </div>
+                </div>
+                <div style="padding:10px;height:100%;overflow-y:scroll;overflow-x: hidden;">
+                    <ul class="list">
+                        <li ng-repeat="o in DataCombobox | filter:ComoboboxKey" ng-click="ComboboxSelect(o)" class="item">
+                            {{o.text}}
+                        </li>
+                    </ul>
+                    <div class="div-empty h110p"></div>
+                </div>
+
+            </div>
+            <a ng-click="selectedTab=1" class="tab-item" ng-class="{'tab-active': selectedTab==1}">
+                <i class="icon fa fa-share-alt" aria-hidden="true"></i>
+                Dashboard
+            </a>
+            <a ng-click="TabClick(2)" class="tab-item" ng-class="{'tab-active': selectedTab==2}">
+                <i class="icon fa fa-eye" aria-hidden="true"></i>
+                Theo dõi
+            </a>
+            <a ng-click="selectedTab=3" class="tab-item" ng-class="{'tab-active': selectedTab==3}">
+                <i class="icon fa fa-bell-o" aria-hidden="true"></i>
+                Thông báo
+            </a>
+            <a ng-click="selectedTab=4" class="tab-item" ng-class="{'tab-active': selectedTab==4}">
+                <i class="icon fa fa-pie-chart" aria-hidden="true"></i>
+                KPI
+            </a>
+
+            <a ng-click="LogOut()" class="tab-item" ng-class="{'tab-active': selectedTab==5}">
+                <i class="icon fa fa-sign-out" aria-hidden="true"></i>
+                Đăng xuất
+            </a>
+
+        </div>
+    </ion-content>
+</ion-view>
+<style>
+
+    .tabs .tab-item.tab-active {color:#6b46e5;opacity:1; }
+    .tabs a.tab-item.activated{color:#6b46e5;opacity:1;}
+
+    .menu-metro { display:table;table-layout:fixed;height:100%;width:100%; }
+    .metro-row {display:table-row; }
+    .metro-cell {display:table-cell; border-right:1px solid #808080;border-bottom:1px solid #808080;text-align:center;vertical-align:middle}
+    .mtab-sub {font-size:11px }
+    .mtab{height:100%;border-top: 1px solid #d4d4d4;}
+    .mtab-title .tab-noactive{color:#808080;}
+    .mtab ul.mtab-title {display:table;width:100%;background-color:#fff;color:#3c09d4;height:50px;}
+    .mtab ul.mtab-title li {display:table-cell;text-align:center;vertical-align: middle;font-size:17px;padding: 3px;width: 25%;}
+
+    .jqplot-table-legend-swatch{min-width:10px;min-height:10px;}
+</style>
+

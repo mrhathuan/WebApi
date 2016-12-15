@@ -1,0 +1,133 @@
+﻿<ion-view view-title="Thống kê">
+    <ion-content scroll="false" style="padding:0px;">
+        <div class="itab">
+            <ul class="itab-title">
+                <li ng-class="{'tab-noactive': selectedTab!=1}" ng-click="SelectTab(1)">Lịch sử</li>
+                <li ng-class="{'tab-noactive': selectedTab!=2}" ng-click="SelectTab(2)">Thu nhập</li>
+                <li ng-class="{'tab-noactive': selectedTab!=3}" ng-click="SelectTab(3)">Năng suất</li>
+            </ul>
+            <ul class="itab-footer">
+                <li ng-class="{ 'tab-active': selectedTab==1}" ng-click="SelectTab(1)"></li>
+                <li ng-class="{ 'tab-active': selectedTab==2}" ng-click="SelectTab(2)"></li>
+                <li ng-class="{ 'tab-active': selectedTab==3}" ng-click="SelectTab(3)"></li>
+            </ul>
+            <div ng-show="selectedTab==1">
+                <div class="div-empty h10p bgr-grey"></div>
+                <div class="dpt">
+                    <div style="display:table;width:100%;">
+                        <div style="width:40%;display:table-cell;">
+                            <button class="button button-block button-positive" ng-click="H_dateFrom_callback()"> {{ HSearch.dSFrom | date:'dd/MM/yyyy' }} </button>
+                           
+                        </div>
+                        <div style="width:20%;display:table-cell; text-align:center;vertical-align:middle"> đến </div>
+                        <div style="width:40%;display:table-cell;">
+                            <button class="button button-block button-positive" ng-click="H_dateTo_callback()"> {{ HSearch.dSTo | date:'dd/MM/yyyy' }} </button>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+                <div class="div-empty h10p bgr-grey"></div>
+                <ion-scroll style="height:100vh">
+                    <ion-refresher pulling-text="{{PullText}}"
+                                   on-refresh="LoadData()">
+                    </ion-refresher>
+                    <div class="master" ng-repeat="o in HistoryList" ng-click="Master(o)">
+                        <div class="master-header">
+                            <div><div class="master-icon"><img src="img/ico_truck.png" /></div></div>
+                            <div class="master-header-mid" style="padding-left: 20px;">
+                                <strong style="font-size:15px;">{{o.MasterCode}}</strong> <br />
+                                <span style="font-size:12px;">{{o.RegNo}}</span>
+                            </div>
+                            <div class="master-header-right">
+                                <span style="font-size:13px;">Tấn: {{o.Ton}}</span><br />
+                                <span style="font-size:13px;">Khối: {{o.CBM}}</span>
+                            </div>
+                        </div>
+                        <div class="master-etime"><div>{{o.DateFrom | date:'HH:mm dd/MM'}}</div></div>
+                        <div class="master-control" style="margin: 10px 0px 15px 0px;">
+                            <div ng-show="!o.IsReject" class="seagreen" style="width:50%"><div><img style="max-height:35px;max-width:35px;margin-right: 35px;" src="img/icheck.png" /> Thành công</div></div>
+                            <div ng-show="o.IsReject" class="radicalred" style="width:50%;"><div><img style="max-height:35px;max-width:35px;margin-right: 35px;" src="img/iclose.png" /> Hủy</div></div>
+                            <div style="width:50%;opacity:0.7"><div>Xem chi tiết</div></div>
+                        </div>
+                    </div>
+                    <div class="div-empty h110p"></div>
+                </ion-scroll>
+            </div>
+            <div ng-show="selectedTab==2">
+                <ion-scroll style="height:100vh">
+                    <div class="div-empty h10p bgr-grey"></div>
+                    <ion-refresher pulling-text="{{PullText}}"
+                                   on-refresh="LoadData()">
+                    </ion-refresher>
+                    <div class="div-empty h25p"></div>
+                    <div style="text-align:center;font-size:16px;color:#656c6f;">Thu nhập tháng</div>
+                    <div style="height:210px">
+                        <div style="height:200px;" id="salaryChart" ></div>
+                    </div>
+                    <div class="lengend">
+                        <div class="lengend-row">
+                            <div class="lengend-cell"><div class="lengend-rec bgr-skyblue"></div> Lương chuyến</div>
+                            <div class="lengend-cell"><div class="lengend-rec bgr-seagreen"></div> Lương cơ bản</div>
+                        </div>
+                        <div class="lengend-row">
+                            <div class="lengend-cell"><div class="lengend-rec bgr-radicalred"></div> Lương doanh thu</div>
+                            <div class="lengend-cell"><div class="lengend-rec bgr-orange"></div> Lương thưởng</div>
+                        </div>
+                    </div>
+                    <div class="dpt">
+                        <div style="display:table;width:100%;">
+                            <div style="width:40%;display:table-cell;">
+                                <button class="button button-block button-positive" ng-click="S_dateFrom_callback()"> {{ SSearch.dSFrom | date:'dd/MM/yyyy' }} </button>
+                                
+                            </div>
+                            <div style="width:20%;display:table-cell; text-align:center;vertical-align:middle"> đến </div>
+                            <div style="width:40%;display:table-cell;">
+                                <button class="button button-block button-positive" ng-click="S_dateTo_callback()"> {{ SSearch.dSTo | date:'dd/MM/yyyy' }} </button>                               
+                            </div>                            
+
+                            <div style="clear:both;"></div>
+                        </div>
+                    </div>
+                    <div class="div-empty h10p"></div>
+                    <div class="galary-grid">
+                        <div class="galary-grid-header">
+                            <div class="galary-grid-cell">Ngày</div>
+                            <div class="galary-grid-cell">Mã</div>
+                            <div class="galary-grid-cell">Loại</div>
+                            <div class="galary-grid-cell">Lương</div>
+                        </div>
+                        <div ng-repeat="o in SalaryList" class="galary-grid-row">
+                            <div class="galary-grid-cell">{{o.DateConfig|date:'dd/MM'}}</div>
+                            <div class="galary-grid-cell">{{o.TOMasterCode}}</div>
+                            <div class="galary-grid-cell">{{o.CostName}}</div>
+                            <div class="galary-grid-cell">{{o.Price|currency:"":0}}</div>
+                        </div>
+                    </div>
+                    <div class="div-empty h110p"></div>
+                </ion-scroll>
+            </div>
+            <div ng-show="selectedTab==3">
+                <div class="div-empty h10p bgr-grey"></div>
+                <div style="height:250px;" id="chart"></div>
+                <div class="lengend">
+                    <div class="lengend-row">
+                        <div class="lengend-cell"><div class="lengend-rec bgr-seagreen"></div> Chuyến thành công</div>
+                    </div>
+                    <div class="lengend-row">
+                        <div class="lengend-cell"><div class="lengend-rec bgr-radicalred"></div> Chuyến thất bại</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
+<style>
+    .location-time { color: #ababab; font-size: 12px; }
+    .master-etime { font-size: 12px; color: #ef6969; width: 100%; line-height: 22px; text-align: center; background-color: #fff; padding-left: 8px; padding-top: 3px; }
+        .master-etime > div { text-align: center; width: 50%; display: inline-block; }
+        .master-etime i { color: #757575; float: left; }
+    input.input-temp { background-color: #3fafff; color: #fff; text-indent: 5px; }
+    .input-temp::-webkit-input-placeholder { color: #fff; text-indent: 5px; }
+    
+</style>
+
