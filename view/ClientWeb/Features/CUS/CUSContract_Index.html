@@ -1,0 +1,17 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-show="Auth.ActAdd" ng-click="New_Click($event)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-click="ShowSetting($event,contract_grid)" ng-mouseenter="ShowSetting($event,contract_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="contract_grid" expand-k-grid k-options="contract_gridOptions"></div>
+    </div>
+</div>

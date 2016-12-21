@@ -1,0 +1,179 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                <li><span>Danh sách trạm theo chuyến</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="CATLocationMatrixStation_AddClick($event,CATLocationMatrixStation_EditWin)" class="k-button " data-title="Thêm mới"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-click="ShowSetting($event,CATLocationMatrixStation_Grid)" ng-mouseenter="ShowSetting($event,CATLocationMatrixStation_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="cus-form">
+        <div class="form-body">
+            <div class="cus-grid" kendo-grid="CATLocationMatrixStation_Grid"  expand-k-grid k-options="CATLocationMatrixStation_Grid_Options"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Location_EditWin  -->
+<div class="cus-window" draggable-k-window kendo-window="CATLocationMatrixStation_EditWin" k-title="false" k-width="850" k-height="550" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách trạm theo tuyến đường
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer" scrolldiv>
+            <form action="/" method="post">
+                <div v-form="CATLocationMatrixStationForm">
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="title left">Điểm đi</div>
+                        </div>
+                        <div>
+                            <div class="form-content-150">
+                                <div class="rowinput">
+                                    <label>Mã</label>
+                                    <div>
+                                        <input ng-model="data.LocationMatrixFromCode" type="text" class="k-textbox" disabled />
+                                    </div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tên</label>
+                                    <div>
+                                        <input ng-model="data.LocationMatrixFromName" type="text" class="k-textbox" disabled />
+                                    </div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Địa chỉ</label>
+                                    <div>
+                                        <input ng-model="data.LocationMatrixFromAddress" type="text" class="k-textbox" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-header">
+                            <div class="title left">Điểm đến</div>
+                        </div>
+                        <div>
+                            <div class="form-content-150">
+                                <div class="rowinput">
+                                    <label>Mã</label>
+                                    <div>
+                                        <input ng-model="data.LocationMatrixToCode" type="text" class="k-textbox" disabled />
+                                    </div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tên</label>
+                                    <div>
+                                        <input ng-model="data.LocationMatrixToName" type="text" class="k-textbox" disabled />
+                                    </div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Địa chỉ</label>
+                                    <div>
+                                        <input ng-model="data.LocationMatrixToAddress" type="text" class="k-textbox" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-header">
+                            <div class="title left">Trạm</div>
+                        </div>
+                         <div>
+                             <div class="form-content-150">
+                                 <div class="rowinput">
+                                     <label>Mã</label>
+                                     <div>
+                                         <input ng-model="data.LocationCode" type="text" class="k-textbox" disabled />
+                                     </div>
+                                 </div>
+                                 <div class="rowinput">
+                                     <label>Tên</label>
+                                     <div>
+                                         <input ng-model="data.LocationName" type="text" class="k-textbox" disabled />
+                                     </div>
+                                 </div>
+                                 <div class="rowinput">
+                                     <label>Địa chỉ</label>
+                                     <div>
+                                         <input ng-model="data.LocationAddress" type="text" class="k-textbox" disabled />
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                        <div class="form-header">
+                            <div class="title left">Km</div>
+                        </div>
+                        <div>
+                            <div class="form-content-150">
+                                <div class="rowinput">
+                                    <label>Số km</label>
+                                    <div>
+                                        <input ng-model="data.KM" class="k-textbox cus-number" type="number" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="LocationMatrixList_Click($event,LocationMatrixListWin)" class="k-button accept">Tìm tuyến đường</a>
+                <a href="/" ng-click="LocationList_Click($event,LocationListWin)" class="k-button accept">Tìm trạm</a>
+                <a href="/" ng-click="CATLocationMatrixStation_Save($event,CATLocationMatrixStation_EditWin)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Win_Close($event,CATLocationMatrixStation_EditWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Location_EditWin  -->
+<div class="cus-window" draggable-k-window kendo-window="LocationMatrixListWin" k-title="false" k-width="1000" k-height="600" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách tuyến đường
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="LocationMatrixList_Grid" expand-k-grid k-options="LocationMatrixList_Grid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="LocationMatrixList_Save($event,LocationMatrixList_Grid,LocationMatrixListWin)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Win_Close($event,LocationMatrixListWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="LocationListWin" k-title="false" k-width="1000" k-height="600" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách trạm
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="LocationList_Grid" expand-k-grid k-options="LocationList_Grid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="LocationList_Save($event,LocationList_Grid,LocationListWin)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Win_Close($event,LocationListWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

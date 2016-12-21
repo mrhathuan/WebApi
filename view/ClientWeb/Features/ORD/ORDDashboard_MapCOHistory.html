@@ -1,0 +1,316 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">
+            Phân tích vận chuyển container đội xe nhà
+        </div>
+        <div class="right button">
+            <input focus-k-combobox kendo-combo-box="cboVehicle" k-options="cboVehicleOptions" ng-model="Item.VehicleID" style="width:100px" />
+
+            <input style="width:100px;" class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="Item.DateFrom" />
+            <input style="width:100px;" class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="Item.DateTo" />
+
+            <a href="/" ng-click="RefreshMap_Click($event)" class="k-button "><i class="fa fa-refresh"></i><span class="tooltip">Refresh</span> </a>
+            <a href="/" ng-click="MapHistory_Click($event)" class="k-button"><i class="fa fa-map"></i><span class="tooltip">Phân tích vận chuyển container</span></a>
+            <a href="/" ng-click="Dashboard_Click($event)" class="k-button"><i class="fa fa-dashboard"></i><span class="tooltip is-right">Xem Dashboard</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body" style="width:100%">
+        <!--Map-->
+        <div id="dashboardMap_map" class="cus-map" style="width:100%;height:100%; position:relative"></div>
+        <div id="dashboardMap_tooltip" style="display: none; background-color: rgb(165, 197, 185); line-height: 24px; padding: 2px 10px; color: #0A0A0A; font-weight: bold;"></div>
+        <div id="dashboardMap_infoWindow" class="cus-form" style="display:none">
+            <div class="form-header">
+                <div class="left title">
+                    <p>{{ Info.Name }}</p>
+                </div>
+                <div class="right button">
+                    <a href="/" ng-click="InfoWindowClose_Click($event)" class="k-button"><i class="fa fa-close"></i></a>
+                </div>
+            </div>
+            <div class="form-body">
+                <p style="line-height: 20px;"><span style="font-weight:bold">Địa chỉ: </span>{{ Info.Address }}</p>
+                <p><span style="font-weight:bold">SL 20DC: </span>{{ Info.c20DC }}</p>
+                <p><span style="font-weight:bold">SL 40DC: </span>{{ Info.c40DC }}</p>
+                <p><span style="font-weight:bold">SL 40HC: </span>{{ Info.c40HC }}</p>
+                <p><span style="font-weight:bold">Tổng chuyến: </span>{{ Info.Schedule }}</p>
+            </div>
+        </div>
+        <div id="dashboardMap_panel_container">
+            <div style="display: block;" class="dashboardMap_panel" id="dashboardMap_panel" ng-class="IsExpand ? 'expand' : 'collapse'">
+                <div class="dashboardMap_panel_header">
+                    <div class="dashboardMap_panel_header_title">
+                        Xe: {{ Total.Vehicle }} - Romooc: {{ Total.Romooc }} - Container: {{ Total.TotalContainer }} - Chuyến: {{ Total.Schedule }}
+                    </div>
+                    <div class="dashboardMap_panel_header_actions">
+                        <a href="/" class="dashboardMap_panel_header_action" ng-click="Panel_Click($event)">
+                            <i style="color: #fff" class="fa fa-compress"></i>
+                        </a>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+                <div class="dashboardMap_panel_wrapper" ng-show="IsExpand">
+
+                    <!-- Tổng sản lượng -->
+                    <div class="dashboardMap_panel_element full">
+                        <div class="dashboardMap_panel_element_title">
+                            Sản lượng
+                        </div>
+                        <div class="dashboardMap_panel_element_actions">
+                            <a href="/" class="dashboardMap_panel_element_action" data-toggle="modal" data-target="#chartModal" ng-click="ChartQuantityDetail_Click($event)">
+                                <i class="fa fa-line-chart"></i>
+                            </a>
+                            <a href="/" class="dashboardMap_panel_element_action" data-toggle="modal" data-target="#chartModal" ng-click="ChartQuantity_Click($event)">
+                                <i class="fa fa-bar-chart"></i>
+                            </a>
+                            <div class="clear"></div>
+                        </div>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-suitcase fa-3x icon-click" ng-click="ChartTonCBM_Click($event)"></i>
+                        <div class="dashboardMap_panel_element_stat"><span ng-click="ChartQuantityDetail_Click($event)" class="pointer">{{ Total.c20DC }}</span></div>
+                        <div class="dashboardMap_panel_element_unit">
+                            20DC
+                        </div>
+                        <div class="dashboardMap_panel_element_stat second"><span ng-click="ChartQuantityDetail_Click($event)" class="pointer">{{ Total.c40DC }}</span></div>
+                        <div class="dashboardMap_panel_element_unit second">
+                            40DC
+                        </div>
+                        <div class="dashboardMap_panel_element_stat third"><span ng-click="ChartQuantityDetail_Click($event)" class="pointer">{{ Total.c40HC }}</span></div>
+                        <div class="dashboardMap_panel_element_unit third">
+                            40HC
+                        </div>
+                    </div>
+
+                    <!-- Tổng chuyến -->
+                    <div class="dashboardMap_panel_element full">
+                        <div class="dashboardMap_panel_element_title">Chuyến</div>
+                        <div class="dashboardMap_panel_element_actions">
+                            <a href="/" class="dashboardMap_panel_element_action" id="boxplotduration" data-toggle="modal" data-target="#chartModal" ng-click="ChartScheduleDetail_Click($event)">
+                                <i class="fa fa-line-chart"></i>
+                            </a>
+                            <a href="/" class="dashboardMap_panel_element_action" id="histogramduration" data-toggle="modal" data-target="#chartModal" ng-click="ChartSchedule_Click($event)">
+                                <i class="fa fa-bar-chart"></i>
+                            </a>
+                            <div class="clear"></div>
+                        </div>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-truck fa-3x icon-click" ng-click="ChartSchedule_Click($event)"></i>
+                        <div class="dashboardMap_panel_element_stat" id="total_Schedule"><span ng-click="ChartScheduleDetail_Click($event)" class="pointer">{{ Total.Export }}</span></div>
+                        <div class="dashboardMap_panel_element_unit">
+                            Xuất khẩu
+                        </div>
+                        <div class="dashboardMap_panel_element_stat second" id="total_ScheduleEmpty"><span ng-click="ChartScheduleDetail_Click($event)" class="pointer">{{ Total.Import }}</span></div>
+                        <div class="dashboardMap_panel_element_unit second">
+                            Nhập khẩu
+                        </div>
+                        <div class="dashboardMap_panel_element_stat third"><span ng-click="ChartScheduleDetail_Click($event)" class="pointer">{{ Total.Local }}</span></div>
+                        <div class="dashboardMap_panel_element_unit third">
+                            Nội địa
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="dashboardMap_panel_master" ng-class="IsExpand ? 'expand' : 'collapse'">
+            <div class="dashboardMap_panel_header">
+                <div class="dashboardMap_panel_header_title" style="margin: 4px 10px 0px 10px; width:auto; float:left">
+                    Chọn chuyến <input focus-k-combobox kendo-combo-box="cboMaster" k-options="cboMasterOptions" ng-model="Item.MasterID" style="width:100px; margin-right:10px" />
+                    <a href="/" class="dashboardMap_panel_header_action" ng-click="VehicleMove($event)" style="margin-right:10px">
+                        <i style="color: #fff" class="fa fa-refresh"></i>
+                    </a>
+                 </div>
+                <div class="dashboardMap_panel_header_title" style="margin: 10px 10px 0px 10px; width:auto; float:right">
+                    <a href="/" class="dashboardMap_panel_header_action" ng-click="PanelMaster_Click($event)">
+                        <i style="color: #fff" class="fa fa-compress"></i>
+                    </a>
+                </div>
+                </div>
+            <div class="dashboardMap_panel_wrapper" style="height:80px;width:100%" ng-show="IsExpandMaster">
+                <div class="info">Xe: <span style="font-weight:bold">{{ Master.VehicleCode }}</span></div>
+                <div class="info">Romooc: {{ Master.RomoocCode }}</div>
+                <div class="info">Số KM: {{ Master.KM }}</div>
+                <div class="info">SL 20DC: {{ Master.c20DC }}</div>
+                <div class="info">SL 40DC: {{ Master.c40DC }}</div>
+                <div class="info">SL 40HC: {{ Master.c40HC }}</div>
+                <div class="info">T.g bắt đầu: {{ Master.ATD }}</div>
+                <div class="info">T.g kết thúc: {{ Master.ATA }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="chart_win" k-title="false" k-width="800" k-height="550" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thống kê {{ ReportName }}
+            </div>
+            <div class="right button">
+                <a href="/" ng-click="Close_Click($event, chart_win)" style="padding: 10px; color:black"><i class="fa fa-times"></i></a>
+            </div>
+        </div>
+        <div class="form-body" scrolldiv>
+            <div class="form-body-header">
+                <div style="float:left; ">
+                    <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboThemeOptions" ng-model="Item.Theme" style="width: 150px;" />
+                    <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboTypeOptions" ng-model="Item.Type" style="width: 150px;" />
+                </div>
+                <div style="float:right">
+                    <a href="/" ng-click="SVG_Click($event)" style="padding: 0px 0px 0px 5px; color:#6d6d6d;float:right; font-size:23px"><i class="fa fa-file-code-o"></i></a>
+                    <a href="/" ng-click="IMG_Click($event)" style="padding: 0px 5px; color:#6d6d6d;float:right; font-size:23px"><i class="fa fa-file-image-o"></i></a>
+                    <a href="/" ng-click="PDF_Click($event)" style="padding: 0px 5px; color:#6d6d6d;float:right; font-size:23px"><i class="fa fa-file-pdf-o"></i></a>
+                </div>
+            </div>
+            <div class="form-body-content">
+                <div id="REPMap_Chart" class="cus-chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    kendo.pdf.defineFont({
+        "DejaVu Sans": "Content/kendo/2016.1.112/fonts/DejaVu/DejaVuSans.ttf",
+        "DejaVu Sans|Bold": "Content/kendo/2016.1.112/fonts/DejaVu/DejaVuSans-Bold.ttf",
+        "DejaVu Sans|Bold|Italic": "Content/kendo/2016.1.112/fonts/DejaVu/DejaVuSans-Oblique.ttf",
+        "DejaVu Sans|Italic": "Content/kendo/2016.1.112/fonts/DejaVu/DejaVuSans-Oblique.ttf"
+    });
+</script>
+
+<style>
+    .pointer { cursor: pointer; }
+    .cartodb-legend.bubble { padding: 5px 10px; }
+    .icon-click { cursor: pointer; }
+    a.dashboardMap_panel_element_action:hover { color: #31B6FC !important; }
+    .cartodb-timeslider { display: none !important; }
+    .form-body .form-body-header { width: 100%; height: 30px; padding: 5px 0px 5px 0px; }
+    .form-body .form-body-content { width: 100%; height: calc(100% - 50px); padding-bottom: 10px; }
+    .form-body .cus-chart { width: 100%; height: 100%; }
+
+    .fa-3x { margin-top: 15px; }
+    #dashboardMap_panel_container { position: absolute; right: 0; top: 5px; right: 5px; z-index: 99; }
+    #dashboardMap_panel_master { position: absolute; right: 0; top: 370px; right: 5px; z-index: 99; width: 350px; background-color: #ffffff; box-shadow: -1px 1px 3px #bbbbbb; }
+
+    .dashboardMap_info_window_wrapper { font-size: 12px; color: #444444; }
+        .dashboardMap_info_window_wrapper .dashboardMap_info_element { display: block; margin: 0 0 5px 0; }
+            .dashboardMap_info_window_wrapper .dashboardMap_info_element b { font-weight: 600; }
+            .dashboardMap_info_window_wrapper .dashboardMap_info_element .dashboardMap_info_separation { margin: 0 0 0 3px; }
+            .dashboardMap_info_window_wrapper .dashboardMap_info_element .dashboardMap_info_float_label { float: left; display: block; }
+            .dashboardMap_info_window_wrapper .dashboardMap_info_element .dashboardMap_info_element_icon { width: 12px; height: 12px; display: block; float: left; margin: 0px 0 0 5px; }
+    .dashboardMap_panel { -webkit-box-shadow: -1px 1px 3px #bbbbbb; -moz-box-shadow: -1px 1px 3px #bbbbbb; -o-box-shadow: -1px 1px 3px #bbbbbb; -ms-box-shadow: -1px 1px 3px #bbbbbb; box-shadow: -1px 1px 3px #bbbbbb; background: none repeat scroll 0 0 #FFFFFF; display: none; }
+        .dashboardMap_panel#dashboardMap_map_layer_panel { -webkit-box-shadow: -1px 1px 3px #bbbbbb; -moz-box-shadow: -1px 1px 3px #bbbbbb; -o-box-shadow: -1px 1px 3px #bbbbbb; -ms-box-shadow: -1px 1px 3px #bbbbbb; box-shadow: -1px 1px 3px #bbbbbb; width: 700px; height: 80px; position: absolute; bottom: 0; left: 50%; margin-left: -350px; }
+            .dashboardMap_panel#dashboardMap_map_layer_panel #dashboardMap_map_layer_panel_wrapper { margin: 30px 0 0 0; padding: 0 20px 0 20px; }
+        .dashboardMap_panel a.dashboardMap_map_layer_trigger, .dashboardMap_panel a.dashboardMap_map_layer_trigger:link, .dashboardMap_panel a.dashboardMap_map_layer_trigger:hover, .dashboardMap_panel a.dashboardMap_map_layer_trigger:active, .dashboardMap_panel a.dashboardMap_map_layer_trigger:visited { border: 0 none; outline: none; display: block; float: left; margin: 0 10px 10px 0; cursor: pointer; }
+            .dashboardMap_panel a.dashboardMap_map_layer_trigger span.dashboardMap_map_layer_trigger_color { -webkit-border-radius: 2px 2px 2px 2px; -moz-border-radius: 2px 2px 2px 2px; -o-border-radius: 2px 2px 2px 2px; -ms-border-radius: 2px 2px 2px 2px; border-radius: 2px 2px 2px 2px; width: 16px; height: 12px; display: block; float: left; }
+            .dashboardMap_panel a.dashboardMap_map_layer_trigger span.dashboardMap_map_layer_trigger_label { float: left; font-size: 12px; color: #444444; margin: 0 0 0 5px; }
+            .dashboardMap_panel a.dashboardMap_map_layer_trigger.disabled span.dashboardMap_map_layer_trigger_label { color: #CCCCCC; }
+        .dashboardMap_panel.dashboardMap_left_panel { -webkit-box-shadow: 1px 1px 3px #bbbbbb; -moz-box-shadow: 1px 1px 3px #bbbbbb; -o-box-shadow: 1px 1px 3px #bbbbbb; -ms-box-shadow: 1px 1px 3px #bbbbbb; box-shadow: 1px 1px 3px #bbbbbb; width: 600px; height: 400px; position: absolute; left: 0px; top: 30px; }
+            .dashboardMap_panel.dashboardMap_left_panel .dashboardMap_panel_content { padding: 15px 15px; }
+                .dashboardMap_panel.dashboardMap_left_panel .dashboardMap_panel_content .dashboardMap_panel_content_element { margin: 0 0 20px 0; padding: 0 0 25px 0; border-bottom: 1px solid #CCCCCC; }
+                    .dashboardMap_panel.dashboardMap_left_panel .dashboardMap_panel_content .dashboardMap_panel_content_element.last { border-bottom: 0 none; }
+                    .dashboardMap_panel.dashboardMap_left_panel .dashboardMap_panel_content .dashboardMap_panel_content_element .dashboardMap_panel_content_link_input { color: #999999; width: 100%; background: none repeat scroll 0 0 #FFFFFF; border: 1px solid #D3D3D3; width: 558px; padding: 2px 5px; }
+                    .dashboardMap_panel.dashboardMap_left_panel .dashboardMap_panel_content .dashboardMap_panel_content_element input[type="text"].dashboardMap_panel_content_link_input { font-size: 22px; }
+                    .dashboardMap_panel.dashboardMap_left_panel .dashboardMap_panel_content .dashboardMap_panel_content_element textarea.dashboardMap_panel_content_link_input { height: 30px; font-size: 13px; font-family: "Open Sans", Arial, sans-serif; height: 120px; }
+                .dashboardMap_panel.dashboardMap_left_panel .dashboardMap_panel_content h1.dashboardMap_panel_content_title { font-size: 18px; color: #444444; padding: 0 0 20px 0; }
+                .dashboardMap_panel.dashboardMap_left_panel .dashboardMap_panel_content .dashboardMap_panel_content_title_label { float: left; margin: 0 0 0 5px; display: block; }
+                .dashboardMap_panel.dashboardMap_left_panel .dashboardMap_panel_content .dashboardMap_panel_content_title_icon { display: block; width: 18px; height: 18px; float: left; }
+        .dashboardMap_panel#dashboardMap_chart_panel #dashboardMap_chart_panel_wrapper { width: 100%; height: 370px; position: relative; }
+        .dashboardMap_panel#dashboardMap_chart_panel .dashboardMap_chart_panel_chart_element { position: absolute; width: 100%; height: 100%; }
+        .dashboardMap_panel#dashboardMap_chart_panel .dashboardMap_chart_panel_chart_element_wrapper { position: absolute; width: 100%; height: 100%; }
+        .dashboardMap_panel#dashboardMap_chart_panel .dashboardMap_chart_panel_chart_loader { display: none; width: 35px; height: 35px; position: absolute; left: 50%; top: 50%; margin-left: -17px; margin-top: -17px; }
+        .dashboardMap_panel#dashboardMap_chart_panel h1.dashboardMap_chart_panel_chart_error { display: none; width: 490px; height: 16px; position: absolute; left: 50%; top: 50%; margin-left: -245px; margin-top: -8px; color: #A30000; text-align: center; font-size: 12px; }
+    #dashboardMap_panel.dashboardMap_panel.expand { width: 350px; height: 197px; }
+    #dashboardMap_panel.dashboardMap_panel.collapse { width: 350px; height: 31px; }
+
+    #dashboardMap_panel_master.expand { width: 350px; top: 207px; }
+    #dashboardMap_panel_master.collapse { width: 350px; top: 45px; }
+
+    .dashboardMap_panel#dashboardMap_panel.dashboardMap_panel_header_title { width: 190px; }
+    .dashboardMap_panel#dashboardMap_small_panel { width: 40px; height: 195px; }
+        .dashboardMap_panel#dashboardMap_small_panel .dashboardMap_panel_header_actions { margin: 9px 15px 0 0; }
+    .dashboardMap_panel .dashboardMap_panel_actions { position: absolute; right: 10px; top: 3px; }
+    .dashboardMap_panel a.dashboardMap_panel_action, #km .dashboardMap_panel a.dashboardMap_panel_action:link, .dashboardMap_panel a.dashboardMap_panel_action:hover, .dashboardMap_panel a.dashboardMap_panel_action:active, .dashboardMap_panel a.dashboardMap_panel_action:visited { border: 0 none; outline: none; display: block; float: right; width: 14px; height: 14px; margin: 0 0 0 5px; overflow: hidden; position: relative; cursor: pointer; }
+        .dashboardMap_panel a.dashboardMap_panel_action img { width: 14px; height: 28px; position: absolute; left: 0px; top: 0px; }
+        .dashboardMap_panel a.dashboardMap_panel_action:hover img { top: -14px; }
+    .dashboardMap_panel_header { height: 35px; background: none repeat scroll 0 0 #31B6FC; background-image: -moz-linear-gradient(top, #31B6FC, #31B6FC); background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #31B6FC), color-stop(1, #31B6FC)); -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#36b1f9', EndColorStr='#1370a8')"; border-bottom: 1px solid #31B6FC; }
+    .dashboardMap_panel_header_title { float: left; color: #FFFFFF; font-weight: 600; font-size: 12px; margin: 11px 0 0 10px; width: 310px; }
+    .dashboardMap_panel_header_actions { float: right; margin: 11px 7px 0 0; }
+    .dashboardMap_panel a.dashboardMap_panel_header_action, .dashboardMap_panel a.dashboardMap_panel_header_action:link, .dashboardMap_panel a.dashboardMap_panel_header_action:hover, .dashboardMap_panel a.dashboardMap_panel_header_action:active, .dashboardMap_panel a.dashboardMap_panel_header_action:visited { border: 0 none; outline: none; width: 14px; height: 14px; display: block; cursor: pointer; float: left; margin: 0 0 0 6px; }
+        .dashboardMap_panel a.dashboardMap_panel_header_action img.dashboardMap_panel_header_action_img { width: 14px; height: 14px; display: block; border: 0 none; outline: none; }
+    .dashboardMap_panel .dashboardMap_panel_small_element { position: relative; width: 40px; height: 40px; border-bottom: 1px solid #CCCCCC; }
+    .dashboardMap_panel a.dashboardMap_panel_small_element_trigger, .dashboardMap_panel a.dashboardMap_panel_small_element_trigger:link, .dashboardMap_panel a.dashboardMap_panel_small_element_trigger:hover, .dashboardMap_panel a.dashboardMap_panel_small_element_trigger:active, .dashboardMap_panel a.dashboardMap_panel_small_element_trigger:visited { border: 0 none; outline: none; display: block; position: absolute; overflow: hidden; width: 30px; height: 30px; left: 50%; top: 50%; margin-left: -15px; margin-top: -15px; cursor: pointer; }
+        .dashboardMap_panel a.dashboardMap_panel_small_element_trigger img { display: block; border: 0 none; outline: none; width: 30px; height: 60px; position: absolute; left: 0px; top: 0px; }
+        .dashboardMap_panel a.dashboardMap_panel_small_element_trigger:hover img, .dashboardMap_panel a.dashboardMap_panel_small_element_trigger.active img { top: -30px; }
+    .dashboardMap_panel .dashboardMap_panel_element { position: relative; }
+        .dashboardMap_panel .dashboardMap_panel_element.full { width: 100%; height: 80px; border-bottom: 1px solid #CCCCCC; }
+            .dashboardMap_panel .dashboardMap_panel_element.full .dashboardMap_panel_element_title { left: 10px; top: 6px; }
+            .dashboardMap_panel .dashboardMap_panel_element.full .dashboardMap_panel_element_actions { right: 5px; top: 6px; }
+            .dashboardMap_panel .dashboardMap_panel_element.full img.main_icon { width: 55px; height: 45px; }
+        .dashboardMap_panel .dashboardMap_panel_element.small { width: 122px; height: 110px; float: left; margin: 0 0 0 2px; }
+            .dashboardMap_panel .dashboardMap_panel_element.small .dashboardMap_panel_element_stat, .dashboardMap_panel .dashboardMap_panel_element.small .dashboardMap_panel_element_unit { left: 50%; width: 80px; margin-left: -35px; }
+            .dashboardMap_panel .dashboardMap_panel_element.small .dashboardMap_panel_element_stat { font-size: 15px; top: 56px; }
+            .dashboardMap_panel .dashboardMap_panel_element.small .dashboardMap_panel_element_unit { font-size: 11px; top: 75px; text-align: center; }
+            .dashboardMap_panel .dashboardMap_panel_element.small .dashboardMap_panel_element_title { left: 30px; top: 5px; }
+            .dashboardMap_panel .dashboardMap_panel_element.small .dashboardMap_panel_element_actions { right: 4px; top: 92px; }
+            .dashboardMap_panel .dashboardMap_panel_element.small img.main_icon { width: 30px; height: 30px; top: 22px; left: 50%; margin-left: -15px; }
+        .dashboardMap_panel .dashboardMap_panel_element.shops .dashboardMap_panel_element_stat, .dashboardMap_panel .dashboardMap_panel_element.shops .dashboardMap_panel_element_unit { left: 80px; }
+        .dashboardMap_panel .dashboardMap_panel_element.shops .dashboardMap_panel_element_stat { width: 150px; font-size: 14px; top: 30px; }
+        .dashboardMap_panel .dashboardMap_panel_element.shops .dashboardMap_panel_element_unit { width: 120px; font-size: 12px; top: 55px; }
+        .dashboardMap_panel .dashboardMap_panel_element.shops img.main_icon { left: 15px; top: 25px; }
+        .dashboardMap_panel .dashboardMap_panel_element.loading { /*border-bottom: 0 none;*/ }
+        .dashboardMap_panel .dashboardMap_panel_element .dashboardMap_panel_element_stat, .dashboardMap_panel .dashboardMap_panel_element .dashboardMap_panel_element_unit { left: 70px; text-align: center; width: 85px; }
+            .dashboardMap_panel .dashboardMap_panel_element .dashboardMap_panel_element_stat.second, .dashboardMap_panel .dashboardMap_panel_element .dashboardMap_panel_element_unit.second { left: 160px; }
+            .dashboardMap_panel .dashboardMap_panel_element .dashboardMap_panel_element_stat.third, .dashboardMap_panel .dashboardMap_panel_element .dashboardMap_panel_element_unit.third { left: 250px; }
+        .dashboardMap_panel .dashboardMap_panel_element .dashboardMap_panel_element_stat { font-size: 14px; top: 30px; }
+        .dashboardMap_panel .dashboardMap_panel_element .dashboardMap_panel_element_unit { font-size: 11px; top: 55px; }
+        .dashboardMap_panel .dashboardMap_panel_element img.main_icon { left: 10px; top: 23px; }
+        .dashboardMap_panel .dashboardMap_panel_element.uff_ucf { border-bottom: 0 none; }
+            .dashboardMap_panel .dashboardMap_panel_element.uff_ucf .dashboardMap_panel_element_stat,
+            .dashboardMap_panel .dashboardMap_panel_element.uff_ucf .dashboardMap_panel_element_unit { left: 80px; width: 80px; }
+                .dashboardMap_panel .dashboardMap_panel_element.uff_ucf .dashboardMap_panel_element_stat.second,
+                .dashboardMap_panel .dashboardMap_panel_element.uff_ucf .dashboardMap_panel_element_unit.second { left: 185px; }
+            .dashboardMap_panel .dashboardMap_panel_element.uff_ucf .dashboardMap_panel_element_stat { font-size: 17px; top: 30px; }
+            .dashboardMap_panel .dashboardMap_panel_element.uff_ucf .dashboardMap_panel_element_unit { font-size: 11px; top: 55px; }
+            .dashboardMap_panel .dashboardMap_panel_element.uff_ucf img.main_icon { height: 22px; left: 10px; top: 32px; }
+        .dashboardMap_panel .dashboardMap_panel_element.deliveries .dashboardMap_panel_element_stat, .dashboardMap_panel .dashboardMap_panel_element.deliveries .dashboardMap_panel_element_unit { left: 45px; }
+            .dashboardMap_panel .dashboardMap_panel_element.deliveries .dashboardMap_panel_element_stat.second, .dashboardMap_panel .dashboardMap_panel_element.deliveries .dashboardMap_panel_element_unit.second { left: 90px; }
+    .dashboardMap_panel .dashboardMap_panel_element_title { color: #444444; font-size: 12px; position: absolute; display: block; font-weight: bold; }
+    .dashboardMap_panel .dashboardMap_panel_element_actions { position: absolute; }
+    .dashboardMap_panel a.dashboardMap_panel_element_action, .dashboardMap_panel a.dashboardMap_panel_element_action:link, .dashboardMap_panel a.dashboardMap_panel_element_action:hover, .dashboardMap_panel a.dashboardMap_panel_element_action:active, .dashboardMap_panel a.dashboardMap_panel_element_action:visited { cursor: pointer; text-decoration: none; color: #000; border: 0 none; position: relative; float: right; width: 14px; height: 16px; overflow: hidden; margin: 0 0 0 10px; }
+        .dashboardMap_panel a.dashboardMap_panel_element_action img { width: 14px; height: 28px; position: absolute; left: 0px; top: 0px; }
+        .dashboardMap_panel a.dashboardMap_panel_element_action:hover img, .dashboardMap_panel a.dashboardMap_panel_element_action.active img { top: -14px; }
+    .dashboardMap_panel img.main_icon { position: absolute; }
+    .dashboardMap_panel .dashboardMap_panel_element_stat, .dashboardMap_panel .dashboardMap_panel_element_unit { color: #444444; position: absolute; }
+    .dashboardMap_panel_separator { background: none repeat scroll 0 0 #000; height: 18px; }
+        .dashboardMap_panel_separator h1.dashboardMap_panel_separator_title { color: #FFFFFF; font-size: 11px; text-align: center; display: block; padding: 3px 0 0 0; }
+
+    .fmx_dialog_container .fmx_dialog_header { padding: 20px 20px 0 0; border: 0 none; }
+
+    #select_dialog { font-weight: 300; text-align: center; }
+        #select_dialog #select_dialog_header_title { font-size: 32px; margin: 0 0 15px 0; }
+        #select_dialog #select_dialog_header_subtitle { font-size: 16px; margin: 0 0 15px 0; }
+        #select_dialog .select_dialog_filter { margin: 0 0 20px 53px; }
+            #select_dialog .select_dialog_filter .sdf_top_index,
+            #select_dialog .select_dialog_filter .sdf_top_content { float: left; }
+            #select_dialog .select_dialog_filter .sdf_top_index { margin: 5px 18px 0 0; }
+            #select_dialog .select_dialog_filter .sdf_bottom { margin: 5px 0 0 0; }
+            #select_dialog .select_dialog_filter .sdf_bottom_result,
+            #select_dialog .select_dialog_filter .sdf_bottom_remove_btn { float: left; }
+            #select_dialog .select_dialog_filter .sdf_bottom_result { display: block; width: 250px; }
+            #select_dialog .select_dialog_filter a.sdf_bottom_remove_btn, #select_dialog .select_dialog_filter a.sdf_bottom_remove_btn:link, #select_dialog .select_dialog_filter a.sdf_bottom_remove_btn:hover, #select_dialog .select_dialog_filter a.sdf_bottom_remove_btn:active, #select_dialog .select_dialog_filter a.sdf_bottom_remove_btn:visited { text-decoration: none; color: black; }
+        #select_dialog a#select_dialog_btn, #select_dialog a#select_dialog_btn:link, #select_dialog a#select_dialog_btn:hover, #select_dialog a#select_dialog_btn:active, #select_dialog a#select_dialog_btn:visited { display: block; width: 145px; padding: 15px 0 15px 0; margin: 0 auto; }
+
+    #dashboardMap_infoWindow { border: 2px solid #dadada; }
+        #dashboardMap_infoWindow .form-header { height: 30px; }
+            #dashboardMap_infoWindow .form-header .title { width: calc(100% - 40px); font-size: 12px; line-height: 30px; height: 30px; overflow: hidden; }
+                #dashboardMap_infoWindow .form-header .title p { padding: 0; margin: 0; text-align: left; }
+            #dashboardMap_infoWindow .form-header a { width: 20px; height: 30px; min-width: 0px; padding: 4px; }
+                #dashboardMap_infoWindow .form-header a i { font-size: 12px; }
+
+        #dashboardMap_infoWindow .form-body { overflow-y: auto; overflow-x: hidden; }
+            #dashboardMap_infoWindow .form-body p { padding: 0px 5px; }
+
+    .dashboardMap_panel_wrapper .info { padding:5px; width: 162px; float:left}
+    .dashboardMap_panel_wrapper .fa.fa-3x {color: #31B6FC}
+</style>

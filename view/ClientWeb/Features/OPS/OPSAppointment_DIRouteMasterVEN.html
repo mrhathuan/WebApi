@@ -1,0 +1,95 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <ul class="breakumb">
+            <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+            <li><span>Lập lệnh theo vender</span></li>
+        </ul>
+        <div class="right">
+            <a href="/" ng-show="Search.TypeOfView == 'Waitting'&&Auth.ViewVendor&&!Auth.ViewAdmin" ng-click="Approved_Click($event)" class="k-button" data-title="Duyệt"><i class="fa fa-check-square-o"></i><span class="tooltip">Duyệt</span></a>
+            <a href="/" ng-show="Search.TypeOfView == 'Waitting'&&Auth.ViewVendor&&!Auth.ViewAdmin" ng-click="Rejected_Click($event, OPSAppointment_DIRouteMasterVEN_win)" class="k-button" data-title="Từ chối"><i class="fa fa-ban"></i><span class="tooltip">Từ chối</span></a>
+            <a href="/" ng-show="Search.TypeOfView == 'Accept'&&Auth.ViewVendor&&!Auth.ViewAdmin" ng-click="UnApproved_Click($event)" class="k-button" data-title="Hủy duyệt"><i class="fa fa-ban"></i><span class="tooltip">Hủy duyệt</span></a>
+            <a href="/" ng-show="Search.TypeOfView == 'Waitting'&&Auth.ViewVendor&&!Auth.ViewAdmin" ng-click="Save_Click($event)" class="k-button" data-title="Lưu"><i class="fa fa-check"></i><span class="tooltip">Lưu</span></a>
+            <a href="/" ng-click="ShowSetting($event,gridNoDN)" ng-mouseenter="ShowSetting($event,gridNoDN)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body" ng-show="Auth.ViewVendor">
+        <div class="cus-grid" kendo-grid="gridNoDN" k-options="gridNoDNOptions" expand-k-grid="gridNoDNExpend"></div>
+    </div>
+    <div class="form-body" ng-show="!Auth.ViewVendor&&Auth.ViewAdmin">
+        <div class="cus-grid" kendo-grid="groupGrid" k-options="groupGrid_Options" expand-k-grid></div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="OPSAppointment_DIRouteMasterVEN_win" k-title="false" k-width="600" k-height="200" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <div class="title">
+                    LÝ DO TỪ CHỐI ĐƠN HÀNG
+                </div>
+            </div>
+            <div class="right">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Lý do từ chối <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" kendo-combo-box="cboReason" ng-model="Reason.ReasonID" k-options="cboReasonOptions" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Ghi chú</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="Reason.Reason"/>
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="RejectSave_Click($event,OPSAppointment_DIRouteMasterVEN_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="RejectClose_Click($event,OPSAppointment_DIRouteMasterVEN_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="OPSAppointment_DIRouteMasterVEN_gridToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <span class="header"> {{ HTML(Summary)}} </span>
+        </div>
+        <div class="right">
+            <input type="radio" ng-model="Search.TypeOfView" ng-click="ChangeView_Click($event)" id="AcceptView" value="Accept" /><label for="AcceptView">Đã chấp nhận &nbsp;</label>
+            <input type="radio" ng-model="Search.TypeOfView" ng-click="ChangeView_Click($event)" id="RejectView" value="Reject" /><label for="RejectView">Đã từ chối &nbsp;</label>
+            <input type="radio" ng-model="Search.TypeOfView" ng-click="ChangeView_Click($event)" id="WaittingView" value="Waitting" /><label for="WaittingView">Chờ duyệt &nbsp;</label>
+            <input focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Search.DateFrom" style="width:100px" />           
+            <input focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Search.DateTo" style="width:100px" />
+            <a href="/" ng-click="Search_Click($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm</span></a>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="groupGrid_Toolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <span class="header"> {{ HTML(Summary)}} </span>
+        </div>
+        <div class="right">
+            <input type="radio" ng-model="TypeOfViewAdmin" ng-click="ChangeViewAdmin_Click($event,1)" id="AcceptedViewAdmin" value="2" /><label for="AcceptedViewAdmin">Đã chấp nhận &nbsp;</label>
+            <input type="radio" ng-model="TypeOfViewAdmin" ng-click="ChangeViewAdmin_Click($event,2)" id="RejectedViewAdmin" value="3" /><label for="RejectedViewAdmin">Đã từ chối &nbsp;</label>
+            <input type="radio" ng-model="TypeOfViewAdmin" ng-click="ChangeViewAdmin_Click($event,3)" id="WaittingViewAdmin" value="1" /><label for="WaittingViewAdmin">Chờ duyệt &nbsp;</label>
+        </div>
+    </div>
+</script>
+
+
+<style>
+    .cus-grid.k-grid tbody > tr > td .HasDNGridGroup a { color: #337ab7; text-decoration: none; }
+</style>

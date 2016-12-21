@@ -1,0 +1,138 @@
+﻿
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right">
+                <a href="/" ng-click="CATVehicle_AddNew_Click($event,CATVehicle_win)" class="k-button" data-title="Tạo mới"><span class="tooltip">Tạo mới</span><i class="fa fa-plus"></i></a>
+                <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+                <a href="/" ng-click="ShowSetting($event,CATVehicle_grid)" ng-mouseenter="ShowSetting($event,CATVehicle_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div class="cus-grid" kendo-grid="CATVehicle_grid" expand-k-grid k-options="CATVehicle_gridOptions"></div>
+        </div>
+    </div>
+
+<!--popup-->
+<div class="cus-window" draggable-k-window kendo-window="CATVehicle_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chi tiết xe</div>
+            <div class="right button">
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="form-body with-footer" scrolldiv>
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="CATVehicle_win_vform">
+                    <div class="rowinput">
+                        <label>Số xe <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="CATVehicleItem.RegNo" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Loại xe <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="CATVehicle_cboTypeVehicle_Options" ng-model="CATVehicleItem.TypeOfVehicleID" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Nhóm xe </label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="CATVehicle_cboGroupVehicle_Options" ng-model="CATVehicleItem.GroupOfVehicleID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Khả năng chở ĐK </label>
+                        <div>
+                            <input class="cus-number" kendo-numeric-text-box k-options="CATVehicle_numRegCapacity_Options" ng-model="CATVehicleItem.RegCapacity" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Khả năng chở tối thiểu </label>
+                        <div>
+                            <input class="cus-number" kendo-numeric-text-box k-options="CATVehicle_numMinCapacity_Options" ng-model="CATVehicleItem.MinCapacity" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Khả năng chở tối đa </label>
+                        <div>
+                            <input class="cus-number" kendo-numeric-text-box k-options="CATVehicle_numMaxCapacity_Options" ng-model="CATVehicleItem.MaxCapacity" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Trọng tải ĐK </label>
+                        <div>
+                            <input class="cus-number" kendo-numeric-text-box k-options="CATVehicle_numRegWeight_Options" ng-model="CATVehicleItem.RegWeight" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Trọng tải tối thiểu </label>
+                        <div>
+                            <input class="cus-number" kendo-numeric-text-box k-options="CATVehicle_numMinWeight_Options" ng-model="CATVehicleItem.MinWeight" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Trọng tải tối đa </label>
+                        <div>
+                            <input class="cus-number" kendo-numeric-text-box k-options="CATVehicle_numMaxWeight_Options" ng-model="CATVehicleItem.MaxWeight" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Vĩ độ </label>
+                        <div>
+                            <input class="cus-number" kendo-numeric-text-box k-options="CATVehicle_numLat_Options" ng-model="CATVehicleItem.Lat" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Kinh  độ </label>
+                        <div>
+                            <input class="cus-number" kendo-numeric-text-box k-options="CATVehicle_numLat_Options" ng-model="CATVehicleItem.Lng" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Mã GPS </label>
+                        <div>
+                            <input class="k-textbox" type="text" ng-model="CATVehicleItem.GPSCode" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Ghi chú </label>
+                        <div>
+                            <textarea rows="3" style="width:calc(100% - 7px)" ng-model="CATVehicleItem.Note"></textarea>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CATVehicle_win_SaveClick($event,CATVehicle_win,CATVehicle_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="CATVehicle_win_CloseClick($event,CATVehicle_win)" class="k-button close" data-title="Đóng">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+

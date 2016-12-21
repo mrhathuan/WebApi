@@ -1,0 +1,95 @@
+﻿<div class="view-breakumb-content">
+    <div class="cus-form" style="height:100%">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right button">
+                <a href="/" ng-click="CUSSetting_AddClick($event)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+                <a href="/" ng-click="ShowSetting($event,setting_grid)" ng-mouseenter="ShowSetting($event,setting_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div kendo-grid="setting_grid" expand-k-grid k-options="setting_gridOptions" class="cus-grid"></div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="settingPlan_win" k-title="false" k-width="600" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin thiết lập</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150" v-form="SettingPlan_vform">
+                <div class="rowinput">
+                    <label>Tên thiết lập <span class="required">*</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="SettingItem.Name" v-form-require="true"/>
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Thiết lập đơn hàng</label>
+                    <div>
+                        <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="cboCUSSettingOrder_Options" k-ng-model="SettingItem.CUSSettingOrderID" v-form-require="true" ng-disabled="SettingItem.ID>0"/>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Xe</label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numVehicleNo_options" ng-model="SettingItem.VehicleNo" style="width:100%"/>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>MasterETDDate</label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numMasterETDDate_options" ng-model="SettingItem.MasterETDDate" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>MasterETDTime</label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numMasterETDTime_options" ng-model="SettingItem.MasterETDTime" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>MasterETDDate_Time</label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numMasterETDDate_Time_options" ng-model="SettingItem.MasterETDDate_Time" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>VendorCode</label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numVendorCode_options" ng-model="SettingItem.VendorCode" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>MasterNote</label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numMasterNote_options" ng-model="SettingItem.MasterNote" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="SettingPlan_SaveClick($event,settingPlan_win, SettingPlan_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,settingPlan_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

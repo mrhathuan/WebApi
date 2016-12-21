@@ -1,0 +1,19 @@
+﻿<div class="menu-branch">
+    <div class="branch-name">   
+        {{FunctionItem.FunctionName}}
+    </div>
+    <div class="branch-body" scrolldiv>
+        <div ng-repeat="child in FunctionItem.Childs" ng-class="IsActive==true?'item active':'item'">
+            <a ng-click="ChildMenu_Click($event,child)" ui-sref="{{child.Code}}">
+                <div class="icon">
+                    <div class="icon-icon" style="background-image: url(/Images/function/{{child.Icon}}.png)"></div>
+                    <div class="icon-icon active" style="background-image: url(/Images/function/{{child.Icon}}_active.png)"></div>
+                </div>
+                <div class="title">
+                    {{child.FunctionName}}
+                </div>
+            </a>
+        </div>
+        <div class="clear"></div>
+    </div>    
+</div>

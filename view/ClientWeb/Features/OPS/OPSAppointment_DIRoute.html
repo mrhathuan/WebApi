@@ -1,0 +1,533 @@
+﻿<div class="view-breakumb">
+    <ul class="breakumb">
+        <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+        <li><span>Lập lệnh kéo thả</span></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<div class="view-breakumb-content">
+    <div class="cus-splitter" kendo-splitter="OPSAppointment_DIRoute_splitter" k-options="OPSAppointment_DIRoute_splitterOptions" expand-k-splitter hor-splitter>
+        <div class="k-pane-vehicle k-pane-main">
+            <div class="cus-form">
+                <div class="form-header">
+                    <div class="left title">Danh sách xe</div>
+                    <div class="right button">
+                        <a href="/" ng-click="ExcelConfirm_Click($event)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel ABA</span></a>
+                        <a href="/" ng-click="VehicleQuickSearch_Click($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+                        <a href="/" ng-click="VehiclePOD_Click($event)" class="k-button"><i class="fa fa-file"></i><span class="tooltip">Chứng từ</span></a>
+                        <a href="/" ng-click="VehicleConfig_Click($event)" class="k-button"><i class="fa fa-cog"></i><span class="tooltip is-right">Thiết lập</span></a>
+                    </div>
+                </div>
+                <div class="form-body">
+                    <div class="cus-splitter" kendo-splitter="OPSAppointment_DIRoute_Vehicle_splitter" k-options="OPSAppointment_DIRoute_Vehicle_splitterOptions" expand-k-splitter ver-splitter>
+                        <div>
+                            <div style="padding:0 3px;">
+                                <div style="padding:5px 0;" ng-show="!Vehicle.IsShowConfig"><div ng-bind-html="HTML(Vehicle.ConfigString)"></div></div>
+                                <div ng-show="Vehicle.IsShowConfig">
+                                    <div style="padding:3px 0;">
+                                        Ngày: <input focus-k-datepicker kendo-date-picker class="cus-datepicker" k-options="DateDMY" k-ng-model="Vehicle.DateFrom" style="width:100px" /> - <input focus-k-datepicker kendo-date-picker class="cus-datepicker" k-options="DateDMY" k-ng-model="Vehicle.DateTo" style="width:100px" />
+                                    </div>
+                                    <div style="padding:3px 0;">
+                                        Giờ: <input focus-k-timepicker kendo-time-picker class="cus-datepicker" k-options="DateHM" k-ng-model="Vehicle.HourFrom" style="width:70px" /> - <input focus-k-timepicker kendo-time-picker class="cus-datepicker" k-options="DateHM" k-ng-model="Vehicle.HourTo" style="width: 70px" />&nbsp;&nbsp;&nbsp;Chuyến: <input type="number" class="k-textbox" ng-model="Vehicle.RouteInDay" style="width: 30px" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="cus-grid" id="OPSAppointment_DIRoute_Vehicle_grid" kendo-grid="OPSAppointment_DIRoute_Vehicle_grid" expand-k-grid></div>
+                        </div>
+                        <div>
+                            <div kendo-tab-strip="OPSAppointment_DIRoute_VehicleDetail_Tabstrip" k-options="OPSAppointment_DIRoute_VehicleDetail_TabstripOptions" class="cus-tabstrip" expand-k-tabstrip>
+                                <ul>
+                                    <li class="k-state-active">Chi tiết xe</li>
+                                    <li>Định mức chi phí</li>
+                                </ul>
+                                <div>
+                                    <div class="cus-grid" kendo-grid="OPSAppointment_DIRoute_VehicleDetail_grid" k-options="OPSAppointment_DIRoute_VehicleDetail_gridOptions" expand-k-grid></div>
+                                </div>
+                                <div>
+                                    <div class="cus-grid" kendo-grid="OPSAppointment_DIRoute_VehicleRoute_grid" k-options="OPSAppointment_DIRoute_VehicleRoute_gridOptions" expand-k-grid></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="k-pane-order k-pane-main">
+            <div class="cus-form">
+                <div class="form-header">
+                    <div class="left title">
+                        Các đơn hàng
+                    </div>
+                    <div class="right button">
+                        <a href="/" ng-click="OrderCreateHasDN_Click($event,OPSAppointment_DIRoute_CreateHasDN_win)" class="k-button"><i class="fa fa-th"></i><span class="tooltip">Lập lệnh có DN</span></a>
+                        <a href="/" ng-click="OrderInputDN_Click($event)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Nhập DN</span></a>
+                        <a href="/" ng-click="OrderConfig_Click($event)" class="k-button"><i class="fa fa-cog"></i><span class="tooltip">Thiết lập</span></a>
+                        <a href="/" ng-click="ShowSetting($event,OPSAppointment_DIRoute_Order_grid)" ng-mouseenter="ShowSetting($event,OPSAppointment_DIRoute_Order_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+                    </div>
+                </div>
+                <div class="form-body">
+                    <div class="cus-splitter" kendo-splitter="OPSAppointment_DIRoute_Order_splitter" k-options="OPSAppointment_DIRoute_Order_splitterOptions" expand-k-splitter ver-splitter>
+                        <div>
+                            <div style="padding:0 3px;">
+                                <div style="padding:5px 0;" ng-show="!Order.IsShowConfig"><div ng-bind-html="HTML(Order.ConfigString)"></div></div>
+                                <div ng-show="Order.IsShowConfig">
+                                    <div style="padding:3px 0;">
+                                        Ngày: <input focus-k-datepicker kendo-date-picker class="cus-datepicker" k-options="DateDMY" k-ng-model="Order.DateFrom" style="width:100px" /> - <input focus-k-datepicker kendo-date-picker class="cus-datepicker" k-options="DateDMY" k-ng-model="Order.DateTo" style="width:100px" />
+                                    </div>
+                                    <div style="padding:3px 0;">
+                                        <div class="cus-row">
+                                            <div class="left80 lable">Khách hàng:</div>
+                                            <div class="right80"><input focus-k-select kendo-multi-select="OPSAppointment_DIRoute_Order_mltCustomer" k-options="OPSAppointment_DIRoute_Order_mltCustomerOptions" k-ng-model="Order.ListCustomerID" /></div><div class="clear"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="cus-grid" id="OPSAppointment_DIRoute_Order_grid" kendo-grid="OPSAppointment_DIRoute_Order_grid" k-options="OPSAppointment_DIRoute_Order_gridOptions" expand-k-grid="OPSAppointment_DIRoute_Order_gridExpend"></div>
+                        </div>
+                        <div>
+                            <div kendo-tab-strip="OPSAppointment_DIRoute_OrderDetail_Tabstrip" k-options="OPSAppointment_DIRoute_OrderDetail_TabstripOptions" class="cus-tabstrip" expand-k-tabstrip>
+                                <ul>
+                                    <li class="k-state-active">Chi tiết đơn hàng</li>
+                                    <li>Định mức chi phí</li>
+                                </ul>
+                                <div>
+                                    <div class="cus-grid" id="OPSAppointment_DIRoute_OrderDetail_grid" kendo-grid="OPSAppointment_DIRoute_OrderDetail_grid" k-options="OPSAppointment_DIRoute_OrderDetail_gridOptions" expand-k-grid></div>
+                                </div>
+                                <div>
+                                    <div class="cus-grid" id="OPSAppointment_DIRoute_OrderRoute_grid" kendo-grid="OPSAppointment_DIRoute_OrderRoute_grid" k-options="OPSAppointment_DIRoute_OrderRoute_gridOptions" expand-k-grid></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Order Menu-->
+<ul kendo-context-menu="OPSAppointment_DIRoute_OrderMenu" k-options="OPSAppointment_DIRoute_OrderMenuOptions" class="ops-menu-extend" style="width:170px;">
+    <li>
+        <!--<span class="k-icon k-i-kpi"></span>--> <span class="lblShowHide">Hiện chi tiết đơn hàng</span>
+    </li>
+    <li>
+        <!--<span class="k-icon k-i-connector"></span>--> Gom hàng
+    </li>
+    <li>
+        <!--<span class="k-icon k-i-sort-asc"></span>--> Tách đơn hàng
+    </li>
+    <li>
+        <!--<span class="k-icon k-i-sort-asc"></span>--> Chia 2
+    </li>
+    <li>
+        <!--<span class="k-icon k-i-sort-asc"></span>--> Chia 3
+    </li>
+</ul>
+
+<!--Vehicle Menu-->
+<ul kendo-context-menu="OPSAppointment_DIRoute_VehicleMenu" k-options="OPSAppointment_DIRoute_VehicleMenuOptions" class="ops-menu-extend" style="width:200px;">
+    <li>
+        <!--<span class="k-icon k-i-kpi"></span>--> <span class="lblVehicleDetail">Hiện chi tiết xe</span>
+    </li>
+    <li>
+        <!--<span class="k-icon k-i-kpi"></span>--> <span class="lblVehicleList">Hiện danh sách xe ngoài</span>
+    </li>
+    <li class="k-separator"></li>
+    <li>
+        <!--<span class="k-icon k-i-ungroup"></span>--> Điều chỉnh trọng tải xe
+    </li>
+    <li>
+        <!--<span class="k-icon k-i-dimension"></span>--> Định mức của xe
+    </li>
+    <li ng-show="!IsShowVehicleVendor">
+        <!--<span class="k-icon k-i-calendar"></span>--> Tạo lịch trình cho xe
+    </li>
+</ul>
+
+<!--TO-->
+<div class="cus-window" draggable-k-window kendo-window="OPSAppointment_DIRoute_TO_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <span style="font-weight:bold">Ngày: </span>
+                <input focus-k-datepicker kendo-date-picker class="cus-datepicker" k-options="DateDMY" k-ng-model="WinTO.DateFrom" style="width:100px" />
+                <input focus-k-timepicker kendo-time-picker class="cus-datepicker" k-options="DateHM" k-ng-model="WinTO.HourFrom" style="width: 70px" />
+                <span>-</span>
+                <input focus-k-datepicker kendo-date-picker class="cus-datepicker" k-options="DateDMY" k-ng-model="WinTO.DateTo" style="width:100px" />
+                <input focus-k-timepicker kendo-time-picker class="cus-datepicker" k-options="DateHM" k-ng-model="WinTO.HourTo" style="width:70px" />
+            </div>
+            <div class="right button">
+
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-body-header">
+                <div class="cus-row bg white">
+                    <div class="left250 title14">Xe tải: <span class="red">{{ WinTO.RegNo }}</span></div>
+                    <div class="left80 title14">Trọng tải: </div>
+                    <div class="left80 title14"><strong><span class="red">{{ WinTO.VehicleTon }} </span></strong></div>
+                    <div class="left80 title14"><strong><span class="red">{{ WinTO.VehicleCBM }} </span></strong></div>
+                    <div class="right500 title14"><span class="red bg" ng-bind-html="HTML(WinTO.VehicleNote)"></span></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="cus-row bg white">
+                    <div class="left250 title14">Đơn hàng: <span class="red">{{ WinTO.Order }}</span></div>
+                    <div class="left80 title14">Tổng:</div>
+                    <div class="left80 title14"><strong><span class="red">{{ WinTO.OrderTon }}</span></strong></div>
+                    <div class="left80 title14"><strong><span class="red">{{ WinTO.OrderCBM }}</span></strong></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="cus-row bg white" style="margin-bottom: 5px;">
+                    <div class="left100 title14">Tài xế:</div>
+                    <div class="left200"><input style="width:200px" class="cus-combobox" focus-k-combobox kendo-combo-box="OPSAppointment_DIRoute_TO_win_cbbDriver" ng-model="WinTO.DriverID" k-options="OPSAppointment_DIRoute_TO_win_cbbDriverOptions" /></div>
+                    <div class="left32">&nbsp;</div>
+                    <div class="left100 title14">Điện thoại:</div>
+                    <div class="left200"><input type="text" class="k-textbox" ng-model="WinTO.DriverTelNo" /></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="form-body-content">
+                <div class="cus-grid" kendo-grid="OPSAppointment_DIRoute_TO_grid" k-options="OPSAppointment_DIRoute_TO_gridOptions" expand-k-grid></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="IsShowWinToBtnMonitor" ng-click="WinToMonitor_Click($event)" class="k-button accept">Duyệt</a>
+                <a href="/" ng-show="IsShowWinToBtnRemoveMonitor" ng-click="WinToRemoveMonitor_Click($event)" class="k-button accept">Hủy duyệt</a>
+                <a href="/" ng-show="IsShowWinToBtnSave" ng-click="WinToSave_Click($event,OPSAppointment_DIRoute_TO_win)" class="k-button accept">Lưu thay đổi</a>
+                <a href="/" ng-show="IsShowWinToBtnDel" ng-click="WinToDel_Click($event)" class="k-button accept">Xóa chuyến</a>
+                <a href="/" ng-show="IsShowWinToBtnAdd" ng-click="WinToAdd_Click($event)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="WinToClose_Click($event,OPSAppointment_DIRoute_TO_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TO Vendor-->
+<div class="cus-window" draggable-k-window kendo-window="OPSAppointment_DIRoute_VendorTO_win" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+            </div>
+            <div class="right button">
+                <a href="/" ng-click="WinVendorToClose_Click($event,OPSAppointment_DIRoute_VendorTO_win)" class="k-button">Đóng</a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div class="cus-grid" kendo-grid="OPSAppointment_DIRoute_VendorTO_grid" k-options="OPSAppointment_DIRoute_VendorTO_gridOptions" expand-k-grid></div>
+        </div>
+    </div>
+</div>
+
+<!--TO Rate-->
+<div class="cus-window" draggable-k-window kendo-window="OPSAppointment_DIRoute_TORate_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                {{ HTML(WinTORate.Title) }}
+            </div>
+            <div class="right button">
+
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" kendo-tabstrip="OPSAppointment_DIRoute_TORate_tabstrip" k-options="OPSAppointment_DIRoute_TORate_tabstripOptions" expand-k-tabstrip>
+                <ul>
+                    <li class="k-state-active">Đơn hàng yêu cầu</li>
+                    <li>Nhà vận tải</li>
+                </ul>
+                <div>
+                    <div class="cus-grid" kendo-grid="OPSAppointment_DIRoute_TORate_grid" expand-k-grid k-options="OPSAppointment_DIRoute_TORate_gridOptions"></div>
+                    <script type="text/x-kendo-tmpl" id="OPSAppointment_DIRoute_TORate_gridtoolbar">
+                        <div class="gridtoolbar">
+                            <div class="left"></div>
+                            <div class="right">
+                                Ngày:
+                                <input kendo-date-picker focus-k-datepicker class="cus-datepicker" k-options="DateDMY" k-ng-model="WinTORate.DateFrom" style="width:100px" />
+                                <input kendo-time-picker focus-k-timepicker class="cus-datepicker" k-options="DateHM" k-ng-model="WinTORate.HourFrom" style="width: 70px" />
+                                -
+                                <input kendo-date-picker focus-k-datepicker class="cus-datepicker" k-options="DateDMY" k-ng-model="WinTORate.DateTo" style="width:100px" />
+                                <input kendo-time-picker focus-k-timepicker class="cus-datepicker" k-options="DateHM" k-ng-model="WinTORate.HourTo" style="width:70px" />
+                                Thời gian gửi: <input type="number" class="k-textbox" ng-model="WinTORate.RateTime" style="width:100px" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </script>
+                </div>
+                <div>
+                    <div class="cus-div">
+                        <div class="top30">
+                            <div class="cus-div-2left">
+                                <div class="left w100">Loại v.chuyển:</div>
+                                <div class="left"><input class="cus-combobox" focus-k-combobox kendo-combo-box="OPSAppointment_DIRoute_TORate_win_cbbTransport" ng-model="WinTORate.TransportID" k-options="OPSAppointment_DIRoute_TORate_win_cbbTransportOptions" /></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="cus-div-2right divWinToRateGroupVehicle">
+                                <div class="left w100">Loại xe:</div>
+                                <div class="left"><input class="cus-combobox" focus-k-combobox kendo-combo-box="OPSAppointment_DIRoute_TORate_win_cbbGroupVehicle" ng-model="WinTORate.GroupVehicleID" k-options="OPSAppointment_DIRoute_TORate_win_cbbGroupVehicleOptions" /></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="top30">
+                            <div class="cus-div-2left">
+                                <div class="left w100">Tài xế:</div>
+                                <div class="left"><input class="k-textbox" type="text" ng-model="WinTORate.DriverName" /></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="cus-div-2right">
+                                <div class="left w100">Điện thoại:</div>
+                                <div class="left"><input class="k-textbox" type="text" ng-model="WinTORate.DriverTelNo" /></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="bottom60">
+                            <div class="cus-grid" kendo-grid="OPSAppointment_DIRoute_TORateVendor_grid" k-options="OPSAppointment_DIRoute_TORateVendor_gridOptions" expand-k-grid></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="IsShowWinToRateBtnMonitor" ng-click="WinToRateMonitor_Click($event)" class="k-button accept">Duyệt</a>
+                <a href="/" ng-show="IsShowWinToRateBtnRemoveMonitor" ng-click="WinToRateRemoveMonitor_Click($event) " class="k-button accept">Hủy duyệt</a>
+                <a href="/" ng-show="IsShowWinToRateBtnSave" ng-click="WinToRateSave_Click($event)" class="k-button accept">Lưu ngày</a>
+                <a href="/" ng-show="IsShowWinToRateBtnDel" ng-click="WinToRateDel_Click($event)" class="k-button accept">Xóa chuyến</a>
+                <a href="/" ng-show="IsShowWinToRateBtnAdd" ng-click="WinToRateAdd_Click($event)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="WinToRateClose_Click($event,OPSAppointment_DIRoute_TORate_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Vehicle-->
+<div class="cus-window" draggable-k-window kendo-window="OPSAppointment_DIRoute_VehicleLimit_win" k-title="false" k-width="500" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Trọng tải xe
+            </div>
+            <div class="right button">
+
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="OPSAppointment_DIRoute_VehicleLimit_grid" k-options="OPSAppointment_DIRoute_VehicleLimit_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="VehicleLimitSave_Click($event,OPSAppointment_DIRoute_VehicleLimit_win)" class="k-button accept">Lưu thay đổi</a>
+                <a href="/" ng-click="VehicleLimitClose_Click($event,OPSAppointment_DIRoute_VehicleLimit_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Activity-->
+<div class="cus-window" draggable-k-window kendo-window="OPSAppointment_DIRoute_Activity_win" k-title="false" k-width="500" k-height="250" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                {{ WinActivity.Title }}
+            </div>
+            <div class="right button">
+
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Loại <span class="required">*</span></label>
+                    <div>
+                        <input focus-k-combobox class="cus-combobox" kendo-combo-box="OPSAppointment_DIRoute_Activity_win_cbbActivityType" ng-model="WinActivity.TypeOfActivityID" k-options="OPSAppointment_DIRoute_Activity_win_cbbActivityTypeOptions" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Từ ngày <span class="required">*</span></label>
+                    <div>
+                        <input focus-k-datetimepicker kendo-date-time-picker class="cus-datetimepicker" k-options="DateDMYHM" k-ng-model="WinActivity.DateFrom" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Đến ngày <span class="required">*</span></label>
+                    <div>
+                        <input focus-k-datetimepicker kendo-date-time-picker class="cus-datetimepicker" k-options="DateDMYHM" k-ng-model="WinActivity.DateTo" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Nội dung </label>
+                    <div>
+                        <textarea class="k-textbox" ng-model="WinActivity.Note" v-form-length="2000" rows="3"></textarea>
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="WinActivitySave_Click($event)" class="k-button accept">Lưu</a>
+                <a href="/" ng-show="IsShowWinActivityDel" ng-click="WinActivityDel_Click($event)" class="k-button accept">Xóa</a>
+                <a href="/" ng-click="WinActivityClose_Click($event,OPSAppointment_DIRoute_Activity_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--POD-->
+<div class="cus-window" draggable-k-window kendo-window="OPSAppointment_DIRoute_POD_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chứng từ</div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="OPSAppointment_DIRoute_POD_grid" k-options="OPSAppointment_DIRoute_POD_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="PODUpload_Click($event)" class="k-button">Excel</a>
+                <a href="/" ng-click="PODSave_Click($event)" class="k-button accept">Lưu thay đổi</a>
+                <a href="/" ng-click="PODClose_Click($event,OPSAppointment_DIRoute_POD_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--POD Div-->
+<div class="cus-window" draggable-k-window kendo-window="OPSAppointment_DIRoute_PODDiv_win" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                <span ng-bind-html="HTML(WinPODDiv.Title)"></span>
+            </div>
+            <div class="right button">
+
+            </div>
+        </div>
+
+        <div class="form-body with-footer">
+            <div class="cus-div-2left">
+                <div class="cus-row">
+                    <div class="left60 title14 right">Số DN 1</div>
+                    <div class="right60">
+                        <input class="k-textbox" type="text" ng-model="WinPODDiv.DN1" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="cus-div-2right">
+                <div class="cus-row">
+                    <div class="left60 title14 right">KG</div>
+                    <div class="right60">
+                        <input class="k-textbox" type="number" min="0" ng-model="WinPODDiv.KG1" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+            <div class="cus-div-2left">
+                <div class="cus-row">
+                    <div class="left60 title14 right">Số DN 2</div>
+                    <div class="right60">
+                        <input class="k-textbox" type="text" ng-model="WinPODDiv.DN2" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="cus-div-2right">
+                <div class="cus-row">
+                    <div class="left60 title14 right">KG</div>
+                    <div class="right60">
+                        <input class="k-textbox" type="number" min="0" ng-model="WinPODDiv.KG2" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="PODDivSave_Click($event,OPSAppointment_DIRoute_PODDiv_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="PODDivClose_Click($event,OPSAppointment_DIRoute_PODDiv_win)" class="k-button">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Quick Search-->
+<div class="cus-window" draggable-k-window kendo-window="OPSAppointment_DIRoute_QuickSearch_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Tìm kiếm</div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="OPSAppointment_DIRoute_QuickSearch_grid" k-options="OPSAppointment_DIRoute_QuickSearch_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="IsHasChooseQuickSearch" ng-click="QuickSearchApproved_Click($event,OPSAppointment_DIRoute_QuickSearch_grid)" class="k-button accept">Duyệt</a>
+                <a href="/" ng-show="IsHasChooseQuickSearch" ng-click="QuickSearchUnApproved_Click($event,OPSAppointment_DIRoute_QuickSearch_grid)" class="k-button accept">Hủy duyệt</a>
+                <a href="/" ng-click="QuickSearchClose_Click($event,OPSAppointment_DIRoute_QuickSearch_win)" class="k-button">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .cus-row > div .red { color: #b41111; }
+
+    .cus-row div.title14 { font-size: 14px; line-height: 22px; }
+
+    .cus-row .left250 { width: 250px; float: left; }
+
+    .cus-row .left80 { width: 80px; float: left; }
+
+    .cus-row .left32 { width: 32px; float: left; }
+
+    .cus-row .right500 { width: -moz-calc(100% - 507px); width: -webkit-calc(100% - 507px); width: -o-calc(100% - 507px); width: calc(100% - 507px); float: right; }
+
+    .cus-row .left100 { width: 100px; float: left; }
+
+    .cus-row .left200 { width: 200px; float: left; }
+
+    .cus-row div.title14 { font-size: 14px; line-height: 22px; }
+
+    .form-body-header {}
+
+    .form-body-content {border: 1px solid #d7e3f0; height: -moz-calc(100% - 75px); height: -webkit-calc(100% - 75px); height: -o-calc(100% - 75px); height: calc(100% - 75px); }
+
+    .cus-grid.k-grid td { white-space: nowrap; }
+
+    .cus-div { position: relative; width: 100%; height: 99%; }
+
+        .cus-div .top30, .cus-div > div > .top30 { height: 30px; display: block; }
+
+        .cus-div > .cus-div-2left, .cus-div > div > .cus-div-2left { width: -moz-calc(50% - 7px); width: -webkit-calc(50% - 7px); width: -o-calc(50% - 7px); width: calc(50% - 7px); float: left; }
+
+        .cus-div .left { float: left; display: inline-block; line-height: 22px; }
+
+    div.w100, .cus-combobox.w100 { width: 100px; }
+
+    .cus-div > .cus-div-2right, .cus-div > div > .cus-div-2right { width: -moz-calc(50% - 7px); width: -webkit-calc(50% - 7px); width: -o-calc(50% - 7px); width: calc(50% - 7px); float: right; }
+
+    .cus-div .top30, .cus-div > div > .top30 { height: 30px; display: block; padding: 5px; }
+
+    .cus-div .bottom60, .cus-div > div > .bottom60 { height: -moz-calc(100% - 80px); height: -webkit-calc(100% - 80px); height: -o-calc(100% - 80px); height: calc(100% - 80px); display: block; }
+
+    .k-menu.k-header.ops-menu-extend {background-color: #f9fcfe !important}
+    .k-menu.k-header.ops-menu-extend .k-item.k-state-hover {background-color: #31B6FC !important;color:#fff !important}
+    .k-menu.k-header.ops-menu-extend .k-item.k-state-hover span {color:#fff !important}
+</style>

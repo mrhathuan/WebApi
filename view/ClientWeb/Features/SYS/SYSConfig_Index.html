@@ -1,0 +1,13 @@
+﻿<script type="text/x-kendo-tmpl" id="sysgroup_treeToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right"></div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<div class="cus-tree" kendo-tree-list="sysconfig_group" expand-k-grid k-options="sysconfig_groupOptions"></div>

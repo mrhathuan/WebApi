@@ -1,0 +1,57 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">Workflow</div>
+        <div class="right">
+            <a href="/" ng-click="Add_Click($event,WFLSetting_Define_win,WFLSetting_Define_win_vform)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+            <a href="/" ng-click="ShowSetting($event,WFLSetting_Field_grid)" ng-mouseenter="ShowSetting($event,WFLSetting_Field_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="WFLSetting_Define_grid" k-options="WFLSetting_Define_gridOptions" expand-k-grid></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="WFLSetting_Define_win" k-title="false" k-width="500" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Định nghĩa
+            </div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div class="WFLSetting_Form" v-form="WFLSetting_Define_win_vform">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Mã <span class="required">*</span></label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.Code" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tên định nghĩa <span class="required">*</span></label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.DefineName" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden"><input type="submit" /></div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Save_Click($event,WFLSetting_Define_win,WFLSetting_Define_win_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Window_Close_Click($event,WFLSetting_Define_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

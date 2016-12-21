@@ -1,0 +1,34 @@
+﻿    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right">
+                <div >
+                    Khách hàng
+                </div>
+                <select style="width:300px;" kendo-multi-select="REPDISchedulePivot_index_cbo" k-ng-model="Item.lstCustomerID" k-options="mulCustomer_Options" />
+                <div>
+                    Ngày gửi đơn hàng
+                </div>
+                <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateFrom" />
+
+                <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateTo" />
+                <a href="/" ng-click="REPDISchedulePivot_Search($event,REPDISchedulePivot_index_cbo)" class="k-button " style="float:left"><i class="fa fa-search"></i><span class="tooltip">Xem báo cáo</span></a>
+                <a href="/" ng-click="REPDISchedulePivot_PivotExcel_Click($event)" class="k-button " style="float:left"><i class="fa fa-file-excel-o"></i><span class="tooltip is-right">Xuất dữ liệu</span></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="cus-splitter" expand-k-splitter kendo-splitter="REPDISchedulePivot_Splitter" k-options="REPDISchedulePivot_Splitter_Options">
+                <div class="cus-form">
+                    <div class="cus-pivot-config" id="REPDISchedulePivot_pivot_config"></div>
+                </div>
+                <div class="cus-form">
+                    <div class="cus-pivot" id="REPDISchedulePivot_pivot_grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>

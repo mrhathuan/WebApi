@@ -1,0 +1,1664 @@
+﻿
+<div class="full" id="2view-container">
+    <div class="cus-form winform" id="2view" style="{{IsFullScreen?'padding:0':''}}">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                    <li><a ui-sref="main.OPSAppointment.COViewOnMapV5" style="cursor:pointer;">Điều phối</a></li>
+                </ul>
+            </div>
+            <div class="right button">
+                <div style="color: #fff; margin: 12px 0; height: 17px; line-height: 17px; margin-right: 5px;">
+                    <a href="/" ng-click="TimeLine_Tick_Change($event,60)" class="btn-tick active">1</a>'
+                    <a href="/" ng-click="TimeLine_Tick_Change($event,120)" class="btn-tick">2</a>
+                    <a href="/" ng-click="TimeLine_Tick_Change($event,180)" class="btn-tick">3</a>
+                    <a href="/" ng-click="TimeLine_Tick_Change($event,360)" class="btn-tick">6</a>
+                    <a href="/" ng-click="TimeLine_Tick_Change($event,720)" class="btn-tick">12</a>
+                </div>
+                <input kendo-combobox="Vendor_Cbb" focus-k-combobox class="cus-combobox" k-options="Vendor_CbbOptions" ng-model="FitlerVendorID" style="width:150px" />
+                <a href="/" class="k-button" ng-class="ShowOrder?'active':''" ng-click="ShowOrder_Click($event)"><i class="fa fa-bars"></i><span class="tooltip">Đơn hàng</span></a>
+                <a href="/" class="k-button" ng-show="!IsFullScreen" ng-click="ViewA_Click($event)"><i class="fa fa-television"></i><span class="tooltip">Toàn màn hình</span></a>
+                <a href="/" ng-click="ShowSetting($event,null)" ng-mouseenter="ShowSetting($event,null)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+                <a href="/" class="k-button" ng-show="IsFullScreen" ng-click="ViewB_Click($event)"><i class="fa fa-thumb-tack"></i><span class="tooltip is-right">Thu nhỏ</span></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div class="cus-splitter ver-splitter" kendo-splitter="verSplitter" k-options="verSplitter_Options" style="width:calc(100% - 2px);">
+                <div>
+                    <div ng-show="false" style="position: absolute;z-index: 999999;background: #fff;width: 100%;height: 100%; opacity:0.7;">
+                        <i class="fa fa-spinner fa-spin" style="font-size: 44px;color: #31b6fc;left: calc(50% - 22px);top: calc(50% - 22px);position: relative;"></i>
+                    </div>
+                    <div class="cus-splitter hor-splitter" kendo-splitter="vehSplitter" k-options="vehSplitter_Options">
+                        <div>
+                            <div class="full" style="overflow:hidden;">
+                                <div class="cus-grid over-grid" id="timeline-vehicle-grid" expand-k-grid="ops_timeline_vehicle_Grid" kendo-grid="veh_Grid" k-options="veh_Grid_Options"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <script id="timeline-event-template" type="text/x-kendo-template">
+                                <div style="height:100%;" class="cus-event event#=StatusOfEvent#" id="event#=TOMasterID#" data-eventid="#=id#" data-connection="#=JSON.stringify(Connections, Common.JSON.QuoteReplacer)#" ng-click="TimeLineEvent_Click($event,dataItem)">
+                                    <div class="event-content" data-newevent="#=IsNew#" ng-show="dataItem.StatusOfTimeSheet<=2" ng-mouseenter="ShowTimeLineTooltip($event,#=id#,#=TOMasterID#,#=StatusOfTimeSheet#)" ng-mouseleave="HideTimeLineTooltip($event)">#=title#</div>
+                                    <div class="event-bkg bkg#=StatusOfTimeSheet# double#=TypeOfDoubleContainer#" data-double-container="#=IsDoubleContainer#" ng-mouseenter="ShowTimeLineTooltip($event,#=id#,#=TOMasterID#,#=StatusOfTimeSheet#)" ng-mouseleave="HideTimeLineTooltip($event)"></div>
+                                    <div class="event-icon">
+                                        <div class="event-infinity" ng-show="dataItem.StatusOfTimeSheet <= 2 && dataItem.IsLocal" ng-mouseenter="ShowTimeLineInfinityTooltip($event,#=id#,#=TOMasterID#)" ng-mouseleave="HideTimeLineInfinityTooltip($event)"><div style="background-image:url(Images/ops_co/ico_infinity.png);width:100%;height:100%;background-repeat:no-repeat;background-position:1px 1px;border-style:none;" /></div>
+                                        <div class="event-rstation" ng-show="dataItem.StatusOfTimeSheet==4"><div style="background-image:url(Images/ops_co/ico_station.png);width:100%;height:100%;background-repeat:no-repeat;border-style:none; transform: scaleX(-1);" /></div>
+                                        <div class="event-romempty" ng-show="dataItem.StatusOfTimeSheet==5"><div style="background-image:url(Images/ops_co/ico_romempty.png);width:100%;height:100%;background-repeat:no-repeat;border-style:none; transform: scaleX(-1);" /></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="event-border" style="width:calc(100% + 0px)">
+                                        <div>
+                                            <div class="pleft" ng-show="dataItem.StatusOfTimeSheet!=2&&dataItem.IsStart"></div> <div class="pright" ng-show="dataItem.StatusOfTimeSheet!=2&&dataItem.IsEnd"></div><div class="pmid" ng-show="dataItem.PxToEvent>0&&(!dataItem.IsEnd||dataItem.StatusOfTimeSheet==2)" style="width:calc(0% + 0px)"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </script>
+                            <div class="full" style="overflow:hidden;">
+                                <div class="cus-scheduler timeline-veh over-scheduler" expand-k-scheduler kendo-scheduler="timelineVeh" k-options="timelineVeh_Options" k-rebind="timelineVeh_Options" k-delay="timelineVeh_Options"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div ng-show="TimeLineConLoading" style="position: absolute;z-index: 999999;background: #fff;width: 100%;height: 100%; opacity:0.7;">
+                        <i class="fa fa-spinner fa-spin" style="font-size: 44px;color: #31b6fc;left: calc(50% - 22px);top: calc(50% - 22px);position: relative;"></i>
+                    </div>
+                    <div class="cus-splitter hor-splitter" kendo-splitter="conSplitter" k-options="conSplitter_Options">
+                        <div>
+                            <div class="full" style="overflow:hidden;">
+                                <div class="cus-grid over-grid" id="timeline-con-grid" expand-k-grid="ops_timeline_con_Grid" kendo-grid="con_Grid" k-options="con_Grid_Options"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <script id="timeline-con-event-template" type="text/x-kendo-template">
+                                <div style="cursor:pointer;height:100%;" class="cus-event event#=StatusOfEvent#" id="event#=id#" data-eventid="#=id#" ng-click="TimeLineConEvent_Click($event,#=id#,#=TOMasterID#,#=SortOrder#,#=start.getTime()#,#=end.getTime()#,timeline_info_win,timeline_event_win)" ng-mouseenter="ShowTimeLineTooltip($event,#=id#,#=TOMasterID#,1)" ng-mouseleave="HideTimeLineTooltip($event)">
+                                    <div class="event-content" style="width: calc(100% - 4px);">#=title#</div>
+                                    <div class="event-image" ng-show="dataItem.IsEmpty" style="left:0;width:100%;"></div>
+                                    <div class="event-bkg"></div>
+                                </div>
+                            </script>
+                            <div class="full" style="overflow:hidden;">
+                                <div class="cus-scheduler timeline-con over-scheduler" expand-k-scheduler kendo-scheduler="timelineCon" k-options="timelineCon_Options" k-rebind="timelineCon_Options" k-delay="timelineCon_Options"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Thong tin chuyen-->
+<div kendo-window="TO_Win" k-title="false" k-options="TO_WinOptions" class="cus-window" style="display:none">
+    <div class="cus-form ">
+        <div class="form-header">
+            <div class="left title">
+                {{TO_Win_Title}}
+            </div>
+            <div class="right button">
+
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-tabstrip="TO_Tabstrip" k-options="TO_TabstripOptions" class="cus-tabstrip" expand-k-tabstrip>
+                <ul>
+                    <li id="tab-trans" class="k-state-active">Thông tin vận chuyển</li>
+                    <li>Thông tin đơn hàng</li>
+                    <li id="tab-coto">Chặng theo đơn hàng</li>
+                    <li id="tab-opscoto">Chặng vận hành</li>
+                    <li id="tab-location">Thông tin cung đường</li>
+                    <li id="tab-trouble">Vấn đề phát sinh</li>
+                    <li id="tab-station">Danh sách trạm</li>
+                </ul>
+                <div>
+                    <div style="width:99%" kendo-splitter="TO_Splitter" k-rebind="TO_SplitterOptions" k-options="TO_SplitterOptions" class="cus-splitter" expand-k-splitter>
+                        <div>
+                            <table class="ct-form-table">
+                                <tr>
+                                    <td>Nhà xe</td>
+                                    <td><input ng-readonly="true" class="k-textbox" ng-model="CurrentMaster.VendorName" /></td>
+                                    <td>Số xe</td>
+                                    <td><label style="cursor:pointer;color:#00B7FD;margin-right: 96px;" ng-click="ChangeTOMaster(TOUpdate_win,1)">{{CurrentMaster.VehicleNo}}</label></td>
+                                    <td>Mã chuyến</td>
+                                    <td><input type="text" ng-model="CurrentMaster.Code" class="k-textbox" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Số Romooc</td>
+                                    <td><label style="cursor:pointer;color:#00B7FD;margin-right: 96px;" ng-click="ChangeTOMaster(TOUpdate_win,2)">{{CurrentMaster.RomoocNo}}</label></td>
+                                    <td>KM từ</td>
+                                    <td><input type="text" ng-model="CurrentMaster.KMStart" class="k-textbox" /></td>
+                                    <td>KM đến</td>
+                                    <td><input type="number" ng-model="CurrentMaster.KMEnd" class="k-textbox" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Tổng ngày đi tỉnh</td>
+                                    <td><input type="number" ng-model="CurrentMaster.ExTotalDayOut" class="k-textbox" /></td>
+                                    <td>Số lượng kết hợp</td>
+                                    <td><input type="number" ng-model="CurrentMaster.ExTotalJoin" class="k-textbox" /></td>
+                                    <td>Quá tải</td>
+                                    <td><input type="checkbox" ng-model="CurrentMaster.ExIsOverWeight" />  Qua đêm <input type="checkbox" ng-model="CurrentMaster.ExIsOverNight" /></td>
+                                </tr>
+                                <tr>
+                                    <td>ATD</td>
+                                    <td><input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="CurrentMaster.ATD" /></td>
+                                    <td>ATA</td>
+                                    <td><input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="CurrentMaster.ATA" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div>
+                            <!--xe nha-->
+                            <div class="cus-form" ng-show="!Show_DriverGrid">
+                                <div class="form-header">
+                                    <div class="left title">
+                                        Thông tin tài xế
+                                    </div>
+                                </div>
+                                <div class="form-body">
+                                    <div v-form="Cus_vCusForm">
+                                        <div id="win-to-pnDriver" class="cus-div-content">
+                                            <div style="float: left; width: calc(50% - 2px)">
+                                                <form action="/" method="post">
+                                                    <div class="form-content-150">
+                                                        <div class="rowinput">
+                                                            <label>Tài xế 1 </label>
+                                                            <div>
+                                                                <input ng-disabled="!CurrentMaster.IsEditable" focus-k-combobox class="cus-combobox" kendo-combo-box="Driver1_Cbb" k-options="Driver1_CbbOptions" ng-model="CurrentMaster.Driver1.Name" />
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                        <div class="rowinput">
+                                                            <label>Tài xế 2 </label>
+                                                            <div>
+                                                                <input ng-disabled="CurrentMaster.IsComplete" focus-k-combobox class="cus-combobox" kendo-combo-box="Driver2_Cbb" k-options="Driver2_CbbOptions" ng-model="CurrentMaster.Driver2.Name" />
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                        <div class="rowinput">
+                                                            <label>SĐT </label>
+                                                            <div>
+                                                                <input class="k-textbox" ng-model="CurrentMaster.Driver1.Tel" />
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div style="float: left; width: calc(50% - 2px)">
+                                                <form action="/" method="post">
+                                                    <div class="form-content-150">
+                                                        <div class="rowinput">
+                                                            <label>Vai trò 1 </label>
+                                                            <div>
+                                                                <input ng-disabled="CurrentMaster.IsComplete" focus-k-combobox class="cus-combobox" kendo-combo-box="TypeOfDriver1_Cbb" k-options="TypeOfDriver_CbbOptions" ng-model="CurrentMaster.Driver1.TypeOfDriverID" />
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                        <div class="rowinput">
+                                                            <label>Vai trò 2 </label>
+                                                            <div>
+                                                                <input ng-disabled="CurrentMaster.IsComplete" focus-k-combobox class="cus-combobox" kendo-combo-box="TypeOfDriver2_Cbb" k-options="TypeOfDriver_CbbOptions" ng-model="CurrentMaster.Driver2.TypeOfDriverID" />
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                        <div class="rowinput">
+                                                            <label>CMND </label>
+                                                            <div>
+                                                                <input ng-disabled="!CurrentMaster.IsEditable" class="k-textbox" ng-model="CurrentMaster.Driver1.Card" />
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--xe vendor-->
+                            <div class="cus-form" ng-show="Show_DriverGrid">
+                                <div class="form-header">
+                                    <div class="left title">
+                                        Thông tin tài xế
+                                    </div>
+                                </div>
+                                <div class="form-body">
+                                    <div style="height:100px">
+                                        <table class="ct-form-table">
+                                            <tr>
+                                                <td>Tài xế 1</td>
+                                                <td><input ng-disabled="!CurrentMaster.IsEditable" class="k-textbox" ng-model="CurrentMaster.Driver1.Name" /></td>
+                                                <td>SĐT</td>
+                                                <td><input ng-disabled="!CurrentMaster.IsEditable" class="k-textbox" ng-model="CurrentMaster.Driver1.Tel" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tài xế 2</td>
+                                                <td><input ng-disabled="CurrentMaster.IsEditable" class="k-textbox" ng-model="CurrentMaster.Driver2.Name" /></td>
+                                                <td>SĐT</td>
+                                                <td><input ng-disabled="!CurrentMaster.IsEditable" class="k-textbox" ng-model="CurrentMaster.Driver2.Tel" /></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <script type="text/x-kendo-tmpl" id="co-container-grid-toolbar">
+                        <div class="gridtoolbar">
+                            <div class="left">
+                            </div>
+                            <div class="right">
+                                <a ng-click="ListCatLocation_Open($event,1)" class="k-button"><i class="fa fa-wrench"></i><span class="tooltip">Sửa cont</span></a>
+                                <a ng-click="ListCatLocation_Open($event,2)" class="k-button"><i class="fa fa-scissors"></i><span class="tooltip is-right">Trả cont rỗng</span></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </script>
+                    <div expand-k-grid kendo-grid="COContainer_Grid" k-options="COContainer_GridOptions" class="cus-grid"></div>
+                </div>
+                <div>
+                    <script type="text/x-kendo-template" id="config-cotocontainer-tpl">
+                        <a class="k-button" href="" ng-click="COTOContainerMenuList_Open($event,dataItem)"><i class="fa fa-cog" style="font-size:22px;vertical-align:middle;" aria-hidden="true"></i></a>
+                    </script>
+                    <script type="text/x-kendo-template" id="to-start-container-tpl">
+                        <a class="k-button" href="" ng-click="COTOContainer_Start($event,dataItem)"><i class="fa fa-play-circle" style="font-size:22px;vertical-align:middle;" aria-hidden="true"></i></a>
+                    </script>
+                    <script type="text/x-kendo-template" id="to-container-tpl">
+                        <ul kendo-menu k-options="SLMenuOptions(dataItem.STT)" style="border:none;">
+                            <li class="noborder">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                <ul class="ct-menu-fixed">
+                                    <li ng-class="{'k-state-disabled' : !dataItem.IsBreakTO}" ng-click='!dataItem.IsBreakTO || COTOContainer_LocationOpen($event,3)'><i class='fa fa-scissors'></i> Cắt chặng</li>
+                                    <li ng-class="{'k-state-disabled' : !dataItem.IsEmptyFail}" ng-click='!dataItem.IsEmptyFail || COTOContainer_LocationOpen($event,4)'><i class='fa fa-wrench'></i> Sửa Cont rỗng</li>
+                                    <li ng-class="{'k-state-disabled' : !dataItem.IsEmptyFail}" ng-click='!dataItem.IsEmptyFail || COTOContainer_LocationOpen($event,5)'><i class='fa fa-undo'></i> Trả Cont rỗng</li>
+                                    <li ng-class="{'k-state-disabled' : !dataItem.IsBreakMooc}" ng-click='!dataItem.IsBreakMooc || COTOContainer_LocationOpen($event,6)'><i class='fa fa-chain-broken'></i> Cắt romooc</li>
+                                    <li ng-class="{'k-state-disabled' : !dataItem.IsCompleteTO}" ng-click='!dataItem.IsCompleteTO || COTOContainer_FastCompleteCO($event)'><i class='fa fa-flag-checkered'></i> Hoàn thành chặng</li>
+                                    <li ng-class="{'k-state-disabled' : dataItem.IsCompleteTO}" ng-click='dataItem.IsCompleteTO || COTOContainer_UnCompleteCO($event)'><i class='fa fa-flag-checkered'></i> Hủy hoàn thành</li>
+                                    <li ng-class="{'k-state-disabled' : !dataItem.IsExport}" ng-click='!dataItem.IsExport || SwapCOTOContainer_ContOpen($event)'><i class='fa fa-random'></i> Swap container</li>
+                                    <li ng-click='TOContainer_Continuous($event,dataItem)'><i class='fa fa-hand-paper-o'></i> Chạy chuyến tiếp theo</li>
+                                    <li ng-click='TOContainer_EndStation($event,dataItem)'><i class='fa fa-flag-checkered'></i> Kết thúc tại bãi</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </script>
+                    <style>
+                        .ct-menu-fixed { position: fixed !important; }
+                        .noborder { border: none !important; background: none !important; }
+                            .noborder.k-state-hover > .k-link { color: #32B6FC; }
+                                .noborder.k-state-hover > .k-link .k-icon { color: #32B6FC; }
+                            .noborder > .k-link { background: none !important; }
+                    </style>
+                    <div expand-k-grid kendo-grid="TOContainer_Grid" k-options="TOContainer_GridOptions" class="cus-grid"></div>
+                </div>
+                <div>
+                    <script type="text/x-kendo-tmpl" id="opscoto-grid-toolbar">
+                        <div class="gridtoolbar">
+                            <div class="right">
+                                <a ng-show="Auth.ActEdit" ng-click="COTOKM_Update($event)"  class="k-button"><i class="fa fa-road"></i><span class="tooltip">Cập nhật KM</span></a>
+                                <a ng-show="Auth.ActEdit" ng-click="OPSCOTO_Save($event,0)" class="k-button"><i class="fa fa-floppy-o"></i><span class="tooltip">Lưu</span></a>
+                                <a ng-show="Auth.ActEdit" ng-click="OPSCOTO_Save($event,1)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Duyệt</span></a>
+                                <a ng-show="Auth.ActEdit" ng-click="OPSCOTO_Save($event,2)" class="k-button"><i class="fa fa-times"></i><span class="tooltip is-right">Hủy duyệt</span></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </script>
+                    <div expand-k-grid kendo-grid="OPSCOTO_grid" k-options="OPSCOTO_gridOptions" class="cus-grid"></div>
+                </div>
+                <div>
+                    <div expand-k-grid kendo-grid="Location_Grid" k-options="Location_GridOptions" class="cus-grid"></div>
+                </div>
+                <div>
+                    <script type="text/x-kendo-tmpl" id="win-to-trouble-grid-toolbar">
+                        <div class="gridtoolbar">
+                            <div class="left">
+                            </div>
+                            <div class="right">
+                                <a ng-click="Trouble_SaveAll($event,Trouble_Grid)" class="k-button"><i class="fa fa-check"></i><span class="tooltip is-right">Lưu thay đổi</span></a>
+                                <a ng-click="Trouble_AddNew($event,Trouble_EditWin,Trouble_Grid)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Phát sinh</span></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </script>
+                    <div expand-k-grid kendo-grid="Trouble_Grid" k-options="Trouble_GridOptions" id="win-to-trouble-grid" class="cus-grid"></div>
+                </div>
+                <div>
+                    <script type="text/x-kendo-tmpl" id="station-grid-toolbar">
+                        <div class="gridtoolbar">
+                            <div class="right">
+                                <a ng-show="Auth.ActEdit" ng-click="Station_SaveChanges($event,Station_Grid)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu</span></a>
+                                <a ng-click="SearchStation($event,Station_NotinWin,Station_NotinGrid)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm trạm</span></a>
+                                <a ng-click="Station_RemoveList($event,Station_Grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip is-right">Xóa trạm</span></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </script>
+                    <div expand-k-grid kendo-grid="Station_Grid" k-options="Station_GridOptions" class="cus-grid"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-show="Auth.ActEdit" ng-click="Check_VehicleMaster($event)" class="k-button">Tình trạng xe</a>
+                <a ng-show="Auth.ActEdit && Show_BtnWinTO_Update" ng-click="To_WinUpdate($event)" class="k-button accept">Lưu thay đổi</a>
+                <a ng-show="Auth.ActEdit && Show_BtnWinTO_Update && IsAvailable" ng-click="TakeOtherMaster($event)" class="k-button">Nhận việc khác</a>
+                <a href="/" ng-click="Win_Close($event,TO_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--OPSCOTOContainerGridMenuList -->
+<div kendo-window="OPSCOTOContainerGridMenuList" draggable-k-window class="cus-window" k-title="false" k-width="180" k-height="430" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Hành động</div>
+            <div class="right button"><a ng-click="Win_Close($event,OPSCOTOContainerGridMenuList)" class="k-button is-right"><i class="fa fa-times "></i><span class="tooltip">Đóng</span></a></div>
+        </div>
+        <div class="form-body">
+            <style>
+                .cus-popup-menu {width:100%;height:auto;}
+                .cus-popup-menu > div { display: block; border-bottom: 1px solid #bebebe; width: 100%;text-indent:5px;line-height:26px; }
+                .cus-popup-menu > div.menu-disabled{color:#cecece;}
+                .cus-popup-menu > div:not(.menu-disabled):hover {cursor:pointer;color:#0094ff;}
+            </style>
+            <div class="cus-popup-menu">
+                <div ng-class="{'menu-disabled' : !MenuItem.IsBreakTO}" ng-click='!MenuItem.IsBreakTO || COTOContainer_StopContainer($event,3)'><i class='fa fa-scissors'></i> Cắt chặng</div>
+                <div ng-class="{'menu-disabled' : !MenuItem.IsEmptyFail}"  ng-click='!MenuItem.IsEmptyFail || COTOContainer_LocationOpen($event,4)'><i class='fa fa-wrench'></i> Sửa container rỗng</div>
+                <div ng-class="{'menu-disabled' : !MenuItem.IsEmptyFail}"  ng-click='!MenuItem.IsEmptyFail || COTOContainer_LocationOpen($event,5)'><i class='fa fa-undo'></i> Đổi container hỏng</div>
+                <div ng-class="{'menu-disabled' : !MenuItem.IsBreakMooc}"  ng-click='!MenuItem.IsBreakMooc || COTOContainer_LocationOpen($event,6)'><i class='fa fa-chain-broken'></i> Cắt romooc</div>
+                <div ng-class="{'menu-disabled' : !MenuItem.IsCompleteTO}" ng-click='!MenuItem.IsCompleteTO || COTOContainer_FastCompleteCO($event)'><i class='fa fa-flag-checkered'></i> Hoàn thành chặng</div>
+                <div ng-class="{'menu-disabled' :  MenuItem.IsCompleteTO}" ng-click=' MenuItem.IsCompleteTO || COTOContainer_UnCompleteCO($event)'><i class='fa fa-flag-checkered'></i> Hủy hoàn thành</div>
+                <div ng-click="ChangeCOTOLocation($event,1)"><i class='fa fa-exclamation'></i> Đổi bãi lấy container</div>
+                <div ng-click="ChangeCOTOLocation($event,2)"><i class='fa fa-exclamation'></i> Thêm bãi lấy container</div>
+                <div ng-click="ChangeCOTOLocation($event,3)"><i class='fa fa-exclamation'></i> Đổi bãi trả container</div>
+                <div ng-click="ChangeCOTOLocation($event,4)"><i class='fa fa-exclamation'></i> Thêm bãi trả container</div>
+                <div ng-click="ChangeCOTOLocation($event,5)"><i class='fa fa-exclamation'></i> Thêm kho khác</div>
+                <div ng-click='TOContainer_Continuous($event,MenuItem)'><i class='fa fa-hand-paper-o'></i> Chạy chuyến tiếp theo</div>
+                <div ng-click='TOContainer_EndStation($event,MenuItem)'><i class='fa fa-flag-checkered'></i> Kết thúc tại bãi</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Update Vehicle-->
+<div id="winid" kendo-window="TOUpdate_win" k-options="TOUpdate_winOptions" class="cus-window" style="display:none">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin chuyến
+            </div>
+            <div class="right button">
+                <a ng-show="!IsWinTOUpdateMax" ng-click="Win_Max($event,TOUpdate_win)" class="k-button"><i class="fa fa-expand "></i><span class="tooltip">Phóng to</span></a>
+                <a ng-show="IsWinTOUpdateMax" ng-click="Win_Min($event,TOUpdate_win)" class="k-button"><i class="fa fa-compress "></i><span class="tooltip">Thu nhỏ</span></a>
+                <a ng-click="Win_Close($event,TOUpdate_win)" class="k-button is-right"><i class="fa fa-times "></i><span class="tooltip">Đóng</span></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div kendo-splitter="MONTOUpdate_Splitter" k-options="MONTOUpdate_SplitterOptions" k-rebind="MONTOUpdate_SplitterOptions" class="cus-splitter ver-splitter" expand-k-splitter>
+                <div id="update_pane1">
+                    <div id="MON_UpdateMap" class="cus-map"></div>
+                </div>
+                <div id="update_pane2">
+                    <script type="text/x-kendo-tmpl" id="vehicle-grid-toolbar">
+                        <div class="gridtoolbar">
+                            <div class="left title">  </div>
+                            <div class="right">
+                                <input style="width:150px;" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="Time_From" k-options="DateDMYHM" />
+                                <input style="width:150px;" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="Time_To" k-options="DateDMYHM" />
+                                <a ng-click="SearchVehicle($event,vehicle_grid)" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm kiếm</span></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </script>
+                    <div ng-show="TOChangeShowType == 1" expand-k-grid kendo-grid="vehicle_grid" k-options="vehicle_gridOptions" class="cus-grid"></div>
+
+                    <script type="text/x-kendo-tmpl" id="change-romooc-grid-toolbar">
+                        <div class="gridtoolbar">
+                            <div class="left title">  </div>
+                            <div class="right">
+                                <input style="width:150px;" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="Time_From" k-options="DateDMYHM" />
+                                <input style="width:150px;" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="Time_To" k-options="DateDMYHM" />
+                                <a ng-click="SearchVehicle($event,change_romooc_grid)" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm kiếm</span></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </script>
+                    <div ng-show="TOChangeShowType == 2" expand-k-grid kendo-grid="change_romooc_grid" k-options="change_romooc_gridOptions" class="cus-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Change depot-->
+<div kendo-window="DepotWin" draggable-k-window class="cus-window" k-options="DepotWinOptions">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Bản đồ
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-splitter="DepotSplitter" k-options="DepotSplitter_Options" k-rebind="DepotSplitter_Options" class="cus-splitter ver-splitter" expand-k-splitter>
+                <div id="depot_pane1">
+                    <div id="DepotMap" class="cus-map"></div>
+                </div>
+                <div id="depot_pane2">
+                    <script type="text/x-kendo-tmpl" id="depot-grid-toolbar">
+                        <div class="gridtoolbar">
+                            <div class="left">
+                            </div>
+                            <div class="right">
+                                <input kendo-combobox="ReasonChangeCbb" focus-k-combobox class="cus-combobox" k-options="ReasonChangeCbbOptions" ng-model="ReasonChangeID" />
+                                <input type="text" class="k-textbox" ng-model="ReasonChangeNote" placeholder="Ghi chú lý do từ chối" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </script>
+                    <div expand-k-grid kendo-grid="Depot_Grid" k-options="Depot_GridOptions" class="cus-grid"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="ChangeDepot_Accept($event,DepotWin,Depot_Grid)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Win_Close($event,DepotWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--COTODepotWin-->
+<div kendo-window="COTODepotWin" draggable-k-window class="cus-window" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Depot
+            </div>
+            <div class="right button"><a ng-click="Win_Close($event,COTODepotWin)" class="k-button"><i class="fa fa-times" hide-area="true"></i></a></div>
+        </div>
+        <div class="form-body">
+            <div expand-k-grid kendo-grid="COTODepot_Grid" k-options="COTODepot_GridOptions" class="cus-grid"></div>
+        </div>
+    </div>
+</div>
+
+<!--COTOStockWin-->
+<div kendo-window="COTOStockWin" draggable-k-window class="cus-window" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Stock
+            </div>
+            <div class="right button"><a ng-click="Win_Close($event,COTOStockWin)" class="k-button"><i class="fa fa-times" hide-area="true"></i></a></div>
+        </div>
+        <div class="form-body">
+            <div expand-k-grid kendo-grid="COTOStock_Grid" k-options="COTOStock_GridOptions" class="cus-grid"></div>
+        </div>
+    </div>
+</div>
+
+<!--Station notin-->
+<div kendo-window="Station_NotinWin" draggable-k-window class="cus-window" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách trạm</div>
+        </div>
+        <div class="form-body with-footer">
+            <div expand-k-grid kendo-grid="Station_NotinGrid" k-options="Station_NotinGridOptions" class="cus-grid"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="Station_SaveList($event,Station_Grid,Station_NotinGrid)" class="k-button accept">Thêm trạm</a>
+                <a href="/" ng-click="Win_Close($event,Station_NotinWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Trouble edit win-->
+<div class="cus-window" kendo-window="Trouble_EditWin" draggable-k-window k-title="false" k-width="400" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Vấn đề phát sinh</div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div v-form="Cus_vTroubleForm">
+                    <div class="form-content-100">
+                        <div class="rowinput">
+                            <label>Lý do<span class="required">*</span></label>
+                            <input kendo-combobox="GroupOfTrouble_Cbb" focus-k-combobox class="cus-combobox" k-options="GroupOfTrouble_CbbOptions" ng-model="ItemDetail.GroupOfTroubleID" v-form-require="true" />
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Mô tả<span class="required">*</span></label>
+                            <input type="text" ng-model="ItemDetail.Description" class="k-textbox" v-form-require="false" />
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Chi phí</label>
+                            <input type="number" ng-model="ItemDetail.Cost" ng-change="ChangeProblemCost()" class="k-textbox" v-form-require="false" />
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Chi phí CUS</label>
+                            <input type="number" ng-model="ItemDetail.CostOfCustomer" class="k-textbox" v-form-require="false" />
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Chi phí VEN</label>
+                            <input type="number" ng-model="ItemDetail.CostOfVendor" class="k-textbox" v-form-require="false" />
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tài xế</label>
+                            <input kendo-combobox focus-k-combobox class="cus-combobox" k-options="TroubleDriverCbbOptions" ng-model="ItemDetail.DriverID" v-form-require="false" />
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput" ng-show="false">
+                            <label>Tuyến đường</label>
+                            <input kendo-combobox="Routing_Cbb" focus-k-combobox class="cus-combobox" k-options="Routing_CbbOptions" ng-model="ItemDetail.DITOID" v-form-require="false" />
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Trouble_Save($event,Cus_vTroubleForm,Trouble_EditWin)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Win_Close($event,Trouble_EditWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--ReasonChange_Win-->
+<div kendo-window="ReasonChange_Win" draggable-k-window class="cus-window" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn lý do</div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div v-form="ReasonChangeVform">
+                    <div class="form-content-150">
+                        <div ng-show="ContLocaitonType==5" class="rowinput">
+                            <label>Depot<span class="required">*</span></label>
+                            <div><input ng-readonly="true" ng-click="LocationSeapot_Open($event)" class="k-textbox" ng-model="LocationDepotName" v-form-require="false" /></div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div ng-show="ContLocaitonType==3" class="rowinput">
+                            <label>Điểm dừng<span class="required">*</span></label>
+                            <div><input ng-readonly="true" ng-click="StandWin.center().open()" class="k-textbox" ng-model="COTOStopLocationName" v-form-require="false" /></div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Lý do<span class="required">*</span></label>
+                            <div><input kendo-combobox="ReasonChangeCbb" focus-k-combobox class="cus-combobox" k-options="ReasonChangeCbbOptions" ng-model="ReasonChangeID" v-form-require="true" /></div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Ghi chú</label>
+                            <div><input type="text" class="k-textbox" ng-model="ReasonChangeNote" v-form-require="false" /></div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div ng-show="false" class="rowinput">
+                            <label>Số Cont.</label>
+                            <div><input type="text" class="k-textbox" ng-model="ReasonChangeContainerNo" v-form-require="false" /></div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-show="ContLocaitonType==1" ng-click="COContainerRepair_Click($event,ReasonChange_Win,CatLocation_Grid,ReasonChangeVform)" class="k-button accept">Đồng ý</a>
+                <a ng-show="ContLocaitonType==2" ng-click="COContainerCut_Click($event,ReasonChange_Win,CatLocation_Grid,ReasonChangeVform)" class="k-button accept">Đồng ý</a>
+                <a ng-show="ContLocaitonType==3" ng-click="COTOContainerStop_Click($event,ReasonChange_Win,CatLocation_Grid,ReasonChangeVform)" class="k-button accept">Đồng ý</a>
+                <a ng-show="ContLocaitonType==4" ng-click="COTOContainerRepair_Click($event,ReasonChange_Win,CatLocation_Grid,ReasonChangeVform)" class="k-button accept">Đồng ý</a>
+                <a ng-show="ContLocaitonType==5" ng-click="COTOContainerDestroyEmpty_Click($event,ReasonChange_Win,CatLocation_SeaportGrid,ReasonChangeVform)" class="k-button accept">Đồng ý</a>
+                <a ng-show="ContLocaitonType==6" ng-click="COTOContainerCutRomooc_Click($event,ReasonChange_Win,CatLocation_Grid,ReasonChangeVform)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Win_Close($event,ReasonChange_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--ReasonChangeLocation_Win-->
+<div kendo-window="ReasonChangeLocation_Win" draggable-k-window class="cus-window" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn lý do</div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div v-form="ReasonChangeLocationVform">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Depot/Kho<span class="required">*</span></label>
+                            <div><input ng-readonly="true" ng-click="ListLocation_Open($event)" class="k-textbox" ng-model="LocationDepotName" v-form-require="false" /></div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Lý do<span class="required">*</span></label>
+                            <div><input kendo-combobox="ReasonChangeCbb" focus-k-combobox class="cus-combobox" k-options="ReasonChangeCbbOptions" ng-model="ReasonChangeID" v-form-require="true" /></div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Ghi chú</label>
+                            <div><input type="text" class="k-textbox" ng-model="ReasonChangeNote" v-form-require="false" /></div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="ReasonAccept($event,ReasonChangeLocationVform)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Win_Close($event,ReasonChangeLocation_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--CatLocaiton_Win-->
+<div kendo-window="CatLocaiton_Win" draggable-k-window class="cus-window" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách địa điểm</div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div expand-k-grid kendo-grid="CatLocation_Grid" k-options="CatLocation_GridOptions" class="cus-grid"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="ChooseLocation_Accept($event,ReasonChange_Win)" class="k-button accept">Đồng ý</a>
+                <a ng-click="AddNewLocation_Open($event,NewLocationWin)" class="k-button close">Thêm mới điểm</a>
+                <a href="/" ng-click="Win_Close($event,CatLocaiton_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--CatLocaiton_SeaportWin-->
+<div kendo-window="CatLocaiton_SeaportWin" draggable-k-window class="cus-window" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách cảng biểns</div>
+            <div class="right button">
+                <a ng-click="AddNewLocation_Open($event,NewLocationWin)" class="k-button"><i class="fa fa-plus" hide-area="true"></i><span class="tooltip is-right">Thêm mới điểm</span></a>
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div expand-k-grid kendo-grid="CatLocation_SeaportGrid" k-options="CatLocation_SeaportGridOptions" class="cus-grid"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="LocationSeapot_Acccept($event,CatLocation_SeaportGrid,CatLocaiton_SeaportWin)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Win_Close($event,CatLocaiton_SeaportWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Borrow Win-->
+<div class="cus-window" draggable-k-window kendo-window="TONonMasterWin" k-title="false" k-width="800" k-height="600" k-visible="false" k-resizable="false" k-modal="false">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách container</div>
+            <div class="right button">
+                <a ng-show="BorrowTabIndex==1" ng-click="COTOContainer_BorrowContAccept($event,TONonMasterWin)" class="k-button"><i class="fa fa-check" hide-area="true"></i></a>
+                <a ng-show="BorrowTabIndex==2" ng-click="COTOContainer_BorrowMasterAccept($event,TONonMasterWin)" class="k-button"><i class="fa fa-check" hide-area="true"></i></a>
+                <a ng-click="Win_Close($event,TONonMasterWin)" class="k-button"><i class="fa fa-times" hide-area="true"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div kendo-tabstrip k-options="borrowTabStripOptions" class="cus-tabstrip" expand-k-tabstrip>
+                <ul>
+                    <li id="borrowtab1" class="k-state-active">Theo đơn hàng</li>
+                    <li id="borrowtab2">Theo chuyến</li>
+                </ul>
+                <div>
+                    <div class="cus-grid" kendo-grid="TOContainerNonMaster_Grid" k-options="TOContainerNonMaster_GridOptions" expand-k-grid></div>
+                </div>
+                <div>
+                    <div class="cus-grid" kendo-grid="UnCompleteMaster_Grid" k-options="UnCompleteMaster_GridOptions" expand-k-grid></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Swap Win-->
+<div class="cus-window" draggable-k-window kendo-window="SwapContainerWin" k-title="false" k-width="800" k-height="600" k-visible="false" k-resizable="false" k-modal="false">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách container</div>
+            <div class="right button">
+                <a ng-show="SwapTabIndex==1" ng-click="SwapCOTOContainer_ContAccept($event,SwapContainerWin)" class="k-button"><i class="fa fa-check" hide-area="true"></i></a>
+                <a ng-show="SwapTabIndex==2" ng-click="SwapCOTOContainer_MasterAccept($event,SwapContainerWin)" class="k-button"><i class="fa fa-check" hide-area="true"></i></a>
+                <a ng-click="Win_Close($event,SwapContainerWin)" class="k-button"><i class="fa fa-times" hide-area="true"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div kendo-tabstrip k-options="swapTabStripOptions" class="cus-tabstrip" expand-k-tabstrip>
+                <ul>
+                    <li id="swaptab1" class="k-state-active">Theo đơn hàng</li>
+                    <li id="swaptab2">Theo chuyến</li>
+                </ul>
+                <div>
+                    <div class="cus-grid" kendo-grid="SwapTOContainerNonMaster_Grid" k-options="SwapTOContainerNonMaster_GridOptions" expand-k-grid></div>
+                </div>
+                <div>
+                    <div class="cus-grid" kendo-grid="SwapUnCompleteMaster_Grid" k-options="SwapUnCompleteMaster_GridOptions" expand-k-grid></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--MasterByTractorWin Win-->
+<div class="cus-window" draggable-k-window kendo-window="MasterByTractorWin" k-title="false" k-width="800" k-height="600" k-visible="false" k-resizable="false" k-modal="false">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách chuyến</div>
+            <div class="right button">
+                <a ng-click="Win_Close($event,MasterByTractorWin)" class="k-button"><i class="fa fa-times" hide-area="true"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div class="cus-grid" kendo-grid="MasterByTractor_Grid" k-options="MasterByTractor_GridOptions" expand-k-grid></div>
+        </div>
+    </div>
+</div>
+
+<!--MasterEndStationWin-->
+<div class="cus-window" draggable-k-window kendo-window="MasterEndStationWin" k-title="false" k-width="800" k-height="270" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn điểm để kết thúc chuyến</div>
+            <div class="right button">
+                
+            </div>
+        </div>
+        <div class="form-body with-footer" style="overflow: hidden;">
+            <div style="float:left;width:48%;">
+                <div class="cus-form">
+                    <div class="form-header">
+                        <div class="left title">Bãi xe</div>
+                        <div class="right button">
+                            <a ng-click="ChangeStandDefault($event,1)" class="k-button"><i class="fa fa-map-marker" hide-area="true"></i><span class="tooltip">Chọn bãi khác</span></a>
+                            <a ng-click="CancelStand($event,1)" class="k-button"><i class="fa fa-eraser" hide-area="true"></i><span class="tooltip">Bỏ chọn bãi</span></a>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-content-150">
+                            <div class="rowinput">
+                                <label>Mã</label>
+                                <div><input type="text" class="k-textbox" ng-model="StandItem.Tractor.Code" ng-disabled="true" /></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tên</label>
+                                <div><input type="text" class="k-textbox" ng-model="StandItem.Tractor.Location" ng-disabled="true" /></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Địa chỉ</label>
+                                <div><input type="text" class="k-textbox" ng-model="StandItem.Tractor.Address" ng-disabled="true" /></div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="background-color:#cecece;width:1px;height:100%;float:left"></div>
+            <div style="float:left;width:48%;">
+                <div class="cus-form">
+                    <div class="form-header">
+                        <div class="left title">Bãi romooc</div>
+                        <div class="right button">
+                            <a ng-click="ChangeStandDefault($event,2)" class="k-button"><i class="fa fa-map-marker" hide-area="true"></i><span class="tooltip">Chọn bãi khác</span></a>
+                            <a ng-click="CancelStand($event,2)" class="k-button"><i class="fa fa-eraser" hide-area="true"></i><span class="tooltip">Bỏ chọn bãi</span></a>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-content-150">
+                            <div class="rowinput">
+                                <label>Mã</label>
+                                <div><input type="text" class="k-textbox" ng-model="StandItem.Romooc.Code" ng-disabled="true" /></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tên</label>
+                                <div><input type="text" class="k-textbox" ng-model="StandItem.Romooc.Location" ng-disabled="true" /></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Địa chỉ</label>
+                                <div><input type="text" class="k-textbox" ng-model="StandItem.Romooc.Address" ng-disabled="true" /></div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="background-color:#cecece;width:1px;height:100%;float:left"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="TOContainer_EndStation_Accept($event)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Win_Close($event,MasterEndStationWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--stand win-->
+<div class="cus-window" draggable-k-window kendo-window="StandWin" k-title="false" k-width="800" k-height="600" k-visible="false" k-resizable="false" k-modal="true" style="z-index:10300">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn bãi xe</div>
+            <div class="right button">
+                <a ng-click="Win_Close($event,StandWin)" class="k-button"><i class="fa fa-times" hide-area="true"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div kendo-tabstrip k-options="normalTabStripOptions" class="cus-tabstrip" expand-k-tabstrip>
+                <ul>
+                    <li class="k-state-active">Danh sách bãi xe</li>
+                    <li>Các điểm khác</li>
+                    <li ng-click="AddNewLocation_Open2($event)">Thêm điểm mới</li>
+                </ul>
+                <div>
+                    <div class="cus-grid" kendo-grid="StandDetailGrid" k-options="StandDetailGridOptions" expand-k-grid></div>
+                </div>
+                <div>
+                    <div class="cus-grid" kendo-grid="LocationEndMasterGrid" k-options="LocationEndMasterGridOptions" expand-k-grid></div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-body" style="height: calc(100% - 51px);">
+                            <form action="/" method="post">
+                                <div class="form-content-150" v-form="CATLocationEdit_win_vform2">
+                                    <div class="rowinput">
+                                        <label>Mã <span class="required">*</span></label>
+                                        <div>
+                                            <input type="text" class="k-textbox" maxlength="50" ng-model="LocationItem.Code" v-form-require="true" v-form-length="50" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Tên <span class="required">*</span></label>
+                                        <div>
+                                            <input type="text" class="k-textbox" maxlength="500" ng-model="LocationItem.Location" v-form-require="true" v-form-length="500" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Địa chỉ <span class="required">*</span></label>
+                                        <div>
+                                            <input type="text" class="k-textbox" maxlength="500" ng-model="LocationItem.Address" v-form-require="true" v-form-length="500" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Quốc gia <span class="required">*</span></label>
+                                        <div>
+                                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboCountry" ng-model="LocationItem.CountryID" k-options="CATLocationEdit_win_cboCountryOptions" v-form-require="true" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Tỉnh thành <span class="required">*</span></label>
+                                        <div>
+                                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboProvince" ng-model="LocationItem.ProvinceID" k-options="CATLocationEdit_win_cboProvinceOptions" v-form-require="true" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Quận huyện <span class="required">*</span></label>
+                                        <div>
+                                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboDistrict" ng-model="LocationItem.DistrictID" k-options="CATLocationEdit_win_cboDistrictOptions" v-form-require="true" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Xã phường </label>
+                                        <div>
+                                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboWard" ng-model="LocationItem.WardID" k-options="CATLocationEdit_win_cboWardOptions" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Vĩ độ </label>
+                                        <div>
+                                            <input kendo-numeric-text-box="CATLocationEdit_win_numLat" ng-model="LocationItem.Lat" k-options="CATLocationEdit_win_numLatOptions" style="width:100%" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Kinh độ </label>
+                                        <div>
+                                            <input kendo-numeric-text-box="CATLocationEdit_win_numLng" ng-model="LocationItem.Lng" k-options="CATLocationEdit_win_numLngOptions" style="width:100%" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Ghi chú </label>
+                                        <div>
+                                            <input type="text" class="k-textbox" maxlength="500" ng-model="LocationItem.Note" v-form-length="500" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                        <div class="form-footer">
+                            <div>
+                                <a ng-click="AddNewLocation_Accept2($event,StandWin,CATLocationEdit_win_vform2)" class="k-button accept">Đồng ý</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--New Location-->
+<div kendo-window="NewLocationWin" draggable-k-window class="cus-window" k-options="NewLocationWinOptions">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Bản đồ
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-splitter="LocationSplitter" k-options="LocationSplitter_Options" k-rebind="LocationSplitter_Options" class="cus-splitter ver-splitter" expand-k-splitter>
+                <div id="location_pane1">
+                    <div id="LocationMap" class="cus-map"></div>
+                </div>
+                <div id="location_pane2">
+                    <form action="/" method="post">
+                        <div class="form-content-150" v-form="CATLocationEdit_win_vform">
+                            <div class="rowinput">
+                                <label>Mã <span class="required">*</span></label>
+                                <div>
+                                    <input type="text" class="k-textbox" maxlength="50" ng-model="LocationItem.Code" v-form-require="true" v-form-length="50" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tên <span class="required">*</span></label>
+                                <div>
+                                    <input type="text" class="k-textbox" maxlength="500" ng-model="LocationItem.Location" v-form-require="true" v-form-length="500" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Địa chỉ <span class="required">*</span></label>
+                                <div>
+                                    <input type="text" class="k-textbox" maxlength="500" ng-model="LocationItem.Address" v-form-require="true" v-form-length="500" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Quốc gia <span class="required">*</span></label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboCountry" ng-model="LocationItem.CountryID" k-options="CATLocationEdit_win_cboCountryOptions" v-form-require="true" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tỉnh thành <span class="required">*</span></label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboProvince" ng-model="LocationItem.ProvinceID" k-options="CATLocationEdit_win_cboProvinceOptions" v-form-require="true" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Quận huyện <span class="required">*</span></label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboDistrict" ng-model="LocationItem.DistrictID" k-options="CATLocationEdit_win_cboDistrictOptions" v-form-require="true" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Xã phường </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboWard" ng-model="LocationItem.WardID" k-options="CATLocationEdit_win_cboWardOptions" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Vĩ độ </label>
+                                <div>
+                                    <input kendo-numeric-text-box="CATLocationEdit_win_numLat" ng-model="LocationItem.Lat" k-options="CATLocationEdit_win_numLatOptions" style="width:100%" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Kinh độ </label>
+                                <div>
+                                    <input kendo-numeric-text-box="CATLocationEdit_win_numLng" ng-model="LocationItem.Lng" k-options="CATLocationEdit_win_numLngOptions" style="width:100%" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>                                                    
+                            <div class="rowinput">
+                                <label>Ghi chú </label>
+                                <div>
+                                    <input type="text" class="k-textbox" maxlength="500" ng-model="LocationItem.Note" v-form-length="500" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="AddNewLocation_Accept($event,NewLocationWin,CATLocationEdit_win_vform)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Win_Close($event,NewLocationWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Service Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="400" k-max-height="650" k-height="300" kendo-window="timeline_service_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineService')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn dịch vụ
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="timeline_service_Grid" k-options="timeline_service_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="TimeLine_Service_OK_Click($event,timeline_service_Grid,timeline_service_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,timeline_service_win,'TimeLineService')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Customer Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="500" k-max-height="650" k-height="500" kendo-window="timeline_customer_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineCustomer')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn khách hàng
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="timeline_customer_Grid" k-options="timeline_customer_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="TimeLine_Customer_OK_Click($event,timeline_customer_Grid,timeline_customer_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,timeline_customer_win,'TimeLineCustomer')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Carrier Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="500" k-max-height="650" k-height="500" kendo-window="timeline_carrier_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineCarrier')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn hãng tàu
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="timeline_carrier_Grid" k-options="timeline_carrier_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="TimeLine_Carrier_OK_Click($event,timeline_carrier_Grid,timeline_carrier_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,timeline_carrier_win,'TimeLineCarrier')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Seaport Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="800" k-max-height="650" k-height="500" kendo-window="timeline_seaport_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineSeaport')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn cảng biển
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="timeline_seaport_Grid" k-options="timeline_seaport_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="TimeLine_Seaport_OK_Click($event,timeline_seaport_Grid,timeline_seaport_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,timeline_seaport_win,'TimeLineSeaport')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Vehicle Tooltip-->
+<div id="timeline_vehicle_tooltip" class="cus-window opacity90" style="width: 400px; height:165px; position: absolute; z-index: 999999; background: #ffffff; margin: 0; padding: 3px 10px; border-radius: 4px; border: 1px solid #bebebe; box-shadow: 5px -5px 5px #bebebe;" ng-style="TimeLineVehicleEventStyle">
+    <div style="width:100%;height:100%;position:relative;">
+        <div ng-show="!TimeLineVehicleEventItem.IsLoaded" style="position: absolute;z-index: 999999;background: #fff;width: 100%;height: 100%;">
+            <i class="fa fa-spinner fa-spin" style="font-size: 44px;color: #31b6fc;left: calc(50% - 22px);top: calc(50% - 22px);position: relative;"></i>
+        </div>
+        <div style="z-index: 999998;background: #fff;width: 100%;height: 100%;">
+            <div class="tooltip-row header-row">
+                <span class="tooltip-title">Thông tin đơn hàng</span>
+            </div>
+            <div class="tooltip-row" ng-show="TimeLineVehicleEventItem.Item.ListContainer.length<=1&&TimeLineVehicleEventItem.StatusOfTimeSheet<=2">
+                <div class="cell">
+                    <i class="fa fa-user"></i>
+                    <span class="text">Khách hàng:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].CustomerCode}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-file-o"></i>
+                    <span class="text">Đơn hàng:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].OrderCode}}</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row" ng-show="TimeLineVehicleEventItem.Item.ListContainer.length>1&&TimeLineVehicleEventItem.StatusOfTimeSheet<=2">
+                <div class="cell">
+                    <i class="fa fa-user"></i>
+                    <span class="text">Khách hàng 1:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].CustomerCode}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-file-o"></i>
+                    <span class="text">Đơn hàng 1:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].OrderCode}}</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row" ng-show="TimeLineVehicleEventItem.Item.ListContainer.length>1&&TimeLineVehicleEventItem.StatusOfTimeSheet<=2">
+                <div class="cell">
+                    <i class="fa fa-user"></i>
+                    <span class="text">Khách hàng 2:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[1].CustomerCode}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-file-o"></i>
+                    <span class="text">Đơn hàng 2:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[1].OrderCode}}</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <div class="cell">
+                    <i class="fa fa-calendar"></i>
+                    <span class="text">ETD:</span>
+                    <span class="value">{{ToDateStringDMY(TimeLineVehicleEventItem.Item.ListContainer[0].ETD)}}</span>
+                    <i class="fa fa-clock-o"></i>
+                    <span class="value">{{ToDateStringHM(TimeLineVehicleEventItem.Item.ListContainer[0].ETD)}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-calendar"></i>
+                    <span class="text">ETA:</span>
+                    <span class="value">{{ToDateStringDMY(TimeLineVehicleEventItem.Item.ListContainer[0].ETA)}}</span>
+                    <i class="fa fa-clock-o"></i>
+                    <span class="value">{{ToDateStringHM(TimeLineVehicleEventItem.Item.ListContainer[0].ETA)}}</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <div class="cell" ng-show="TimeLineVehicleEventItem.StatusOfTimeSheet<=2">
+                    <i class="fa fa-truck"></i>
+                    <span class="text">Dịch vụ:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].ServiceOfOrderName}}</span>
+                </div>
+                <div class="cell" ng-show="TimeLineVehicleEventItem.StatusOfTimeSheet > 2">
+                    <i class="fa fa-truck"></i>
+                    <span class="text">Vận chuyển:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].StatusOfContainerName}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-paper-plane"></i>
+                    <span class="text">Hành trình:</span>
+                    <span class="value" title="{{TimeLineVehicleEventItem.Item.ListContainer[0].LocationFromCode + " đến " + TimeLineVehicleEventItem.Item.ListContainer[0].LocationToCode}}">{{TimeLineVehicleEventItem.Item.ListContainer[0].LocationFromCode + " đến " + TimeLineVehicleEventItem.Item.ListContainer[0].LocationToCode}}</span>
+                </div>
+            </div>
+            <div class="tooltip-row header-row">
+                <span class="tooltip-title">Thông tin chuyến</span>
+            </div>
+            <div class="tooltip-row">
+                <div class="cell">
+                    <i class="fa fa-user"></i>
+                    <span class="text">Tài xế:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.DriverName}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-phone"></i>
+                    <span class="text">Điện thoại:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.DriverTel}}</span>
+                </div>
+            </div>
+            <div class="tooltip-row">
+                <div class="cell">
+                    <i class="fa fa-certificate"></i>
+                    <span class="text">Số xe</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.VehicleNo}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-certificate"></i>
+                    <span class="text">Số romooc:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.RomoocNo}}</span>
+                </div>
+            </div>
+            <div class="tooltip-row">
+                <div class="cell">
+                    <i class="fa fa-certificate"></i>
+                    <span class="text">Loại cont:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].TypeOfContainerName}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-certificate"></i>
+                    <span class="text">Trọng tải romooc:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.RomoocMaxWeight}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Vehicle Infinity Tooltip-->
+<div id="timeline_vehicle_infinity_tooltip" class="cus-window opacity90" style="width: 450px; height:150px; position: absolute; z-index: 999999; background: #ffffff; margin: 0; padding: 3px 10px; border-radius: 4px; border: 1px solid #bebebe; box-shadow: 5px -5px 5px #bebebe;" ng-style="TimeLineVehicleInfinityEventStyle">
+    <div style="width:100%;height:100%;position:relative;">
+        <div ng-show="!TimeLineVehicleInfinityEventItem.IsLoaded" style="position: absolute;z-index: 999999;background: #fff;width: 100%;height: 100%;">
+            <i class="fa fa-spinner fa-spin" style="font-size: 44px;color: #31b6fc;left: calc(50% - 22px);top: calc(50% - 22px);position: relative;"></i>
+        </div>
+        <div style="z-index: 999998;background: #fff;width: 100%;height: 100%;">
+            <div class="tooltip-row header-row">
+                <span class="tooltip-title">Thông tin đơn hàng</span>
+            </div>
+            <div class="tooltip-row">
+                <div class="floatcell">
+                    <i class="fa fa-file-o"></i>
+                    <span class="text">ĐH</span>
+                </div>
+                <div class="floatcell">
+                    <i class="fa fa-certificate"></i>
+                    <span class="text">L.cont</span>
+                </div>
+                <div class="floatcell">
+                    <i class="fa fa-calendar"></i>
+                    <span class="text">ETD</span>
+                </div>
+                <div class="floatcell">
+                    <i class="fa fa-calendar"></i>
+                    <span class="text">ETA</span>
+                </div>
+                <div class="floatcell" style="width:75px;">
+                    <i class="fa fa-paper-plane"></i>
+                    <span class="text">Điểm nhận</span>
+                </div>
+                <div class="floatcell" style="width:75px;">
+                    <i class="fa fa-paper-plane"></i>
+                    <span class="text">Điểm giao</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row" ng-repeat="item in TimeLineVehicleInfinityEventItem.Item.ListContainer | filter:{ID: TimeLineVehicleInfinityEventItem.ID}">
+                <div class="floatcell">
+                    <span class="value">{{item.OrderCode}}</span>
+                </div>
+                <div class="floatcell">
+                    <span class="value">{{item.TypeOfContainerName}}</span>
+                </div>
+                <div class="floatcell">
+                    <span class="value">{{ToDateStringDMHM(item.ETD)}}</span>
+                </div>
+                <div class="floatcell">
+                    <span class="value">{{ToDateStringDMHM(item.ETA)}}</span>
+                </div>
+                <div class="floatcell" style="width:75px;">
+                    <span class="value">{{item.LocationFromCode}}</span>
+                </div>
+                <div class="floatcell" style="width:75px;">
+                    <span class="value">{{item.LocationToCode}}</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Map info-->
+<div id="Map_Info_Win" kendo-window class="cus-window" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="false">
+    <div class="cus-form cus-map-info">
+        <div class="form-header">
+            <div ng-show="MarkerType=='route'" class="left title"><i style="vertical-align:middle" class="fa fa-2x fa-map-marker" aria-hidden="true"></i> {{MarkerItemBind.LocationName}}</div>
+            <div ng-show="MarkerType=='xe'" class="left title"><i style="vertical-align:middle" class="fa fa-2x fa-truck" aria-hidden="true"></i> {{MarkerItemBind.VehicleCode}}</div>
+            <div ng-show="MarkerType=='problem'" class="left title"><i style="vertical-align:middle" class="fa fa-2x fa-info-circle" aria-hidden="true"></i> {{MarkerItemBind.TypeOfRouteProblemName}}</div>
+            <div class="right button">
+                <a ng-click="CloseMapInfo($event)" class="k-button"><i class="fa fa-times" hide-area="true"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div class="map-route-info" ng-show="MarkerType=='xe'">
+                <div><strong>Số xe: </strong>{{MarkerItemBind.VehicleCode}}</div>
+                <div><strong>Trạng thái: </strong>{{MarkerItemBind.StatusName}}</div>
+                <div style="border-top:1px solid #cecece"><strong>Số Romooc: </strong>{{MarkerItemBind.Data.RomoocNo}}</div>
+                <div ng-show="MarkerItemBind.Data.HasContainer" style="border-top:1px solid #cecece"><strong>Số Container: </strong>{{MarkerItemBind.Data.ContainerNo}}</div>
+                <div ng-show="MarkerItemBind.Data.HasContainer"><strong>Loại Container: </strong>{{MarkerItemBind.Data.ContainerTypeName}}</div>
+                <div style="border-top:1px solid #cecece"><strong>Mã chuyến: </strong>{{MarkerItemBind.Data.MasterCode}}</div>
+            </div>
+            <div class="map-route-info" ng-show="MarkerType=='route'">
+                <div><strong>Chuyến: </strong>{{MarkerItemBind.MasterCode}}</div>
+                <div><strong>Địa chỉ: </strong>{{MarkerItemBind.LocationAddress}}</div>
+                <div><strong>Số xe: </strong>{{MarkerItemBind.RegNo}}</div>
+                <div><strong>Tài xế: </strong>{{MarkerItemBind.DriverName}}</div>
+                <div><strong>SĐT tài xế: </strong>{{MarkerItemBind.DriverTel}}</div>
+                <div><strong>Phụ xe: </strong>{{MarkerItemBind.AssitName}}</div>
+            </div>
+            <div class="map-route-info" ng-show="MarkerType=='problem'">
+                <div><strong>Tài xế: </strong>{{MarkerItemBind.DriverName}}</div>
+                <div><strong>Số xe: </strong>{{MarkerItemBind.RegNo}}</div>
+                <div><strong>Thời điểm: </strong>{{MarkerItemBind.DateStart | date:'HH:mm dd/MM/yyyy'}}</div>
+            </div>
+            <div class="map-route-info" ng-show="MarkerType=='vehicleTractor'">
+                <div><strong>Số đầu kéo: </strong>{{MarkerItemBind.RegNo}}</div>
+                <div><strong>Số romooc: </strong>{{MarkerItemBind.RomoocRegNo}}</div>
+                <div><strong>Trọng tải: </strong>{{MarkerItemBind.MaxWeight}}</div>
+                <div><strong>Tình trạng: </strong>{{MarkerItemBind.StatusName}}</div>
+                <div><strong>GPS Time: </strong>{{MarkerItemBind.GPSDate | date:'HH:mm dd/MM/yyyy'}}</div>
+                <div ng-repeat="obj in MarkerItemBind.ListOrder">
+                    <strong> - </strong>Khách hàng: <b>{{obj.CustomerCode}}</b>, Container: <b>{{obj.ContainerType}}</b> ,Trọng tải: <b>{{obj.Ton}}</b>
+                </div>
+            </div>
+            <div class="map-route-info" ng-show="MarkerType=='vehicleRomooc'">
+                <div><strong>Số romooc: </strong>{{MarkerItemBind.RegNo}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--StartOfferWin-->
+<div class="cus-window" draggable-k-window kendo-window="StartOfferWin" k-title="false" k-width="800" k-height="600" k-visible="false" k-resizable="false" k-modal="false">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách container</div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-tabstrip  class="cus-tabstrip" expand-k-tabstrip k-animation="false">
+                <ul>
+                    <li class="k-state-active">Các đơn xuất nhập</li>
+                    <li>Các đơn chuyển kho</li>
+                </ul>
+                <div>
+                    <div class="cus-grid" kendo-grid="OrderEXIMGrid" k-options="OrderEXIMGridOptions" expand-k-grid></div>
+                </div>
+                <div>
+                    <div class="cus-grid" kendo-grid="OrderLocalOfferGrid" k-options="OrderLocalOfferGridOptions" expand-k-grid></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="StartOfferData($event)" class="k-button">Đồng ý</a>
+                <a href="/" ng-click="Win_Close($event,StartOfferWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--COTODetailWin-->
+<div class="cus-window" draggable-k-window kendo-window="COTODetailWin" k-title="false" k-width="800" k-height="600" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chi tiết chặng</div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="OPSCOTODetail_grid" k-options="OPSCOTODetail_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="OPSCOTO_DetailAddOpen($event)" class="k-button">Thêm</a>
+                <a href="/" ng-click="Win_Close($event,COTODetailWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--COTOContainerWin-->
+<div class="cus-window" draggable-k-window kendo-window="COTOContainerWin" k-title="false" k-width="800" k-height="600" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn chặng</div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="OPSCOTOContainerNonParent_grid" k-options="OPSCOTOContainerNonParent_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="OPSCOTO_DetailAddAccept($event)" class="k-button">Đồng ý</a>
+                <a href="/" ng-click="Win_Close($event,COTOContainerWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Map Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="2500" k-width="900" k-max-height="900" k-height="500" kendo-window="timeline_map_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineMap')">
+    <div class="cus-form thin">
+        <div class="form-header">
+            <div class="left title">
+                Bản đồ
+            </div>
+            <div class="right">
+                <a href="/" class="k-button" ng-click="Close_Click($event,timeline_map_win,'TimeLineMap')"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="full">
+                <div id="map" class="cus-map"></div>
+                <div id="map_tooltip" class="cus-map-tooltip"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="MON_Map_tooltip" class="cus-map-tooltip"></div>
+
+<style>
+    .k-grid.cus-grid.over-grid .k-grid-content { padding-right: 17px; overflow-y: auto; }
+    .k-grid.cus-grid.over-grid .k-grid-header .k-grid-header-wrap { padding-right: 17px; }
+        .k-grid.cus-grid.over-grid .k-grid-header .k-grid-header-wrap .grid-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager { border-bottom: 1px solid #435f6e; padding-left: calc(100% - 180px); background-color: #435f6e !important; overflow: hidden; width: 180px; display: block; }
+        .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager a { color: #fff; background-color: #fff; }
+        .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .grid-title { position: absolute; left: 12px; font-weight: bold; color: #ffffff; background: #435f6e; }
+        .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-info { background-color: #435f6e; position: absolute; right: 180px; color: #fff; }
+        .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-input { background-color: #c6ced3; border-radius: 20px; display: block; height: 26px; line-height: 26px; padding-left: 0; width: 46px; text-align: center; }
+            .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-input .k-textbox { background-color: #c6ced3; border-radius: 20px; text-align: right; margin: 0; padding: 0; position: relative; top: -1px; width: 26px; pointer-events: none; -webkit-pointer-events: none; -moz-pointer-events: none; -o-pointer-events: none; }
+        .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-numbers li { background-color: #435f6e; }
+            .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-numbers li.k-current-page { display: inherit; }
+            .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-numbers li:not(.k-current-page) { display: none; }
+        .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-numbers, .k-grid.cus-grid.over-grid .k-grid-pager.k-pager-wrap .k-pager-numbers .k-state-ed, .k-grid.cus-grid.over-grid .k-grid-pager.k-pager-wrap .k-pager-numbers .k-pager-nav { background-color: #fff; color: #000; border-color: #fff; }
+
+
+    .k-grid.cus-grid.over-grid .k-grid-content tbody > tr > td { height: 38px; }
+    .k-grid.cus-grid.over-grid .k-grid-content tbody > tr.k-state-ed:not(.k-grouping-row) > td { height: 37px; }
+    .k-grid.cus-grid.over-grid .k-grid-content tbody > tr:not(.k-grouping-row):hover > td { height: 37px; }
+    .k-grid.cus-grid.over-grid .k-grid-content tbody > tr.k-state-selected > td { height: 37px; }
+
+    .k-grid.cus-grid.over-grid .k-grid-header table thead tr:not(.k-filter-row) th { font-weight: bold; }
+        .k-grid.cus-grid.over-grid .k-grid-header table thead tr:not(.k-filter-row) th:first-child { border-left: none; }
+    .k-grid.cus-grid.over-grid .k-grid-header table thead tr:not(.k-filter-row) { background-color: #e4e4e4; }
+        .k-grid.cus-grid.over-grid .k-grid-header table thead tr:not(.k-filter-row):hover { background-color: #e4e4e4; }
+
+    .cus-form .form-header .right div .btn-tick { border: 1px solid #435f6e; width: 15px; height: 15px; display: inline-block; text-align: center; margin: 0 3px; line-height: 15px; border-radius: 50%; font-size: 10px; background-color: #ffffff; font-weight: bold; color: #435f6e; text-decoration: none; }
+        .cus-form .form-header .right div .btn-tick.active { border: 1px solid #31b6fc; background-color: #31b6fc; color: #ffffff; }
+
+    .cus-form.thin .form-header .k-button.text-button, .cus-form.thin .form-header .k-button.text-button:active { border: 2px solid #435f6e; border-radius: 6px; background: #5FC782; color: #fff; font-size: 13px; font-weight: bold; padding: 1px 5px; line-height: 26px; }
+        .cus-form.thin .form-header .k-button.text-button:hover { color: #fff; opacity: 0.9; }
+
+
+    .tooltip-row { position: relative; line-height: 20px; height: 20px; margin: 0; overflow: hidden; }
+        .tooltip-row.header-row { color: #2CB5FC; font-weight: bold; }
+            .tooltip-row.header-row .tooltip-title { position: absolute; padding: 0; margin: 0; z-index: 999; display: inline-block; background: #ffffff; }
+            .tooltip-row.header-row:after { content: ""; position: absolute; top: 50%; left: 0; right: 0; border-top: solid 1px #2CB5FC; z-index: 1; }
+        .tooltip-row .cell { position: absolute; z-index: 990; background: #fff; }
+            .tooltip-row .cell.right { margin-left: 180px; padding-left: 5px; z-index: 999; overflow: hidden; text-overflow: ellipsis; }
+            .tooltip-row .cell .text { color: #2CB5FC; font-weight: bold; }
+        .tooltip-row .img { width: 40px; height: 14px; position: relative; top: 3px; background-repeat: no-repeat; background-size: cover; }
+        .tooltip-row .desc { padding-left: 10px; }
+        .tooltip-row .cell i.fa { color: #2CB5FC; }
+        .tooltip-row .floatcell { float: left; z-index: 990; background: #fff; width: 65px; overflow: hidden; margin: 0 3px; text-align: left; }
+            .tooltip-row .floatcell i.fa { color: #2CB5FC; font-weight: bold; }
+            .tooltip-row .floatcell .text { color: #dfa412; }
+            .tooltip-row .floatcell .value { color: #5e6163; overflow: hidden; text-overflow: ellipsis; }
+
+    #timeline_vehicle_tooltip:after, #timeline_vehicle_infinity_tooltip:after { content: ''; position: absolute; top: calc(100% + 0px); left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: rgb(190, 190, 190) transparent transparent transparent; }
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content { overflow: scroll !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content .k-scheduler-table tbody tr { height: 39px !important; background: #fff; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content .k-scheduler-table tbody tr td.container-time { background: rgb(190, 218, 231); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-times .k-scheduler-table { display: none !important; }
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar { margin: 0; padding: 0; height: 35px; background-color: #435f6e !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form { height: 34px; padding: 0; margin: 0; border-bottom: #435f6e solid 1px; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header .k-button.active { color: #31B6FC; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header { top: 0; height: 34px; border: none; background-color: #435f6e; padding-top: 2px; }
+                .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header > div a.k-button > .tooltip:not(.is-right) { left: -30px; }
+                .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header > div a.k-button > .tooltip.is-left { left: 0; }
+                    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header > div a.k-button > .tooltip.is-left:after { left: 15px; }
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-header { background: #f1f1f1; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-times .k-scheduler-table tr:first-child,
+        .k-scheduler.cus-scheduler.info-scheduler .k-scheduler-times .k-scheduler-table tr:first-child,
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-header .k-scheduler-header-wrap .k-scheduler-table tr:first-child,
+        .k-scheduler.cus-scheduler.info-scheduler .k-scheduler-header .k-scheduler-header-wrap .k-scheduler-table tr:first-child { background-color: #e4e4e4; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-header .k-scheduler-header-wrap .k-scheduler-table tr th.k-slot-cell strong[data-dayofweek="0"],
+        .k-scheduler.cus-scheduler.info-scheduler .k-scheduler-header .k-scheduler-header-wrap .k-scheduler-table tr th.k-slot-cell strong[data-dayofweek="0"] { color: #E9283C; }
+
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .k-resize-handle { top: 2px; width: 5px; background-color: red; height: 16px; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event { background: none; color: #f0f0f0; font-weight: bold; top: 0px; height: 20px; line-height: 16px; margin: 9px 0; border: none; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.k-event-drag-hint { background: none; top: 0px; height: 20px !important; line-height: 16px !important; margin: 9px 0; border: none; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event { width: calc(100% - 0px) !important; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-content { display: inline-block; cursor: pointer; position: absolute; top: 2px; left: 5px; z-index: 9; line-height: 16px; white-space: nowrap; overflow: hidden; font-size: 11px; color: #000; }
+                .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-content[data-newevent="true"] { color: red; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg { cursor: pointer; position: absolute; line-height: 20px; white-space: nowrap; overflow: hidden; top: 2px; left: 0; z-index: 2; width: calc(100% - 0px); height: calc(100% - 4px); }
+
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event1 .event-bkg.bkg1 { background-image: url(Images/ops_co/approved/laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event1 .event-bkg.bkg2 { background-image: url(Images/ops_co/approved/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event11 .event-bkg.bkg1 { background-image: url(Images/ops_co/tenderable/laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event11 .event-bkg.bkg2 { background-image: url(Images/ops_co/tenderable/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event2 .event-bkg.bkg1 { background-image: url(Images/ops_co/tendered/laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event2 .event-bkg.bkg2 { background-image: url(Images/ops_co/tendered/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event3 .event-bkg.bkg1 { background-image: url(Images/ops_co/recieved/laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event3 .event-bkg.bkg2 { background-image: url(Images/ops_co/recieved/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event-1 .event-bkg.bkg1 { background-image: url(Images/ops_co/undefined/laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event-1 .event-bkg.bkg2 { background-image: url(Images/ops_co/undefined/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.bkg3, div.k-event .cus-event .event-bkg.bkg3 { background-image: url(Images/ops_co/ico_load.png); background-repeat: no-repeat; background-size: 100% 100%; opacity: 0.5; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.bkg4, div.k-event .cus-event .event-bkg.bkg4 { background-image: url(Images/ops_co/ico_load.png); background-repeat: no-repeat; background-size: 100% 100%; opacity: 0.5; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.bkg5, div.k-event .cus-event .event-bkg.bkg5 { background-image: url(Images/ops_co/ico_load.png); background-repeat: no-repeat; background-size: 100% 100%; opacity: 0.5; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.bkg6, div.k-event .cus-event .event-bkg.bkg6 { background-image: url(Images/ops_co/ico_load.png); background-repeat: no-repeat; background-size: 100% 100%; opacity: 0.5; }
+
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg[data-double-container="true"], div.k-event .cus-event .event-bkg[data-double-container="true"] { background-size: contain; background-repeat: repeat-x; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event .event-bkg.double3[data-double-container="true"] { border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; background-position-y: -1px; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event .event-bkg.double1[data-double-container="true"] { border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event1 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/approved/2x_empty.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event1 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/approved/2x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event1 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/approved/1x_empty_1x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event11 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/tenderable/2x_empty.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event11 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/tenderable/2x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event11 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/tenderable/1x_empty_1x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event2 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/tendered/2x_empty.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event2 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/tendered/2x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event2 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/tendered/1x_empty_1x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event3 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/recieved/2x_empty.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event3 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/recieved/2x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event3 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/recieved/1x_empty_1x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event-1 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/undefined/2x_empty.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event-1 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/undefined/2x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event-1 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/undefined/1x_empty_1x_laden.png); }
+
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-image { cursor: pointer; position: absolute; width: calc(100% - 2px); background-image: url(Images/bgline3.png); height: calc(100% - 6px); top: 3px; z-index: 3; opacity: 0.9; background-position-y: 1px; }
+
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border { position: absolute; height: 21px; top: 2px; left: 0; z-index: 1; opacity: 0.2; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border > div { position: relative; top: 0; left: 0; width: 100%; height: 100%; background-image: url(Images/ops_co/event_bottom.png); background-repeat: repeat-x; background-position-y: 100%; }
+                .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border > div .pleft { position: absolute; left: 0; width: 10px; height: 100%; background-image: url(Images/ops_co/event_left.png); background-repeat: no-repeat; background-position-y: 100%; }
+                .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border > div .pright { position: absolute; right: 0; width: 10px; height: 100%; background-image: url(Images/ops_co/event_right.png); background-repeat: no-repeat; background-position: 100% 100%; }
+                .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border > div .pmid { position: absolute; height: 3px; right: 0; background-image: url(Images/ops_co/event_middle.png); background-repeat: repeat-x; top: 7px; }
+
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon { display: inline-block; right: 5px; height: 100%; z-index: 7; position: absolute; text-align: right; overflow: hidden; cursor: pointer; opacity: 0.5; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon .event-infinity { position: relative; float: right; width: 21px; height: 10px; top: 5px; z-index: 7; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon .event-doubleco { position: relative; float: right; width: 22px; height: 13px; top: 3px; z-index: 7; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon .event-rstation { position: relative; float: right; width: 10px; height: 13px; top: 4px; z-index: 7; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon .event-romempty { position: relative; float: right; width: 22px; height: 13px; top: 3px; z-index: 7; }
+
+
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.approved .event-bkg, div.k-event .cus-event.event1 .event-bkg { background: #E5493A; border-color: #E5493A; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.tendered .event-bkg, div.k-event .cus-event.event2 .event-bkg { background: #4BADE8; border-color: #4BADE8; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.tenderable .event-bkg, div.k-event .cus-event.event11 .event-bkg { background: #FFBF01; border-color: #FFBF01; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.recieved .event-bkg, div.k-event .cus-event.event3 .event-bkg { background: #63BA3C; border-color: #63BA3C; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.undefined .event-bkg, div.k-event .cus-event.event-1 .event-bkg { background: #5e6163; border-color: #5e6163; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.maintainance .event-bkg { background: lightgreen; border-color: lightgreen; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.registry .event-bkg { background: green; border-color: green; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.repair .event-bkg { background: darkgreen; border-color: darkgreen; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.empty .event-bkg { background: #BBB138; border-color: #BBB138; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.con-planning .event-bkg { background: #FF6C87; border-color: #FF6C87; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.con-tranfers .event-bkg { background: #f4b35d; border-color: #f4b35d; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.con-revieved .event-bkg { background: #4B9139; border-color: #4B9139; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .tendered .event-bkg { background: #ff2438; border-color: #ff2438; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .recieved .event-bkg { background: #4B9139; border-color: #4B9139; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .delivery .event-bkg { background: #F28126; border-color: #F28126; }
+
+
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr > td { font-size: 11px; height: 24px; padding: 0px 5px 0px 5px; border-top: #fff solid 1px; }
+        .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr > td a.text { font-size: 11px; }
+        .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr > td a { font-size: 11px; }
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr.k-state-ed td { height: 24px; }
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr:not(.k-grouping-row):hover td { height: 24px; }
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr.IsChoose td { height: 24px; }
+
+    .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event { margin: 2px 0; }
+    .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content .k-scheduler-table tbody tr { height: 24px !important; }
+        .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content .k-scheduler-table tbody tr td { height: 23px; padding: 1px 0.5em; font-size: 100%; margin: 0; }
+    .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event { background: none; color: #f0f0f0; font-weight: bold; top: 0px; height: 20px; line-height: 16px; margin: 2px 0; border: none; }
+        .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.k-event-drag-hint { background: none; top: 0px; height: 20px !important; line-height: 16px !important; margin: 2px 0; border: none; }
+</style>

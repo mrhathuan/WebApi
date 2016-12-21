@@ -1,0 +1,110 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="FLMWOTranfer_SaveClick($event)" class="k-button"><i class="fa fa-floppy-o"></i><span class="tooltip">Cập nhật</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-splitter" kendo-splitter="FLMWOTranfer_splitter" k-options="FLMWOTranfer_splitter_Options" expand-k-splitter>
+            <div>
+                <div class="cus-form">
+                    <div class="form-header">
+                        <div class="left title">
+                            <span>Phiếu điều chuyển: </span>
+                            <span ng-show="!isNew"> Mã phiếu: {{Item.Code}}</span>
+                            <span>- Từ: {{Item.LocationFrom}}</span>
+                            <span>- Đến: {{Item.LocationTo}}</span>
+                        </div>
+                        <div class="right button">
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-content-150">
+                            <div class="rowinput" >
+                                <label>Điều chuyển từ <span class="required">*</span></label>
+                                <div>
+                                    <input type="radio" ng-disabled="!isNew" ng-model="isVehicle" ng-change="FLMWOTranfer_changeType($event,1)" ng-value="1" />
+                                    <span>
+                                        Xe
+                                    </span>
+                                    <input class="cus-combobox" focus-k-combobox ng-model="Item.VehicleID" id="cboFLMVehicle" kendo-combo-box="cboFLMVehicle" k-options="cboFLMVehicle_Options" style="width: 200px" />
+
+                                    <input type="radio" ng-disabled="!isNew" ng-model="isVehicle" ng-change="FLMWOTranfer_changeType($event,2)" ng-value="2" />
+                                    <span>
+                                        Kho
+                                    </span>
+                                    <input class="cus-combobox" focus-k-combobox ng-model="Item.StockID" id="cboFLMStock" kendo-combo-box="cboFLMStock" k-options="cboFLMStock_Options" style="width: 200px" />
+                                </div>
+                            </div>
+                            <div class="rowinput" >
+                                <label>Điều chuyến đến <span class="required">*</span></label>
+                                <div>
+                                    <input type="radio" ng-disabled="!isNew" ng-model="isVehicleTo" ng-change="FLMWOTranfer_changeTypeTo($event,1)" ng-value="1" />
+                                    <span>
+                                        Xe
+                                    </span>
+                                    <input class="cus-combobox" focus-k-combobox ng-model="Item.VehicleToID" id="cboFLMVehicleTo" kendo-combo-box="cboFLMVehicle" k-options="cboFLMVehicleTo_Options" style="width: 200px" />
+
+                                    <input type="radio" ng-disabled="!isNew" ng-model="isVehicleTo" ng-change="FLMWOTranfer_changeTypeTo($event,2)" ng-value="2" />
+                                    <span>
+                                        Kho
+                                    </span>
+                                    <input class="cus-combobox" focus-k-combobox ng-model="Item.StockToID" id="cboFLMStockTo" kendo-combo-box="cboFLMStock" k-options="cboFLMStockTo_Options" style="width: 200px" />
+                                </div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Ngày cấp phiếu <span class="required">*</span></label>
+                                <div>
+                                    <input class="cus-datepicker" focus-k-datepicker k-ng-model="Item.DateReceipt" kendo-date-picker k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" style="width:50%;float:left">
+                                <label>Số hóa đơn </label>
+                                <div>
+                                    <input type="text" class="k-textbox" ng-model="Item.InvoiceNo" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" style="width:50%;float:right">
+                                <label>Ngày hóa đơn </label>
+                                <div>
+                                    <input class="cus-datepicker" focus-k-datepicker k-ng-model="Item.InvoiceDate" kendo-date-picker k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="rowinput">
+                                <label>Ghi chú </label>
+                                <div>
+                                    <textarea rows="3" style="width:calc(100% - 7px)" ng-model="Item.Note"></textarea>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="cus-form">
+                    <div class="form-header">
+                        <div class="left title">Danh sách thiết bị</div>
+                        <div class="right button"></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-body">
+                        <div class="cus-grid" id="FLMWOTranfer_Grid" kendo-grid="FLMWOTranfer_Grid" expand-k-grid k-options="FLMWOTranfer_GridOptions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

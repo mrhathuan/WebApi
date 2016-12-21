@@ -1,0 +1,49 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span>{{GroupItem.GroupName}}</span></li>
+            </ul>
+           
+        </div>
+        <div class="right">
+            <a ng-show="IsAdd" href="/" ng-click="Add_Click($event,sysconfig_functionnotin)" class="k-button"><span class="tooltip">Thêm</span><i class="fa fa-plus"></i></a>
+            <a ng-show="IsDel" href="/" ng-click="Del_Click($event,sysconfig_functionin)" class="k-button"><span class="tooltip">Xóa</span><i class="fa fa-trash"></i></a>
+            <a href="/" ng-click="Close_Click($event)" class="k-button" ><span class="tooltip">Quay lại</span><i class="fa fa-undo"></i></a>
+            <a href="/" ng-mouseover="ShowSetting($event,sysconfig_functionin)" ng-mouseleave="HideSetting($event)" class="k-button" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-splitter" kendo-splitter k-options="sysconfig_paneOptions" expand-k-grid>
+            <div>
+                <div class="cus-tree" kendo-tree-list="sysconfig_functionin" expand-k-grid k-options="sysconfig_functioninOptions"></div>
+            </div>
+            <div>
+                <div class="cus-tree" kendo-tree-list="sysconfig_functionnotin" expand-k-grid k-options="sysconfig_functionnotinOptions"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="sysconfig_win" k-title="false" k-width="600" k-height="450" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chi tiết
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="sysconfig_win_grid" expand-k-grid k-options="sysconfig_win_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Save_Click($event,sysconfig_win,sysconfig_win_grid)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="WinClose_Click($event,sysconfig_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

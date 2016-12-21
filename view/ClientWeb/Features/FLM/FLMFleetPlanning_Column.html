@@ -1,0 +1,82 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <span>Từ ngày</span>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateFrom" style="width:120px" />
+            <span>Đền ngày</span>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateTo" style="width:120px" />
+            <a href="/" ng-click="SearchData($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-click="ShowSetting($event,FLMFLeetPlanning_Column_Grid)" ng-mouseenter="ShowSetting($event,FLMFLeetPlanning_Column_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="FLMFLeetPlanning_Column_Grid" expand-k-grid ></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Detail_Win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin kế hoạch Xe: {{Item.VehicleNo}} - Ngày: {{Item.PlanningDate|date:"dd/MM/yyyy"}} - Ca: {{Item.ShiftName}}</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150" v-form="FLMFLeetPlanning_Column_vform">
+                <div class="rowinput" style="width:50%;float:left">
+                    <label>Tài xế 1</label>
+                    <div>
+                        <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="FLMDriverAll_List_CBbOoptions" k-ng-model="Item.DriverID1" />
+                    </div>
+                </div>
+                <div class="rowinput" style="width:50%;float:right">
+                    <label>Loại tài xế 1</label>
+                    <div>
+                        <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="TypeOfDriver_List_CBbOoptions" k-ng-model="Item.TypeOfDriverID1" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="rowinput" style="width:50%;float:left">
+                    <label>Tài xế 2</label>
+                    <div>
+                        <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="FLMDriverAll_List_CBbOoptions" k-ng-model="Item.DriverID2" />
+                    </div>
+                </div>
+                <div class="rowinput" style="width:50%;float:right">
+                    <label>Loại tài xế 2</label>
+                    <div>
+                        <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="TypeOfDriver_List_CBbOoptions" k-ng-model="Item.TypeOfDriverID2" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="rowinput" style="width:50%;float:left">
+                    <label>Tài xế 3</label>
+                    <div>
+                        <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="FLMDriverAll_List_CBbOoptions" k-ng-model="Item.DriverID3" />
+                    </div>
+                </div>
+                <div class="rowinput" style="width:50%;float:right">
+                    <label>Loại tài xế 3</label>
+                    <div>
+                        <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="TypeOfDriver_List_CBbOoptions" k-ng-model="Item.TypeOfDriverID3" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="FLMFLeetPlanning_Column_Save_Click($event,Detail_Win,FLMFLeetPlanning_Column_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-show="Item.ID>0" ng-click="FLMFLeetPlanning_Column_Delete_Click($event)" class="k-button accept">Xóa</a>
+                <a href="/" ng-click="Win_Close($event,Detail_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

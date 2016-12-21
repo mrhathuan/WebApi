@@ -1,0 +1,244 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">
+            <span>Phiếu sữa chữa: </span>
+            <span ng-show="!isNew"> Mã phiếu: {{Item.Code}}</span>
+        </div>
+        <div class="right">
+            <a href="/" ng-show="!Item.IsLarge && IDRepair>0 && !Item.IsApproved" ng-click="RepairChangeToLarge_Click($event)" class="k-button"><i class="fa fa-pause-circle"></i><span class="tooltip">Tính khấu hao</span></a>
+            <a href="/" ng-show="Item.IsLarge && IDRepair>0 && !Item.IsApproved" ng-click="RepairChangeToSmall_Click($event)" class="k-button"><i class="fa fa-pause-circle-o"></i><span class="tooltip">Không tính khấu hao</span></a>
+            <a href="/" ng-show="!Item.IsApproved" ng-click="FLMWORepairLarge_SaveClick($event,Vehicle_Grid)" class="k-button"><i class="fa fa-floppy-o"></i><span class="tooltip">Cập nhật</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-splitter" kendo-splitter="FLMWORepairLarge_splitter" k-options="FLMWORepairLarge_splitter_Options" expand-k-splitter>
+            <div>
+                <div class="cus-form">
+                    <div class="form-body">
+                        <div class="form-content-150">
+                            <div class="rowinput" style="width:50%;float:left">
+                                <label>Nhà cung cấp </label>
+                                <div>
+                                    <input class="cus-combobox" kendo-combo-box k-ng-model="Item.SupplierID" k-options="numSupplier_Options" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" style="width:50%;float:right">
+                                <label>Ngày cấp phiếu <span class="required">*</span></label>
+                                <div>
+                                    <input class="cus-datepicker" focus-k-datepicker k-ng-model="Item.DateReceipt" kendo-date-picker k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="rowinput" style="width:50%;float:left">
+                                <label>Số hóa đơn </label>
+                                <div>
+                                    <input type="text" class="k-textbox" ng-model="Item.InvoiceNo" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" style="width:50%;float:right">
+                                <label>Ngày hóa đơn </label>
+                                <div>
+                                    <input class="cus-datepicker" focus-k-datepicker k-ng-model="Item.InvoiceDate" kendo-date-picker k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="rowinput" ng-show="Item.IsLarge" style="width:50%;float:left">
+                                <label>T/g bắt đầu tính khấu hao </label>
+                                <div>
+                                    <input class="cus-datepicker" focus-k-datepicker k-ng-model="Item.DepreciationStart" kendo-date-picker k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" ng-show="Item.IsLarge" style="width:50%;float:right">
+                                <label>T/g khấu hao </label>
+                                <div>
+                                    <table style="width:100%;">
+                                        <tr style="width:100%;">
+                                            <td style="width:60%;">
+                                                <input class="cus-number" kendo-numeric-text-box ng-model="Item.DepreciationPeriod" style="width: 100%;" k-options="numQuantity_options" />
+                                                <div class="clear"></div>
+                                            </td>
+                                            <td style="width:40%;">
+                                                <a href="/" ng-click="depreciation_win_Click($event,depreciation_win)" style="width:100%" class="k-button accept">Xem khấu hao</a>
+                                                <div class="clear"></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="rowinput" ng-show="Item.IsLarge" style="width:50%;float:right">
+                                <label>C.Thức tính khấu hao mỗi ngày </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboExprDay_options" ng-model="Item.ExprDay" style="width:100%" />
+                                </div>
+                                
+                                <div class="clear"></div>
+                            </div>
+                            
+                            <div class="rowinput" ng-show="Item.IsLarge" style="width:50%;float:right">
+                                <label>C.Thức xét khấu hao </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboExprInputDay_options" ng-model="Item.ExprInputDay" style="width:100%" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="rowinput">
+                                <label>Ghi chú </label>
+                                <div>
+                                    <textarea rows="3" style="width:calc(100% - 7px)" ng-model="Item.Note"></textarea>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="cus-form">
+                    <div class="form-header">
+                        <div class="left title">Danh sách xe</div>
+                        <div class="right button">
+                            <a href="/" ng-show="!IsDepre && !Item.IsApproved" ng-click="FLMWORepairLarge_AddVehicleClick($event,Vehicle_Grid)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới xe</span></a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-body">
+                        <div class="cus-grid" id="Vehicle_Grid" kendo-grid="Vehicle_Grid" expand-k-grid k-options="Vehicle_GridOptions">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="RepairLarge_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thiết lập vật tư</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-splitter" id="RepairLarge_win_splitter" kendo-splitter="RepairLarge_win_splitter" k-options="RepairLarge_win_splitter_Options" expand-k-splitter>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left title">Danh sách vật tư</div>
+                            <div class="right">
+                                <a href="/" ng-show="!IsDepre && !Item.IsApproved" ng-click="RepairLarge_AddMaterialClick($event,material_Grid)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới vật tư</span></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" id="material_Grid" kendo-grid="material_Grid" expand-k-grid k-options="material_GridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left title">Danh sách chi phí</div>
+                            <div class="right">
+                                <a href="/" ng-show="!IsDepre && !Item.IsApproved" ng-click="RepairLarge_AddCostClick($event,cost_Grid)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới giá</span></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" id="cost_Grid" kendo-grid="cost_Grid" expand-k-grid k-options="cost_GridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="!IsDepre && !Item.IsApproved" ng-click="RepairLarge_win_Save_Click($event,RepairLarge_win,material_Grid,cost_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,RepairLarge_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="depreciation_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Khấu hao</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="depreciation_Grid" expand-k-grid k-options="depreciation_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="!Item.IsApproved" ng-click="FixedCost_Save($event,depreciation_Grid,depreciation_win)" class="k-button accept">lưu</a>
+                <a href="/" ng-show="!Item.IsApproved" ng-click="FixedCost_Delete($event,depreciation_Grid,depreciation_win)" class="k-button">Xóa</a>
+                <a href="/" ng-show="!Item.IsApproved" ng-click="FixedCost_Generate($event,depreciation_Grid)" class="k-button close">Tạm tính</a>
+                <a href="/" ng-click="window_Close_Click($event,depreciation_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="ExprDayNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chi tiết</div>
+            <div class="right"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Giá trị [Value]</label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="Value_options" k-ng-model="ExprDay.value" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tổng ngày [TotalDay]</label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="TotalDay_options" k-ng-model="ExprDay.TotalDay" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tổng KM [TotalKM]</label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="TotalKM_options" k-ng-model="ExprDay.TotalKM" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>KM chuyến [KM]</label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="KM_options" k-ng-model="ExprDay.KM" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Công thức</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="ExprDay.Exp" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="form-footer">
+                <div>
+                    <a href="/" ng-click="ExprDay_CheckClick($event,ExprDayNotIn_win)" class="k-button">Kiểm tra</a>
+                    <a href="/" ng-click="ExprDay_SaveClick($event,ExprDayNotIn_win)" class="k-button accept">Lưu</a>
+                    <a href="/" ng-click="window_Close_Click($event,ExprDayNotIn_win)" class="k-button close">Đóng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="SettingGrid_Click($event,wincustom,PODCheck_grid)" class="k-button" data-title="Hiển thị"><i class="fa fa-cog"></i><span class="tooltip">Hiển thị</span></a>
+            <label>Sản phẩm kèm theo<input type="checkbox" ng-model="ItemSearch.IsReturn" /></label>
+            <label>KH</label>
+            <input kendo-multi-select focus-k-select k-options="mts_CustomerOptions" k-ng-model="ItemSearch.ListCustomerID" style="width: 150px;" />
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="PODCheck_SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-click="PODInput_SaveAllClick($event)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu thay đổi</span></a>
+            <!--<a href="/" ng-click="ShowSetting($event,PODCheck_grid)" ng-mouseenter="ShowSetting($event,PODCheck_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>-->
+            <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="PODCheck_grid" expand-k-grid="InputCheck_PODCheck_grid" k-options="PODCheck_gridOptions"></div>
+    </div>
+</div>
+
+
+<style>
+    .k-grid .k-grid-content tbody > tr > td a .hasupload {
+        color: red;
+    }
+</style>

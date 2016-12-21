@@ -1,0 +1,55 @@
+﻿<script id="CATTypeOfPriceCOEx_grid_toolbar" type="text/x-kendo-template">
+    <div class="gridtoolbar">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="CATTypeOfPriceCOExAddNew_Click($event,CATTypeOfPriceCOEx_win,CATTypeOfPriceCOEx_win_form)" class="k-button" data-title="Thêm mới"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+</script>
+<div class="cus-grid" kendo-grid="CATTypeOfPriceCOEx_grid" expand-k-grid="CATTypeOfPriceCOEx_grid" k-options="CATTypeOfPriceCOEx_gridOptions"></div>
+
+<!--popup-->
+<div class="cus-window" draggable-k-window kendo-window="CATTypeOfPriceCOEx_win" k-title="false" k-width="500" k-height="250" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Phụ thu Cont
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="CATTypeOfPriceCOEx_win_form">
+                    <div class="rowinput">
+                        <label>Mã <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.Code" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.TypeName" v-form-require="true" v-form-length="500" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CATTypeOfPriceCOEx_win_SaveClick($event,CATTypeOfPriceCOEx_win,CATTypeOfPriceCOEx_win_form)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="CATTypeOfPriceCOEx_win_CloseClick($event,CATTypeOfPriceCOEx_win)" class="k-button close" data-title="Đóng">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>

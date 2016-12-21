@@ -1,0 +1,168 @@
+﻿<script type="text/x-kendo-tmpl" id="sysuser_gridToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb">
+                    <a ng-show="item.IsLink" ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a>
+                    <span ng-show="!item.IsLink">{{item.FunctionName}}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="Excel_Click($event,sysuser_grid)" class="k-button" data-title="Excel"><span class="tooltip">Excel</span><i class="fa fa-file-excel-o"></i></a>
+            <a href="/" ng-click="Add_Click($event,sysuser_win,sysuser_win_vform)" class="k-button" data-title="Thêm mới"><span class="tooltip">Thêm mới</span><i class="fa fa-plus"></i></a>
+            <a href="/" ng-show="HasChoose" ng-click="Del_Click($event,sysuser_grid)" class="k-button" data-title="Xóa"><span class="tooltip">Xóa</span><i class="fa fa-trash"></i></a>
+            <a href="/" ng-mouseover="ShowSetting($event,sysuser_grid)" ng-mouseleave="HideSetting($event)" class="k-button" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<div class="cus-grid" kendo-grid="sysuser_grid" expand-k-grid k-options="sysuser_gridOptions"></div>
+
+<div class="cus-window" draggable-k-window kendo-window="sysuser_win" k-title="false" k-width="600" k-height="550" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Người dùng: {{Item.UserName}}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" scrolldiv>
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip k-content-urls="[null, null]" k-options="sysuser_win_tabOptions">
+                <ul>
+                    <li class="k-state-active">Thông tin</li>
+                    <li>Danh sách khách hàng</li>
+                </ul>
+
+                <div>
+                    <form action="/" method="post" ng-submit="Save_Click($event,sysuser_win,sysuser_grid,sysuser_win_vform)">
+                        <div class="SYSUser_Form" v-form="sysuser_win_vform">
+                            <div class="SYSUser_Top">
+                                <div class="SYSUser_Left"><a href="/" ng-click="Image_Click($event)"><img alt="" ng-src="/{{Item.Image}}" /></a></div>
+                                <div class="SYSUser_Right">
+                                    <div class="form-content-70">
+                                        <div class="rowinput">
+                                            <label>Tài khoản <span class="required" ng-show="Item.ID<=0">*</span></label>
+                                            <div>
+                                                <input type="text" class="k-textbox" ng-model="Item.UserName" ng-readonly="Item.ID>0" v-form-require="true" v-form-length="50" />
+                                            </div>
+                                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="rowinput">
+                                            <label>Họ <span class="required">*</span></label>
+                                            <div>
+                                                <input type="text" class="k-textbox" ng-model="Item.LastName" v-form-require="true" v-form-length="50" />
+                                            </div>
+                                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="rowinput">
+                                            <label>Tên <span class="required">*</span></label>
+                                            <div>
+                                                <input type="text" class="k-textbox" ng-model="Item.FirstName" v-form-require="true" v-form-length="50" />
+                                            </div>
+                                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="rowinput">
+                                            <label>Email <span class="required" ng-show="Item.ID<=0">*</span></label>
+                                            <div>
+                                                <input type="text" class="k-textbox" maxlength="50" ng-model="Item.Email" ng-readonly="Item.ID>0" v-form-require="true" v-form-length="200" v-form-email="true" />
+                                            </div>
+                                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="SYSUser_Bot" style="margin-top:13px;">
+                                <div class="form-content-150">
+                                    <div class="rowinput">
+                                        <label>Số điện thoại</label>
+                                        <div>
+                                            <input type="text" class="k-textbox" ng-model="Item.TelNo" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Mật khẩu <span class="required" ng-show="Item.ID<=0">*</span></label>
+                                        <div>
+                                            <input type="password" class="k-textbox" maxlength="50" ng-model="Item.Password" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Nhập lại mật khẩu <span class="required" ng-show="Item.ID<=0">*</span></label>
+                                        <div>
+                                            <input type="password" class="k-textbox" maxlength="50" ng-model="Item.RePassword" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Vai trò</label>
+                                        <div>
+                                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="sysuser_win_cboGroup" ng-model="Item.GroupID" k-options="sysuser_win_cboGroupOptions" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <!--<div class="rowinput">
+                                        <label>Thuộc chi nhánh</label>
+                                        <div>
+                                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="sysuser_win_cboCustomer" ng-model="Item.SYSCustomerID" k-options="sysuser_win_cboCustomerOptions" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>-->
+                                    <!--<div class="rowinput">
+                                        <label>Hình</label>
+                                        <div>
+                                            <input type="text" class="k-textbox" ng-model="Item.Image" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>-->
+                                    <div class="rowinput" ng-show="IsAdmin">
+                                        <label>Quản trị</label>
+                                        <div>
+                                            <input type="checkbox" ng-model="Item.IsAdmin" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Đang hoạt động</label>
+                                        <div>
+                                            <input type="checkbox" ng-model="Item.IsApproved" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Tài xế</label>
+                                        <div><input class="cus-combobox" kendo-combo-box="driver_cbb" focus-k-combobox k-options="driver_cbbOptions" ng-model="Item.DriverID" /></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden"><input type="submit" /></div>
+                    </form>
+                </div>
+
+                <div>
+                    <div class="cus-grid" expand-k-grid kendo-grid="sysuser_win_grid" k-options="sysuser_win_gridOptions"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Save_Click($event,sysuser_win,sysuser_grid,sysuser_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,sysuser_win)" class="k-button close" data-title="Đóng">Đóng</a>
+
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+         <div class="right" v-form="Search_vform">
+             <a href="/" ng-click="REPTotalPL_Search($event,Search_vform)" class="k-button " style="float:left"><i class="fa fa-search"></i><span class="tooltip is-right">Xem báo cáo</span></a>
+         </div>
+        <div class="right" v-form="Search_vform">
+
+            <div>
+                Xem theo
+            </div>
+            <input class="cus-combobox" focus-k-combobox kendo-combobox="cbotypeOfView" k-options="cbotypeOfView" ng-model="Item.typeOfView" style="width:200px;float:left" />
+            <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateFrom" />
+            <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateTo" />
+
+        </div>
+        
+        <div class="clear"></div>
+    </div>
+
+    <div class="form-body">
+        <div class="cus-splitter" expand-k-splitter kendo-splitter="REPTotalPL_Splitter" k-options="REPTotalPL_Splitter_Options">
+            <div class="cus-form">
+                <div class="cus-pivot-config" id="REPTotalPL_pivot_config"></div>
+            </div>
+            <div class="cus-form">
+                <div class="cus-pivot" id="REPTotalPL_pivot_grid"></div>
+            </div>
+        </div>
+    </div>
+</div>

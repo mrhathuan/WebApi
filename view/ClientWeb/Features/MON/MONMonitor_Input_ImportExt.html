@@ -1,0 +1,83 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <span>Ngày ETD chuyến: </span>
+            <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateFrom" />
+            <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateTo" />
+            <span ng-show="HasTemplate">Template: {{Template.Name}} - </span>
+            <span ng-show="HasTemplate">KH: {{Template.CustomerName}}</span>
+            <!--<a href="/" ng-show="IsNewLocation" ng-click="Location_Click($event,excel_location_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới địa chỉ</span></a>-->
+            <a href="/" ng-show="IsExcelChecked" ng-click="Import_Click($event)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu</span></a>
+            <a href="/" ng-show="HasTemplate" ng-click="UpFile_Click($event,excel_file)" class="k-button"><i class="fa fa-upload"></i><span class="tooltip">Upload</span></a>
+            <a href="/" ng-show="HasTemplate" ng-click="DownFile_Click($event)" class="k-button"><i class="fa fa-download"></i><span class="tooltip">Download</span></a>
+            <a href="/" ng-click="Template_Click($event,template_win)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Chọn template</span></a>
+            <!--<a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>-->
+            <a href="/" ng-click="ShowSetting($event,setting_grid)" ng-mouseenter="ShowSetting($event,setting_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-form">
+            <div class="form-header">
+                <div class="left">
+                    <span>
+                        <div style="width: 15px; height: 15px; background-color: #fda; display:inline-block; margin-bottom:-3px"></div> &nbsp;Dữ liệu hệ thống nhiều hơn 1
+                        &nbsp;-&nbsp;<div style="width: 15px; height: 15px; background-color: #48BA52; display: inline-block; margin-bottom: -3px"></div> &nbsp;Tồn tại nhiều dòng thỏa duy nhất 1 dữ liệu hệ thống
+                    </span>
+                </div>
+            </div>
+            <div class="form-body">
+                <div class="cus-grid" kendo-grid="excel_grid" k-options="excel_gridOptions" expand-k-grid></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="display:none;"><input class="ExcelOrder" name="files" type="file" kendo-upload="excel_file" accept=".xlsx" k-options="excel_fileOptions" /></div>
+
+<div class="cus-window" draggable-k-window kendo-window="template_win" k-title="false" k-width="800" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Template
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="excel_template_grid" k-options="excel_template_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Excel_Template_Accept_Click($event,template_win,excel_template_grid)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,template_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="datasys_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin dữ liệu hệ thống
+            </div>
+            <div class="right">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="datasys_grid" k-options="datasys_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="DataSys_Accept_Click($event,datasys_win,datasys_grid, excel_grid)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,datasys_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

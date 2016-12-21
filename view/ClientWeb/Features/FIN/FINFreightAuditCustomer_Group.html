@@ -1,0 +1,80 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <span>Trạng thái</span><input class="cus-combobox" focus-k-combobox ng-model="ItemFilter.StatusID" kendo-combo-box="cboFINFreight_win_cboGroup" k-options="cboFINFreight_Options" style="width:150px" />
+            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="ItemFilter.DateFrom" style="width:150px" />
+            <span>-</span>
+            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="ItemFilter.DateTo" style="width:150px" />
+            <a href="/" ng-click="Search_Click($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm kiếm</span></a>
+            <a href="/" ng-show="IsDefaultStatus && HasChoose" ng-click="Reject_Click($event,FINFreightAuditCUS_Note_win,FINFreightAuditCus_grid)" class="k-button"><i class="fa fa-check-circle"></i><span class="tooltip">Chờ kiểm tra</span></a>
+            <a href="/" ng-show="IsDefaultStatus && HasChoose" ng-click="Accept_Click($event,FINFreightAuditCUS_Note_win,FINFreightAuditCus_grid)" class="k-button"><i class="fa fa-check-square"></i><span class="tooltip">Chờ duyệt</span></a>
+            <a href="/" ng-show="Auth.ViewAdmin && IsApprovedStatus && HasChoose" ng-click="Approved_Click($event,FINFreightAuditCUS_Note_win,FINFreightAuditCus_grid)" class="k-button"><i class="fa fa-check-square"></i><span class="tooltip">Duyệt</span></a>
+            <a href="/" ng-click="ShowSetting($event,FINFreightAuditCus_grid)" ng-mouseenter="ShowSetting($event,FINFreightAuditCus_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="FINFreightAuditCus_grid" k-options="FINFreightAuditCus_gridOptions" expand-k-grid></div>
+    </div>
+</div>
+
+<!--Window-->
+<div class="cus-window" draggable-k-window kendo-window="FINFreightAuditCUS_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                {{ NameFreight }}
+            </div>
+            <div class="right">
+
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="FINFreightAuditCus_Detail_grid" k-options="FINFreightAuditCus_Detail_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Window_Close_Click($event,FINFreightAuditCUS_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="FINFreightAuditCUS_Note_win" k-title="false" k-width="400" k-height="200" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Ghi chú chuyến
+            </div>
+            <div class="right">
+
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Ghi chú <span class="required">*</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="Item.Note" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Save_Click($event,FINFreightAuditCUS_Note_win,FINFreightAuditCus_grid)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Window_Close_Click($event,FINFreightAuditCUS_Note_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

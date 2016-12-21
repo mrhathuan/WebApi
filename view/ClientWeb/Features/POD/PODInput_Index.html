@@ -1,0 +1,16 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <!--<a href="/" ng-click="ShowSetting($event,'')" ng-mouseenter="ShowSetting($event,SRVehicle_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>-->
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div kendo-diagram="opsDiagram" k-options="opsDiagram_Options" style="height: calc(100% - 2px); width: calc(100% - 2px); "></div>
+    </div>
+</div>

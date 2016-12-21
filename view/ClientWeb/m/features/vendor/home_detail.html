@@ -1,0 +1,73 @@
+﻿<ion-view hide-nav-bar="true" view-title="Thông tin nhà xe">  
+    <ion-content scroll="false">     
+        <div class="bar bar-header bar-calm">
+            <button ng-click="BackToHome()" class="button button-icon icon ion-chevron-left"></button>
+            <h1 class="title">Thông tin nhà xe</h1>
+        </div>
+        <div class="content has-header">
+            <div class="list">
+                <div class="item item-input item-select">
+                    <div class="input-label" ng-click="PickVehicle(dataVehicle,'RegNo','ItemSave.CreateVehicleCode')">
+                        Chọn xe
+                    </div>
+                    <select ng-model="ItemSave.CreateVehicleCode">
+                        <option value="" disabled selected style="opacity:0.5">Chọn xe</option>
+                        <option ng-repeat="option in dataVehicle" value="{{option.RegNo}}">{{option.RegNo}}</option>
+                    </select>
+                </div>
+
+                <div class="item item-input item-select">
+                    <div class="input-label" ng-click="PickVehicle(_dataDriver,'DriverName','ItemSave.CreateDriverName')">
+                        Chọn tài xế
+                    </div>
+                    <select ng-model="ItemSave.CreateDriverName">
+                        <option value="" disabled selected style="opacity:0.5">Chọn tài xế</option>
+                        <option ng-repeat="option in _dataDriver" value="{{option.DriverName}}">{{option.DriverName}}</option>
+                    </select>
+                </div>
+
+                <label class="item item-input">
+                    <span class="input-label">SĐT</span>
+                    <input type="text" ng-model="ItemSave.CreateTelephone" placeholder="Nhập SĐT..." />
+                </label>
+            </div>
+            <h3>Danh sách SO</h3>
+            <ion-list>
+                <ion-item ng-repeat="o in MasterItem">
+                    <div style="display:table;width:100%">
+                        <div class="detail-content align-left">Tấn: {{o.Ton}} <br />Khối: {{o.CBM}} <br />SL: {{o.Quantity}} </div>
+                        <div class="detail-content align-left">Số SO: {{o.SOCode}} <br />DNCode: {{o.DNCode}} <br />Mặt hàng: {{o.TranferItem}} </div>
+                        <div class="detail-content align-center">{{o.RoutingCode}}</div>
+                    </div>
+                </ion-item>
+            </ion-list>
+        </div>  
+    </ion-content>
+    <ion-footer-bar>
+        <div class="select-pane" ng-class="{'actived':ShowSelectPane==true}">
+            <div class="select-pane-header">
+                <div class="row">
+                    <div class="col col-80"><input ng-model="ComoboboxKey" style="width:100%;border-radius:5px" type="search" placeholder="Search"></div>
+                    <div class="col col-20"><button class="button button-clear" style="color:#fff" ng-click="CloseSelectPane()"> Cancel</button></div>
+                </div>
+            </div>
+            <div style="padding:10px;height:100%;overflow-y:scroll;overflow-x: hidden;">
+                <ul class="list">
+                    <li ng-repeat="o in DataCombobox | filter:ComoboboxKey" ng-click="ComboboxSelect(o)" class="item">
+                        {{o.text}}
+                    </li>
+                </ul>
+                <div class="div-empty h110p"></div>
+            </div>
+
+        </div>
+        <div class="button-bar">
+            <button ng-click="BackToHome()" class="button"><strong>Quay lại</strong></button>
+            <button ng-click="TenderReject()" class="button">Từ chối</button>
+            <button ng-click="TenderAccept()" class="button button-calm"><strong>Chấp nhận</strong></button>
+        </div>
+    </ion-footer-bar>
+</ion-view>
+<style>
+
+</style>

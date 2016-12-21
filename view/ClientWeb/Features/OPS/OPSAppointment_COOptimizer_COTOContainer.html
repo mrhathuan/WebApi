@@ -1,0 +1,20 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><a ui-sref="main.OPSAppointment.COOptimizer">Tối ưu</a></li>
+                <li><span>Kết quả đơn hàng</span></li>
+                <li><span>{{OptimizerName}}</span></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="right">
+            <a class="k-button" ng-click="Back_click($event)"><i class="fa fa-history"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" expand-k-grid kendo-grid="cotocontainer_grid" k-options="cotocontainer_gridOptions"></div>
+    </div>
+</div>

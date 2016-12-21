@@ -1,0 +1,39 @@
+﻿
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right">
+            </div>
+        </div>
+        <div class="form-content-150">
+            <div class="rowinput">
+                <label>Khách hàng </label>
+                <div>
+                    <input kendo-multi-select class="cus-combobox" k-options="mulCustomer_Options" k-ng-model="REPDIABAItem.lstCustomerID" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="rowinput">
+                <label>Từ ngày </label>
+                <div>
+                    <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="REPDIABAItem.DateFrom" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="rowinput">
+                <label>Đến ngày </label>
+                <div>
+                    <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="REPDIABAItem.DateTo" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="rowinput rowaction">
+                <a href="/" ng-click="REPDIABA_ExportExcel_Cost_Click($event)" class="k-button active">Báo cáo chi phí</a>
+                <a href="/" ng-click="REPDIABA_ExportExcel_Transport_Click($event)" class="k-button active">Báo cáo vận chuyển</a>
+            </div>
+        </div>
+    </div>

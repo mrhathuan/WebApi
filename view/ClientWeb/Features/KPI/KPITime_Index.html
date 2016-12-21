@@ -1,0 +1,226 @@
+﻿<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right">
+                <a href="/" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div class="cus-tabstrip" kendo-tabstrip="kpi_tabstrip" k-options="kpi_tabstripOptions" expand-k-tabstrip>
+                <ul>
+                    <li class="k-state-active" data-tabindex="0">Dashboard</li>
+                    <li data-tabindex="1">Chi tiết KPI</li>
+                    <li data-tabindex="2">Thiết lập lý do</li>
+                </ul>
+                <div>
+                    <div class="cus-splitter hor-splitter" kendo-splitter="hor_splitter" k-options="hor_splitterOptions" expand-k-splitter>
+                        <div class="cus-form thin">
+                            <div class="form-header" ng-show="!IsDashBoardDNSettings">
+                                <div class="left title">
+                                    Tổng hợp DN
+                                </div>
+                                <div class="right">
+                                    <span>{{DashBoardDN_Item.CustomerName }}</span>
+                                    <span> - {{DashBoardDN_Item.KPIName}} - {{DashBoardDN_Item.StrFrom}} - {{DashBoardDN_Item.StrTo}}</span>
+                                    <a href="/" ng-click="DashBoard_DN_Setting($event)" class="k-button"><i class="fa fa-cog"></i><span class="tooltip is-right">Thiết lập</span></a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="form-header" ng-show="IsDashBoardDNSettings">
+                                <div class="right">
+                                    <span>
+                                        KH:
+                                    </span>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboDashBoard_CusOptions" style="width: 120px;" k-ng-model="DashBoardDN_Item.CustomerID" k-on-change="OnDashBoardDN_CusChange(kendoEvent)" />
+                                    <span>
+                                        KPI:
+                                    </span>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboDashBoard_KPIOptions" style="width: 90px;" k-ng-model="DashBoardDN_Item.KPIID" k-on-change="OnDashBoardDN_KPIChange(kendoEvent)" />
+                                    <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" style="width: 90px;" k-ng-model="DashBoardDN_Item.DateFrom" k-on-change="OnDashBoardDN_DateFromChange(kendoEvent)" />
+                                    <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" style="width: 90px;" k-ng-model="DashBoardDN_Item.DateTo" k-on-change="OnDashBoardDN_DateToChange(kendoEvent)" />
+                                    <a href="/" ng-click="DashBoard_DN_Setting_OK($event)" class="k-button"><i class="fa fa-check"></i><span class="tooltip is-right">Xác nhận</span></a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="form-body" style="height:calc(100% - 61px)">
+                                <div ng-show="!DashBoardDN_Item.IsRadialGauge" kendo-chart="KPIDashboard_DN" k-options="KPIDashboard_DNOptions" k-rebind="KPIDashboard_DNOptions" style="width: 100%;height: calc(100% - 6px);"></div>
+                                <div ng-show="DashBoardDN_Item.IsRadialGauge" style="width:100%;text-align:center; padding-top:10%;">
+                                    <div kendo-radialgauge="KPIDashboard_DN_Scale" k-scale="KPIDashboard_DN_ScaleOptions" ng-model="KPIDashboard_DN_Scale_KPI"></div>
+                                    <div>{{KPIDashboard_DN_Scale_KPI}}%</div>
+                                </div>
+                            </div>
+                            <div style="float:right; display: inline-block; overflow:hidden;">
+                                <span ng-show="!DashBoardDN_Item.IsRadialGauge">Theme:</span>
+                                <input ng-show="!DashBoardDN_Item.IsRadialGauge" class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboDashBoard_ThemeOptions" style="width: 120px;" k-on-change="OnDashBoard_ThemeChange(kendoEvent,KPIDashboard_DN)" />
+                                Loại biểu đồ:
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboDashBoardDN_ChartOptions" style="width: 120px;" k-on-change="OnDashBoardDN_ChartChange(kendoEvent,KPIDashboard_DN)" />
+                            </div>
+                        </div>
+                        <div class="cus-form thin">
+                            <div class="form-header" ng-show="!IsDashBoardReasonSettings">
+                                <div class="left title">
+                                    Tổng hợp lý do
+                                </div>
+                                <div class="right">
+                                    <span>{{DashBoardReason_Item.CustomerName }}</span>
+                                    <span> - {{DashBoardReason_Item.KPIName}} - {{DashBoardReason_Item.StrFrom}} - {{DashBoardReason_Item.StrTo}}</span>
+                                    <a href="/" ng-click="DashBoard_Reason_Setting($event)" class="k-button"><i class="fa fa-cog"></i><span class="tooltip is-right">Thiết lập</span></a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="form-header" ng-show="IsDashBoardReasonSettings">
+                                <div class="right">
+                                    <span>
+                                        KH:
+                                    </span>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboDashBoard_CusOptions" style="width: 120px;" k-ng-model="DashBoardReason_Item.CustomerID" k-on-change="OnDashBoardReason_CusChange(kendoEvent)" />
+                                    <span>
+                                        KPI:
+                                    </span>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboDashBoard_KPIOptions" style="width: 90px;" k-ng-model="DashBoardReason_Item.KPIID" k-on-change="OnDashBoardReason_KPIChange(kendoEvent)" />
+                                    <span>
+                                        Ngày gửi ĐH:
+                                    </span>
+                                    <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" style="width: 90px;" k-ng-model="DashBoardReason_Item.DateFrom" k-on-change="OnDashBoardReason_DateFromChange(kendoEvent)" />
+                                    <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" style="width: 90px;" k-ng-model="DashBoardReason_Item.DateTo" k-on-change="OnDashBoardReason_DateToChange(kendoEvent)" />
+                                    <a href="/" ng-click="DashBoard_Reason_Setting_OK($event)" class="k-button"><i class="fa fa-check"></i><span class="tooltip is-right">Xác nhận</span></a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="form-body">
+                                <div ng-show="HasDataReason" kendo-chart="KPIDashboard_Reason" k-options="KPIDashboard_ReasonOptions" k-rebind="KPIDashboard_ReasonOptions" style="width: 100%; height: 100%;"></div>
+                                <div ng-show="!HasDataReason" style="padding-top: 30%; text-align:center; font-weight: bold;">Không có dữ liệu</div>
+                            </div>
+                            <div style="float: right; display: inline-block; overflow: hidden;" ng-show="HasDataReason">
+                                Theme:
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboDashBoard_ThemeOptions" style="width: 120px;" k-on-change="OnDashBoard_ThemeChange(kendoEvent,KPIDashboard_Reason)" />
+                                <span ng-show="DashBoardReason_Item.ChartID > 1">Sắp xếp:<span ng-class="DashBoardReason_Item.SortClass"></span></span>
+                                <input ng-show="DashBoardReason_Item.ChartID > 1" class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboDashBoardReason_SortOptions" style="width: 120px;" k-on-change="OnDashBoardReason_SortChange(kendoEvent,KPIDashboard_Reason)" />
+                                Loại biểu đồ:
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboDashBoardReason_ChartOptions" style="width: 120px;" k-on-change="OnDashBoardReason_ChartChange(kendoEvent,KPIDashboard_Reason)" ng-model="DashBoardReason_Item.ChartID" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-grid" kendo-grid="kpi_grid" k-options="kpi_gridOptions" expand-k-grid></div>
+                </div>
+                <div>
+                    <div class="cus-grid" kendo-grid="reason_grid" k-options="reason_gridOptions" expand-k-grid></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Window-->
+<div class="cus-window" kendo-window="time_reason_win" k-title="false" k-width="600" k-height="200" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                THÔNG TIN LÝ DO
+            </div>           
+            <div class="clear"></div>
+        </div>
+        <div class="form-content with-footer">
+            <div class="form-content-100">
+                <div class="rowinput">
+                    <label>Lý do</label>
+                    <div>
+                        <input class="cus-combobox" ng-model="TimeItem.ReasonID" focus-k-combobox kendo-combobox k-options="cboKPIReason_Options" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ghi chú</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="TimeItem.Note" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Time_Reason_Submit_Click($event,time_reason_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Window_Close_Click($event,time_reason_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="reason_win" k-title="false" k-width="600" k-height="220" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                THÔNG TIN LÝ DO
+            </div>            
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-100" v-form="reason_vform">
+                <div class="rowinput">
+                    <label> Mã <span class="required">*</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ReasonItem.Code" v-form-require="true" v-form-length="20" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Tên <span class="required"> *</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ReasonItem.ReasonName" v-form-require="true" v-form-length="100" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> KPI <span class="required"> *</span></label>
+                    <div>
+                        <input class="cus-combobox" ng-model="ReasonItem.KPIID" focus-k-combobox kendo-combobox k-options="cboReasonKPI_Options" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Reason_Submit_Click($event,reason_grid,reason_win,reason_vform)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Window_Close_Click($event,reason_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Script-Toolbar-->
+<script type="text/x-kendo-tmpl" id="kpi_gridToolbar">
+    <div class="gridtoolbar">
+        <div class="right">
+            <span>KPI:</span>
+            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboTime_KPIOptions" style="width: 90px;" k-ng-model="ViewItem.KPIID" />
+            <span>Khách hàng:</span>
+            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboTime_CusOptions" style="width: 150px;" k-ng-model="ViewItem.CusID" />
+            <span>Ngày gửi đơn hàng:</span>
+            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" style="width: 90px;" k-ng-model="ViewItem.DateFrom" />
+            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" style="width: 90px;" k-ng-model="ViewItem.DateTo" />
+            <a href="/" ng-click="KPI_Excel_Click($event)" ng-show="HasTimeSearch" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-click="Generate_Click($event)" ng-show="HasTimeSearch" class="k-button"><i class="fa fa-refresh"></i><span class="tooltip">Tính lại KPI</span></a>
+            <a href="/" ng-click="View_Click($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Xem</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="reason_grid_toolbar">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a href="/" ng-click="Reason_Excel_Click($event,excelwin)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-click="Reason_Add_Click($event,reason_grid,reason_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>

@@ -1,0 +1,37 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">Xe tải: {{TruckItem.RegNo}}</div>
+        <div class="right">
+            <a href="/" ng-click="FLMAsset_Truck_SaveClick($event,FLMAsset_Truck_vform)" class="k-button k-button-icontext"><span class="k-icon k-i-tick"></span>Tiếp tục</a>
+            <a ref="/" ng-click="FLMAsset_Truck_BackClick($event)" class='k-button k-button-icontext'><span class="k-icon k-i-undo"></span>Quay lại</a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-tabstrip" kendo-tab-strip="FLMAsset_EditTruck_Tab1" k-options="FLMAsset_EditTruck_TabOptions">
+            <div>
+                <div class="cus-div" style="overflow:scroll" v-form="FLMAsset_Truck_vform">
+                    <div class="cus-div-2left">
+                        <div class="cus-div-header">Thông tin phương tiện vận tải</div>
+                        <div>
+                            <div class="rowinput">
+                                <label style="width:calc(30% - 7px)">Số xe <span class="required">*</span></label>
+                                <div style="width:70%">
+                                    <input class="k-textbox" ng-model="TruckItem.RegNo" ng-change="IsEdited=true" style="width:100%" v-form-require="true" v-form-length="50" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label style="width:calc(30% - 7px)">Biển trắng </label>
+                                <div>
+                                    <input type="checkbox" ng-disabled="!Is5Number()" ng-model="TruckItem.IsWhite" ng-change="IsEdited=true" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

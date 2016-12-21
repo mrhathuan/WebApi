@@ -1,0 +1,18 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title breakumb" >
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span>Chi tiết</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="CATSYSCustomerTroubleDetail_Save_Click($event,CATSYSCustomerTroubleDetail_grid)" class="k-button" data-title="Lưu"><i class="fa fa-check"></i><span class="tooltip">Lưu</span></a>
+            <a href="/" ng-click="CATSYSCustomerTroubleDetail_BackClick($event)" class='k-button' data-title="Quay lại"><i class="fa fa-history"></i><span class="tooltip">Quay lại</span></a>
+            <a href="/" ng-click="ShowSetting($event,CATSYSCustomerTroubleDetail_grid)" ng-mouseenter="ShowSetting($event,CATSYSCustomerTroubleDetail_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="CATSYSCustomerTroubleDetail_grid" expand-k-grid k-options="CATSYSCustomerTroubleDetail_gridOptions"></div>
+    </div>
+</div>

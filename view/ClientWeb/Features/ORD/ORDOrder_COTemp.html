@@ -1,0 +1,192 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                <li><span>Đơn hàng tạm</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="New_Click($event,new_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-show="HasChoose" ng-click="Delete_Click($event,con_Grid)" class="k-button"><i class="fa fa-ban"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-show="HasChoose" ng-click="Save_Click($event,con_Grid)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu ĐH</span></a>
+            <a href="/" ng-click="ShowSetting($event,con_Grid)" ng-mouseenter="ShowSetting($event,con_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="con_Grid" expand-k-grid="con_Grid" k-options="con_GridOptions"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="new_win" k-title="false" k-width="900" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thêm mới
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div style="float: left; width: calc(50% - 20px); padding-left: 20px; padding-top: 10px;">
+                <div class="form-content-100">
+                    <div class="rowinput">
+                        <label>Dịch vụ <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox="cboService" k-options="cboService_Options" k-ng-model="NewItem.ServiceOfOrderID" />
+                        </div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Khách hàng <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox="cboCustomer" k-options="cboCustomer_Options" k-ng-model="NewItem.CustomerID" />
+                        </div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Số Bill/Booking <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" id="txtCode" placeholder="Nhập số bill/booking" ng-model="NewItem.OrderCode" />
+                        </div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Loại cont <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox="cboPacking" k-options="cboPacking_Options" k-ng-model="NewItem.PackingID" />
+                        </div>
+                    </div>                   
+                    <div class="rowinput">
+                        <label>TG lấy hàng <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewItem.ETD" k-options="DateDMYHM" />
+                        </div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Điểm lấy hàng <span class="required">*</span></label>
+                        <div>
+                            <a class="k-button" ng-click="Location_Select($event,NewItem,1,location_win)" style="width: 100%; height: 30px; text-align: left; padding: 0px 4px; line-height: 26px;">{{NewItem.LocationFromCode}}</a>
+                        </div>
+                    </div>
+                    <div class="rowinput" ng-show="TypeOfService==Service.iExport||TypeOfService==Service.Local||TypeOfService==Service.Empty||TypeOfService==Service.Laden">
+                        <label>Điểm lấy rỗng <span class="not-required">*</span></label>
+                        <div>
+                            <a class="k-button" ng-click="Location_Select($event,NewItem,3,location_win)" style="width: 100%; height: 30px; text-align: left; padding: 0px 4px; line-height: 26px;">{{NewItem.LocationDepotCode}}</a>
+                        </div>
+                    </div>
+                    <div class="rowinput" ng-show="TypeOfService==Service.iImport||TypeOfService==Service.Local||TypeOfService==Service.Empty||TypeOfService==Service.Laden">
+                        <label>Điểm trả rỗng <span class="not-required">*</span></label>
+                        <div>
+                            <a class="k-button" ng-click="Location_Select($event,NewItem,4,location_win)" style="width: 100%; height: 30px; text-align: left; padding: 0px 4px; line-height: 26px;">{{NewItem.LocationDepotReturnCode}}</a>
+                        </div>
+                    </div>
+                    <div class="rowinput" ng-show="TypeOfService==Service.iExport||TypeOfService==Service.Export">
+                        <label>{{TypeOfService==Service.iImport?"Hạn chót trả cont":"Cut-off-time"}} <span class="not-required">*</span></label>
+                        <div>
+                            <input class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewItem.CutOffTime" k-options="DateDMYHM" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float: right; width: calc(50% - 20px); padding-right: 20px; padding-top: 10px;">
+                <div class="form-content-100">
+                    <div class="rowinput">
+                        <label>Loại v/c <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox="cboTransport" k-options="cboTransport_Options" k-ng-model="NewItem.TransportModeID" />
+                        </div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Hãng tàu <span ng-class="TypeOfService==Service.iExport||TypeOfService==Service.Export?'required':'not-required'">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox="cboCarrier" k-options="cboCarrier_Options" k-ng-model="NewItem.PartnerID" />
+                        </div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Ngày yêu cầu <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewItem.RequestDate" k-options="DateDMYHM" />
+                        </div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Số lượng <span class="required">*</span></label>
+                        <div>
+                            <input kendo-numeric-text-box="conQuantity" k-options="conQuantity_Options" k-ng-model="NewItem.Quantity" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="rowinput">
+                        <label>TG giao hàng <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewItem.ETA" k-options="DateDMYHM" />
+                        </div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Điểm giao hàng <span class="required">*</span></label>
+                        <div>
+                            <a class="k-button" ng-click="Location_Select($event,NewItem,2,location_win)" style="width: 100%; height: 30px; text-align: left; padding: 0px 4px; line-height: 26px;">{{NewItem.LocationToCode}}</a>
+                        </div>
+                    </div>
+                    <div class="rowinput" ng-show="TypeOfService==Service.iExport||TypeOfService==Service.Local||TypeOfService==Service.Empty||TypeOfService==Service.Laden">
+                        <label>TG lấy rỗng <span class="not-required">*</span></label>
+                        <div>
+                            <input class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewItem.DateGetEmpty" k-options="DateDMYHM" />
+                        </div>
+                    </div>
+                    <div class="rowinput" ng-show="TypeOfService==Service.iImport||TypeOfService==Service.Local||TypeOfService==Service.Empty||TypeOfService==Service.Laden">
+                        <label>TG trả rỗng <span class="not-required">*</span></label>
+                        <div>
+                            <input class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewItem.DateReturnEmpty" k-options="DateDMYHM" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="New_OK_Click($event,new_win,con_Grid)" ng-show="NewItem.OrderCode.length>0" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,new_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" k-title="false" draggable-k-window k-width="900" k-height="430" kendo-window="location_win" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Địa điểm
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="location_Grid" k-options="location_Grid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,location_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="carrier_win" k-title="false" k-width="700" k-height="430" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách hãng tàu
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="carrier_Grid" k-options="carrier_Grid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,carrier_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    span.not-required { color: #fff; }
+    tr > td > a.my-button:empty { display: block; width: 100%; height: 65%; }
+</style>

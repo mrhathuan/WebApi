@@ -1,0 +1,155 @@
+﻿<div class="view-breakumb-content">
+    <div class="cus-form" style="height:100%">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right button">
+                <a href="/" ng-click="AddNew_Click($event,CusSetting_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+                <a href="/" ng-click="ShowSetting($event,setting_grid)" ng-mouseenter="ShowSetting($event,setting_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div kendo-grid="setting_grid" expand-k-grid k-options="setting_gridOptions" class="cus-grid"></div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="CusSetting_win" k-title="false" k-width="900" k-height="550" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chi tiết thiết lập</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" v-form="Cus_vCusForm">
+            <div class="form-header">
+                <div class="left title">Khách hàng</div>
+            </div>
+            <div>
+                <div class="form-content-150">
+                    <div class="rowinput">
+                        <label>&nbsp;</label>
+                        <div>
+                            <input class="cus-combobox" kendo-combo-box="cboListCustomer" focus-k-combobox k-options="cboListCustomer_Options" ng-model="ItemCUSSetting.CustomerID" v-form-require="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-header">
+                <div class="left title">Cách tính</div>
+            </div>
+            <div style="width:100%; height:75px;">
+                <div style="width:50%; float:left">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <div>
+                                <label><input type="radio" ng-model="ItemCUSSetting.ActionType" ng-value="0" />  Không thực hiện  </label>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <div>
+                                <label><input type="radio" ng-model="ItemCUSSetting.ActionType" ng-value="1" />  Theo cột mã đơn hàng  </label>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:50%;float:right">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <div>
+                                <label><input type="radio" ng-model="ItemCUSSetting.ActionType" ng-value="2" />  Từng dòng trong excel  </label>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <div>
+                                <label><input type="radio" ng-model="ItemCUSSetting.ActionType" ng-value="3" /> Tất cả dòng trong excel  </label>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-header">
+                <div class="left title">Thứ tự</div>
+            </div>
+            <div style="width:100%; height:30px;">
+                <div style="width:30%; float:left">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <div style="width:100%">
+                                <label><input type="radio" ng-model="ItemCUSSetting.ActionReset" ng-value="1" />   Thứ tự theo ngày  </label>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:30%; float:left">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <div style="width:100%">
+                                <label><input type="radio" ng-model="ItemCUSSetting.ActionReset" ng-value="2" />   Tất cả theo đúng mã  </label>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:30%;float:left">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <div style="width:100%">
+                                <label><input type="radio" ng-model="ItemCUSSetting.ActionReset" ng-value="0" />  Tất cả  </label>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-header" style="float: left;">
+                <div class="left title">Công thức</div>
+            </div>
+            <div style="height: 50px;">
+                <div class="form-content-150">
+                    <div class="rowinput">
+                        <label>Thứ tự hiện tại: {{ItemCUSSetting.SortOrder}}</label>
+                        <div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="form-content-150">
+                    <div class="rowinput">
+                        <label>Công thức: </label>
+                        <div>
+                            <input class="k-textbox" type="text" ng-model="ItemCUSSetting.Expr" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:95%; text-align:center">
+                            [Day-D], [DayETD-D], [Day-DD], [DayETD-DD], [Month-M], [Month-MM], [MonthETD-MM], [MonthETD-M], [Year-YY], [Year-YYYY], [YearETD-YY], [YearETD-YYYY], [CustomerCode], [TypeOrder] (LTL,FTL,FCL,LCL), [Sort-000], [Sort-00000], [Sort-0000000], [ServiceOfOrderEng] (EX,IM,LO,LOLaden,LOEmpty), [ServiceOfOrderVi] (D,T,C,CD,CR)
+                        </label>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Save_Click($event,CusSetting_win,Cus_vCusForm)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Win_Close($event,CusSetting_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

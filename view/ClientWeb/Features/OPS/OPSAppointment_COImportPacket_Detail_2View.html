@@ -1,0 +1,25 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <ul class="breakumb">
+            <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+        </ul>
+        <div class="right">
+            <a href="/" ng-show="IsChange&&!IsClose" ng-click="Save_Click($event)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu thay đổi</span></a>
+            <a href="/" ng-show="IsChange&&!IsClose" ng-click="Cancel_Click($event)" class="k-button"><i class="fa fa-ban"></i><span class="tooltip">Hủy thay đổi</span></a>
+            <a href="/" ng-click="Reset_Click($event,grid)" class="k-button"><i class="fa fa-times"></i><span class="tooltip">Xóa chuyến</span></a>
+            <a href="/" ng-show="!IsClose&&!Auth.ActSaveAndApproved" ng-click="ToOPS_Click($event)" class="k-button"><i class="fa fa-calendar-check-o"></i><span class="tooltip">Lưu và gửi OPS</span></a>
+            <a href="/" ng-show="!IsClose&&Auth.ActSaveAndApproved" ng-click="ToMon_Click($event)" class="k-button"><i class="fa fa-calendar-check-o"></i><span class="tooltip">Lưu và gửi giám sát</span></a>
+            <a href="/" ui-sref="main.OPSAppointment.COImportPacket_Detail({ID:{{PacketID}}})" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Upload</span></a>
+            <a href="/" ui-sref="main.OPSAppointment.COImportPacket" class="k-button"><i class="fa fa-history"></i><span class="tooltip is-right">Thoát</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body view-import-container">
+        <div class="cus-grid" kendo-grid="grid" k-options="gridOptions" expand-k-grid></div>
+    </div>
+</div>
+
+<style>
+    .form-body.view-import-container .my-group .txt-split { position: relative; top: 2px; }
+    .form-body.view-import-container .my-group .btn-group { position: relative; top: 2px; }
+</style>

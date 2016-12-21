@@ -1,0 +1,859 @@
+﻿<!--View-->
+<div class="full" id="2view-container">
+    <div class="cus-form winform" id="2view" style="{{IsFullScreen?'padding:0':''}}">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                    <li><span>Lập chuyến</span></li>
+                </ul>
+            </div>
+            <div class="right">
+                <a href="/" class="k-button" ng-show="!IsFullScreen" ui-sref="main.OPSAppointment.DIViewOnMap"><i class="cus-button view4"></i><span class="tooltip">Dạng 1</span></a>
+                <a href="/" class="k-button" ng-show="!IsFullScreen" ui-sref="main.OPSAppointment.DIViewOnMapV3"><i class="cus-button view1"></i><span class="tooltip">Dạng 3</span></a>
+                <a href="/" class="k-button" ng-show="!IsFullScreen" ng-click="SwitchView_Click($event)"><i class="cus-button" ng-class="ViewVertical?'view2':'view3'"></i><span class="tooltip">Chuyển view</span></a>
+                <div style="width: 40px;"></div>
+                <a href="/" class="k-button" ng-show="!IsFullScreen" ng-click="ViewA_Click($event)"><i class="fa fa-television"></i><span class="tooltip">Toàn màn hình</span></a>
+                <a href="/" class="k-button" ng-click="NewTrip_Click($event,new_trip_Grid,new_trip_win)"><i class="fa fa-th"></i><span class="tooltip">Xem chuyến</span></a>
+                <a href="/" class="k-button" ng-click="Text_Click($event,2)" style="font-size: 15px; line-height: 21px;"><i class="fa fa-font"></i><span class="tooltip">Chữ vừa</span></a>
+                <a href="/" class="k-button" ng-click="Text_Click($event,3)" style="font-size: 12px; line-height: 24px;"><i class="fa fa-font"></i><span class="tooltip">Chữ nhỏ</span></a>
+                <a href="/" ng-show="!IsFullScreen" ng-click="Setting_Click($event,config_view_win)" class="k-button"><i class="fa fa-cog"></i><span class="tooltip">Thiết lập</span></a>
+                <a href="/" class="k-button setting" ng-show="!IsFullScreen" ng-click="ShowSetting($event,gop_Grid)" ng-mouseenter="ShowSetting($event,gop_Grid)" ng-mouseleave="HideSetting($event)" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+                <a href="/" class="k-button" ng-show="IsFullScreen" ng-click="ViewB_Click($event)"><i class="fa fa-thumb-tack"></i><span class="tooltip is-right">Thu nhỏ</span></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div kendo-splitter="viewSplitter" k-options="viewSplitter_Options" class="cus-splitter" ng-class="ViewVertical?'ver-splitter':'hor-splitter'" style="width: calc(100% - 2px); ">
+                <div>
+                    <div class="full">
+                        <div id="map" class="cus-map"></div>
+                        <div id="map_tooltip" class="cus-map-tooltip"></div>
+                    </div>
+                    <div id="trip-view-container" ng-show="!TripActived&&!TripDetail&&ViewVertical" ng-class="!ConfigView.showMap?'isEnable':''"></div>
+                </div>
+                <div id="pnBottom">
+                    <div kendo-splitter="conSplitter" k-options="conSplitter_Options" class="cus-splitter con-splitter" ng-class="ViewVertical?'hor-splitter':'ver-splitter'">
+                        <div id="trip-view" ng-show="InitComplete">
+                            <div class="cus-form thin">
+                                <div class="form-header">
+                                    <div class="left">
+                                        <div class="title">Chuyến: <span style="color: #31B6FC;">{{ToFix3(TripItem.Ton)}} (tấn), {{ToFix3(TripItem.CBM)}} (m<sup style="font-size: 10px; line-height: 12px;">3</sup>)</span></div>
+                                    </div>
+                                    <div class="right">
+                                        <div ng-show="TripItem.IsCheching" style="float: left; height: 26px; padding-right: 5px;">
+                                            <i class="fa fa-spinner fa-spin" style="font-size: 20px; color: #31b6fc; vertical-align: middle;"></i>
+                                        </div>
+                                        <span ng-show="!TripItem.IsCheching" ng-style="{color:TripItem.StatusColor}" ng-bind="TripItem.StatusCode"></span>
+                                        <a href="/" ng-show="!TripItem.IsCheching&&HasChoose&&!IsFTLMerge" ng-click="Accept_Click($event,gop_Grid,trip_info_win,vendor_trip_info_win)" style="background: none; background-color: #31b6fc; border-radius: 4px; color: #fff; padding: 0 5px; margin: 2px; line-height: 26px; text-decoration: none !important;">Đồng ý</a>
+                                        <a href="/" ng-show="!TripItem.IsCheching&&HasChoose&&TripItem.ETA!=null&&TripItem.ETD!=null&&!IsVehicleVendor&&!IsFTLMerge" ng-click="Tender_Click($event,gop_Grid,vendor_rate_win)" style="background: none; background-color: #7b99bf; border-radius: 4px; color: #fff; padding: 0 5px; margin: 2px; line-height: 26px; text-decoration: none !important;">Gửi đối tác</a>
+                                        <a href="/" ng-show="!TripItem.IsCheching&&HasChoose&&ViewOrderLTL" ng-click="Cancel_Click($event,gop_Grid)" style="background: none; background-color: #181818; border-radius: 4px; color: #fff; padding: 0 5px; margin: 2px; line-height: 26px; text-decoration: none !important;">Hủy ĐH</a>
+                                        <a href="/" ng-show="!TripItem.IsCheching&&HasChoose&&!ViewOrderLTL&&!IsFTLMerge" ng-click="FTLSplit_Click($event,gop_Grid,split_gop_win)" style="background: none; background-color: #7b99bf; border-radius: 4px; color: #fff; padding: 0 5px; margin: 2px; line-height: 26px; text-decoration: none !important;">Chia ĐH</a>
+                                        <a href="/" ng-show="!TripItem.IsCheching&&HasChoose&&!ViewOrderLTL&&IsFTLMerge" ng-click="FTLMerge_Cancel_Click($event,gop_Grid)" style="background: none; background-color: #181818; border-radius: 4px; color: #fff; padding: 0 5px; margin: 2px; line-height: 26px; text-decoration: none !important;">Hủy gộp</a>
+                                        <a href="/" ng-show="!TripItem.IsCheching&&HasChoose&&!ViewOrderLTL" ng-click="FTLMerge_Click($event,gop_Grid)" style="background: none; background-color: #7b99bf; border-radius: 4px; color: #fff; padding: 0 5px; margin: 2px; line-height: 26px; text-decoration: none !important;">Gộp ĐH</a>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="form-body">
+                                    <table style="padding-left: 5px;" class="trip-table">
+                                        <tbody>
+                                            <tr style="font-style: italic; line-height: 24px;">
+                                                <td style="width:85px">Số xe</td>
+                                                <td>ETD</td>
+                                                <td>ETA</td>
+                                            </tr>
+                                            <tr style="font-weight:bold;">
+                                                <td style="max-width: 85px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" ng-bind="TripItem.VehicleNo"></td>
+                                                <td>
+                                                    <input style="width: 150px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="TripItem.ETD" k-options="DateDMYHM" />
+                                                </td>
+                                                <td>
+                                                    <input style="width: 150px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="TripItem.ETA" k-options="DateDMYHM" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="cus-form thin">
+                                <div class="form-header">
+                                    <div class="left">
+                                        <div class="title">Đơn hàng</div>
+                                    </div>
+                                    <div class="right">
+                                        <ul class="filter-list" style="float: left; line-height: 30px;">
+                                            <li data-tabindex="1" ng-click="OrderViewStatus_Click($event,gop_Grid)" class="k-item" ng-class="ViewOrderLTL?'k-state-active':''">LTL</li>
+                                            <li data-tabindex="2" ng-click="OrderViewStatus_Click($event,gop_Grid)" class="k-item" ng-class="!ViewOrderLTL?'k-state-active':''">FTL</li>
+                                            <li data-tabindex="4" ng-click="OrderViewDate_Click($event,con_Grid)" class="k-item" ng-class="ViewOrderDate?'k-state-active':''">
+                                                Chọn ngày
+                                                <ul ng-show="ShowOrderDate" style="z-index: 990001; position: absolute; right: 0; background-color: #fff; color: #000; width: 150px; list-style: none; padding: 2px 10px; box-shadow: -2px 2px 3px #d7e3f0; ">
+                                                    <li>
+                                                        Từ ngày: <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-ng-model="DateRequest.fDate" k-options="DateDMY" />
+                                                    </li>
+                                                    <li>
+                                                        Đến ngày: <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-ng-model="DateRequest.tDate" k-options="DateDMY" />
+                                                    </li>
+                                                    <li style="text-align: center;">
+                                                        <a class="accept" ng-click="OrderViewDate_OK_Click($event,gop_Grid)">Đồng ý</a>
+                                                        <a class="accept" ng-click="OrderViewDate_Cancel_Click($event,gop_Grid)">Hủy chọn</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="form-body">
+                                    <div kendo-tooltip k-options="tooltipOptions" class="full cus-tooltip">
+                                        <div class="cus-grid" id="gop-grid" expand-k-grid="ops_gop_view_on_map_Grid" kendo-grid="gop_Grid" k-options="gop_Grid_Options"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="pnVehicle">
+                            <div class="cus-form thin">
+                                <div class="form-header">
+                                    <div class="left">
+                                        <div class="title">Phương tiện</div>
+                                    </div>
+                                    <div class="right" style="padding-right:5px;">
+                                        <input ng-show="VehicleWinWidth>300&&IsVehicleVendor" style="width:150px;" class="cus-combobox" focus-k-combobox kendo-combobox="cboVehicleVendor" k-ng-model="VehicleVendorID" k-options="cboVehicleVendor_Options" />
+                                        <input ng-show="VehicleWinWidth>250&&!IsVehicleVendor" style="width:150px;" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="VehicleRequestDate" k-options="DateDMYHM" />
+                                        <a href="/" ng-show="IsVehicleVendor" class="k-button" ng-click="VehicleVendor_New_Click($event,new_vehicle_win)"><i class="fa fa-plus"></i><span class="tooltip" style="left: -30px;">Thêm nhanh</span></a>
+                                        <a href="/" class="k-button" ng-click="VehicleVendor_Click($event)"><i class="fa fa-refresh"></i><span class="tooltip is-right">Xe đối tác</span></a>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="form-body">
+                                    <div class="full" ng-show="!IsVehicleVendor">
+                                        <div class="cus-grid" expand-k-grid kendo-grid="vehicle_Grid" k-options="vehicle_Grid_Options"></div>
+                                    </div>
+                                    <div class="full" ng-show="IsVehicleVendor">
+                                        <div class="cus-grid" expand-k-grid kendo-grid="vehicleByVendor_Grid" k-options="vehicleByVendor_Grid_Options"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTrips Popup-->
+<div class="cus-window opacity90" id="newtripwin" k-title="false" draggable-k-window k-width="900" k-height="500" k-min-width="500" k-min-height="300" kendo-window="new_trip_win" k-visible="false" k-resizable="true" k-modal="true" k-on-close="On_Close('NewTO')">
+    <div class="cus-form">
+        <div class="form-header" style="background: #f6fafe;">
+            <div class="left title">
+                Danh sách chuyến
+            </div>
+            <div class="right">
+                <a class="k-button" style="float:left;" ng-show="NewTripViewAction==0&&NewTripChoose&&ToMonAvailable" ng-click="NewDelete_Click($event)"><i class="fa fa-ban"></i><span class="tooltip">Xóa chuyến</span></a>
+                <a class="k-button" style="float:left;" ng-show="NewTripViewAction==0&&NewTripChoose&&ToMonAvailable" ng-click="NewToMON_Click($event)"><i class="fa fa-check-square-o"></i><span class="tooltip">Duyệt</span></a>
+                <a class="k-button" style="float:left;" ng-show="NewTripViewAction==0&&NewTripChoose&&ToOpsAvailable" ng-click="NewToOPS_Click($event)"><i class="fa fa-clock-o"></i><span class="tooltip">Hủy duyệt</span></a>
+
+                <a class="k-button" style="float:left;" ng-show="NewTripViewAction==2&&NewTimeLineToMonAvailable" ng-click="NewTimeLine_GroupDelete_Click($event,new_timeline_Trip)"><i class="fa fa-ban"></i><span class="tooltip">Xóa chuyến</span></a>
+                <a class="k-button" style="float:left;" ng-show="NewTripViewAction==2&&NewTimeLineToMonAvailable" ng-click="NewTimeLine_GroupToMON_Click($event,new_timeline_Trip)"><i class="fa fa-check-square-o"></i><span class="tooltip">Duyệt</span></a>
+                <a class="k-button" style="float:left;" ng-show="NewTripViewAction==2&&NewTimeLineToOpsAvailable" ng-click="NewTimeLine_GroupToOPS_Click($event,new_timeline_Trip)"><i class="fa fa-clock-o"></i><span class="tooltip">Hủy duyệt</span></a>
+
+                <ul class="filter-list" style="float:left;">
+                    <li data-tabindex="0" ng-show="NewTripViewAction==1&&NewViewDataSelect.length>0" ng-click="NewTripViewDataSelect_Click($event,new2view_trip_select_Grid,new_trip_select_win)" class="k-item">Bổ sung chuyến</li>
+                    <li data-tabindex="1" ng-show="NewTripViewAction==0" ng-click="NewTripViewStatus_Click($event)" class="k-item" ng-class="NewViewTripApproved?'k-state-active':''">Kế hoạch</li>
+                    <li data-tabindex="2" ng-show="NewTripViewAction==0" ng-click="NewTripViewStatus_Click($event)" class="k-item" ng-class="NewViewTripTendered?'k-state-active':''">Đã duyệt</li>
+                    <li data-tabindex="3" ng-show="NewTripViewAction!=2" ng-click="NewTripViewDate_Click($event)" class="k-item" ng-class="NewViewTripDate?'k-state-active':''">
+                        Chọn ngày
+                        <ul ng-show="ShowNewTripDate" style="z-index: 990001; position: absolute; right: 0; background-color: #fff; color: #000; width: 150px; list-style: none; padding: 2px 10px; box-shadow: -2px 2px 3px #d7e3f0; ">
+                            <li>
+                                Từ ngày: <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-ng-model="NewTripDateRequest.fDate" k-options="DateDMY" />
+                            </li>
+                            <li>
+                                Đến ngày: <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-ng-model="NewTripDateRequest.tDate" k-options="DateDMY" />
+                            </li>
+                            <li style="text-align: center;">
+                                <a class="accept" ng-click="NewTripViewDate_OK_Click($event)">Đồng ý</a>
+                                <a class="accept" ng-click="NewTripViewDate_Cancel_Click($event)">Hủy chọn</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li data-tabindex="4" ng-click="NewTripView2View_Click($event)" class="k-item" ng-class="NewTripViewAction==1?'k-state-active':''">Điều chỉnh</li>
+                    <li data-tabindex="5" ng-click="NewTripViewTimeLine_Click($event)" class="k-item" ng-class="NewTripViewAction==2?'k-state-active':''">Theo xe</li>
+                </ul>
+                <a href="/" ng-show="!NewViewTripLoading" class="k-button" ng-click="ViewMax_Click($event,new_trip_win)"><i class="fa fa-television"></i></a>
+                <a href="/" class="k-button" ng-click="Close_Click($event,new_trip_win,'NewTO')"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="full" style=" position: absolute; background: #fff; z-index: 999;" ng-show="NewViewTripLoading">
+                <div style="position: absolute; top: calc(50% - 22px); left: calc(50% - 22px);">
+                    <i class="fa fa-spinner fa-spin" style="font-size: 44px; color: #31b6fc; "></i>
+                </div>
+            </div>
+            <div class="full" style=" position: absolute; background: #fff; z-index: 980;" ng-show="NewTripViewAction==0">
+                <div kendo-tooltip k-options="tooltipTripOptions" class="full cus-tooltip">
+                    <div class="cus-grid" expand-k-grid kendo-grid="new_trip_Grid" k-options="new_trip_Grid_Options"></div>
+                </div>
+            </div>
+            <div class="full" style=" position: absolute; background: #fff; z-index: 970;" ng-show="NewTripViewAction==1">
+                <div kendo-splitter="tripSplitter" k-options="tripSplitter_Options" class="cus-splitter" ng-class="ver-splitter" style="width: calc(100% - 2px);">
+                    <div>
+                        <div class="cus-grid" expand-k-grid kendo-grid="new2view_trip_Grid" k-options="new2view_trip_Grid_Options"></div>
+                    </div>
+                    <div>
+                        <div class="cus-grid" expand-k-grid kendo-grid="new2view_gop_Grid" k-options="new2view_gop_Grid_Options"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="full" style=" position: absolute; background: #fff; z-index: 960;" ng-show="NewTripViewAction==2">
+                <div class="cus-scheduler timeline-trip" expand-k-scheduler kendo-scheduler="new_timeline_Trip" k-options="new_timeline_TripOptions" k-rebind="new_timeline_TripOptions" k-delay="new_timeline_TripOptions"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<span kendo-notification="notification" k-options="notificationOptions" style="z-index:999999;"></span>
+
+<!--NewTripToSelect Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="900" k-max-height="650" k-height="500" k-min-width="500" k-min-height="300" kendo-window="new_trip_select_win" k-visible="false" k-resizable="true" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách chuyến
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="new2view_trip_select_Grid" k-options="new2view_trip_select_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="NewTripSelect_OK_Click($event,new2view_trip_select_Grid,new_trip_select_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,new_trip_select_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLineVehicleSelect Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="500" k-max-height="650" k-height="500" kendo-window="new_timeline_vehicle_select_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineVehicleSelect')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách xe
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="new_timeline_vehicle_select_Grid" k-options="new_timeline_vehicle_select_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="NewTimeLineVehicleSelect_OK_Click($event,new_timeline_vehicle_select_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,new_timeline_vehicle_select_win,'TimeLineVehicleSelect')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTripDetail Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="600" k-max-height="650" k-height="275" kendo-window="new_trip_info_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('NewTODetail')">
+    <div class="cus-form">
+        <div class="form-header" style="background: #f6fafe;">
+            <div class="left title">
+                Chuyến: {{NewTripItem.Code}}
+            </div>
+            <div class="right" style="font-weight:bold;" ng-show="NewTripItem.Status==1">
+                <div ng-show="NewTripItem.IsCheching">
+                    <i class="fa fa-spinner fa-spin" style="font-size: 26px; color: #31b6fc;"></i>
+                </div>
+                <span ng-show="!NewTripItem.IsCheching" style="padding: 0 10px; color:{{NewTripItem.StatusColor}}">{{NewTripItem.StatusCode}}</span>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" scrolldiv>
+            <table class="td-right">
+                <tbody>
+                    <tr>
+                        <td style="width:140px;">
+                            Nhà xe:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="NewTripItem.Status!=1" style="width:100%;" class="cus-combobox" focus-k-combobox kendo-combobox="cboNewTripVendor" k-ng-model="NewTripItem.VendorOfVehicleID" k-options="cboNewTripVendor_Options" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Số xe:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="NewTripItem.Status!=1" style="width:100%;" class="cus-combobox" focus-k-combobox kendo-combobox="cboNewTripVehicle" k-ng-model="NewTripItem.VehicleID" k-options="cboNewTripVehicle_Options" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tài xế:
+                        </td>
+                        <td colspan="6">
+                            <input ng-readonly="NewTripItem.Status!=1||NewTripItem.VendorOfVehicleID==null||NewTripItem.VendorOfVehicleID<1" kendo-auto-complete focus-k-complete ng-model="NewTripItem.DriverName" k-options="atcNewTripDriverNameOptions" style="width: 205px;" />
+                            <input ng-readonly="NewTripItem.Status!=1||NewTripItem.VendorOfVehicleID==null||NewTripItem.VendorOfVehicleID<1" type="text" class="k-textbox" ng-model="NewTripItem.DriverTel" maxlength="11" placeholder="SĐT" style="width: 139px; height: 26px; line-height: 26px; padding: .177em 0; text-indent: .33em; border-color: #c5c5c5; " />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETD:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="NewTripItem.Status!=1" style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewTripItem.ETD" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETA:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="NewTripItem.Status!=1" style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewTripItem.ETA" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                    <tr ng-show="NewTripItem.VendorOfVehicleID==-1&&NewTripItem.ID<1">
+                        <td>
+                            Điểm bắt đầu:
+                        </td>
+                        <td colspan="6">
+                            <a class="k-button" title="{{NewTripItem.LocationStartName}}" style="width: 347px; background: none; height: 26px; text-align: left; " ng-click="TripLocation_Change($event,1,location_win)">{{NewTripItem.LocationStartName}}</a>
+                        </td>
+                    </tr>
+                    <tr ng-show="NewTripItem.VendorOfVehicleID==-1&&NewTripItem.ID<1">
+                        <td>
+                            Điểm kết thúc:
+                        </td>
+                        <td colspan="6">
+                            <a class="k-button" title="{{NewTripItem.LocationEndName}}" style="width: 347px; background: none; height: 26px; text-align: left; " ng-click="TripLocation_Change($event,2,location_win)">{{NewTripItem.LocationEndName}}</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-show="NewTripItem.Status==1&&NewTripItem.ID>0" ng-click="NewTrip_Delete_OK_Click($event,new_trip_info_win)" class="k-button" style="background: #7b99bf; color: #fff; ">Xóa</a>
+                <a href="/" ng-show="NewTripItem.Status==1&&NewTripItem.VehicleID>0" ng-click="NewTrip_Update_OK_Click($event,new_trip_info_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,new_trip_info_win,'NewTODetail')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLine EventTemplate-->
+<script id="new-timeline-event-template" type="text/x-kendo-template">
+    <div style="cursor:pointer;" class="cus-event" ng-click="NewTimeLineEvent_Click($event,#=id#,new_trip_info_win)">
+        <div class="event-content" >#=title#</div>
+    </div>
+</script>
+
+<!--TripDetail Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="600" k-max-height="650" k-height="300" kendo-window="trip_info_win" k-visible="false" k-resizable="false" k-modal="false">
+    <div class="cus-form">
+        <div class="form-header" style="background: #f6fafe;">
+            <div class="left title">
+                Thông tin
+            </div>
+            <div class="right" style="font-weight:bold;">
+                <div ng-show="TripItem.IsCheching">
+                    <i class="fa fa-spinner fa-spin" style="font-size: 26px; color: #31b6fc; "></i>
+                </div>
+                <span ng-show="!TripItem.IsCheching" style="padding: 0 10px; color:{{TripItem.StatusColor}}">{{TripItem.StatusCode}}</span>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" scrolldiv>
+            <table class="td-right">
+                <tbody>
+                    <tr>
+                        <td style="width:140px;">
+                            Số xe:
+                        </td>
+                        <td colspan="6" style="font-weight:bold">
+                            {{TripItem.VehicleNo}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tài xế:
+                        </td>
+                        <td colspan="6">
+                            <input ng-readonly="!IsVehicleVendor" kendo-auto-complete focus-k-complete ng-model="TripItem.DriverName" k-options="atcDriverNameOptions" style="width: 205px;" />
+                            <input ng-readonly="!IsVehicleVendor" type="text" class="k-textbox" ng-model="TripItem.DriverTel" maxlength="11" placeholder="SĐT" style="width: 139px; height: 26px; line-height: 26px; padding: .177em 0; text-indent: .33em; border-color: #c5c5c5; " />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETD:
+                        </td>
+                        <td colspan="6">
+                            <input style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="TripItem.ETD" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETA:
+                        </td>
+                        <td colspan="6">
+                            <input style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="TripItem.ETA" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Điểm bắt đầu:
+                        </td>
+                        <td colspan="6">
+                            <a class="k-button" title="{{TripItem.LocationStartName}}" style="width: 347px; background: none; height: 26px; text-align: left; " ng-click="TripLocation_Change($event,1,location_win)">{{TripItem.LocationStartName}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Điểm kết thúc:
+                        </td>
+                        <td colspan="6">
+                            <a class="k-button" title="{{TripItem.LocationEndName}}" style="width: 347px; background: none; height: 26px; text-align: left; " ng-click="TripLocation_Change($event,2,location_win)">{{TripItem.LocationEndName}}</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="Save_Click($event,trip_info_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,trip_info_win,'TODetail')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--VendorTripDetail Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="600" k-max-height="650" k-height="240" kendo-window="vendor_trip_info_win" k-visible="false" k-resizable="false" k-modal="false">
+    <div class="cus-form">
+        <div class="form-header" style="background: #f6fafe;">
+            <div class="left title">
+                Thông tin
+            </div>
+            <div class="right" style="font-weight:bold;">
+                <div ng-show="TripItem.IsCheching">
+                    <i class="fa fa-spinner fa-spin" style="font-size: 26px; color: #31b6fc; "></i>
+                </div>
+                <span ng-show="!TripItem.IsCheching" style="padding: 0 10px; color:{{TripItem.StatusColor}}">{{TripItem.StatusCode}}</span>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" scrolldiv>
+            <table class="td-right">
+                <tbody>
+                    <tr>
+                        <td style="width:140px;">
+                            Số xe:
+                        </td>
+                        <td colspan="6" style="font-weight:bold">
+                            {{TripItem.VehicleNo}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tài xế:
+                        </td>
+                        <td colspan="6">
+                            <input ng-readonly="!IsVehicleVendor" kendo-auto-complete focus-k-complete ng-model="TripItem.DriverName" k-options="atcVendorDriverNameOptions" style="width: 205px;" />
+                            <input ng-readonly="!IsVehicleVendor" type="text" class="k-textbox" ng-model="TripItem.DriverTel" maxlength="11" placeholder="SĐT" style="width: 139px; height: 26px; line-height: 26px; padding: .177em 0; text-indent: .33em; border-color: #c5c5c5; " />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETD:
+                        </td>
+                        <td colspan="6">
+                            <input style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="TripItem.ETD" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETA:
+                        </td>
+                        <td colspan="6">
+                            <input style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="TripItem.ETA" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="Save_Click($event,vendor_trip_info_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,vendor_trip_info_win,'TODetail')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Vehicle Tooltip-->
+<div id="vehicle_tooltip" class="cus-window opacity90" style="opacity: 0.9; position: absolute; z-index: 999990; background: #f6fafe; margin: 0; padding: 3px 10px; border: 2px solid #31b6fc; border-radius: 4px;" ng-style="VehicleInfoStyle">
+    <div class="cus-form" scrolldiv ng-show="VehicleInfo.ListTrip.length > 0 && VehicleInfo.IsLoaded">
+        <table>
+            <tbody>
+                <tr style="font-weight:bold;line-height:18px;">
+                    <td class="w100">Mã chuyến</td>
+                    <td style="width:80px">Tài xế</td>
+                    <td style="width:80px">Bắt đầu (ETD)</td>
+                    <td style="width:90px">Kết thúc (ETA)</td>
+                </tr>
+                <tr ng-repeat="item in VehicleInfo.ListTrip" style="line-height:18px;">
+                    <td>
+                        {{item.Code}}
+                    </td>
+                    <td>
+                        {{item.DriverName}}
+                    </td>
+                    <td>
+                        {{item.ETD | date:'dd/MM HH:mm'}}
+                    </td>
+                    <td>
+                        {{item.ETA | date:'dd/MM HH:mm'}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-show="!VehicleInfo.IsLoaded" style="padding: 23px 164px;">
+        <i class="fa fa-spinner fa-spin" style="font-size: 40px; color: #31b6fc;"></i>
+    </div>
+    <div ng-show="VehicleInfo.ListTrip.length == 0 && VehicleInfo.IsLoaded" style="line-height: 30px; text-align: center; font-weight: bold; color: #0a0afe; padding: 23px 148px;">
+        Không có DL
+    </div>
+</div>
+
+<!--VehicleTrips Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="700" k-max-height="650" k-height="400" kendo-window="vehicle_trip_win" k-visible="false" k-resizable="true" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách chuyến - {{VehicleTitle}}
+            </div>
+            <div class="right">
+                <span>Thời gian: </span>
+                <input style="width:160px;" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="VehicleTripRequest.Date" k-options="DateDMYHM" />
+                <ul class="filter-list" style="float:left;">
+                    <li data-tabindex="1" ng-click="VehicleTripViewStatus_Click($event,vehicle_Trip_Grid)" class="k-item" ng-class="ViewVehicleTripApproved?'k-state-active':''">Kế hoạch</li>
+                    <li data-tabindex="2" ng-click="VehicleTripViewStatus_Click($event,vehicle_Trip_Grid)" class="k-item" ng-class="ViewVehicleTripTendered?'k-state-active':''">Đã duyệt</li>
+                </ul>
+                <span>&nbsp;&nbsp;</span>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="vehicle_Trip_Grid" k-options="vehicle_Trip_Grid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,vehicle_trip_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Map Info Window-->
+<div class="cus-window opacity90 map-info" id="map_info_win" k-title="false" k-max-width="1200" k-width="300" k-max-height="650" k-height="400" k-visible="false" k-resizable="false" k-modal="true" style="display:none;">
+    <div class="cus-form" style=" background-color: #f0f0f0; padding: 8px 18px; border: #31b6fc 2px solid; border-radius: 10px;">
+        <table ng-show="VehicleItem != null">
+            <tbody>
+                <tr>
+                    <td>
+                        Số xe:
+                    </td>
+                    <td style="font-weight:bold;">
+                        {{VehicleItem.Regno}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Tài xế mặc định:
+                    </td>
+                    <td>
+                        {{VehicleItem.DriverName || "--N/A--"}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Trọng tải:
+                    </td>
+                    <td style="font-weight:bold;">
+                        {{VehicleItem.MaxWeight + " Tấn" || "--N/A--"}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Vị trí hiện tại:
+                    </td>
+                    <td>
+                        {{ConvertLatLng(VehicleItem.Lat)}} - {{ConvertLatLng(VehicleItem.Lng)}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Chuyến hiện tại:
+                    </td>
+                    <td>
+                        <a ng-show="VehicleItem.CurrentTrip != null" href="/" ng-click="Vehicle_Trip_Click($event)">{{VehicleItem.CurrentTrip.Code}}</a>
+                        <span ng-show="VehicleItem.CurrentTrip == null">{{"--N/A--"}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Chuyến tiếp theo:
+                    </td>
+                    <td>
+                        <a ng-show="VehicleItem.NextTrip != null" href="/" ng-click="Vehicle_Trip_Click($event)">{{VehicleItem.NextTrip.Code}}</a>
+                        <span ng-show="VehicleItem.NextTrip == null">{{"--N/A--"}}</span>
+                        <a ng-show="VehicleItem.NextTrip != null" href="/" ng-click="Vehicle_FindNextTrip_Click($event)"><span>Tất cả</span></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table ng-show="LocationItem != null">
+            <tbody>
+                <tr>
+                    <td>
+                        Mã:
+                    </td>
+                    <td style="font-weight:bold;">
+                        {{LocationItem.Code}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Địa chỉ:
+                    </td>
+                    <td style="font-weight:bold;">
+                        {{LocationItem.Address}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Tọa độ:
+                    </td>
+                    <td>
+                        {{ConvertLatLng(LocationItem.Lat)}} - {{ConvertLatLng(LocationItem.Lng)}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="btnClose">
+            <a href="/" ng-click="InfoClose_Click($event)"><i class="fa fa-close"></i></a>
+        </div>
+        <div style="text-align:center;" ng-show="VehicleItem != null">
+            <a href="/" style="background: #31b6fc; border: 1px #31b6fc solid; color: #fff;" ng-click="VehicleChoose_Click($event)" class="k-button">Chọn</a>
+        </div>
+    </div>
+</div>
+
+<!--Locations Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="800" k-max-height="650" k-height="500" kendo-window="location_win" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Địa điểm
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="location_Grid" k-options="location_Grid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="LocationViewOnMap_Click($event,map_win)" class="k-button">Bản đồ</a>
+                <a href="/" ng-click="Close_Click($event,location_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Map Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="900" k-max-height="650" k-height="500" kendo-window="map_win" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Bản đồ
+            </div>
+            <div class="right">
+                <a href="/" class="k-button" ng-click="Close_Click($event,map_win,'MAP')"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div id="popupmap" class="cus-map"></div>
+            <div id="popupmap_tooltip" class="cus-map-tooltip"></div>
+        </div>
+        <div style="position: absolute; top: 45px; right: 12px;">
+            <input kendo-auto-complete focus-k-complete k-options="atcLocationOptions" style="width: 300px;" />
+        </div>
+    </div>
+</div>
+
+<!--Popup Map Info Win-->
+<div class="cus-window opacity90 map-info" id="popupmap_info_win" k-title="false" k-max-width="1200" k-width="300" k-max-height="650" k-height="400" k-visible="false" k-resizable="false" k-modal="true" style="display:none;">
+    <div class="cus-form" style=" background-color: #f0f0f0; padding: 8px 18px; border: #31b6fc 2px solid; border-radius: 10px;">
+        <table ng-show="LocationItem != null">
+            <tbody>
+                <tr>
+                    <td>
+                        Mã:
+                    </td>
+                    <td style="font-weight:bold;">
+                        {{LocationItem.Code}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Tên:
+                    </td>
+                    <td style="font-weight:bold;">
+                        {{LocationItem.Location}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Địa chỉ:
+                    </td>
+                    <td>
+                        {{LocationItem.Address}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Tọa độ:
+                    </td>
+                    <td>
+                        {{ConvertLatLng(LocationItem.Lat)}} - {{ConvertLatLng(LocationItem.Lng)}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="btnClose">
+            <a href="/" ng-click="InfoClose_Click($event)"><i class="fa fa-close"></i></a>
+        </div>
+        <div style="text-align:center;">
+            <a href="/" style="background: #31b6fc; border: 1px #31b6fc solid; color: #fff;" ng-click="OnMap_LocationChoose_Click($event,map_win,location_win)" class="k-button">Chọn</a>
+        </div>
+    </div>
+</div>
+
+<!--VendorRate Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="600" k-max-height="650" k-height="300" kendo-window="vendor_rate_win" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn đối tác
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="vendor_rate_Grid" k-options="vendor_rate_Grid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Tender_Accept_Click($event,vendor_rate_Grid,vendor_rate_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,vendor_rate_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FTLSplit Popup-->
+<div class="cus-window" kendo-window="split_gop_win" k-title="false" k-max-width="1200" k-width="900" k-max-height="650" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chia đơn hàng
+            </div>
+            <div class="right"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="splitGop_Grid" k-options="splitGop_GridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="FTLSplit_OK_Click($event,splitGop_Grid,split_gop_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,split_gop_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--New Vendor Vehicle Popup-->
+<div class="cus-window" kendo-window="new_vehicle_win" k-title="false" k-max-width="1200" k-width="400" k-max-height="650" k-height="170" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin
+            </div>
+            <div class="right"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-100">
+                <div class="rowinput">
+                    <label>Số xe<span class="required">*</span></label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="NewVehicleVendor.RegNo" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Trọng tải</label>
+                    <div>
+                        <input class="k-textbox cus-number" type="number" ng-model="NewVehicleVendor.MaxWeight" min="0" step="0.1" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="VehicleVendor_New_OK_Click($event,vehicleByVendor_Grid,new_vehicle_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,new_vehicle_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Config Popup-->
+<div class="cus-window opacity90" kendo-window="config_view_win" k-title="false" k-width="400" k-height="215" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thiết lập
+            </div>
+            <div class="right"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="view-custom">
+                <div class="item">
+                    <a href="/">
+                        <div class="icon">
+                            <div title="Ẩn/Hiện bản đồ" class="icon-icon" ng-class="ConfigView.showMap?'isEnable':''" style="background-image: url(/Images/function/ico_04_active.png)" ng-click="ConfigView_ShowMap_Click($event)"></div>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="/">
+                        <div class="icon">
+                            <div title="Ẩn/Hiện grid xe tải" class="icon-icon" ng-class="ConfigView.showGrid?'isEnable':''" style="background-image: url(/Images/function/ico_02_active.png)" ng-click="ConfigView_ShowGrid_Click($event)"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,config_view_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

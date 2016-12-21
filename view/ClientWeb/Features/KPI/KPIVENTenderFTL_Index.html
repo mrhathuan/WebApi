@@ -1,0 +1,77 @@
+﻿<div class="view-breakumb">
+    <div class="left">
+        <ul class="breakumb">
+            <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="cus-tabstrip" kendo-tabstrip="kpi_tabstrip" k-options="kpi_tabstripOptions" expand-k-tabstrip>
+            <ul>
+                <li class="k-state-active" data-tabindex="0">Dashboard</li>
+                <li data-tabindex="1">Chi tiết KPI</li>
+            </ul>
+            <div>
+                
+            </div>
+            <div>
+                <div class="cus-grid" kendo-grid="kpi_grid" k-options="kpi_gridOptions" expand-k-grid></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Window-->
+<div class="cus-window" kendo-window="ventender_reason_win" k-title="false" k-width="600" k-height="200" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                THÔNG TIN LÝ DO
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-content with-footer">
+            <div class="form-content-100">
+                <div class="rowinput">
+                    <label>Lý do</label>
+                    <div>
+                        <input class="cus-combobox" ng-model="VenTenderItem.ReasonID" focus-k-combobox kendo-combobox k-options="cboKPIReason_Options" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ghi chú</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="VenTenderItem.Note" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="VenTender_Reason_Submit_Click($event,ventender_reason_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Window_Close_Click($event,ventender_reason_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Script-Toolbar-->
+<script type="text/x-kendo-tmpl" id="kpi_gridToolbar">
+    <div class="gridtoolbar">
+        <div class="right">
+            <span>Đối tác:</span>
+            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboVenTender_VenOptions" style="width: 150px;" k-ng-model="ViewItem.VenID" />
+            <span>Ngày gửi đơn hàng:</span>
+            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" style="width: 90px;" k-ng-model="ViewItem.DateFrom" />
+            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" style="width: 90px;" k-ng-model="ViewItem.DateTo" />
+            <a href="/" ng-click="KPI_Excel_Click($event)" ng-show="HasVENTenderSearch" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-click="Generate_Click($event)" ng-show="HasVENTenderSearch" class="k-button"><i class="fa fa-refresh"></i><span class="tooltip">Tính lại KPI</span></a>
+            <a href="/" ng-click="View_Click($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Xem</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>

@@ -1,0 +1,119 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ui-sref="main.ORDOrder.New" class="btn-new-order" data-title="Thêm mới">
+                <button> <i class="fa fa-plus"></i>&nbsp;Tạo đơn hàng mới</button>
+            </a>
+            <a href="/" ui-sref="main.ORDOrder.Excel" class="k-button" data-title="Excel"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ui-sref="main.ORDOrder.DN" class="k-button" data-title="Hiện số DN"><i class="fa fa-braille"></i><span class="tooltip">Hiện số DN</span></a>
+            <a href="/" ng-click="ShowSetting($event,gop_Grid)" ng-mouseenter="ShowSetting($event,gop_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div kendo-splitter="viewSplitter" k-options="viewSplitter_Options" class="cus-splitter ver-splitter" style="width: calc(100% - 2px);">
+            <div>
+                <div class="v-top" style=" width: 100%; height: calc(100% - 125px); line-height: 28px;">
+                    <div style="padding: 5px 10px 10px 10px; background: #F3FBFE; color: #6f8ba9;">
+                        <div style="float:left;">
+                            <div>Khách hàng</div>
+                            <div style="position: relative; top: 1px;">
+                                <input style="width: 350px; padding: 1px;" focus-k-select kendo-multi-select="mltCustomer" k-options="mltCustomerOptions" k-ng-model="ListCustomer" />
+                            </div>
+                        </div>
+                        <div style="float: left; padding-left: 10px;">
+                            <div>Mã đơn hàng</div>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="cboOrderCode" k-options="cboOrderCodeOptions" ng-model="OrderID" />
+                            </div>
+                        </div>
+                        <div style="float: right; padding-top: 5px; ">
+                            <div style="float: left; padding: 0 20px;">
+                                <div>
+                                    <div style="float: left;">
+                                        <div style="background-image: url(../Images/order-vehicle.png); width: 45px; height: 30px; "></div>
+                                    </div>
+                                    <div style="float: left; font-weight: bold;">
+                                        {{TotalTrip}} chuyến
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div>
+                                    Tài xế: {{DriverName}}
+                                </div>
+                            </div>
+                            <div style="float: left; padding: 0 10px 0 20px;">
+                                <div>
+                                    <button style="width: 100%; height: 30px; background:{{DriverTel==''?'#C1C1C1': '#FA7C7B'}} ; border: none; border-radius: 4px; color: #fff;" ng-click="Call_Click($event)">GỌI NGAY</button>
+                                </div>
+                                <div style="color: #FA7C7B; text-align: center;">
+                                    {{DriverTel}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div style="height: calc(100% - 78px);">
+                        <div class="cus-grid" kendo-grid="gop_Grid" k-options="gop_GridOptions" expand-k-grid="gop_Grid"></div>
+                    </div>
+                </div>
+                <div class="v-time" style="width: 100%; height: 125px;">
+                    <table style="width: 100%; height: 100px;" border="0" cellpadding="0" cellspacing="0">
+                        <tr style="height: 25px; ">
+                            <td style="border-right: 1px solid #fff; width: 60px"></td>
+                            <td ng-repeat="item in CellX" colspan="2" style="border-right: 1px solid #fff; width: 120px;"></td>
+                            <td style="width: 60px"></td>
+                        </tr>
+                        <tr style="height: 25px;">
+                            <td style="border-right: 1px solid #fff; width: 60px; "></td>
+                            <td ng-repeat="item in CellX" colspan="2" style="border-right: 1px solid #fff; width: 120px; position: relative;" data-item="{{item}}" class="time-span-top"></td>
+                            <td style="width: 60px"></td>
+                        </tr>
+                        <tr style="height: 25px;">
+                            <td ng-repeat="item in CellZ" style="background-color: aquamarine; width: 60px; position: relative;" data-item="{{item}}" class="time-span-act"></td>
+                        </tr>
+                        <tr style="height: 25px; position:relative;">
+                            <td style="border-right: 1px solid #d4dce4; width:60px;font-weight:bold;">{{ViewDate}}</td>
+                            <td ng-repeat="item in CellX" colspan="2" style="border-right: 1px solid #d4dce4; width: 120px; position: relative;" data-item="{{item}}" class="time-span-ets"></td>
+                            <td style="width: 60px"></td>
+                        </tr>
+                        <tr style="height: 25px;">
+                            <td ng-repeat="item in CellY" colspan="2" style="text-align: center; width: 120px; position: relative;" data-item="{{item}}" class="time-span-bot">{{item.Text}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <div class="full">
+                    <div id="map" class="cus-map"></div>
+                    <div id="map_tooltip" class="cus-map-tooltip"></div>
+                </div>
+            </div>
+        </div>           
+    </div>
+</div>
+
+<style>
+    .btn-new-order { text-decoration: none; padding: 4px 4px; }
+    .btn-new-order button { background-color: #20C7FF; border: none; color: white; padding: 8px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; border-radius: 4px; cursor: pointer; }
+    .btn-new-order button:hover { background-color: #1da0e5; border-color: #1da0e5; }
+
+    .timePlan { height: 20px; background: #31b6fc; border-radius: 5px; position: absolute; top: 0; width: 30px; text-align: center; line-height: 20px; color: white; z-index:999;}
+    .timePlan::before { position: absolute; bottom: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: transparent transparent #31b6fc transparent; content: ''; }
+
+    .timeActual { height: 25px; background: #31b6fc; border-radius: 5px; position: absolute; top: -36px; width: 110px; text-align: center; line-height: 25px; color: white; z-index: 999; }
+    .timeActual::after { position: absolute; top: 120%; left: 50%; margin-left: -12px; content: ''; background-image: url(/Images/map/icon/blue/ico_location.png); width: 24px; height: 24px; background-position: center; background-repeat: no-repeat; background-size: 100% 100%; }
+
+    .timeActual.topLine { top: -62px; }
+    .timeActual.topLine::after { top: calc(120% + 26px); }
+    .timeActual.requestDate { background: #31b6fc; }
+    .timeActual.createdDate { background: #f0d4a4; }
+    .timeActual.atdDate { background: #cfa1e8; }
+    .timeActual.ataDate { background: #5ca424; }
+    .timeActual.stkDate { background: #31b6fc; width: 70px; }
+    .timeActual.disDate { background: #fc6d6e; width: 70px; }
+</style>

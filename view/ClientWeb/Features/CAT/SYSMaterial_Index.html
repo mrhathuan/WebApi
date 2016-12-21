@@ -1,0 +1,192 @@
+﻿
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right">
+                <a href="/" ng-click="Save_Click($event)" class="k-button" data-title="Lưu"><i class="fa fa-check"></i><span class="tooltip is-right">Lưu</span></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="form-content-150" style="padding-right:15%; padding-left: 15%;">
+                <div style="width:50%;float:left;">
+                    <div class="rowinput">
+                        <label style="width:40%;"> Diesel (kv1)</label>
+                        <div style="width:58%;">
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboMaterialOptions" ng-model="Item.DieselArea1_MaterialID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:40%;"> Diesel (kv2)</label>
+                        <div style="width:58%;">
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboMaterialOptions" ng-model="Item.DieselArea2_MaterialID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:40%;"> Dầu DO 05 (kv1)</label>
+                        <div style="width:58%;">
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboMaterialOptions" ng-model="Item.DO05Area1_MaterialID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:40%;"> Dầu DO 05 (kv2)</label>
+                        <div style="width:58%;">
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboMaterialOptions" ng-model="Item.DO05Area2_MaterialID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:40%;"> Dầu DO 25 (kv1)</label>
+                        <div style="width:58%;">
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboMaterialOptions" ng-model="Item.DO25Area1_MaterialID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:40%;"> Dầu DO 25 (kv2)</label>
+                        <div style="width:58%;">
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboMaterialOptions" ng-model="Item.DO25Area2_MaterialID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:40%;"> Xăng E5RON 92 (kv1)</label>
+                        <div style="width:58%;">
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboMaterialOptions" ng-model="Item.E5RON92Area1_MaterialID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:40%;"> Xăng E5RON 92 (kv2)</label>
+                        <div style="width:58%;">
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboMaterialOptions" ng-model="Item.E5RON92Area2_MaterialID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:40%;"> Xăng RON 92 (kv1)</label>
+                        <div style="width:58%;">
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboMaterialOptions" ng-model="Item.RON92Area1_MaterialID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:40%;"> Xăng RON 92 (kv2)</label>
+                        <div style="width:58%;">
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboMaterialOptions" ng-model="Item.RON92Area2_MaterialID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:40%;"> Xăng RON 95 (kv1)</label>
+                        <div style="width:58%;">
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboMaterialOptions" ng-model="Item.RON95Area1_MaterialID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:40%;"> Xăng RON 95 (kv2)</label>
+                        <div style="width:58%;">
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboMaterialOptions" ng-model="Item.RON95Area2_MaterialID" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div style="width:50%;float:left;">
+                    <div class="rowinput">
+                        <label style="width:20%;"> Giá (VNĐ)</label>
+                        <div style="width:58%;">
+                            <input ng-model="Item.DieselArea1"  kendo-numeric-text-box k-options="nummoney_options" k-min="0" k-spinners="false" style="width:90%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:20%;"> Giá (VNĐ)</label>
+                        <div style="width:58%;">
+                            <input ng-model="Item.DieselArea2"  kendo-numeric-text-box k-options="nummoney_options" k-min="0" k-spinners="false" style="width:90%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:20%;"> Giá (VNĐ)</label>
+                        <div style="width:58%;">
+                            <input ng-model="Item.DO05Area1"  kendo-numeric-text-box k-options="nummoney_options" k-min="0" k-spinners="false" style="width:90%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:20%;"> Giá (VNĐ)</label>
+                        <div style="width:58%;">
+                            <input ng-model="Item.DO05Area2"  kendo-numeric-text-box k-options="nummoney_options" k-min="0" k-spinners="false" style="width:90%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:20%;"> Giá (VNĐ)</label>
+                        <div style="width:58%;">
+                            <input ng-model="Item.DO25Area1"  kendo-numeric-text-box k-options="nummoney_options" k-min="0" k-spinners="false" style="width:90%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:20%;"> Giá (VNĐ)</label>
+                        <div style="width:58%;">
+                            <input ng-model="Item.DO25Area2"  kendo-numeric-text-box k-options="nummoney_options" k-min="0" k-spinners="false" style="width:90%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:20%;"> Giá (VNĐ)</label>
+                        <div style="width:58%;">
+                            <input ng-model="Item.E5RON92Area1"  kendo-numeric-text-box k-options="nummoney_options" k-min="0" k-spinners="false" style="width:90%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:20%;"> Giá (VNĐ)</label>
+                        <div style="width:58%;">
+                            <input ng-model="Item.E5RON92Area2"  kendo-numeric-text-box k-options="nummoney_options" k-min="0" k-spinners="false" style="width:90%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:20%;"> Giá (VNĐ)</label>
+                        <div style="width:58%;">
+                            <input ng-model="Item.RON92Area1"  kendo-numeric-text-box k-options="nummoney_options" k-min="0" k-spinners="false" style="width:90%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:20%;"> Giá (VNĐ)</label>
+                        <div style="width:58%;">
+                            <input ng-model="Item.RON92Area2"  kendo-numeric-text-box k-options="nummoney_options" k-min="0" k-spinners="false" style="width:90%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:20%;"> Giá (VNĐ)</label>
+                        <div style="width:58%;">
+                            <input ng-model="Item.RON95Area1"  kendo-numeric-text-box k-options="nummoney_options" k-min="0" k-spinners="false" style="width:90%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label style="width:20%;"> Giá (VNĐ)</label>
+                        <div style="width:58%;">
+                            <input ng-model="Item.RON95Area2"  kendo-numeric-text-box k-options="nummoney_options" k-min="0" k-spinners="false" style="width:90%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

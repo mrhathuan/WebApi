@@ -1,0 +1,188 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right button">
+            <input kendo-multi-select focus-k-select k-options="mtsFLMAsset_Options" k-ng-model="ItemSearch.ListFLMAssetID" style="width:500px;float:left" />
+            <a href="/" ng-click="Search_Click($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Xem</span></a>
+            <a href="/" ng-click="Add_Click($event,FLMMaintenance_win,FLMMaintenance_win_vform)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-scheduler" kendo-scheduler="main_scheduler" k-options="main_schedulerOptions" k-rebind="main_schedulerOptions"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="FLMMaintenance_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                {{ Item.TypeOfActivityName }} - {{ Item.RegNo }}
+            </div>
+            <div class="right button"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150" v-form="FLMMaintenance_win_vform">
+                <div class="rowinput">
+                    <label>Xe/romooc/container <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="FLMMaintenance_win_cbbAsset" ng-model="Item.AssetID" ng-disabled="Item.ID>0" k-options="FLMMaintenance_win_cbbAssetOptions" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Loại <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="FLMMaintenance_win_cbbTypeActivity" ng-model="Item.TypeOfActivityID" k-options="FLMMaintenance_win_cbbTypeActivityOptions" v-form-require="true" ng-disabled="Item.IsEditable" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>&nbsp;</label>
+                    <div>
+                        <label><input type="radio" ng-model="Item.IsLessThanDay" ng-value="true" ng-disabled="Item.IsEditable" />Trong ngày</label>
+                        <label><input type="radio" ng-model="Item.IsLessThanDay" ng-value="false" ng-disabled="Item.IsEditable" />>1 ngày</label>
+                    </div>
+                </div>
+                <div class="rowinput" ng-show="Item.IsLessThanDay">
+                    <label>Ngày thực hiện <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-datetimepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.PlanDateFrom" v-form-require="true" ng-disabled="Item.IsEditable" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput" ng-show="Item.IsLessThanDay">
+                    <label>Thời gian <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-timepicker" focus-k-timepicker kendo-time-picker k-options="DateHM" k-ng-model="Item.PlanDateFrom" style="width:calc(50% - 5px)" ng-disabled="Item.IsEditable" />
+                        <span>-</span>
+                        <input class="cus-timepicker" focus-k-timepicker kendo-time-picker k-options="DateHM" k-ng-model="Item.PlanDateTo" style="width:calc(50% - 5px)" ng-disabled="Item.IsEditable" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput" ng-show="!Item.IsLessThanDay">
+                    <label>Từ ngày <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="Item.PlanDateFrom" ng-disabled="Item.IsEditable" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput" ng-show="!Item.IsLessThanDay">
+                    <label>Đến ngày <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="Item.PlanDateTo" ng-disabled="Item.IsEditable" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Lặp lại </label>
+                    <div>
+                        <input focus-k-combobox kendo-combo-box class="cus-combobox" k-options="FLMMaintenance_win_cbbActivityRepeatOptions" ng-model="Item.ActivityRepeatID" ng-disabled="Item.IsEditable" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput" ng-show="Item.ActivityRepeatID!=Item.ActivityRepeatNone">
+                    <label>Thời gian lặp lại</label>
+                    <div>
+                        <input class="cus-number" ng-model="Item.TotalRepeat" kendo-numeric-text-box k-options="numTotalRepeat_Options" style="width:100%" ng-disabled="Item.IsEditable" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput" ng-show="Item.ActivityRepeatID!=Item.ActivityRepeatNone">
+                    <label>Số lần lặp lại</label>
+                    <div>
+                        <label><input type="radio" ng-model="TypeRepeatNo" ng-value="true" ng-change="Item.TotalRecall=-1" ng-disabled="Item.IsEditable" />Vô hạn</label>
+                        <label><input type="radio" ng-model="TypeRepeatNo" ng-value="false" ng-change="Item.TotalRecall=1" ng-disabled="Item.IsEditable" />Chính xác</label>
+                        <input ng-show="!TypeRepeatNo" class="cus-number" ng-model="Item.TotalRecall" kendo-numeric-text-box k-options="numTotalRecall_Options" ng-disabled="Item.IsEditable" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput" ng-show="Item.ActivityRepeatID!=Item.ActivityRepeatNone">
+                    <label>Tình trạng</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="Item.Status" disabled="disabled" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Nội dung </label>
+                    <div>
+                        <textarea rows="3" ng-model="Item.Note" v-form-length="500" ng-disabled="Item.IsEditable" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Vị trí kết thúc</label>
+                    <div>
+                        <a href="/" ng-click="Choose_LocationClick($event,FLMMaintenance_ChooseLocation,FLMMaintenance_ChooseDriver_grid)" ng-disabled="Item.IsEditable" class="k-button" style="width:100%; height:29px">{{Item.LocationEndPlanAddress}}</a>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    <div class="form-footer">
+        <div>
+            <a href="/" ng-click="Save_Click($event,FLMMaintenance_win,FLMMaintenance_win_vform)" class="k-button accept">Lưu</a>
+            <a href="/" ng-show="Item.ID>0" ng-click="Delete_Click($event,FLMMaintenance_win)" class="k-button">Xóa</a>
+            <a href="/" ng-click="Close_Click($event,FLMMaintenance_win)" class="k-button close">Đóng</a>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="FLMMaintenance_ChooseLocation" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn điểm kết thúc</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="FLMMaintenance_ChooseLocation_grid" expand-k-grid k-options="FLMMaintenance_ChooseLocationOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="LocationChoose_SaveClick($event,FLMMaintenance_ChooseLocation,FLMMaintenance_ChooseLocation_grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Win_CloseClick($event,FLMMaintenance_ChooseLocation)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--template-->
+<script id="task-template" type="text/x-kendo-template">
+    <div class="cus-task" ng-class="{typeOPS:#=TypeID<0#,typeMainteance:#=TypeID==1#,typeRepair:#=TypeID==3#,typeRegistry:#=TypeID==2#}" ng-click="Event_Click(#=meetingID#,#=TypeID#,FLMMaintenance_win,FLMMaintenance_win_vform)">&nbsp;</div>
+</script>
+
+<style>
+    .cus-task {
+        width: 100%;
+        height: 29px;
+        font-size: 11px;
+    }
+
+    .typeOPS {
+        background-color: greenyellow;
+    }
+
+    .typeMainteance {
+        background-color: yellow;
+    }
+
+    .typeRepair {
+        background-color: red;
+    }
+
+    .typeRegistry {
+        background-color: blue;
+    }
+</style>

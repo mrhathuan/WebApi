@@ -1,0 +1,215 @@
+﻿
+
+<script id="grid_toolbar" type="text/x-kendo-template">
+    <div class="gridtoolbar">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="ExcelRouteArea_Click($event)" class="k-button" data-title="Import khu vực"><i class="fa fa-file-excel-o"></i><span class="tooltip">Import khu vực</span></a>
+            <a href="/" ng-click="ExcelLocationArea_Click($event)" class="k-button" data-title="Chi tiết khu vực"><i class="fa fa-file-excel-o"></i><span class="tooltip">Chi tiết khu vực</span></a>
+            <a href="/" ng-click="AddNew_Click($event,win, vform)" class="k-button" data-title="Thêm mới"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-click="ShowSetting($event,area_grid)" ng-mouseenter="ShowSetting($event,reason_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+</script>
+<div class="cus-grid" kendo-grid="area_grid" expand-k-grid k-options="area_gridOptions"></div>
+<!--popup-->
+<div class="cus-window" draggable-k-window kendo-window="win" k-title="false" k-width="600" k-height="250" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                THÊM KHU VỰC
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="vform">
+                    <div class="rowinput">
+                        <label>Mã khu vực <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.Code" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên khu vực <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" ng-model="Item.AreaName" v-form-require="true" v-form-length="50" maxlength="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tự động </label>
+                        <div>
+                            <input type="checkbox" ng-model="Item.IsAuto" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <a href="/" ng-click=" Follow_Click($event,Follow_win)" class="k-button accept" data-title="Quan sát khu vực" style="margin-left:155px">Quan sát khu vực: {{RoutingName}}</a>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Save_Click($event,win,vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--location-->
+<div class="cus-window" draggable-k-window kendo-window="AreaLocation_win" k-title="false" k-width="1000" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Vị trí</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="AreaLocation_grid" expand-k-grid k-options="AreaLocation_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>               
+                <a href="/" ng-click="Location_AddNew($event,LocationNotIn_win)" class="k-button accept">Thêm mới</a>
+                <a href="/" ng-click="AreaLocation_Copy($event,AreaLocationAreaNotIn_win)" class="k-button accept">Sao chép từ khu vực khác</a>
+                <a href="/" ng-show="LocationHasChoose" ng-click="Location_Delete($event,AreaLocation_grid)" class="k-button">Xóa</a>
+                <a href="/" ng-click="Close_Click($event,AreaLocation_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="LocationNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách Location chưa chọn</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-form">
+                <div class="cus-grid" kendo-grid="locationNotIn_Grid" expand-k-grid k-options="locationNotIn_GridOptions"></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="LocationNotInHasChoose" ng-click="locationNotIn_Save_Click($event,LocationNotIn_win,locationNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,LocationNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--area detail-->
+<div class="cus-window" draggable-k-window kendo-window="AreaDetail_win" k-title="false" k-width="1000" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chi tiết khu vực</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="AreaDetail_grid" expand-k-grid k-options="AreaDetail_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="AreaNotInDetail_AddNewClick($event,AreaDetailEdit_winPopup,vform_AreaDetail)" class="k-button accept" data-title="Thêm mới">Thêm mới</a>
+                <a href="/" ng-click="Close_Click($event,AreaDetail_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- aria detail edit-->
+<div class="cus-window" draggable-k-window kendo-window="AreaDetailEdit_winPopup" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chỉnh sửa khu vực</div>
+            <div class="right button"></div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="vform_AreaDetail">
+                    <div class="rowinput">
+                        <label>Quốc gia<span class="required">*</span> </label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="AreaDetailEdit_win_cboCountry" ng-model="AreaDetailItem.CountryID" v-form-require="true" k-options="AreaDetailEdit_win_cboCountryOptions" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tỉnh thành<span class="required">*</span> </label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="AreaDetailEdit_win_cboProvince" ng-model="AreaDetailItem.ProvinceID" v-form-require="true" k-options="AreaDetailEdit_win_cboProvinceOptions" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Quận huyện</label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="AreaDetailEdit_win_cboDistrict" ng-model="AreaDetailItem.DistrictID" k-options="AreaDetailEdit_win_cboDistrictOptions" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="AreaDetailEdit_winPopupSave_Click($event,AreaDetailEdit_winPopup,vform_AreaDetail)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,AreaDetailEdit_winPopup)" class="k-button" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="AreaLocationAreaNotIn_win" k-title="false" k-width="1000" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn khu vực muốn sao chép</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="AreaLocationAreaNotIn_win_grid" expand-k-grid k-options="AreaLocationAreaNotIn_win_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="AreaLocationAreaNotIn_AddChooseClick($event,AreaLocationAreaNotIn_win,AreaLocationAreaNotIn_win_grid)" class="k-button accept" data-title="Chọn">Chọn</a>
+                <a href="/" ng-click="Close_Click($event,AreaLocationAreaNotIn_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Follow_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách khu vực chọn</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-form">
+                <div class="cus-grid" kendo-grid="Follow_Grid" expand-k-grid k-options="Follow_GridOptions"></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="FollowHasChoose" ng-click="Follow_Choose_Click($event,Follow_Grid,Follow_win)" class="k-button accept">Chọn</a>
+                <a href="/" ng-click="Close_Click($event,Follow_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

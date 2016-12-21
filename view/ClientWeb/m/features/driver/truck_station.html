@@ -1,0 +1,21 @@
+﻿<ion-view hide-nav-bar="true">
+    <ion-content scroll="false" class="">
+        <div class="bar bar-header bar-calm">
+            <button class="button button-clear" ng-click="BackToTruck()"><img src="img/back.png" /></button>
+            <h1 class="title">Danh sách trạm đi qua</h1>
+        </div>
+        <div style="height:100%;" class="content has-header">
+            <ion-scroll style="height:100%;">
+                <div class="list">
+                    <a ng-repeat="o in StationData" class="item item-icon-right" ng-click="StationClick($event,o)">
+                        {{o.LocationName}}  <br />
+                        <span class="color-span color-grey">{{o.CreatedDate | date:'HH:mm dd/MM'}}</span>
+                    </a>
+                </div>
+            </ion-scroll>
+        </div>
+    </ion-content>
+</ion-view>
+<style>
+
+</style>

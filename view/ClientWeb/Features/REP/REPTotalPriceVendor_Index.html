@@ -1,0 +1,64 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right" v-form="Search_vform">
+            <div>
+                Khách hàng
+            </div>
+            <input class="cus-combobox" focus-k-combobox kendo-combobox="cboCustomer" ng-disabled="Item.IsDisabled" k-options="cboCustomerOptions" k-ng-model="Item.CustomerID" style="width:200px;float:left" />
+
+            <div>
+                Nhà xe <span class="required">*</span>
+            </div>
+            <select kendo-multi-select="mts_Customer" focus-k-select k-options="mts_CustomerOption" k-ng-model="Item.ListVendor" style="width:500px;float:left" v-form-require="true"></select> 
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class ="cus-form">
+            <div class="form-header">
+                <div class="right" v-form="Search_vform">
+                    <div>
+                        Hình thức v/c <span class="required">*</span>
+                    </div>
+                    <input class="cus-combobox" focus-k-combobox kendo-combobox="cboTransport" k-options="cboTransportOptions" ng-model="Item.TransportModeID" style="width:150px;" v-form-require="true" />
+
+                    <div>
+                        Loại bảng giá <span class="required">*</span>
+                    </div>
+                    <input class="cus-combobox" focus-k-combobox kendo-combobox="cboTypePrice" ng-disabled="typePriceDisable" k-options="cboTypePriceOptions" ng-model="Item.TypePrice" style="width:150px;" v-form-require="true" />
+
+                    <div>
+                        Ngày hiệu lực
+                    </div>
+                    <input style="width:100px;" class="cus-datepicker" kendo-date-picker k-options="DateDMY" k-ng-model="Item.EffectDate" />
+
+                    <a href="/" ng-click="REPTotalPriceVendor_Search($event,Search_vform)" class="k-button " style="float:left"><i class="fa fa-search"></i><span class="tooltip is-right">Xem báo cáo</span></a>
+                    <a href="/" ng-click="PivotExcel_Click($event)" class="k-button " style="float:left"><i class="fa fa-file-excel-o"></i><span class="tooltip is-right">Xuất dữ liệu</span></a>
+                    <a href="/" ng-click="ExcelColumn_Click($event,Search_vform)" class="k-button " style="float:left"><i class="fa fa-file-excel-o"></i><span class="tooltip is-right">Xuất dữ liệu cột</span></a>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="form-body">
+                <div class="cus-splitter" expand-k-splitter kendo-splitter="REPTotalPriceVendor_Splitter" k-options="REPTotalPriceVendor_Splitter_Options">
+                    <div class="cus-form">
+                        <div class="cus-pivot-config" id="REPTotalPriceVendor_pivot_config"></div>
+                    </div>
+                    <div class="cus-form">
+                        <div class="cus-pivot" id="REPTotalPriceVendor_pivot_grid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .cus-form.k-pane.k-scrollable{
+        overflow-x:hidden;
+    }
+</style>

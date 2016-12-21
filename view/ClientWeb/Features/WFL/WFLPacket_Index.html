@@ -1,0 +1,173 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left ">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="Packet_Add_Click($event, WFLPaking_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-show="HasChoose" ng-click="Packet_ChangeProcess_Click($event, Packet_Grid)" class="k-button"><i class="fa fa-paper-plane-o"></i><span class="tooltip">Gửi</span></a>
+             <a href="/" ng-click="ShowSetting($event,Packet_Grid)" ng-mouseenter="ShowSetting($event,Packet_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body packet-check">
+        <div class="cus-grid" kendo-grid="Packet_Grid" expand-k-grid k-options="Packet_GridOptions"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="WFLPaking_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Dữ liệu gói
+            </div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip k-content-urls="[null, null]" k-options="Packet_win_tabOptions">
+                <ul>
+                    <li data-tabindex="1" class="k-state-active">
+                        Thông tin
+                    </li>
+                    <li data-tabindex="2" ng-show="Item.ID > 0 && (Item.PacketSettingTypeID == 2 ||Item.PacketSettingTypeID == 1)">
+                        Danh sách đơn hàng
+                    </li>
+                    <li data-tabindex="3" ng-show="Item.ID > 0 && (Item.PacketSettingTypeID == 3 ||Item.PacketSettingTypeID == 4)">
+                        Chuyến xe tải
+                    </li>
+                    <li data-tabindex="4" ng-show="Item.ID > 0 && (Item.PacketSettingTypeID == 3 ||Item.PacketSettingTypeID == 4)">
+                        Chuyến xe cotainer
+                    </li>
+                </ul>
+                <div>
+                    <form action="/" method="post">
+                        <div class="WFLSetting_Form" v-form="WFLPaking">
+                            <div class="form-content-150">
+                                <div class="rowinput">
+                                    <label>Ngày <span class="required">*</span></label>
+                                    <div>
+                                        <input class="cus-datetimepicker" focus-k-datetimepicker k-ng-model="Item.PacketDate" kendo-date-time-picker v-form-require="true" k-options="DateDMYHM" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Loại dữ liệu gói <span class="required">*</span></label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboPacketSetting_cboGroup" k-ng-model="Item.PacketSettingID" k-options="cboPacketSetting_Options" v-form-require="true" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Trạng thái <span class="required">*</span></label>
+                                    <div>
+                                        <input class="cus-combobox" disabled focus-k-combobox kendo-combo-box="cboPacketProcess_cboGroup" k-ng-model="Item.PacketProcessID" k-options="cboPacketProcess_Options" v-form-require="true" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden"><input type="submit" /></div>
+                    </form>
+                </div>
+                <div>
+                    <div class="cus-grid" kendo-grid="groupProductList_Grid" expand-k-grid k-options="groupProductList_GridOptions"></div>
+                </div>
+                <div>
+                    <div class="cus-grid" kendo-grid="DIMasterList_Grid" expand-k-grid k-options="DIMasterList_GridOptions"></div>
+                </div>
+                <div>
+                    <div class="cus-grid" kendo-grid="COMasterList_Grid" expand-k-grid k-options="COMasterList_GridOptions"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="TabIndex == 1" ng-click="Save_Click($event,WFLPaking_win,WFLPaking)" class="k-button accept">Lưu</a>
+
+                <!--product-->
+                <a href="/" ng-show="TabIndex==2 && groupProductListHasChoose" ng-click="GroupProductList_Delete($event,groupProductList_Grid)" class="k-button">Xóa</a>
+                <a href="/" ng-show="TabIndex==2" ng-click="GroupProductList_AddNew($event,GroupProductList_win)" class="k-button accept">Thêm mới</a>
+                <!---->
+
+                <!--DI-->
+                <a href="/" ng-show="TabIndex==3 && DIMasterListHasChoose" ng-click="DIMasterList_Delete($event,DIMasterList_Grid)" class="k-button">Xóa</a>
+                <a href="/" ng-show="TabIndex==3" ng-click="DIMasterList_AddNew($event,DIMasterList_win)" class="k-button accept">Thêm mới</a>
+                <!---->
+
+                <!--CO-->
+                <a href="/" ng-show="TabIndex==4 && COMasterListHasChoose" ng-click="COMasterList_Delete($event,COMasterList_Grid)" class="k-button">Xóa</a>
+                <a href="/" ng-show="TabIndex==4" ng-click="COMasterList_AddNew($event,COMasterList_win)" class="k-button accept">Thêm mới</a>
+                <!---->
+
+                <a href="/" ng-click="Win_Close($event,WFLPaking_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--product-->
+<div class="cus-window" draggable-k-window kendo-window="GroupProductList_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Nhóm sản phẩm</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="GroupProductNotIn_Grid" expand-k-grid k-options="GroupProductNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="GroupProductNotIn_Save_Click($event,GroupProductList_win,GroupProductNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Win_Close($event,GroupProductList_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!---->
+
+<!--DI-->
+<div class="cus-window" draggable-k-window kendo-window="DIMasterList_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Xe tải</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="DITOMasterNotIn_Grid" expand-k-grid k-options="DITOMasterNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="DITOMasterNotIn_Save_Click($event,DIMasterList_win,DITOMasterNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Win_Close($event,DIMasterList_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!---->
+<!--DI-->
+<div class="cus-window" draggable-k-window kendo-window="COMasterList_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Xe Container</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="COTOMasterNotIn_Grid" expand-k-grid k-options="COTOMasterNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="COTOMasterNotIn_Save_Click($event,COMasterList_win,COTOMasterNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Win_Close($event,COMasterList_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!---->

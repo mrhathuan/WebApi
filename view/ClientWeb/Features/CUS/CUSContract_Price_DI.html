@@ -1,0 +1,243 @@
+﻿<div class="view-breakumb">
+    <ul class="breakumb">
+        <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+        <li><span>Chi tiết bảng giá</span></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Bảng giá: {{ItemPrice.Code}} - Ngày hiệu lực:{{ItemPrice.EffectDate|date:'dd/MM/yyyy'}} - Loại đơn hàng:{{ItemPrice.TypeOfOrderName}}
+            </div>
+            <div class="right">
+                <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Thoát</span></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+           <!-- <div class="cus-splitter" kendo-splitter k-options="splitter_Options" expand-k-splitter>-->
+                <div>
+                    <div class="cus-form-price">
+                        <div class="form-header-price">
+                            <div class="left title">MOQ phí chính</div>
+                        </div>
+                        <div style="height:calc(100% - 50px)">
+                            <div class="form-content-price">
+                                <!--<div class="rowinput-price">
+                                    <label><input type="radio" ng-model="ItemCheck.Primary" ng-value="1" ng-disabled="ItemPrice.CheckPrice.HasNormal||ItemPrice.CheckPrice.HasLevel" />Thông thường</label>
+                                    <label><input type="radio" ng-model="ItemCheck.Primary" ng-value="2" ng-disabled="ItemPrice.CheckPrice.HasNormal||ItemPrice.CheckPrice.HasLevel" />Bậc thang</label>
+                                </div>-->
+                                <div class="rowinput-price" ng-show="ItemCheck.Primary==1">
+                                    <label>
+                                        <span class="price-title">Vận tải thông thường</span>
+                                        <a href="/" ng-click="PriceDI_AddNormal_Click($event)" ng-show="!ItemPrice.CheckPrice.HasNormal && !ItemPrice.IsAllRouting && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                        <a href="/" ng-click="PriceDI_AddNormal_Click($event)" ng-show="ItemPrice.CheckPrice.HasNormal && !ItemPrice.IsAllRouting" class="k-button"><i class="fa fa-pencil"></i></a>
+                                        <!--<a href="/" ng-click="PriceDI_DeleteNormal_Click($event)" ng-show="ItemPrice.CheckPrice.HasNormal && !ItemPrice.IsAllRouting && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                    </label>
+                                    <label>
+                                        <span class="price-title" ng-show="ItemPrice.IsAllRouting">MOQ</span>
+                                        <a href="/" ng-click="PriceDI_AddMOQ_Click($event)" ng-show="!ItemPrice.CheckPrice.HasMOQ && ItemPrice.IsAllRouting && !ItemPrice.TermClosed" class=" k-button"><i class="fa fa-plus"></i></a>
+                                        <a href="/" ng-click="PriceDI_AddMOQ_Click($event)" ng-show="ItemPrice.CheckPrice.HasMOQ && ItemPrice.IsAllRouting" class=" k-button"><i class="fa fa-pencil"></i></a>
+                                        <!--<a href="/" ng-click="PriceDI_DeleteMOQ_Click($event)" ng-show="ItemPrice.CheckPrice.HasMOQ && ItemPrice.IsAllRouting && !ItemPrice.TermClosed" class=" k-button"><i class="fa fa-trash"></i></a>-->
+                                    </label>
+                                </div>
+                                <div class="rowinput-price" ng-show="ItemCheck.Primary==2">
+                                    <label>
+                                        <span class="price-title">Vận tải bậc thang</span>
+                                        <a href="/" ng-click="PriceDI_AddLevel_Click($event)" ng-show="!ItemPrice.CheckPrice.HasLevel && !ItemPrice.IsAllRouting && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                        <a href="/" ng-click="PriceDI_AddLevel_Click($event)" ng-show="ItemPrice.CheckPrice.HasLevel && !ItemPrice.IsAllRouting" class="k-button"><i class="fa fa-pencil"></i></a>
+                                        <!--<a href="/" ng-click="PriceDI_DeleteLevel_Click($event)" ng-show="ItemPrice.CheckPrice.HasLevel && !ItemPrice.IsAllRouting && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                    </label>
+                                    <label>
+                                        <span class="price-title" ng-show="ItemPrice.IsAllRouting">MOQ</span>
+                                        <a href="/" ng-click="PriceDI_AddMOQ_Click($event)" ng-show="!ItemPrice.CheckPrice.HasMOQ && ItemPrice.IsAllRouting && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                        <a href="/" ng-click="PriceDI_AddMOQ_Click($event)" ng-show="ItemPrice.CheckPrice.HasMOQ && ItemPrice.IsAllRouting" class="k-button"><i class="fa fa-pencil"></i></a>
+                                        <!--<a href="/" ng-click="PriceDI_DeleteMOQ_Click($event)" ng-show="ItemPrice.CheckPrice.HasMOQ && ItemPrice.IsAllRouting && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="ItemPrice.IsAllRouting">
+                    <div class="cus-form-price">
+                        <div class="form-header-price">
+                            <div class="left title">Phụ phí</div>
+                        </div>
+                        <div>
+                            <div class="form-content-price">
+                                <div class="rowinput-price">
+                                    <label><input type="checkbox" ng-model="ItemCheck.HasLoad" disabled />Bốc xếp lên</label>
+                                    <label><input type="checkbox" ng-model="ItemCheck.HasUnLoad" disabled />Bốc xếp xuống</label>
+                                    <label><input type="checkbox" ng-model="ItemCheck.HasPriceEx" disabled />Phụ thu</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="ItemPrice.IsAllRouting">
+                    <div class="cus-form-price">
+                        <div>
+                            <div class="form-content-price">
+                                <div class="cus-form-price">
+                                    <div class="form-header-price">
+                                        <div class="left title">
+                                            <a href="/" ng-click="ChangeStatus($event,'Load')" ng-show="ItemCheck.Load" class="k-button"><i class="fa fa-plus"></i></a>
+                                            <a href="/" ng-click="ChangeStatus($event,'Load')" ng-show="!ItemCheck.Load" class="k-button"><i class="fa fa-minus"></i></a>
+                                            <span>Bốc xếp lên</span>
+                                            <!--<a href="/" ng-click="PriceDI_Load_DeleteAllClick($event)" ng-show="ItemCheck.HasLoad && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                        </div>
+                                        <div class="left title">
+                                            <span>MOQ</span>
+                                            <a href="/" ng-click="PriceDI_LoadMOQ_Click($event)" ng-show="!ItemPrice.CheckPrice.HasLoadMOQ && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                            <a href="/" ng-click="PriceDI_LoadMOQ_Click($event)" ng-show="ItemPrice.CheckPrice.HasLoadMOQ" class="k-button"><i class="fa fa-pencil"></i></a>
+                                            <!--<a href="/" ng-click="PriceDI_LoadMOQ_DeleteClick($event)" ng-show="ItemPrice.CheckPrice.HasLoadMOQ && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div ng-show="ItemCheck.Load">
+                                        <div class="rowinput-price">
+                                            <label>
+                                                <input type="checkbox" disabled ng-model="ItemPrice.CheckPrice.HasLoadLocation" />
+                                                <span>Theo điểm</span>
+                                                <a href="/" ng-click="PriceDI_LoadLocation_Click($event)" ng-show="!ItemPrice.CheckPrice.HasLoadLocation && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                                <a href="/" ng-click="PriceDI_LoadLocation_Click($event)" ng-show="ItemPrice.CheckPrice.HasLoadLocation" class="k-button"><i class="fa fa-pencil"></i></a>
+                                                <!--<a href="/" ng-click="PriceDI_LoadLocation_DeleteClick($event)" ng-show="ItemPrice.CheckPrice.HasLoadLocation && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                            </label>
+                                        </div>
+                                        <div class="rowinput-price">
+                                            <label>
+                                                <input type="checkbox" disabled ng-model="ItemPrice.CheckPrice.HasLoadPAR" />
+                                                <span>Theo nhà phân phối</span>
+                                                <a href="/" ng-click="PriceDI_LoadPartner_Click($event)" ng-show="!ItemPrice.CheckPrice.HasLoadPAR && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                                <a href="/" ng-click="PriceDI_LoadPartner_Click($event)" ng-show="ItemPrice.CheckPrice.HasLoadPAR" class="k-button"><i class="fa fa-pencil"></i></a>
+                                                <!--<a href="/" ng-click="PriceDI_LoadPartner_DeleteClick($event)" ng-show="ItemPrice.CheckPrice.HasLoadGOL && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                            </label>
+                                        </div>
+                                        <div class="rowinput-price">
+                                            <label>
+                                                <input type="checkbox" disabled ng-model="ItemPrice.CheckPrice.HasLoadGOL" />
+                                                <span>Theo loại nhà phân phối</span>
+                                                <a href="/" ng-click="PriceDI_LoadTypeOfPartner_Click($event)" ng-show="!ItemPrice.CheckPrice.HasLoadGOL && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                                <a href="/" ng-click="PriceDI_LoadTypeOfPartner_Click($event)" ng-show="ItemPrice.CheckPrice.HasLoadGOL" class="k-button"><i class="fa fa-pencil"></i></a>
+                                                <!--<a href="/" ng-click="PriceDI_LoadPartner_DeleteClick($event)" ng-show="ItemPrice.CheckPrice.HasLoadGOL && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                            </label>
+                                        </div>
+                                        <div class="rowinput-price">
+                                            <label>
+                                                <input type="checkbox" disabled ng-model="ItemPrice.CheckPrice.HasLoadRoute" />
+                                                <span>Theo cung đường</span>
+                                                <a href="/" ng-click="PriceDI_LoadRoute_Click($event)" ng-show="!ItemPrice.CheckPrice.HasLoadRoute && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                                <a href="/" ng-click="PriceDI_LoadRoute_Click($event)" ng-show="ItemPrice.CheckPrice.HasLoadRoute" class="k-button"><i class="fa fa-pencil"></i></a>
+                                                <!--<a href="/" ng-click="PriceDI_LoadRoute_DeleteClick($event)" ng-show="ItemPrice.CheckPrice.HasLoadRoute && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-content-price">
+                                <div class="cus-form-price">
+                                    <div class="form-header-price">
+                                        <div class="left title">
+                                            <a href="/" ng-click="ChangeStatus($event,'UnLoad')" ng-show="ItemCheck.UnLoad" class="k-button"><i class="fa fa-plus"></i></a>
+                                            <a href="/" ng-click="ChangeStatus($event,'UnLoad')" ng-show="!ItemCheck.UnLoad" class="k-button"><i class="fa fa-minus"></i></a>
+                                            <span>Bốc xếp xuống</span>
+                                            <!--<a href="/" ng-click="PriceDI_UnLoad_DeleteAllClick($event)" ng-show="ItemCheck.HasUnLoad && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                        </div>
+                                        <div class="left title">
+                                            <span>MOQ</span>
+                                            <a href="/" ng-click="PriceDI_UnLoadMOQ_Click($event)" ng-show="!ItemPrice.CheckPrice.HasUnLoadMOQ && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                            <a href="/" ng-click="PriceDI_UnLoadMOQ_Click($event)" ng-show="ItemPrice.CheckPrice.HasUnLoadMOQ" class="k-button"><i class="fa fa-pencil"></i></a>
+                                            <!--<a href="/" ng-click="PriceDI_UnLoadMOQ_DeleteClick($event)" ng-show="ItemPrice.CheckPrice.HasUnLoadMOQ && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div ng-show="ItemCheck.UnLoad">
+                                        <div class="rowinput-price">
+                                            <label>
+                                                <input type="checkbox" disabled ng-model="ItemPrice.CheckPrice.HasUnLoadLocation" />
+                                                <span>Theo điểm</span>
+                                                <a href="/" ng-click="PriceDI_UnLoadLocation_Click($event)" ng-show="!ItemPrice.CheckPrice.HasUnLoadLocation && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                                <a href="/" ng-click="PriceDI_UnLoadLocation_Click($event)" ng-show="ItemPrice.CheckPrice.HasUnLoadLocation" class="k-button"><i class="fa fa-pencil"></i></a>
+                                                <!--<a href="/" ng-click="PriceDI_UnLoadLocation_DeleteClick($event)" ng-show="ItemPrice.CheckPrice.HasUnLoadLocation && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                            </label>
+                                        </div>
+                                        <div class="rowinput-price">
+                                            <label>
+                                                <input type="checkbox" disabled ng-model="ItemPrice.CheckPrice.HasUnLoadPAR" />
+                                                <span>Theo nhà phân phối</span>
+                                                <a href="/" ng-click="PriceDI_UnLoadPartner_Click($event)" ng-show="!ItemPrice.CheckPrice.HasUnLoadPAR && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                                <a href="/" ng-click="PriceDI_UnLoadPartner_Click($event)" ng-show="ItemPrice.CheckPrice.HasUnLoadPAR" class="k-button"><i class="fa fa-pencil"></i></a>
+                                                <!--<a href="/" ng-click="PriceDI_UnLoadPartner_DeleteClick($event)" ng-show="ItemPrice.CheckPrice.HasUnLoadGOL && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                            </label>
+                                        </div>
+                                        <div class="rowinput-price">
+                                            <label>
+                                                <input type="checkbox" disabled ng-model="ItemPrice.CheckPrice.HasUnLoadGOL" />
+                                                <span>Theo loại nhà phân phối</span>
+                                                <a href="/" ng-click="PriceDI_UnLoadTypeOfPartner_Click($event)" ng-show="!ItemPrice.CheckPrice.HasUnLoadGOL && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                                <a href="/" ng-click="PriceDI_UnLoadTypeOfPartner_Click($event)" ng-show="ItemPrice.CheckPrice.HasUnLoadGOL" class="k-button"><i class="fa fa-pencil"></i></a>
+                                                <!--<a href="/" ng-click="PriceDI_UnLoadPartner_DeleteClick($event)" ng-show="ItemPrice.CheckPrice.HasUnLoadGOL && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                            </label>
+                                        </div>
+                                        <div class="rowinput-price">
+                                            <label>
+                                                <input type="checkbox" disabled ng-model="ItemPrice.CheckPrice.HasUnLoadRoute" />
+                                                <span>Theo cung đường</span>
+                                                <a href="/" ng-click="PriceDI_UnLoadRoute_Click($event)" ng-show="!ItemPrice.CheckPrice.HasUnLoadRoute && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                                <a href="/" ng-click="PriceDI_UnLoadRoute_Click($event)" ng-show="ItemPrice.CheckPrice.HasUnLoadRoute" class="k-button"><i class="fa fa-pencil"></i></a>
+                                                <!--<a href="/" ng-click="PriceDI_UnLoadRoute_DeleteClick($event)" ng-show="ItemPrice.CheckPrice.HasUnLoadRoute && !ItemPrice.TermClosed" class="k-button"><i class="fa fa-trash"></i></a>-->
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="cus-form-price">
+                                    <div class="form-header-price">
+                                        <div class="left title">
+                                            <a href="/" ng-click="ChangeStatus($event,'PEx')" ng-show="ItemCheck.HasPEx" class="k-button"><i class="fa fa-plus"></i></a>
+                                            <a href="/" ng-click="ChangeStatus($event,'PEx')" ng-show="!ItemCheck.HasPEx" class="k-button"><i class="fa fa-minus"></i></a>
+                                            <span>Danh sách phụ thu</span>
+                                            <a href="/" ng-click="PriceDI_Ex_AddClick($event)" ng-show="!ItemPrice.TermClosed" class="k-button"><i class="fa fa-plus"></i></a>
+                                        </div>
+                                    </div>
+                                    <div ng-show="ItemCheck.HasPEx">
+                                        <div class="cus-grid" kendo-grid k-options="price_ex_grid_Options"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-content-price {height: 100%;padding-right: 55px;}
+    .form-content-price > .rowinput-price > label {width: 250px;}
+    .form-content-price > .rowinput-price > div {width: -moz-calc(100% - 228px);width: -webkit-calc(100% - 278px);width: -o-calc(100% - 278px);width: calc(100% - 278px);}
+    .rowinput-price {width: 100%;margin-top: 5px;position: relative;height: 30px;padding-left: 50px;}
+    .rowinput-price > label {float: left;text-align: left;line-height: 26px;margin-right: 5px;}
+    .rowinput-price > label .price-icon {    padding-left: 10px;}
+    .rowinput-price > label .price-title {    padding-left: 5px;}
+    .rowinput-price > div {float: left;}
+    .cus-form-price {background-color: #fff;height: 100%;position: relative;}
+    .cus-form-price > .form-header-price > div a.k-button { position: relative; /*line-height: 18px;*/ float:left; background: none; background-color: transparent; border-radius: 0; color: #5a6877; height: 30px; font-size: 14px; margin: 0; padding: 3px 0; text-align: center; border: none; min-width: 25px; }
+    .cus-form-price > .form-header-price > div a.k-button:hover { color: #31b6fc; }
+    .cus-form-price > .form-header-price > div a.k-button:active { background: none; background-color: #fff; border: none; border-radius: 0; }
+    .cus-form-price > .form-header-price {padding: 0;margin: 0;position: relative;height: 30px;background-color: #f6fafe;border-bottom: #d7e3f0 solid 1px;}.cus-form > .form-header > div a.k-button { position: relative; line-height: 18px; background: none; background-color: transparent; border-radius: 0; color: #5a6877; height: 40px; font-size: 18px; margin: 0; padding: 11px 0; text-align: center; border: none; min-width: 40px; }.cus-form > .form-header > div a.k-button:hover { color: #31b6fc; }.cus-form > .form-header > div a.k-button:active { background: none; background-color: #fff; border: none; border-radius: 0; }.cus-form-price > .form-header-price > .left {    margin-left: 20px;    float: left;    display: inline-block;    line-height: 30px;    width: 300px;}.cus-form-price > .form-header-price > .left > div:not(.title):not(.clear) {        float: left;        height: 26px;        margin: 2px 2px;        line-height: 26px;    }.cus-form-price > .form-header-price > .left > span:not(.title) {        float: left;        height: 26px;        margin: 2px 2px;        line-height: 26px;    }.cus-form-price > .form-header-price > .left > .price-icon {        padding-left: 10px;    }.cus-form-price > .form-header-price > .left > input {        float: left;        height: 28px;        margin: 7px 2px;        line-height: 28px;    }
+    .cus-form-price > .form-header-price > .title {    padding: 0 5px;    line-height: 30px;    font-size: 13px;    color: #3d5977;    font-weight: bold;    float: left;}
+    .cus-form-price > .form-header-price > .right > span {    float: left;}
+    .cus-splitter.k-splitter > .k-splitbar.k-splitbar-vertical {height: 0px;border: 1px solid #eaebed;background-color: #eef0f7;}
+    .rowinput-price > label > a.k-button {position: relative;background: none;background-color: transparent;border-radius: 0;color: #5a6877;height: 30px;font-size: 12px;margin: 0;padding: 3px 0;text-align: center;border: none;min-width: 25px;}
+    .rowinput-price > label > a.k-button:hover {color: #31b6fc;}
+    .rowinput-price > label > a.k-button:active {background: none;background-color: #fff;border: none;border-radius: 0;}
+    /*.rowinput-price > label >  a.k-button > .tooltip { visibility: hidden; width: 100px; background-color: black; color: #fff; text-align: center; padding: 5px 5px; border-radius: 4px; bottom: 100%; left: -35px; position: absolute; z-index: 1; font-size: 13px; }
+    .rowinput-price > label >  a.k-button > .tooltip::after { content: ''; position: absolute; bottom: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: transparent transparent black transparent; }
+    .rowinput-price > label >  a.k-button:hover > .tooltip { visibility: visible; opacity: 0.8; z-index: 999; }*/
+</style>

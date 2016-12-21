@@ -1,0 +1,51 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <label>Từ ngày:<input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="ParamSearch.DateFrom" style="width:200px" /></label>
+            <label>Đến ngày:<input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="ParamSearch.DateTo" style="width:200px" /></label>
+            <a href="/" ng-click="FLMInputFuel_SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-click="ExcelImportEQM_Click($event)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel nhập thiết bị</span></a>
+            <a href="/" ng-click="FLMInputFuel_AddNewClick($event,FLMInputFuel_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-show="InputFuelHasChoose" ng-click="FLMInputFuel_ApprovedClick($event,FLMInputFuel_Grid)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Duyệt</span></a>
+            <a href="/" ng-show="InputFuelHasChoose" ng-click="FLMInputFuel_UnApprovedClick($event,FLMInputFuel_Grid)" class="k-button"><i class="fa fa-close"></i><span class="tooltip">Hủy duyệt</span></a>
+            <a href="/" ng-click="ShowSetting($event,FLMInputFuel_Grid)" ng-mouseenter="ShowSetting($event,FLMInputFuel_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="FLMInputFuel_Grid" k-options="FLMInputFuel_Options" expand-k-grid></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="FLMInputFuel_win" k-title="false" k-width="400" k-height="200" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thêm mới</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-100">
+                <div class=" rowinput">
+                    <label>
+                        Loại phiếu
+                    </label>
+                    <div>
+                        <input s class="cus-combobox" kendo-combobox focus-k-combobox  k-options="cboTypeOfReceipt_Options" ng-model="TypeOfReceipt" v-form-require="true" /> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="Add_TypeOfReceipt($event)" class="k-button accept">Thêm</a>
+                <a href="/" ng-click="FLMInputFuel_win_CloseClick($event,FLMInputFuel_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

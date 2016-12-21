@@ -1,0 +1,20 @@
+﻿<script type="text/x-kendo-tmpl" id="OPSAppointment_DIBookingConfirmation_gridToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <input style="width: 250px" focus-k-combobox kendo-combobox="cboCustomer" k-options="cboCustomerOptions" k-ng-model="Search.CustomerID" />
+            <input focus-k-datepicker kendo-date-picker class="cus-datepicker" k-options="DateDMY" k-ng-model="Search.DateFrom" style="width:95px" />
+            <input focus-k-datepicker kendo-date-picker class="cus-datepicker" k-options="DateDMY" k-ng-model="Search.DateTo" style="width:95px" />
+            <a href="/" ng-click="Search_Click($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm</span></a>
+            <a href="/" ng-click="Excel_Click($event)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-click="Close_Click($event)" class="k-button"><i class="fa fa-history"></i><span class="tooltip is-right">Thoát</span></a>
+        </div>
+        <div class="clear"></div>                 
+    </div>
+</script>
+
+<div class="cus-grid" kendo-grid="OPSAppointment_DIBookingConfirmation_grid" k-options="OPSAppointment_DIBookingConfirmation_gridOptions" expand-k-grid></div>

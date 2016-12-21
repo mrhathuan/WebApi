@@ -1,0 +1,98 @@
+﻿
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right">
+                <a href="/" ng-click="Save_Click($event)" class="k-button" data-title="Lưu"><i class="fa fa-check"></i><span class="tooltip is-right">Lưu</span></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="form-content-200" >
+                <div class="rowinput">
+                    <label>Mã vận chuyển :</label>
+                    <div >
+                        <div style="width:150px;float:left">
+                            <label> <input type="radio" ng-click="TruckCon_Click($event)" ng-model="Item.TypeMasterCode" value="1" /> Tất cả</label>
+                        </div>
+                        <div style="width:calc(100% - 150px);float:left">
+                            <input class="k-textbox" type="text" ng-model="Item.ExprMasterCodeAll" ng-disabled="Item.TypeMasterCode == 2" style="width:100%"/>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>&nbsp;</label>
+                    <div>
+                        <div style="width:150px;float:left">
+                            <label><input type="radio" ng-click="TruckCon_Click($event)" ng-model="Item.TypeMasterCode" value="2" /> Container/xe tải</label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>&nbsp;</label>
+                    <div>
+                        <div style="width:140px;float:left;text-align:right;line-height:29px">
+                            <label>xe tải</label>
+                        </div>
+                        <div style="width:calc(100% - 150px);float:right">
+                            <input class="k-textbox" type="text" ng-model="Item.ExprMasterCodeDI" ng-disabled="Item.TypeMasterCode == 1" style="width:100%" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>&nbsp;</label>
+                    <div>
+                        <div style="width:140px;float:left;text-align:right;line-height:29px">
+                            <label>Container</label>
+                        </div>
+                        <div style="width:calc(100% - 150px);float:right">
+                            <input class="k-textbox" type="text" ng-model="Item.ExprMasterCodeCO" ng-disabled="Item.TypeMasterCode == 1" style="width:100%" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Mã phiếu nguyên liệu :</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="Item.ExprFuelCode" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Mã phiếu sữa chữa :</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="Item.ExprRepairCode" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Mã phiếu điều chuyển :</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="Item.ExprTransferCode" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Mã phi Thanh lý :</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="Item.ExprDiposalCode" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Công thức :</label>
+                    <div style="margin-top:5px;"> [Sort-000], [Sort-00000], [Sort-0000000]</div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,270 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">Thiết lập hệ thống</div>
+        <div class="right">
+            <span>Step</span>
+            <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboStep" k-options="cboStep_options" ng-model="Item.StepID" style="width:200px" />
+            <a href="/" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-form" style="width:100%" scrolldiv>
+            <div id="diagram" ng-style="{ 'width' : width, 'height' : height}" ng-click="DiagramClick($event)" scrolldiv>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Function_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thiết lập</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div style="position:relative;height:100%">
+                <div class="cus-tabstrip" kendo-tabstrip="setting_tabstrip" k-options="setting_tabstripOptions" expand-k-tabstrip>
+                    <ul>
+                        <li data-tabindex="0" class="k-state-active">Danh sách các bước con</li>
+                        <li data-tabindex="1">Danh sách event</li>
+                    </ul>
+                    <div>
+                        <div class="cus-tree" kendo-tree-list="functionChildren" expand-k-grid k-options="functionChildrenOptions"></div>
+                    </div>
+                    <div>
+                        <div class="cus-grid" kendo-grid="event_Grid" expand-k-grid k-options="event_GridOptions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="TabIndex==1" ng-click="Event_AddNew($event,eventNotIn_win)" class="k-button accept">Thêm mới Event</a>
+                <a href="/" ng-show="EventHasChoose && TabIndex==1" ng-click="event_DeleteList($event,event_Grid)" class="k-button">Xóa Event</a>
+
+                <a href="/" ng-show="TabIndex==0" ng-click="ChildrenAddNew_Click($event,children_win,children_win_vform)" class="k-button accept">Thêm mới</a>
+                <!--<a href="/" ng-show="IsDel && TabIndex==0" ng-click="Function_Children_Delete($event,functionChildren)" class="k-button">Xóa</a>-->
+                <a href="/" ng-click="window_Close_Click($event,Function_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Danh sách Vai trò-->
+<div class="cus-window" draggable-k-window kendo-window="FunctionIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách chức năng</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-form">
+                <div class="cus-tree" kendo-tree-list="functionIn" expand-k-grid k-options="functionInOptions"></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="TabIndex==0" ng-click="Function_AddNew($event,FunctionNotIn_win)" class="k-button accept">Thêm mới</a>
+                <a href="/" ng-show="IsDel && TabIndex==0" ng-click="Function_Delete($event,functionIn)" class="k-button">Xóa</a>
+                <a href="/" ng-click="window_Close_Click($event,FunctionIn_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="FunctionNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách Function chưa chọn</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-form">
+                <div class="cus-tree" kendo-tree-list="functionNotIn" expand-k-grid k-options="functionNotInOptions"></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="IsAdd" ng-click="functionNotIn_Save_Click($event,FunctionNotIn_win,functionNotIn)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,FunctionNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="cus-window" draggable-k-window kendo-window="Action_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách Action</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-form">
+                <div class="cus-grid" kendo-grid="action_Grid" expand-k-grid k-options="action_GridOptions"></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Action_SaveClick($event,action_Grid,Action_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,Action_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Event-->
+<div class="cus-window" draggable-k-window kendo-window="WFLSetting_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Event
+            </div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip k-content-urls="[null, null, null]" k-options="event_tabstripOptions">
+                <ul>
+                    <li data-tabindex="0" class="k-state-active" title="Thông tin Event">Thông tin Event</li>
+                    <li data-tabindex="1" title="Định nghĩa Event">Định nghĩa Event</li>
+                </ul>
+                <div>
+                    <form action="/" method="post" ng-submit="Save_Click($event,WFLSetting_win,event_Grid,WFLSetting_win_vform)">
+                        <div class="WFLSetting_Form" v-form="WFLSetting_win_vform">
+                            <div class="form-content-150">
+                                <div class="rowinput">
+                                    <label>Mã Event <span class="required">*</span></label>
+                                    <div>
+                                        <input type="text" class="k-textbox" ng-model="EventItem.Code" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Event <span class="required">*</span></label>
+                                    <div>
+                                        <input type="text" class="k-textbox" ng-model="EventItem.EventName" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label> Template gửi Mail</label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboTemplateMail" k-options="templateMail_Options" ng-model="EventItem.SendMail_TemplateID" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label> Template thông báo TMS</label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboTemplateTMS" k-options="templateTMS_Options" ng-model="EventItem.MessageTMS_TemplateID" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label> Template thông báo SMS</label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboTemplateSMS" k-options="templateSMS_Options" ng-model="EventItem.SMS_TemplateID" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Đang hoạt động</label>
+                                    <div>
+                                        <input type="checkbox" ng-model="EventItem.IsApproved" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden"><input type="submit" /></div>
+                    </form>
+                </div>
+                <div>
+                    <div class="cus-grid tooltipshowTitle" kendo-grid="gridExpression" k-options="gridExpressionOptions" expand-k-grid></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="EventSave_Click($event,WFLSetting_win,event_Grid,WFLSetting_win_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,WFLSetting_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/x-kendo-tmpl" id="WFLSetting_win_gridExpressionToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <div class="title"></div>
+        </div>
+        <div class="right">
+            <a href="/" ng-show="ExpressionHasChoose" ng-click="ExpressionDel_Click($event,gridExpression)" class="k-button"><i class="fa fa-times"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="ExpressionAdd_Click($event,gridExpression)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<div class="cus-window" draggable-k-window kendo-window="eventNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Sự kiện chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="eventNotIn_Grid" expand-k-grid k-options="eventNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="EventNotInHasChoose" ng-click="eventNotIn_Save_Click($event,eventNotIn_win,eventNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,eventNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Children-->
+<!--popup-->
+<div class="cus-window" draggable-k-window kendo-window="children_win" k-title="false" k-width="600" k-height="200" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Bước con
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="children_win_vform">
+                    <div class="rowinput">
+                        <label>Mã <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="ChildrenItem.Code" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="ChildrenItem.WorkFlowName" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="ChildrenSave_Click($event,children_win,children_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,children_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

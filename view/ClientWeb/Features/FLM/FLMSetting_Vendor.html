@@ -1,0 +1,33 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a ng-click="Company_Add($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm kiếm</span></a>
+            <a href="/" ng-click="ShowSetting($event,contract_grid)" ng-mouseenter="ShowSetting($event,contract_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div kendo-grid="Company_Grid" k-options="Company_GridOptions" class="cus-grid" expand-k-grid></div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="Company_Win" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-grid="CompanyNotin_Grid" k-options="CompanyNotin_GridOptions" class="cus-grid" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="Company_SaveList($event)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Window_Close_Click($event,Company_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,262 @@
+﻿<!--View-->
+<div class="full" id="2view-container">
+    <div class="cus-form" id="2view" style="{{IsFullScreen?'padding:0':''}}">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                    <li><span>Lập lệnh theo vendor</span></li>
+                </ul>
+            </div>
+            <div class="right">
+                <a href="/" class="k-button" ng-show="Auth.ViewVendor&&!Auth.ViewAdmin&&TypeOfView==1&&HasChoose" ng-click="Accept_Click($event,conGrid)"><i class="fa fa-check-square-o"></i><span class="tooltip">Chấp nhận</span></a>
+                <a href="/" class="k-button" ng-show="Auth.ViewVendor&&!Auth.ViewAdmin&&TypeOfView==1&&HasChoose" ng-click="Reject_Click($event,conGrid,reject_win)"><i class="fa fa-ban"></i><span class="tooltip">Từ chối</span></a>
+                <a href="/" ng-show="Auth.ViewVendor" ng-click="ShowSetting($event,conGrid)" ng-mouseenter="ShowSetting($event,conGrid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+                <a href="/" ng-show="!Auth.ViewVendor&&Auth.ViewAdmin" ng-click="ShowSetting($event,con2Grid)" ng-mouseenter="ShowSetting($event,con2Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+            </div>
+        </div>
+        <div class="form-body" ng-show="Auth.ViewVendor">
+            <div class="cus-grid" kendo-grid="conGrid" k-options="conGrid_Options" expand-k-grid="conVendorGridExpand"></div>
+        </div>
+        <div class="form-body" ng-show="!Auth.ViewVendor&&Auth.ViewAdmin">
+            <div class="cus-grid" kendo-grid="con2Grid" k-options="con2Grid_Options" expand-k-grid="con2VendorGridExpand"></div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="reject_win" k-title="false" k-width="800" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <div class="title">
+                    Nhập lý do từ chối
+                </div>
+            </div>
+            <div class="right">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="rejectGrid" k-options="rejectGrid_Options" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Reject_OK_Click($event,rejectGrid,reject_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,reject_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="conGrid_Toolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <span class="header"> {{ HTML(Summary)}} </span>
+        </div>
+        <div class="right">
+            <input type="radio" ng-model="TypeOfView" ng-click="ChangeView_Click($event,1)" id="WaittingView" value="1" /><label for="WaittingView">Chờ duyệt &nbsp;</label>
+            <input type="radio" ng-model="TypeOfView" ng-click="ChangeView_Click($event,2)" id="AcceptedView" value="2" /><label for="AcceptedView">Đã chấp nhận &nbsp;</label>
+            <input type="radio" ng-model="TypeOfView" ng-click="ChangeView_Click($event,3)" id="RejectedView" value="3" /><label for="RejectedView">Đã từ chối &nbsp;</label>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="con2Grid_Toolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <span class="header"> {{ HTML(Summary)}} </span>
+        </div>
+        <div class="right">
+            <input type="radio" ng-model="TypeOfViewAdmin" ng-click="ChangeViewAdmin_Click($event,1)" id="WaittingViewAdmin" value="1" /><label for="WaittingViewAdmin">Chờ duyệt &nbsp;</label>
+            <input type="radio" ng-model="TypeOfViewAdmin" ng-click="ChangeViewAdmin_Click($event,2)" id="AcceptedViewAdmin" value="2" /><label for="AcceptedViewAdmin">Đã chấp nhận &nbsp;</label>
+            <input type="radio" ng-model="TypeOfViewAdmin" ng-click="ChangeViewAdmin_Click($event,3)" id="RejectedViewAdmin" value="3" /><label for="RejectedViewAdmin">Đã từ chối &nbsp;</label>
+        </div>
+    </div>
+</script>
+
+<div class="cus-window" kendo-window="vehicle_win" k-title="false" k-width="800" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <div class="title">
+                    DANH SÁCH {{VehicleTypeName}}
+                </div>
+            </div>
+            <div class="right">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="vehicleGrid" k-options="vehicleGrid_Options" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Vehicle_NEW_Click($event,new_vehicle_win)" class="k-button">Thêm mới</a>
+                <a href="/" ng-click="Vehicle_OK_Click($event,vehicleGrid,vehicle_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,vehicle_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="new_vehicle_win" k-title="false" k-max-width="1200" k-width="400" k-max-height="650" k-height="170" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                THÊM MỚI {{VehicleTypeName}}
+            </div>
+            <div class="right"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-100">
+                <div class="rowinput" ng-show="VehicleType==1">
+                    <label>Số xe<span class="required">*</span></label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="NewVehicleVendor.RegNo" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput" ng-show="VehicleType==2">
+                    <label>Số romooc<span class="required">*</span></label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="NewVehicleVendor.RegNo" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Trọng tải</label>
+                    <div>
+                        <input class="k-textbox cus-number" type="number" ng-model="NewVehicleVendor.MaxWeight" min="0" step="0.1" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Vehicle_New_OK_Click($event,vehicleGrid,new_vehicle_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,new_vehicle_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="driver_win" k-title="false" k-width="400" k-height="165" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <div class="title">
+                    NHẬP TÀI XẾ
+                </div>
+            </div>
+            <div class="right">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-100">
+                <div class="rowinput">
+                    <label>Họ tên<span class="required">*</span></label>
+                    <div>
+                        <input kendo-auto-complete="atcDriverName" focus-k-complete ng-model="TOItem.DriverName" k-options="atcDriverNameOptions" style="width:100%;"/>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>SĐT</label>
+                    <div>
+                        <input class="k-textbox" type="tel" ng-model="TOItem.DriverTel" placeholder="SĐT"/>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Driver_OK_Click($event,driver_win,conGrid)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,driver_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="time_win" k-title="false" k-width="400" k-height="165" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <div class="title">
+                    CHỌN THỜI GIAN
+                </div>
+            </div>
+            <div class="right">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-100">
+                <div class="rowinput">
+                    <label>ETD<span class="required">*</span></label>
+                    <div>
+                        <input class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="TOItem.ETD" k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ETA<span class="required">*</span></label>
+                    <div>
+                        <input class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="TOItem.ETA" k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Time_OK_Click($event,time_win,conGrid)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,time_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="AddNo_win" k-title="false" k-width="450" k-height="200" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <div class="title">
+                   Nhập thông tin
+                </div>
+            </div>
+            <div class="right">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-100">
+                <div class="rowinput">
+                    <label>Số Container</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="COTOItem.ContainerNo" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Số seal 1</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="COTOItem.SealNo1" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Số seal 2</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="COTOItem.SealNo2" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Add_No_Save($event,AddNo_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,AddNo_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+

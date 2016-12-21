@@ -1,0 +1,251 @@
+﻿<div class="cus-form">
+    <div class="form-header" style="margin-top:15px;">
+        <div class="left">
+            <ul class="breakumb">
+                <li><span>Điều chỉnh thông tin tài khoản</span></li>
+            </ul>
+        </div>
+        <div class="right button">
+            <a href="/" ng-click="Close_Click($event)" class="k-button"><i class="fa fa-ban"></i><span class="tooltip is-right">Đóng</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="SYSUser_Form">
+            <div class="SYSUser_Top">
+                <div class="SYSUser_Left">
+                    <div class="image-pro">
+                        <img ng-show="!Item.Image" src="../../Images/empty.jpg" />
+                        <img ng-show="Item.Image" alt="" ng-src="/{{Item.Image}}" />
+                        <a href="#" ng-click="Image_Click($event)">Thay đổi ảnh đại diện</a>
+                    </div>
+                </div>
+                <div class="SYSUser_Right">
+                    <div class="form-content-70">
+                        <div class="rowinput">
+                            <label>Tên tài khoản </label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.UserName" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Họ </label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.LastName" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label style="width: calc(14% - 7px)">Tên </label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.FirstName" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label style="width: calc(14% - 7px)">Email </label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.Email" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Mật khẩu</label>
+                            <div>
+                                <input type="password" class="k-textbox" maxlength="50" ng-model="Item.Password" ng-readonly="true" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label class="label-change">&nbsp;</label>
+                            <div class="change-pass">
+                                <a href="#" ng-click="Change_Passwword($event)">Thay đổi mật khẩu</a>
+                            </div>
+
+                        </div>
+                        <div class="rowinput">
+                            <label>Số điện thoại </label>
+                            <div>
+                                <input type="number" class="k-textbox" ng-model="Item.PhoneNumber" ng-readonly="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Chức vụ </label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.PhoneNumber" ng-readonly="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label style="">Phòng ban </label>
+                            <div>
+                                <input focus-k-combobox kendo-combobox="Room_Cbb" k-options="Room_CbbOptions" ng-model="Item.Room" ng-readonly="true" class="cus-combobox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput rowaction">
+                            <div>
+                                <a href="/" ng-click="Return_Data($event)" class="k-button">Làm lại</a>
+                                <a href="/" ng-click="Save_Click($event)" class="k-button accept">Lưu thông tin</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .SYSUser_Left {
+        width: calc(30% - 10px) !important;
+        text-align: right;
+        padding-top: 20px;
+    }
+
+    .SYSUser_Right {
+        width: -moz-calc(100% - 30%);
+        width: -webkit-calc(100% - 30%);
+        width: -o-calc(100% - 30%);
+        width: calc(100% - 30%);
+        float: right;
+        padding-top: 20px;
+    }
+
+    .SYSUser_Left img {
+        width: 151px;
+        height: 151px;
+        border: 1px solid #43474E;
+        border-radius: 50%;
+    }
+
+    .label-change {
+        display: block;
+    }
+
+    .SYSUser_Left .image-pro {
+        float: right;
+        display: block;
+        width: 151px;
+        max-width: 151px;
+        text-align: center;
+    }
+
+    .SYSUser_Left .image-pro a {
+        display: block;
+        text-decoration: none;
+        margin-top: 10px;
+        color: #767b84;
+        font-size: 15px;
+    }
+
+    .SYSUser_Right .rowinput label {
+        color: #43474E;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+
+    .SYSUser_Right .rowinput div input {
+        height: 38px;
+        background: #fff;
+        border: 1px solid #CFDDEF;
+        font-size: 15px;
+    }
+
+    .SYSUser_Right .rowinput div .k-widget .k-state-default {
+        height: 38px;
+        border: 1px solid #CFDDEF;
+    }
+
+    .SYSUser_Right .rowinput div .k-widget .k-state-default input {
+       height: 30px;
+       border: none;
+    }
+
+    .SYSUser_Right .k-widget .k-select .k-icon {
+        top: 7px;
+    }
+
+    .SYSUser_Right .rowinput div {
+        margin-bottom: 6px;
+    }
+
+    .SYSUser_Right .rowaction div {
+        width: calc(54% - 1px) !important;
+        text-align: right;
+    }
+
+    .SYSUser_Right .rowinput label {
+        width: calc(14% - 7px);
+    }
+
+    .SYSUser_Right .rowinput div {
+        width: 40%;
+    }
+
+    .SYSUser_Right .rowinput.rowaction a {
+        font-size: 14px;
+    }
+
+        .SYSUser_Right .rowinput.rowaction a.k-button.accept {
+            line-height: 25px;
+            padding: 8px 20px;
+            border: none;
+        }
+
+        .SYSUser_Right .rowinput.rowaction a.k-button {
+            line-height: 25px;
+            padding: 7px 25px;
+            border: 1px solid #6D6C6C;
+        }
+
+    .SYSUser_Right .rowinput .change-pass {
+        width: 40%;
+    }
+
+    .SYSUser_Right .rowinput {
+        float: left;
+        width: 100%;
+        position: static;
+        height: auto;
+        margin-top: 0px;
+    }
+
+    .SYSUser_Right .rowinput .change-pass a {
+        text-decoration: none;
+        color: #F75252;
+        cursor: pointer;
+    }
+
+    ul.breakumb > li:first-child {
+        display: block;
+    }
+
+    @media all and (max-width: 900px) {
+        .SYSUser_Right .rowinput label {
+            width: 100%;
+            text-align: left;
+        }
+
+        .SYSUser_Right .rowinput div {
+            width: 100%;
+        }
+
+        .label-change {
+            display: none;
+        }
+
+        .SYSUser_Right .rowaction div {
+            width: 100% !important;
+        }
+    }
+</style>

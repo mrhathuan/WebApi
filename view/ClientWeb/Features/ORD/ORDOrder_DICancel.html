@@ -1,0 +1,56 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                <li><span>Đơn hàng bị hủy</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <input focus-k-datepicker kendo-date-picker class="cus-datepicker" k-options="DateDMY" k-ng-model="DateFrom" style="width:95px" />
+            <input focus-k-datepicker kendo-date-picker class="cus-datepicker" k-options="DateDMY" k-ng-model="DateTo" style="width:95px" />
+            <input style="width: 250px" focus-k-select kendo-multi-select="mltCustomer" k-options="mltCustomerOptions" k-ng-model="ListCustomer" />
+            <a href="/" ng-click="Search_Click($event,gop_Grid)" class="k-button" data-title="Tìm"><i class="fa fa-search"></i><span class="tooltip">Tìm</span></a>
+            <a href="/" ng-click="ShowSetting($event,gop_Grid)" ng-mouseenter="ShowSetting($event,gop_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="gop_Grid" k-options="gop_GridOptions" expand-k-grid="gop_Grid"></div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="reason_win" k-title="false" k-width="500" k-height="180" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Cập nhật lý do
+            </div>
+            <div class="right"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-100">
+                <div class="rowinput">
+                    <label>Lý do <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox ng-model="Reason" k-ng-model="Reason" kendo-combobox="cboReason" k-options="cboReasonOptions" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Ghi chú</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="ReasonNote" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Update_Click($event,gop_Grid,reason_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,reason_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

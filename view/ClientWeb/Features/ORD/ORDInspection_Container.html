@@ -1,0 +1,164 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <div>
+                <input focus-k-select kendo-multi-select="mltCustomer" k-options="mltCustomerOptions" k-ng-model="Search.ListCustomerID" style=" height: 26px;width: 170px" />
+            </div>
+            <div>
+                Từ ngày
+                <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="Search.DateFrom" style="width:120px;" />
+            </div>
+            <div>
+                Đến ngày
+                <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="Search.DateTo" style="width:120px" />
+            </div>
+            <a href="/" ng-show="HasDeleteInspection" ng-click="ORDContainer_Delete_Click($event,ORDDOCContainer_grid)" class="k-button" data-title="Tìm"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="Search_Click($event)" class="k-button" data-title="Tìm"><i class="fa fa-search"></i><span class="tooltip">Tìm</span></a>
+            <a href="/" ng-click="ShowSetting($event,ORDDOCContainer_grid)" ng-mouseenter="ShowSetting($event,ORDDOCContainer_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="ORDDOCContainer_grid" expand-k-grid k-options="ORDDOCContainer_gridOptions"></div>
+    </div>
+</div>
+
+<!--popup-->
+<div class="cus-window" draggable-k-window kendo-window="ORDInspection_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin tờ khai</div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip="Inspection_win_tab" k-options="Inspection_win_tabOptions">
+                <ul>
+                    <li data-tabindex="1" class="k-state-active">
+                        Thông tin chung
+                    </li>
+                    <li data-tabindex="2" ng-show="Item.ID > 0">
+                        Dịch vụ theo bộ
+                    </li>
+                    <li data-tabindex="3" ng-show="Item.ID > 0">
+                        Dịch vụ theo container
+                    </li>
+                </ul>
+                <div>
+                    <div class="form-content-150" v-form="Inspection_vform">
+                        <div class="rowinput">
+                            <label>Mã đơn hàng</label>
+                            <div>
+                                <input class="k-textbox" type="text" ng-model="Item.OrderCode" style="width:89%" disabled />
+                                <a href="/" ng-click="DocumentOrder_Click($event,DocumentOrder_win)" class="k-button" data-title="Lưu">Đơn hàng</a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Khách hàng</label>
+                            <div>
+                                <input class="k-textbox" type="text" ng-model="Item.CustomerName" disabled />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Ngày<span class="required">*</span></label>
+                            <div>
+                                <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="Item.DateDocument" style="width: 100%;" v-form-require="true" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Có kiểm hóa</label>
+                            <div>
+                                <input type="checkbox" ng-model="Item.HasInspection" disabled />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="Item.ID > 0">
+                    <div class="cus-grid" kendo-grid="ORDService_grid" expand-k-grid k-options="ORDService_gridOptions"></div>
+                </div>
+                <div ng-show="Item.ID > 0" class="cus-item">
+                    <div class="cus-grid" kendo-grid="ORDContainerService_grid" expand-k-grid></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="TabIndex == 2" ng-click="InspectionService_Add_Click($event,ORDServiceNotList_win,ORDServiceNotList_grid)" class="k-button" data-title="Lưu">Thêm</a>
+                <a href="/" ng-show="TabIndex == 2" ng-click="InspectionService_Save_Click($event,ORDService_grid)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-show="TabIndex == 2 && HasDelete" ng-click="InspectionService_Delete_Click($event,ORDService_grid)" class="k-button" data-title="Lưu">Xóa</a>
+                <a href="/" ng-show="TabIndex == 3" ng-click="ContainerService_Save_Click($event,ORDContainerService_grid)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-show="TabIndex == 1" ng-click="Inspection_Save_Click($event,ORDInspection_win,ORDInspection_grid,Inspection_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="win_Close($event,ORDInspection_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="DocumentOrder_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách đơn hàng</div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="DocumentOrderList_grid" expand-k-grid k-options="DocumentOrderList_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="DocumentOrder_Add_Click($event,DocumentOrder_win,DocumentOrderList_grid)" class="k-button accept" data-title="Lưu">Xác nhận</a>
+                <a href="/" ng-click="win_Close($event,DocumentOrder_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="ORDServiceNotList_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách dịch vụ</div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="ORDServiceNotList_grid" expand-k-grid k-options="ORDServiceNotList_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="HasChoose" ng-click="ServiceNotList_Save_Click($event,ORDServiceNotList_win,ORDServiceNotList_grid,ORDInspection_grid)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="win_Close($event,ORDServiceNotList_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="DocumentDetail_win" k-title="false" k-width="950" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách dịch vụ</div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-form">
+                <div class="cus-grid clsDocumentDetail" kendo-grid="DocumentDetail_grid" expand-k-grid k-options="DocumentDetail_gridOptions"></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="DocumentDetail_ExcelClick($event,winexcel)" class="k-button" data-title="Lưu">Xuất Excel</a>
+                <a href="/" ng-click="DocumentDetail_Save_Click($event,DocumentDetail_grid,DocumentDetail_win)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-show="HasDocumentDetail" ng-click="DocumentDetail_Delete_Click($event,DocumentDetail_win,DocumentDetail_grid)" class="k-button" data-title="Xóa">Xóa</a>
+                <a href="/" ng-click="win_Close($event,DocumentDetail_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

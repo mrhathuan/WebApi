@@ -1,0 +1,18 @@
+﻿
+<div class="view-breakumb">
+    <ul class="breakumb">
+        <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+        <li><span>danh muc cac diem spreadsheet</span></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<div class="view-breakumb-content">
+    <div class="cus-scheduler" expand-k-scheduler kendo-scheduler="new_timeline_v2" k-options="new_timeline_v2Options" ></div>
+</div>
+
+<!--NewTimeLineV2 EventTemplate-->
+<script id="new-timeline-v2-event-template" type="text/x-kendo-template">
+    <div style="cursor:pointer;height:100%;background-color:pink" class="cus-event" >
+        <div class="event-content" style="line-height: 20px; white-space: nowrap; overflow: hidden;">#=title#</div>
+    </div>
+</script>

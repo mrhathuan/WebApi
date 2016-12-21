@@ -1,0 +1,52 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><a ui-sref="main.OPSAppointment.DIOptimizer">Tối ưu</a></li>
+                <li><span>Điều chỉnh kết quả</span></li>
+                <li><span>{{OptimizerName}}</span></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="right">
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_Master({OptimizerID:{{OptimizerID}}})" ng-click="Back_click($event)"><i class="fa fa-history"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-splitter" kendo-splitter="hor_splitter" k-options="hor_splitterOptions">
+            <div>
+                <div class="cus-form thin">
+                    <div class="form-header">
+                        <div class="left title">
+                            Danh sách chuyến
+                        </div>
+                        <div class="right">
+                            <a href="/" ng-show="HasChoose" ng-click="Delete_Click($event)" class="k-button" data-title="Lưu"><i class="fa fa-trash"></i><span class="tooltip is-right">Xóa</span></a>
+                            <a href="/" ng-show="IsShowSave || IsShow" ng-click="Save_Click($event,gridNoMaster)" class="k-button" data-title="Lưu"><i class="fa fa-check"></i><span class="tooltip is-right">Lưu</span></a>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="cus-grid" kendo-grid="gridNoMaster" k-options="gridNoMasterOptions" expand-k-grid></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="cus-form thin">
+                    <div class="form-header">
+                        <div class="left title">
+                            Danh sách sản phẩm
+                        </div>
+                        <div class="right">
+                            <a href="/" ng-show="IsShowUnMerge" ng-click="MergeCancel_Click($event, gridNo)" class="k-button" data-title="Hủy gom hàng"><i class="fa fa-ban"></i><span class="tooltip is-right">Hủy gom hàng</span></a>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="cus-grid" kendo-grid="gridNo" k-options="gridNoOptions" expand-k-grid></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

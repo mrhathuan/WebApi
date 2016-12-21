@@ -1,0 +1,76 @@
+﻿<div class="mainform">    
+    <div ng-show="IsShowMenu" class="mainmenu">
+        <div ng-show="IsShowMenu" class="visible">
+            <div ng-repeat="func in Functions" class="parent">
+                <div class="title"><span>{{func.FunctionName}}</span></div>
+                <div ng-repeat="child in func.Childs" ng-class="child.IsActive==true?'child active':'child'">
+                    <div class="title"><a ng-click="ItemMenu_Click($event,child)" title="{{child.FunctionName}}" ui-sref="{{child.Code}}"><i class="fa {{child.Icon}}"></i> <span>{{child.FunctionName}}</span></a></div>
+                    <div class="note" ng-show="child.Note!=null"><a href="/">{{child.Note}}</a></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="!IsShowMenu" class="invisible">
+            <div ng-repeat="func in Functions" class="parent">
+                <div class="title"><span>&nbsp;</span></div>
+                <div ng-repeat="child in func.Childs" ng-class="child.IsActive==true?'child active':'child'">
+                    <div class="title"><a ng-click="ItemMenu_Click($event,child)" title="{{child.FunctionName}}" class="tooltip" ui-sref="{{child.Code}}"><i class="fa {{child.Icon}}"></i> <span>&nbsp;</span></a></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="button"><a ng-click="MenuClick($event)" href="/"><i ng-show="IsShowMenu" class="fa fa-long-arrow-left"></i><i ng-show="!IsShowMenu" class="fa fa-long-arrow-right"></i></a></div>
+    </div>
+    <div ng-show="IsShowMenu" class="mainbody" ng-class="hasComment==true?'mainbody hascomment':'mainbody'">
+        <div class="mainview" ui-view="view"></div>
+    </div>
+    <div ng-show="hasComment" class="maincomment">
+        <div class="header">
+            <div class="button"><a href="/" ng-click="comment_hide($event)"><i class="fa fa-share"></i></a></div>
+            <div class="text" ng-bind-html="HTML(comment_title)"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="border-gray">&nbsp;</div>
+        <div class="list">
+            <div ng-repeat="item in comment_list" class="item">
+                <div class="left">
+                    <img alt="item.UserName" ng-src="{{item.Image}}" />
+                </div>
+                <div class="right">
+                    <div class="username">{{item.UserName}}</div>
+                    <div class="date">{{item.Date}}</div>
+                    <div class="comment">{{item.Comment}}</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="command">
+            <form ng-submit="comment_send($event)" action="/" method="post">
+                <div class="text"><textarea ng-model="comment_text" placeholder="Nhập nội dung"></textarea></div>
+                <div class="button"><a href="/" ng-click="comment_send($event)" class="k-button">Gửi</a></div>
+                <div class="clear"></div>
+                <div class="hidden"><input type="submit" /></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="winMainSetting" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thiết lập
+            </div>
+            <div class="right button">
+                <a href="/" ng-click="winMainSetting_Click($event)" class="k-button"><i class="fa fa-times"></i></a>
+            </div>
+        </div>
+
+        <div class="form-body">
+            <ul class="mainsetting">
+                <li><a href="/" ng-click="MainSetting_Click($event)"><i ng-show="!mainsetting.IsDefault" class="fa fa-circle-o"></i><i ng-show="mainsetting.IsDefault" class="fa fa-check-circle-o"></i> Mặc định hiển thị</a></li>
+                <li ng-repeat="view in mainsetting.Views"><a ui-sref="{{view.Code}}"><i class="fa fa-play-circle-o"></i> {{view.Name}}</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

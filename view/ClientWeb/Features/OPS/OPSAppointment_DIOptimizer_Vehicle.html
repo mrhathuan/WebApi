@@ -1,0 +1,94 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><a ui-sref="main.OPSAppointment.DIOptimizer">Tối ưu</a></li>
+                <li><span>Xe</span></li>
+                <li><span>{{OptimizerName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_GroupOfProduct({OptimizerID:{{OptimizerID}}})"><i class="fa fa-file-text"></i><span class="tooltip">Đơn hàng</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_Location({OptimizerID:{{OptimizerID}}})"><i class="fa fa-location-arrow"></i><span class="tooltip">Địa điểm</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_Route({OptimizerID:{{OptimizerID}}})"><i class="fa fa-road"></i><span class="tooltip">Cung đường</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_LocationMatrix({OptimizerID:{{OptimizerID}}})"><i class="fa fa-globe"></i><span class="tooltip">Ma trận điểm</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_Master({OptimizerID:{{OptimizerID}}})"><i class="fa fa-arrow-right"></i><span class="tooltip">{{ButtonRunTooltip}}</span></a>
+            <a ng-click="Back_Click($event)" class="k-button"><i class="fa fa-history"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div kendo-splitter="splitter" k-options="splitterOptions" class="cus-splitter hor-splitter" expand-k-splitter>
+            <div>
+                <div class="cus-grid" expand-k-grid kendo-grid="vehicleGrid" k-options="vehicleGrid_Options"></div>
+            </div>
+            <div>
+                <div id="map" class="cus-map" style="width:100%; height:100%;"></div>
+                <div id="map_tooltip" style="display: none; position: absolute; background-color: rgb(165, 197, 185); line-height: 24px; padding: 2px 10px; color: #0A0A0A; font-weight: bold;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="vehicle_Grid_toolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <div style="color: blue">
+                &nbsp;&nbsp; Xe chạy quá tải được tô màu đỏ.
+            </div>
+        </div>
+        <div class="right">
+            <a class="k-button" ng-show="HasChooseVehicle" ng-click="Vehicle_Delete_Click($event,vehicleGrid)"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a class="k-button" ng-click="Vehicle_New_Click($event,vehicleNotInGrid,vehicle_notin_win)"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<div class="cus-window" draggable-k-window kendo-window="vehicle_notin_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH ĐẦU KÉO
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="vehicleNotInGrid" expand-k-grid k-options="vehicleNotInGrid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Vehicle_NotIn_Accept_Click($event,vehicleNotInGrid,vehicle_notin_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,vehicle_notin_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="vehicleEdit_win" k-title="false" k-width="400" k-height="160" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                {{VehicleEdit.VehicleNo}}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Trọng tải (Tấn)</label>
+                    <div>
+                        <input class="k-textbox cus-number" type="number" ng-model="VehicleEdit.MaxWeightCal">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Vehicle_Save_Click($event,vehicleEdit_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,vehicleEdit_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,206 @@
+﻿
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="cus-grid" kendo-grid="SYSMailTemplate_grid" expand-k-grid k-options="SYSMailTemplate_gridOptions"></div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="SYSMailTemplate_win" k-title="false" k-width="800" k-height="470" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                CHI TIẾT MAIL
+            </div>
+            
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip k-content-urls="[null, null, null]" k-options="SYSMailTemplate_win_tabOptions">
+                <ul>
+                    <li class="k-state-active">Thông tin</li>
+                    <li>Nội dung mail</li>
+                    <li>Chi tiết chuyến</li>
+                    <li>Các trường dữ liệu</li>
+                </ul>
+
+                <div>
+                    <form action="/" method="post" ng-submit="Save_Click($event,SYSMailTemplate_win,SYSMailTemplate_grid,SYSMailTemplate_win_vform)">
+                        <div class="SYSMailTemplate_Form" v-form="SYSMailTemplate_win_vform">
+                            <div class="form-content-150">
+                                <div class="rowinput">
+                                    <label>Mã <span class="required">*</span></label>
+                                    <div>
+                                        <input type="text" class="k-textbox" ng-model="Item.Code" ng-readonly="true" v-form-require="true" v-form-length="50" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tên template <span class="required">*</span></label>
+                                    <div>
+                                        <input type="text" class="k-textbox" ng-model="Item.TemplateName" v-form-require="true" v-form-length="500" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>CC </label>
+                                    <div>
+                                        <input type="text" class="k-textbox" ng-model="Item.CC" v-form-length="200" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tiêu đề </label>
+                                    <div>
+                                        <input type="text" class="k-textbox" ng-model="Item.Subject" v-form-length="2000" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Sử dụng </label>
+                                    <div>
+                                        <input type="checkbox" ng-model="Item.IsUse" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Ghi chú </label>
+                                    <div>
+                                        <textarea class="k-textbox" ng-model="Item.Note" style="height:200px; width: 100%" v-form-length="2000" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="hidden"><input type="submit" /></div>
+                    </form>
+                </div>
+
+                <div>
+                    <textarea class="k-textbox" ng-model="Item.Content" style="height: calc(100% - 40px); width: 100%" />
+                    <div class="rowinput rowaction">
+                        <a href="/" ng-click="HTMLContent_View_Click($event, SYSMailTemplate_HTMLContent_win)" class="k-button active">Xem</a>
+                    </div>
+                </div>
+
+                <div>
+                    <textarea class="k-textbox" ng-model="Item.Details" style="height: calc(100% - 40px); width: 100%" />
+                    <div class="rowinput rowaction">
+                        <a href="/" ng-click="HTMLDetail_View_Click($event, SYSMailTemplate_HTMLDetail_win)" class="k-button active">Xem</a>
+                    </div>
+                </div>
+
+                <div style="padding-left:20px">
+                    <div class="form-content" scrolldiv>
+                        <div class="rowinput">
+                            <label>[TripNo] - Số chuyến</label>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>[TotalTon] - Số tấn</label>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>[TotalCBM] - Số khối</label>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>[LocationFromName] - Kho lấy hàng</label>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>[LocationFrom] - Địa chỉ lấy hàng</label>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>[LocationToCode] - Mã NPP</label>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>[LocationToName] - Tên NPP</label>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>[LocationTo] - Địa chỉ giao</label>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>[ETD] - ETD</label>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>[ETA] - ETA</label>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>[Note] - Ghi chú đơn hàng</label>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Save_Click($event,SYSMailTemplate_win,SYSMailTemplate_grid,SYSMailTemplate_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,SYSMailTemplate_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="SYSMailTemplate_HTMLContent_win" k-title="false" k-width="600" k-height="470" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="form-content with-footer">
+            <div class="text" ng-bind-html="HTML(Item.Content)"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="HTMLContent_Close_Click($event,SYSMailTemplate_HTMLContent_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="SYSMailTemplate_HTMLDetail_win" k-title="false" k-width="600" k-height="470" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+            </div>
+          
+            <div class="clear"></div>
+        </div>
+
+        <div class="form-content with-footer">
+            <div class="text" ng-bind-html="HTML(Item.Details)"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="HTMLDetail_Close_Click($event,SYSMailTemplate_HTMLDetail_win)" class="k-button" data-title="Đóng">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>

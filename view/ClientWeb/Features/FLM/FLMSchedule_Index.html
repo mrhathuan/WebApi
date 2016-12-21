@@ -1,0 +1,122 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right button">
+           <!-- <a href="/" ng-show="HasChoose" ng-click="Del_Click($event,FLMSchedule_grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>-->
+            <!--<a href="/" ng-click="Add_Click($event,FLMSchedule_win,FLMSchedule_win_vform)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>-->
+            <a href="/" ng-click="ShowSetting($event,FLMSchedule_grid)" ng-mouseenter="ShowSetting($event,FLMSchedule_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="FLMSchedule_grid" expand-k-grid k-options="FLMSchedule_gridOptions"></div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="FLMSchedule_win" k-title="false" k-width="600" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Kỳ chấm công
+            </div>
+            <div class="right button"></div>
+        </div>
+        <div class="form-body with-footer" scrolldiv>
+            <form action="/" method="post" ng-submit="Save_Click($event,FLMSchedule_win,FLMSchedule_grid,FLMSchedule_win_vform)">
+                <div class="FLMSchedule_Form" v-form="FLMSchedule_win_vform">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Từ ngày <span class="required">*</span></label>
+                            <div>
+                                <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="FLMSchedule_dtpDateFromOptions" k-ng-model="Item.DateFrom" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Đến ngày <span class="required">*</span></label>
+                            <div>
+                                <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="FLMSchedule_dtpDateToOptions" k-ng-model="Item.DateTo" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tháng <span class="required">*</span></label>
+                            <div>
+                                <input ng-model="Item.Month" v-form-require="true" kendo-numeric-text-box k-options="numMonth_options" k-min="0" k-spinners="false" style="width:100%" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Năm <span class="required">*</span></label>
+                            <div>
+                                <input ng-model="Item.Year" v-form-require="true" kendo-numeric-text-box k-options="numYear_options" k-min="0" k-spinners="false" style="width:100%" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Đã đóng</label>
+                            <div>
+                                <input type="checkbox" ng-model="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>ExprDaysAllowOff</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ExprDaysAllowOff" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>ExprDaysWorkInOn</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ExprDaysWorkInOn" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>ExprDaysWorkInOff</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ExprDaysWorkInOff" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>ExprDaysWorkInHoliday</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ExprDaysWorkInHoliday" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>ExprTotalDays</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ExprTotalDays" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Ghi chú </label>
+                            <div>
+                                <textarea rows="3" ng-model="Item.Note" v-form-length="500" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Save_Click($event,FLMSchedule_win,FLMSchedule_grid,FLMSchedule_win_vform)" class="k-button accept" >Lưu</a>
+                <a href="/" ng-click="Close_Click($event,FLMSchedule_win,FLMSchedule_win_vform)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+﻿<ion-view hide-nav-bar="true" view-title="Đơn hàng">
+    <ion-content scroll="false">
+        <div class="bar bar-header bar-royal">
+            <button class="button button-clear add20padding" ng-click="BackTo()"><img src="img/back.png" /></button>
+            <h1 class="title">{{ViewTittle}}</h1>
+            <button class="button button-clear" ng-show="!ShowDetail && IsSum" ng-click="PickDate()"><img src="img/slide.png" /></button>            
+        </div>
+        <div style="height:100%" class="content has-header">
+            <ion-scroll style="height:calc(100% - 45px)" ng-show="!ShowDetail && IsSum">
+                <div class="list">
+                    <a ng-repeat="o in OrderSumary" class="item item-icon-left item-icon-right" ng-click="OrderSummaryClick(o.StatusOfOrderID)" >
+                        <span ng-class="ColorClass(o.StatusOfOrderCode)"> Đơn hàng {{o.StatusOfOrderName}}</span> <br />
+                        <span class="color-span"> {{o.Sum}} đơn hàng</span>
+                        <i class="icon ion-ios-arrow-right"></i>
+                    </a>
+                </div>
+            </ion-scroll>
+            <!--<ion-scroll style="height:calc(100% - 45px)" ng-show="!ShowDetail && !IsSum">
+                <div class="row header">
+                    <div class="col">MÃ</div>
+                    <div class="col">Số lượng</div>
+                    <div class="col"></div>
+                </div>
+                <div class="row" ng-repeat="o in OrderData">
+                    <div class="col">{{o.OrderCode}}</div>
+                    <div class="col">{{o.Sum}}</div>
+                    <div class="col"><button class="button" ng-click="View()">Xem</button></div>
+                </div>
+            </ion-scroll>-->
+
+           
+
+            <ion-scroll style="height:calc(100% - 45px)" ng-show="!ShowDetail && !IsSum">
+                <div class="list">
+                    <a ng-repeat="o in OrderData" class="item item-icon-left item-icon-right" ng-click="OrderClick($event,o)">
+                        Đơn hàng: {{o.OrderCode}} <br />
+                        <i class="icon ion-ios-arrow-right"></i>
+                    </a>
+                </div>
+            </ion-scroll>
+            <ion-scroll style="height:calc(100% - 45px)" ng-show="ShowDetail">
+                <div style="height:100%;background-color:#f3f6fa">
+                    <div class="div-empty h10p"></div>
+                    <div class="card-list">
+                        <div class="card-list-header"><img src="img/pack2.png" />Tổng số hàng hóa</div>
+                        <div class="card-list-row-2">
+                            <lable>Trọng tải</lable>
+                            <span>{{OrderItem.Ton}} Tấn</span>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="div-empty h10p"></div>
+                    <div class="card-list" ng-repeat="p in OrderItem.ListProduct">
+                        <div class="card-list-header"><img src="img/pack1.png" />Hàng hóa</div>
+                        <div class="card-list-row-2">
+                            <lable>Mã hàng hóa</lable>
+                            <span>{{p.ListProductCode}}</span>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="card-list-row-2">
+                            <lable>Dự kiến trọng lượng</lable>
+                            <span>{{p.Ton}} Tấn</span>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="card-list-row-2">
+                            <lable>Dự kiến số lượng</lable>
+                            <span>{{p.Quantity}}</span>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="card-list-row-2">
+                            <lable>Nhóm hàng</lable>
+                            <span>{{p.GroupProductName}}</span>
+                            <div class="clear"></div>
+                        </div>
+                        <div style="background-color:#f3f6fa" class="div-empty h10p"></div>
+                    </div>
+                    <div class="card-list">
+                        <div class="card-list-header"><img src="img/location.png" /> Điểm giao hàng</div>
+                        <div ng-repeat="l in OrderItem.ListLocation" class="card-list-row">
+                            {{l.Address}}
+                        </div>
+                    </div>
+                </div>
+            </ion-scroll>
+        </div>
+        <div class="select-pane" ng-class="{'actived':ShowSelectPane==true}">
+            <div class="select-pane-header">
+                <div class="row">
+                    <div class="col col-80"><input ng-model="ComoboboxKey" style="width:100%;border-radius:5px;margin-top: 6px;" type="search" placeholder="Search"></div>
+                    <div class="col col-20"><button class="button button-clear" style="color:#fff" ng-click="CloseSelectPane()"> Cancel</button></div>
+                </div>
+            </div>
+            <div style="padding:10px;height:100%;overflow-y:scroll;overflow-x: hidden;">
+                <ul class="list">
+                    <li ng-repeat="o in DataCombobox | filter:ComoboboxKey" ng-click="ComboboxSelect(o.obj)" class="item">
+                        {{o.text}}
+                    </li>
+                </ul>
+                <div class="div-empty h110p"></div>
+            </div>
+
+        </div>
+    </ion-content>
+</ion-view>
+<style>
+    .card-list { width: 100%; background-color: #fff; }
+    .card-list-header { font-size: 20px; color: #41484b; line-height: 45px; }
+        .card-list-header img { vertical-align: middle; height: 15px; margin: 0px 15px; }
+    .card-list-row, .card-list-row-2 { color: #41484b; text-indent: 14px; line-height: 28px; padding-right: 10px; }
+        .card-list-row-2 lable { font-size: 13px; color: #a5a5a5; float: left; }
+        .card-list-row-2 span { font-size: 15px; color: #41484b; float: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 50%; }
+
+        /*order*/
+    .header .col {
+        background-color: lightgrey;
+    }
+
+    .col {
+        border: solid 1px grey;
+        border-bottom-style: none;
+        border-right-style: none;
+    }
+
+        .col:last-child {
+            border-right: solid 1px grey;
+        }
+
+    .row:last-child .col {
+        border-bottom: solid 1px grey;
+    }
+
+</style>

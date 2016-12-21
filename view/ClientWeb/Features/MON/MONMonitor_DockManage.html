@@ -1,0 +1,27 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-click="Complete($event)" class="k-button"><i class="fa fa-check-square"></i><span class="tooltip is-right">Hoàn thành</span></a>
+            <a href="/" ng-click="RevertMaster($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip">Hủy hoàn thành</span></a>
+            <a href="/" ng-click="ShowSetting($event,MONInput_Container_grid)" ng-mouseenter="ShowSetting($event,MONInput_Container_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="MONInput_Container_grid" expand-k-grid="MONInput_Container_gridOptions" k-options="MONInput_Container_gridOptions"></div>
+    </div>
+</div>
+
+
+<style>
+    .k-grid .k-grid-content tbody > tr > td a .hasupload { color: red; }
+</style>

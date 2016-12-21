@@ -1,0 +1,23 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-click="Trouble_AproveAll($event,Trouble_Grid)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Duyệt</span></a>
+            <a href="/" ng-click="Trouble_RejectAll($event,Trouble_Grid)" class="k-button"><i class="fa fa-times"></i><span class="tooltip">Hủy duyệt</span></a>
+            <a href="/" ng-click="ShowSetting($event,Trouble_Grid)" ng-mouseenter="ShowSetting($event,Trouble_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div expand-k-grid kendo-grid="Trouble_Grid" k-options="Trouble_GridOptions" class="cus-grid"></div>
+    </div>
+</div>
+

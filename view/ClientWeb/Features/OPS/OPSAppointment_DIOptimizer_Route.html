@@ -1,0 +1,80 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><a ui-sref="main.OPSAppointment.DIOptimizer">Tối ưu</a></li>
+                <li><span>Cung đường</span></li>
+                <li><span>{{OptimizerName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a class="k-button" ng-show="StatusOfOptimizer < 2 && HasChoose" ng-click="Reset_Click($event,routeGrid)"><i class="fa fa-circle-o"></i><span class="tooltip">DL mặc định</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_GroupOfProduct({OptimizerID:{{OptimizerID}}})"><i class="fa fa-file-text"></i><span class="tooltip">Đơn hàng</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_Vehicle({OptimizerID:{{OptimizerID}}})"><i class="fa fa-truck"></i><span class="tooltip">Xe</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_Location({OptimizerID:{{OptimizerID}}})"><i class="fa fa-location-arrow"></i><span class="tooltip">Địa điểm</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_LocationMatrix({OptimizerID:{{OptimizerID}}})"><i class="fa fa-globe"></i><span class="tooltip">Ma trận điểm</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_Master({OptimizerID:{{OptimizerID}}})"><i class="fa fa-arrow-right"></i><span class="tooltip">{{ButtonRunTooltip}}</span></a>
+            <a class="k-button" ng-show="StatusOfOptimizer < 2" ng-click="Distance_Click($event)"><i class="fa fa-check-circle"></i><span class="tooltip">Tính lại khoảng cách</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-history"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" expand-k-grid kendo-grid="routeGrid" k-options="routeGrid_Options"></div>
+    </div>
+</div>
+
+<div class="cus-window" ng-keydown="OnKeyDown($event)" draggable-k-window kendo-window="required_win" k-title="false" k-width="960" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Cung đường - {{ HTML(RouteName)}}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip="location_win_tab" k-options="route_win_tabOptions">
+                <ul>
+                    <li data-tabindex="0" class="k-state-active">
+                        Thời gian
+                    </li>
+                    <li data-tabindex="1">
+                        Kích thước
+                    </li>
+                </ul>
+                <div>
+                    <div class="cus-grid" expand-k-grid kendo-grid="time_Grid" k-options="time_Grid_Options"></div>
+                </div>
+                <div>
+                    <div class="cus-grid" expand-k-grid kendo-grid="size_Grid" k-options="size_Grid_Options"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <!--<a href="/" ng-show="StatusOfOptimizer < 2" ng-click="Reset_Click($event,time_Grid,size_Grid)" class="k-button">DL mặc định</a>-->
+                <a href="/" ng-click="Close_Click($event,required_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="time_Grid_toolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <div style="color:red;">Quy ước: tgian bắt đầu (BĐ) nhỏ hơn tgian kết thúc (KT) => Không khả dụng từ KT tới BĐ</div>
+        </div>
+        <div class="right" ng-show="!IsTimeEdit">
+            <a class="k-button" ng-show="StatusOfOptimizer < 2" ng-click="New_Time_Click($event,time_Grid)"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+<script type="text/x-kendo-tmpl" id="size_Grid_toolbar">
+    <div class="gridtoolbar">
+        <div class="right" ng-show="!IsSizeEdit">
+            <a class="k-button" ng-show="StatusOfOptimizer < 2" ng-click="New_Size_Click($event,size_Grid)"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>

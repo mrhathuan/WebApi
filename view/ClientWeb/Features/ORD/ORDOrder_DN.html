@@ -1,0 +1,151 @@
+﻿<!--ORDDN-View-->
+<script type="text/x-kendo-tmpl" id="orderDN_gridToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right button">
+            <a href="/" ng-click="ORDDN_Add_Click($event)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-click="ORDDN_Comment_Click($event,orderDN_grid)" class="k-button"><i class="fa fa-comments"></i><span class="tooltip">Comments</span></a>
+            <a href="/" ng-click="ORDDN_Rest_Click($event,orderDN_grid, rest_win)" class="k-button"><i class="fa fa-file"></i><span class="tooltip">Đơn hàng còn lại</span></a>
+            <input class="cus-combobox" focus-k-combobox kendo-combo-box="orderDN_cus_cbo" ng-model="CustomerID" k-options="orderDN_cus_cboOptions" style="width: 300px;" />
+            <a href="/" ng-click="ShowSetting($event,orderDN_grid)" ng-mouseenter="ShowSetting($event,orderDN_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<div class="cus-grid" kendo-grid="orderDN_grid" k-options="orderDN_gridOptions" expand-k-grid="orderDN_grid"></div>
+
+<!--Window-->
+<div class="cus-window" draggable-k-window kendo-window="rest_win" k-title="false" k-width="400" k-height="280" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Đơn hàng còn lại
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" kendo-tabstrip="rest_win_tabstrip" expand-k-tabstrip k-options="rest_win_tabstripOptions">
+                <ul>
+                    <li class="k-state-active" data-tabindex="1">SO còn lại</li>
+                    <li data-tabindex="2">DN còn lại</li>
+                    <li data-tabindex="3">Tất cả</li>
+                </ul>
+                <div>
+                    <form action="/" method="post">
+                        <div class="form-content-150">
+                            <div class="rowinput">
+                                <label for="chk_rest_win_so_isAll">Tất cả </label>
+                                <input id="chk_rest_win_so_isAll" type="radio" ng-model="RestOptions.SO.IsAll" ng-value="true" />
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label for="chk_rest_win_so_isnotAll">Theo ngày gửi </label>
+                                <input id="chk_rest_win_so_isnotAll" type="radio" ng-model="RestOptions.SO.IsAll" ng-value="false" />
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" ng-show="!RestOptions.SO.IsAll">
+                                <label>
+                                    Từ ngày
+                                </label>
+                                <div>
+                                    <input class="cus-datetimepicker" ng-model="RestOptions.SO.DateFrom" focus-k-datepicker kendo-date-picker k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" ng-show="!RestOptions.SO.IsAll">
+                                <label>
+                                    Đến ngày
+                                </label>
+                                <div>
+                                    <input class="cus-datetimepicker" ng-model="RestOptions.SO.DateTo" focus-k-datepicker kendo-date-picker="dtp_rest_so_to" k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <form action="/" method="post">
+                        <div class="form-content-150">
+                            <div class="rowinput">
+                                <label for="chk_rest_win_dn_isAll">Tất cả </label>
+                                <input id="chk_rest_win_dn_isAll" type="radio" ng-model="RestOptions.DN.IsAll" ng-value="true" />
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label for="chk_rest_win_dn_isnotAll">Theo ngày gửi </label>
+                                <input id="chk_rest_win_dn_isnotAll" type="radio" ng-model="RestOptions.DN.IsAll" ng-value="false" />
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" ng-show="!RestOptions.DN.IsAll">
+                                <label>
+                                    Từ ngày
+                                </label>
+                                <div>
+                                    <input class="cus-datetimepicker" ng-model="RestOptions.DN.DateFrom" focus-k-datepicker kendo-date-picker="dtp_rest_dn_from" k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" ng-show="!RestOptions.DN.IsAll">
+                                <label>
+                                    Đến ngày
+                                </label>
+                                <div>
+                                    <input class="cus-datetimepicker" ng-model="RestOptions.DN.DateTo" focus-k-datepicker kendo-date-picker="dtp_rest_dn_to" k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <form action="/" method="post">
+                        <div class="form-content-150">
+                            <div class="rowinput">
+                                <label for="chk_rest_win_All_isAll">Tất cả </label>
+                                <input id="chk_rest_win_All_isAll" type="radio" ng-model="RestOptions.All.IsAll" ng-value="true" />
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label for="chk_rest_win_All_isnotAll">Theo ngày gửi </label>
+                                <input id="chk_rest_win_All_isnotAll" type="radio" ng-model="RestOptions.All.IsAll" ng-value="false" />
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" ng-show="!RestOptions.All.IsAll">
+                                <label>
+                                    Từ ngày
+                                </label>
+                                <div>
+                                    <input class="cus-datetimepicker" ng-model="RestOptions.All.DateFrom" focus-k-datepicker kendo-date-picker="dtp_rest_dn_from" k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" ng-show="!RestOptions.All.IsAll">
+                                <label>
+                                    Đến ngày
+                                </label>
+                                <div>
+                                    <input class="cus-datetimepicker" ng-model="RestOptions.All.DateTo" focus-k-datepicker kendo-date-picker="dtp_rest_dn_to" k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="ORDDN_Rest_SO_Click($event,rest_win)" ng-show="TabIndex==1" class="k-button accept">Tải về</a>
+                <a href="/" ng-click="ORDDN_Rest_DN_Click($event,rest_win)" ng-show="TabIndex==2" class="k-button accept">Tải về</a>
+                <a href="/" ng-click="ORDDN_Rest_All_Click($event,rest_win)" ng-show="TabIndex==3" class="k-button accept">Tải về</a>
+                <a href="/" ng-click="Rest_Close_Click($event,rest_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

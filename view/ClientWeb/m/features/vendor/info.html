@@ -1,0 +1,23 @@
+﻿<ion-view view-title="Thông tin nhà xe">
+    <ion-nav-back-button></ion-nav-back-button>
+    <ion-content scroll="false">
+        <div style="height:100%;">
+            <div style="height:30%;background-color:white;text-align:center;padding:5px 0px 1px 0px">
+                <img ng-click="selindex=0" src="img/pic.png" style="max-height:50%" />
+            </div>
+            <div style="height:55%;background-color:white;">
+                <div class="inline-content">
+                    <div class="inline-row"><div class="inline-lable w120">Nhà xe</div><input ng-model="VendorItem.VendorName" placeholder="Nhà xe" /></div>
+                    <div class="inline-row"><div class="inline-lable w120">Mã</div><input ng-model="VendorItem.Code" placeholder="Mã" /></div>
+                    <div class="inline-row"><div class="inline-lable w120">Email</div><input ng-model="VendorItem.Email" placeholder="Email" /></div>
+                    <div class="inline-row"><div class="inline-lable w120">SĐT</div><input ng-model="VendorItem.TelNo" placeholder="SĐT" /></div>
+                    <div class="inline-row"><div class="inline-lable w120">Địa chỉ</div><input ng-model="VendorItem.Address" placeholder="Địa chỉ" /></div>
+                    <div class="inline-row"><div class="inline-lable w120">Tỉnh thành</div><input ng-model="VendorItem.ProvinceName" placeholder="Tỉnh thành" /></div>
+                </div>
+            </div>
+            <div style="height:15%;padding:20px 50px 20px 50px">
+                <div ng-click="LogOut()" class="btn-active" style="background-color:#8E0A0A;color:white;width:100%;height:100%;display:table"><span style="display:table-cell;text-align:center;vertical-align:middle;font-size:20px;">Đăng xuất</span></div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

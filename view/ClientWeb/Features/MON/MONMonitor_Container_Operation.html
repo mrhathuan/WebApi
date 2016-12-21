@@ -1,0 +1,74 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="Update_Click($event,0)" class="k-button"><i class="fa fa-floppy-o"></i><span class="tooltip">Lưu thay đổi</span></a>
+            <a href="/" ng-click="Update_Click($event,1)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Duyệt</span></a>
+            <a href="/" ng-click="Update_Click($event,2)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip">Hủy duyệt</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="Main_grid" expand-k-grid k-options="Main_gridOptions"></div>
+    </div>
+</div>
+
+<!--Station notin-->
+<div kendo-window="COTOWin" draggable-k-window class="cus-window" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh chặng</div>
+        </div>
+        <div class="form-body with-footer">
+            <div expand-k-grid kendo-grid="COTOMasterGrid" k-options="COTOMasterGridOptions" class="cus-grid"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="COTOAdd($event)" class="k-button accept">Thêm chặng</a>
+                <a ng-click="COTORemove($event)" class="k-button">Xóa chặng</a>
+                <a href="/" ng-click="Win_Close($event,COTOWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Trouble edit win-->
+<div class="cus-window" kendo-window="COTO_EditWin" draggable-k-window k-title="false" k-width="400" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin chặng</div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div v-form="COTOvForm">
+                    <div class="form-content-100">
+                        <div class="rowinput">
+                            <label>Bắt đầu<span class="required">*</span></label>
+                            <input type="text" ng-model="ItemT1.LocationFromCode" class="k-textbox" v-form-require="true" />
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Kết thúc<span class="required">*</span></label>
+                            <input type="text" ng-model="ItemT1.LocationToCode" class="k-textbox" v-form-require="true" />
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Thứ tự</label>
+                            <input type="number" ng-model="ItemT1.Sort" class="k-textbox" v-form-require="false" />
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="COTOAdd_Accept($event,COTOvForm)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Win_Close($event,COTO_EditWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

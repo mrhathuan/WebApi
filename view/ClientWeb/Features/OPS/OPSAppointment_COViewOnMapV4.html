@@ -1,0 +1,931 @@
+﻿<!--View-->
+<div class="full" id="2view-container">
+    <div class="cus-form winform" id="2view" style="{{IsFullScreen?'padding:0':''}}">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                    <li><span>Lập chuyến</span></li>
+                </ul>
+            </div>
+            <div class="right">
+                <a href="/" class="k-button" ng-show="!IsFullScreen" ui-sref="main.OPSAppointment.COViewOnMap"><i class="cus-button view4"></i><span class="tooltip">Dạng 1</span></a>
+                <a href="/" class="k-button" ng-show="!IsFullScreen" ui-sref="main.OPSAppointment.COViewOnMapV2"><i class="cus-button view2"></i><span class="tooltip">Dạng 2</span></a>
+                <a href="/" class="k-button" ng-show="!IsFullScreen" ui-sref="main.OPSAppointment.COViewOnMapV3"><i class="cus-button view1"></i><span class="tooltip">Dạng 3</span></a>
+                <div style="width: 40px;"></div>
+                <a href="/" ng-show="!IsFullScreen" ng-click="ViewA_Click($event)" class="k-button"><i class="fa fa-television"></i><span class="tooltip">Toàn màn hình</span></a>
+                <a href="/" ng-show="!IsFullScreen" ng-click="ShowSetting($event,timeline_conV2_Grid)" ng-mouseenter="ShowSetting($event,timeline_conV2_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+                <a href="/" ng-show="IsFullScreen" ng-click="ViewB_Click($event)" class="k-button"><i class="fa fa-thumb-tack"></i><span class="tooltip is-right">Thu nhỏ</span></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div kendo-splitter="timelineV2Splitter" k-options="timelineV2Splitter_Options" class="cus-splitter hor-splitter">
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left">
+                            </div>
+                            <div class="right">
+                                <div style="margin: 0 2px;">
+                                    <ul class="filter-list" style="float: left;">
+                                        <li data-tabindex="1" ng-click="TimelineOrderV2ViewResource_Click($event,new_timeline_v2_Trip,1)" class="k-item" ng-class="NewTimeLineResourceType==1?'k-state-active':''">Theo đầu kéo</li>
+                                        <li data-tabindex="2" ng-click="TimelineOrderV2ViewResource_Click($event,new_timeline_v2_Trip,2)" class="k-item" ng-class="NewTimeLineResourceType==2?'k-state-active':''">Theo romooc</li>
+                                        <li data-tabindex="3" ng-click="TimelineOrderV2ViewResource_Click($event,new_timeline_v2_Trip,3)" class="k-item" ng-class="NewTimeLineResourceType==3?'k-state-active':''">Theo container</li>
+                                    </ul>
+                                </div>
+                                <a class="k-button" ng-show="!NewTimeLineLoadingV2" href="#" ng-click="TimelineOrderV2ViewServiceSelect_Click($event,new_timeline_v2_service_select_win)" ng-class="NewTimeLineVehicleDataService.length>0?'active':''"><i class="fa fa-server"></i><span class="tooltip">Lọc dịch vụ</span></a>
+                                <a class="k-button" ng-show="!NewTimeLineLoadingV2" href="#" ng-click="TimelineOrderV2ViewCustomerSelect_Click($event,new_timeline_v2_customer_select_win)" ng-class="NewTimeLineVehicleDataCustomer.length>0?'active':''"><i class="fa fa-group"></i><span class="tooltip">Lọc khách hàng</span></a>
+                                <a class="k-button" ng-show="!NewTimeLineLoadingV2" href="#" ng-click="TimelineOrderV2ViewCarrierSelect_Click($event,new_timeline_v2_carrier_select_win)" ng-class="NewTimeLineVehicleDataCarrier.length>0?'active':''"><i class="fa fa-ship"></i><span class="tooltip">Lọc hãng tàu</span></a>
+                                <a class="k-button" ng-show="!NewTimeLineLoadingV2" href="#" ng-click="TimelineOrderV2ViewSeaportSelect_Click($event,new_timeline_v2_seaport_select_win)" ng-class="NewTimeLineVehicleDataSeaport.length>0?'active':''"><i class="fa fa-anchor"></i><span class="tooltip">Lọc cảng biển</span></a>
+                                <a class="k-button" ng-show="!NewTimeLineLoadingV2" href="#" ng-click="TimelineOrderV2ViewStatusSelect_Click($event,new_timeline_v2_status_select_win)" ng-class="NewTimeLineVehicleDataStatus.length>0?'active':''"><i class="fa fa-recycle"></i><span class="tooltip is-right">Lọc trạng thái</span></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="form-body">
+                            <div ng-show="NewTimeLineLoadingV2" style="position: absolute;z-index: 999999;background: #fff;width: 100%;height: 100%;">
+                                <i class="fa fa-spinner fa-spin" style="font-size: 44px;color: #31b6fc;left: calc(50% - 22px);top: calc(50% - 22px);position: relative;"></i>
+                            </div>
+                            <div class="cus-scheduler new-timeline-trip-v2" expand-k-scheduler kendo-scheduler="new_timeline_v2_Trip" k-options="new_timeline_v2_TripOptions" k-rebind="new_timeline_v2_TripOptions" k-delay="new_timeline_v2_TripOptions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left">
+                            </div>
+                            <div class="right">
+                                <div style="margin: 0 2px;">
+                                    <ul class="filter-list" style="float: left;">
+                                        <li data-tabindex="-1" ng-click="TimelineOrderV2ViewTripAction_Click($event,new_timeline_v2_Trip)" class="k-item" ng-class="TimeLineViewTripAction?'k-state-active':''">Xóa/Duyệt chuyến</li>
+                                        <li data-tabindex="1" ng-click="TimelineOrderV2ViewStatus_Click($event,timeline_conV2_Grid)" class="k-item" ng-class="!TimeLineViewTripAction&&TimeLineViewOrderV2?'k-state-active':''">Theo ĐH</li>
+                                        <li data-tabindex="2" ng-click="TimelineOrderV2ViewStatus_Click($event,timeline_conV2_Grid)" class="k-item" ng-class="!TimeLineViewTripAction&&!TimeLineViewOrderV2?'k-state-active':''">Theo chặng</li>
+                                        <li data-tabindex="4" class="k-item" style="margin:0;padding:0;">
+                                            <a class="k-button" href="#" ng-click="TimelineOrderV2ViewDate_Click($event,timeline_conV2_Grid)" style="position:relative;top:-1px;" ng-class="!TimeLineViewTripAction&&TimeLineViewV2OrderDate?'active':''">
+                                                <i class="fa fa-calendar-o"></i><span class="tooltip">Chọn ngày</span>
+                                            </a>
+                                            <ul ng-show="ShowTimeLineV2OrderDate" style="z-index: 990001; position: absolute; right: 0; background-color: #fff; color: #000; width: 150px; list-style: none; padding: 2px 10px; box-shadow: -2px 2px 3px #d7e3f0; ">
+                                                <li>
+                                                    Từ ngày: <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-ng-model="TimeLineV2DateRequest.fDate" k-options="DateDMY" />
+                                                </li>
+                                                <li>
+                                                    Đến ngày: <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-ng-model="TimeLineV2DateRequest.tDate" k-options="DateDMY" />
+                                                </li>
+                                                <li style="text-align: center;">
+                                                    <a class="accept" ng-click="TimeLineOrderV2ViewDate_OK_Click($event,timeline_conV2_Grid)">Đồng ý</a>
+                                                    <a class="accept" ng-click="TimeLineOrderV2ViewDate_Cancel_Click($event,timeline_conV2_Grid)">Hủy chọn</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    <a class="k-button" href="#" ng-click="TimelineOrderV2ViewTimeLineWithFilter_Click($event,timeline_conV2_Grid)" ng-class="TimeLineViewOrderV2WithTimeLineFilter?'active':''"><i class="fa fa-exchange"></i><span class="tooltip is-right">Lọc DL</span></a>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="form-body" ng-show="TimeLineViewTripAction">
+                            <div style="width:calc(100% - 54px); height:110px; margin:20px; border:7px solid #54C4FF;" class="panel panel_action panel_action_tomon" data-action="1">
+                                <div class="panel-backgroud panel-title" style="width: 100%;text-align: center;color: #54c4ff;line-height: 110px;font-size: 18px;font-weight: bold;opacity: 0.5;">
+                                    DUYỆT
+                                </div>
+                            </div>
+                            <div style="width:calc(100% - 54px); height:110px; margin:20px; border:7px solid #FF6C87;" class="panel panel_action panel_action_toops" data-action="2">
+                                <div class="panel-backgroud panel-title" style="width: 100%;text-align: center;color: #FF6C87;line-height: 110px;font-size: 18px;font-weight: bold;opacity: 0.5;">
+                                    HỦY DUYỆT
+                                </div>
+                            </div>
+                            <div style="width:calc(100% - 54px); height:110px; margin:20px; border:7px solid #5e6163;" class="panel panel_action panel_action_toord" data-action="3">
+                                <div class="panel-backgroud panel-title" style="width: 100%;text-align: center;color: #5e6163;line-height: 110px;font-size: 18px;font-weight: bold;opacity: 0.5;">
+                                    XÓA
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body" ng-show="!TimeLineViewTripAction">
+                            <div kendo-tooltip k-options="timelinetooltipV2Options" class="full cus-tooltip">
+                                <div class="cus-grid" id="timeline-container-v2-grid" expand-k-grid="ops_timeline_con_view_on_map_Grid" kendo-grid="timeline_conV2_Grid" k-options="timeline_conV2_Grid_Options"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLineV2 EventTemplate-->
+<script id="new-timeline-v2-event-template" type="text/x-kendo-template">
+    <div style="cursor:pointer;height:100%;" class="cus-event" id="event#=id#" data-eventid="#=id#" data-connection="#=JSON.stringify(Connections, Common.JSON.QuoteReplacer)#" ng-mouseenter="ShowTimeLineV2Tooltip($event,#=id#)" ng-mouseleave="HideTimeLineV2Tooltip($event)" ng-click="NewTimeLineV2Event_Click($event,#=id#,#=TypeOfEvent#,#=start.getTime()#,#=end.getTime()#,timeline_trip_info_win,timeline_tomaster_win)">
+        <div class="event-content" style="position:absolute;top:0;left:0;z-index:2;;width:100%;line-height:20px; white-space:nowrap; overflow:hidden;">#=title#</div>
+        <div class="event-image" ng-show="dataItem.EmptyWidth>0" style="position: absolute;background-image: url(Images/bgline2.png);height: 100%;top: 0;z-index: 1;opacity: 0.7;" ng-style="{'left':dataItem.EmptyLeft + '%' , 'width':dataItem.EmptyWidth + '%'}"></div>
+    </div>
+</script>
+
+<!--TimeLine V2 Tooltip-->
+<div id="timeline_v2_tooltip" class="cus-window opacity90" style="opacity: 0.9; position: absolute; z-index: 999999; background: #f6fafe; margin: 0; padding: 3px 10px; border: 2px solid #31b6fc; border-radius: 4px;" ng-style="TimeLineV2InfoStyle">
+    <div class="cus-form">
+        <table class="td-right">
+            <tbody>
+                <tr style="line-height:18px;">
+                    <td colspan="5" style="text-align:left;">Romooc: <b>{{TimeLineV2InfoItem.RomoocNo}}</b>  ETD:<b>{{TimeLineV2InfoItem.ETD}}</b>  ETA:<b>{{TimeLineV2InfoItem.ETA}}</b></td>
+                </tr>
+                <tr ng-repeat="item in TimeLineV2InfoItem.ListContainer">
+                    <td>
+                        ĐH: <b>{{item.OrderCode}}</b>
+                    </td>
+                    <td>
+                        KH: <b>{{item.Customer}}</b>
+                    </td>
+                    <td>
+                        Cont: <b>{{item.Packing}}</b>
+                    </td>
+                    <td>
+                        Dv: <b>{{item.Service}}</b>
+                    </td>
+                    <td>
+                        Từ: <b>{{item.From}}</b>
+                    </td>
+                    <td>
+                        Đến: <b>{{item.To}}</b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--TimeLineGroup Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="900" k-max-height="650" k-height="500" kendo-window="timeline_tomaster_win" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách chuyến
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="timeline_tomaster_Grid" k-options="timeline_tomaster_Grid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,timeline_tomaster_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLineDetail - HOMEVehicle Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="600" k-max-height="650" k-height="315" old-height="550" kendo-window="new_timeline_info_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('NewTimeLineDetail')">
+    <div class="cus-form">
+        <div class="form-header" style="background: #f6fafe;">
+            <div class="left title">
+                Chuyến: {{NewTimeLineItem.Code}}
+            </div>
+            <div class="right" style="font-weight:bold;" ng-show="NewTimeLineItem.Status==1">
+                <div ng-show="NewTimeLineItem.IsCheching">
+                    <i class="fa fa-spinner fa-spin" style="font-size: 26px; color: #31b6fc;"></i>
+                </div>
+                <span ng-show="!NewTimeLineItem.IsCheching" style="padding: 0 10px; color:{{NewTimeLineItem.StatusColor}}">{{NewTimeLineItem.StatusCode}}</span>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" scrolldiv>
+            <table class="td-right">
+                <tbody>
+                    <tr>
+                        <td style="width:140px;">
+                            Nhà xe:
+                        </td>
+                        <td colspan="6">
+                            {{NewTimeLineItem.VendorOfVehicleCode}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Đầu kéo:
+                        </td>
+                        <td colspan="6">
+                            <a class="k-button" title="{{NewTimeLineItem.VehicleNo}}" style="width: 347px; background: none; height: 26px; text-align: left; " ng-click="NewTimeLineVehicle_Change_Click($event,1,vehicle_map_win)">{{NewTimeLineItem.VehicleNo}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Romooc:
+                        </td>
+                        <td colspan="6">
+                            <a class="k-button" title="{{NewTimeLineItem.RomoocNo}}" style="width: 347px; background: none; height: 26px; text-align: left; " ng-click="NewTimeLineVehicle_Change_Click($event,2,vehicle_map_win)">{{NewTimeLineItem.RomoocNo}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tài xế:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="true" kendo-auto-complete focus-k-complete ng-model="NewTimeLineItem.DriverName" k-options="atcNewTimeLineDriverNameOptions" style="width: 205px;" />
+                            <input ng-disabled="true" type="text" class="k-textbox" ng-model="NewTimeLineItem.DriverTel" maxlength="11" placeholder="SĐT" style="width: 139px; height: 26px; line-height: 26px; padding: .177em 0; text-indent: .33em; border-color: #c5c5c5; " />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETD:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="NewTimeLineItem.Status!=1" style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewTimeLineItem.ETD" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETA:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="NewTimeLineItem.Status!=1" style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewTimeLineItem.ETA" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                    <!--<tr>
+                        <td>
+                            Điểm bắt đầu:
+                        </td>
+                        <td colspan="6">
+                            <a class="k-button" title="{{NewTimeLineItem.LocationStartName}}" style="width: 347px; background: none; height: 26px; text-align: left; " ng-click="TripLocation_Change($event,1,location_win)">{{NewTimeLineItem.LocationStartName}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Điểm lấy romooc:
+                        </td>
+                        <td colspan="6">
+                            <a class="k-button" title="{{NewTimeLineItem.LocationGetRomoocName}}" style="width: 347px; background: none; height: 26px; text-align: left;" ng-click="TripLocation_Change($event,2,location_win)">{{NewTimeLineItem.LocationGetRomoocName}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Ngày lấy romooc:
+                        </td>
+                        <td colspan="6">
+                            <input style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewTimeLineItem.DateGetRomooc" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Điểm trả romooc:
+                        </td>
+                        <td colspan="6">
+                            <a class="k-button" title="{{NewTimeLineItem.LocationReturnRomoocName}}" style="width: 347px; background: none; height: 26px; text-align: left;" ng-click="TripLocation_Change($event,3,location_win)">{{NewTimeLineItem.LocationReturnRomoocName}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Ngày trả romooc:
+                        </td>
+                        <td colspan="6">
+                            <input style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewTimeLineItem.DateReturnRomooc" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Rã romooc:
+                        </td>
+                        <td colspan="6">
+                            <input type="checkbox" ng-model="NewTimeLineItem.IsRomoocBreak">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Điểm kết thúc:
+                        </td>
+                        <td colspan="6">
+                            <a class="k-button" title="{{NewTimeLineItem.LocationEndName}}" style="width: 347px; background: none; height: 26px; text-align: left; " ng-click="TripLocation_Change($event,4,location_win)">{{NewTimeLineItem.LocationEndName}}</a>
+                        </td>
+                    </tr>-->
+                </tbody>
+            </table>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-show="NewTimeLineItem.Status==1&&!NewTimeLineItem.IsCheching" ng-click="NewTimeLineV2_Change_Time_Click($event)" class="k-button">Điều chỉnh chặng</a>
+                <a href="/" ng-show="NewTimeLineItem.Status==1&&NewTimeLineItem.VehicleID>0&&!NewTimeLineItem.IsCheching" ng-click="NewTimeLineV2_Update_OK_Click($event,new_timeline_info_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,new_timeline_info_win,'NewTimeLineDetail')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLineDetail - CUSVehicle Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="600" k-max-height="650" k-height="310" kendo-window="new_timeline_vendor_info_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('NewTimeLineDetail')">
+    <div class="cus-form">
+        <div class="form-header" style="background: #f6fafe;">
+            <div class="left title">
+                Chuyến: {{NewTimeLineItem.Code}}
+            </div>
+            <div class="right" style="font-weight:bold;" ng-show="NewTimeLineItem.Status==1">
+                <div ng-show="NewTimeLineItem.IsCheching">
+                    <i class="fa fa-spinner fa-spin" style="font-size: 26px; color: #31b6fc;"></i>
+                </div>
+                <span ng-show="!NewTimeLineItem.IsCheching" style="padding: 0 10px; color:{{NewTimeLineItem.StatusColor}}">{{NewTimeLineItem.StatusCode}}</span>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" scrolldiv>
+            <table class="td-right">
+                <tbody>
+                    <tr>
+                        <td style="width:140px;">
+                            Nhà xe:
+                        </td>
+                        <td colspan="6">
+                            {{NewTimeLineItem.VendorOfVehicleCode}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Đầu kéo:
+                        </td>
+                        <td colspan="6">
+                            <input style="width:calc(100% - 30px);" class="cus-combobox" focus-k-combobox kendo-combobox="cboNewTimeLineVehicle" k-ng-model="NewTimeLineItem.VehicleID" k-options="cboNewTimeLineVehicle_Options" />
+                            <a class="k-button" href="/" ng-click="TimeLine_Vehicle_Vendor_Create($event,1,new_vendor_vehicle_win)" title="Thêm nhanh" style="width:26px;"><i class="fa fa-plus"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Romooc:
+                        </td>
+                        <td colspan="6">
+                            <input style="width:calc(100% - 30px);" class="cus-combobox" focus-k-combobox kendo-combobox="cboNewTimeLineRomooc" k-ng-model="NewTimeLineItem.RomoocID" k-options="cboNewTimeLineRomooc_Options" />
+                            <a class="k-button" href="/" ng-click="TimeLine_Vehicle_Vendor_Create($event,2,new_vendor_vehicle_win)" title="Thêm nhanh" style="width:26px;"><i class="fa fa-plus"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tài xế:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="true" kendo-auto-complete focus-k-complete ng-model="NewTimeLineItem.DriverName" k-options="atcNewTimeLineDriverNameOptions" style="width: 205px;" />
+                            <input ng-disabled="true" type="text" class="k-textbox" ng-model="NewTimeLineItem.DriverTel" maxlength="11" placeholder="SĐT" style="width: 139px; height: 26px; line-height: 26px; padding: .177em 0; text-indent: .33em; border-color: #c5c5c5; " />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETD:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="NewTimeLineItem.Status!=1" style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewTimeLineItem.ETD" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETA:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="NewTimeLineItem.Status!=1" style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewTimeLineItem.ETA" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-show="NewTimeLineItem.Status==1&&NewTimeLineItem.VehicleID>0" ng-click="NewTimeLineV2_Update_OK_Click($event,new_timeline_vendor_info_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,new_timeline_vendor_info_win,'NewTimeLineDetail')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--New Vendor Vehicle Popup-->
+<div class="cus-window" kendo-window="new_vendor_vehicle_win" k-title="false" k-max-width="1200" k-width="400" k-max-height="650" k-height="170" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin
+            </div>
+            <div class="right"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-100">
+                <div class="rowinput">
+                    <label>Số xe<span class="required">*</span></label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="NewVendorVehicle.RegNo" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Trọng tải</label>
+                    <div>
+                        <input class="k-textbox cus-number" type="number" ng-model="NewVendorVehicle.MaxWeight" min="0" step="0.1" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="VehicleVendor_New_OK_Click($event,new_vendor_vehicle_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,new_vendor_vehicle_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--New Vehicle Info Popup-->
+<div class="cus-window" kendo-window="new_timeline_vehicle_info_win" k-title="false" k-max-width="1200" k-width="400" k-max-height="650" k-height="270" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin
+            </div>
+            <div class="right"></div>
+        </div>
+        <div class="form-body with-footer">
+            <table class="td-right">
+                <tbody>
+                    <tr>
+                        <td style="width:100px;">
+                            Nhà xe:
+                        </td>
+                        <td colspan="6" style="font-weight:bold;">
+                            {{NewTimeLineVehicleItem.VehicleVendorCode}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Đầu kéo:
+                        </td>
+                        <td colspan="6" style="font-weight:bold;">
+                            {{NewTimeLineVehicleItem.RegNo}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Trọng tải:
+                        </td>
+                        <td colspan="6" style="font-weight:bold;">
+                            {{NewTimeLineVehicleItem.MaxWeight}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Romooc:
+                        </td>
+                        <td colspan="6" style="font-weight:bold;">
+                            {{NewTimeLineVehicleItem.RomoocNo}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tài xế:
+                        </td>
+                        <td colspan="6" style="font-weight:bold;">
+                            {{NewTimeLineVehicleItem.DriverName}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,new_timeline_vehicle_info_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--New TimeLine Vehicle Popup -->
+<div class="cus-window" kendo-window="new_timeline_vehicle_win" k-title="false" k-max-width="1200" k-width="800" k-max-height="650" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin
+            </div>
+            <div class="right"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="full" ng-show="TypeOfTimeLineVehicle==1">
+                <div class="cus-grid" expand-k-grid kendo-grid="timeline_vehicle_tractor_Grid" k-options="timeline_vehicle_tractor_Grid_Options"></div>
+            </div>
+            <div class="full" ng-show="TypeOfTimeLineVehicle==2">
+                <div class="cus-grid" expand-k-grid kendo-grid="timeline_vehicle_romooc_Grid" k-options="timeline_vehicle_romooc_Grid_Options"></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="NewTimeLineVehicle_Change_OK_Click($event,new_timeline_vehicle_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,new_timeline_vehicle_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Trip Info Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="800" k-max-height="650" k-height="400" k-min-width="500" k-min-height="300" kendo-window="timeline_trip_info_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('NewTimeLineDetail')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chi tiết chuyến
+            </div>
+            <div class="right">
+                <div>
+                    <ul class="filter-list" style="float: left; line-height: 30px;">
+                        <li data-tabindex="1" ng-click="TimeLineInfoTabIndex=1" class="k-item" ng-class="TimeLineInfoTabIndex==1?'k-state-active':''">Thông tin chuyến</li>
+                        <li data-tabindex="2" ng-click="TimeLineInfoTabIndex=2" class="k-item" ng-class="TimeLineInfoTabIndex==2?'k-state-active':''">Chi tiết vận chuyển</li>
+                    </ul>
+                </div>
+                <a href="/" class="k-button" ng-click="Close_Click($event,timeline_trip_info_win,'NewTimeLineDetail')"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="full" ng-show="TimeLineInfoTabIndex==1">
+                <div class="cus-form">
+                    <div class="form-body" style="height: calc(100% - 52px);">
+                        <table class="td-right" style="padding: 0 22% 0 15%;" ng-show="NewTimeLineItem.VendorOfVehicleID>0">
+                            <tbody>
+                                <tr>
+                                    <td style="width:140px;">
+                                        Nhà xe:
+                                    </td>
+                                    <td colspan="6">
+                                        {{NewTimeLineItem.VendorOfVehicleCode}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Đầu kéo:
+                                    </td>
+                                    <td colspan="6">
+                                        <span ng-show="NewTimeLineItem.Status>1">{{NewTimeLineItem.VehicleNo}}</span>
+                                        <input ng-show="NewTimeLineItem.Status==1" style="width:calc(100% - 30px);" class="cus-combobox" focus-k-combobox kendo-combobox="cboNewTimeLineVehicle" k-ng-model="NewTimeLineItem.VehicleID" k-options="cboNewTimeLineVehicle_Options" />
+                                        <a ng-show="NewTimeLineItem.Status==1" class="k-button" href="/" ng-click="TimeLine_Vehicle_Vendor_Create($event,1,new_vendor_vehicle_win)" title="Thêm nhanh" style="width:26px;"><i class="fa fa-plus"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Romooc:
+                                    </td>
+                                    <td colspan="6">
+                                        <span ng-show="NewTimeLineItem.Status>1">{{NewTimeLineItem.RomoocNo}}</span>
+                                        <input style="width:calc(100% - 30px);" class="cus-combobox" focus-k-combobox kendo-combobox="cboNewTimeLineRomooc" k-ng-model="NewTimeLineItem.RomoocID" k-options="cboNewTimeLineRomooc_Options" />
+                                        <a ng-show="NewTimeLineItem.Status==1" class="k-button" href="/" ng-click="TimeLine_Vehicle_Vendor_Create($event,2,new_vendor_vehicle_win)" title="Thêm nhanh" style="width:26px;"><i class="fa fa-plus"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Tài xế:
+                                    </td>
+                                    <td colspan="6">
+                                        <input ng-disabled="NewTimeLineItem.Status!=1" kendo-auto-complete focus-k-complete ng-model="NewTimeLineItem.DriverName" k-options="atcNewTimeLineDriverNameOptions" style="width: 205px;" />
+                                        <input ng-disabled="NewTimeLineItem.Status!=1" type="text" class="k-textbox" ng-model="NewTimeLineItem.DriverTel" maxlength="11" placeholder="SĐT" style="width: 139px; height: 26px; line-height: 26px; padding: .177em 0; text-indent: .33em; border-color: #c5c5c5; " />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        ETD:
+                                    </td>
+                                    <td colspan="6">
+                                        <input ng-disabled="NewTimeLineItem.Status!=1" style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewTimeLineItem.ETD" k-options="DateDMYHM" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        ETA:
+                                    </td>
+                                    <td colspan="6">
+                                        <input ng-disabled="NewTimeLineItem.Status!=1" style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewTimeLineItem.ETA" k-options="DateDMYHM" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="td-right" style="padding: 0 15% 0 15%;width:100%;" ng-show="NewTimeLineItem.VendorOfVehicleID<0||NewTimeLineItem.VendorOfVehicleID==null">
+                            <tbody>
+                                <tr></tr>
+                                <tr>
+                                    <td style="width:140px;">
+                                        Nhà xe:
+                                    </td>
+                                    <td colspan="6">
+                                        {{NewTimeLineItem.VendorOfVehicleCode}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Đầu kéo:
+                                    </td>
+                                    <td colspan="6">
+                                        <a class="k-button" ng-show="NewTimeLineItem.Status==1" title="{{NewTimeLineItem.VehicleNo}}" style="width: 347px; background: none; height: 26px; text-align: left; " ng-click="NewTimeLineTripVehicle_Change_Click($event,1,timeline_vehicle_map_win)">{{NewTimeLineItem.VehicleNo}}</a>
+                                        <span ng-show="NewTimeLineItem.Status>1">{{NewTimeLineItem.VehicleNo}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Romooc:
+                                    </td>
+                                    <td colspan="6">
+                                        <a class="k-button" ng-show="NewTimeLineItem.Status==1" title="{{NewTimeLineItem.RomoocNo}}" style="width: 347px; background: none; height: 26px; text-align: left; " ng-click="NewTimeLineTripVehicle_Change_Click($event,2,timeline_vehicle_map_win)">{{NewTimeLineItem.RomoocNo}}</a>
+                                        <span ng-show="NewTimeLineItem.Status>1">{{NewTimeLineItem.RomoocNo}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Tài xế:
+                                    </td>
+                                    <td colspan="6">
+                                        <span ng-show="NewTimeLineItem.Status>1">{{NewTimeLineItem.DriverName}} - {{NewTimeLineItem.DriverTel}}</span>
+                                        <input ng-show="NewTimeLineItem.Status==1" ng-disabled="NewTimeLineItem.Status>1||NewTimeLineItem.VendorOfVehicleID==-1" kendo-auto-complete focus-k-complete ng-model="NewTimeLineItem.DriverName" k-options="atcNewTimeLineDriverNameOptions" style="width: 205px;" />
+                                        <input ng-show="NewTimeLineItem.Status==1" ng-disabled="NewTimeLineItem.Status>1||NewTimeLineItem.VendorOfVehicleID==-1" type="text" class="k-textbox" ng-model="NewTimeLineItem.DriverTel" maxlength="11" placeholder="SĐT" style="width: 139px; height: 26px; line-height: 26px; padding: .177em 0; text-indent: .33em; border-color: #c5c5c5; " />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        ETD:
+                                    </td>
+                                    <td colspan="6">
+                                        <span ng-show="NewTimeLineItem.Status>1" ng-bind="ToDateString(NewTimeLineItem.ETD)"></span>
+                                        <input ng-show="NewTimeLineItem.Status==1" ng-disabled="NewTimeLineItem.Status!=1" style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewTimeLineItem.ETD" k-options="DateDMYHM" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        ETA:
+                                    </td>
+                                    <td colspan="6">
+                                        <span ng-show="NewTimeLineItem.Status>1" ng-bind="ToDateString(NewTimeLineItem.ETA)"></span>
+                                        <input ng-show="NewTimeLineItem.Status==1" ng-disabled="NewTimeLineItem.Status!=1" style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="NewTimeLineItem.ETA" k-options="DateDMYHM" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-footer">
+                        <div>
+                            <span ng-show="NewTimeLineItem.Status==1&&NewTimeLineItem.HasChange&&!NewTimeLineItem.IsCheching" style="padding: 0 10px; color:{{NewTimeLineItem.StatusColor}}">{{NewTimeLineItem.StatusCode}}</span>
+                            <a href="/" ng-show="NewTimeLineItem.Status==1&&NewTimeLineItem.HasChange" ng-click="NewTimeLineInfo_Update_Click($event,timeline_trip_info_win)" class="k-button accept">Cập nhật</a>
+                            <a href="/" ng-show="NewTimeLineItem.Status==1&&!(NewTimeLineItem.VendorOfVehicleID>0)" ng-click="NewTimeLineV2_Change_Time_Click($event)" class="k-button">Điều chỉnh chặng</a>
+                            <a href="/" ng-show="NewTimeLineItem.ID>0&&!(NewTimeLineItem.VendorOfVehicleID>0)" ng-click="NewTimeLineV2_Change_Driver_Click($event)" class="k-button">Cập nhật tài xế</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="full" ng-show="TimeLineInfoTabIndex==2">
+                <div class="cus-grid" expand-k-grid kendo-grid="new_timeline_trip_info_Grid" k-options="new_timeline_trip_info_Grid_Options"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLineServiceSelect Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="400" k-max-height="650" k-height="300" kendo-window="new_timeline_v2_service_select_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineV2ServiceSelect')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn dịch vụ
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="new_timeline_v2_service_select_Grid" k-options="new_timeline_v2_service_select_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="NewTimeLineV2ServiceSelect_OK_Click($event,new_timeline_v2_service_select_Grid,new_timeline_v2_service_select_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,new_timeline_v2_service_select_win,'TimeLineV2ServiceSelect')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLineCustomerSelect Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="500" k-max-height="650" k-height="500" kendo-window="new_timeline_v2_customer_select_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineV2CustomerSelect')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn khách hàng
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="new_timeline_v2_customer_select_Grid" k-options="new_timeline_v2_customer_select_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="NewTimeLineV2CustomerSelect_OK_Click($event,new_timeline_v2_customer_select_Grid,new_timeline_v2_customer_select_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,new_timeline_v2_customer_select_win,'TimeLineV2CustomerSelect')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLineCarrierSelect Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="500" k-max-height="650" k-height="500" kendo-window="new_timeline_v2_carrier_select_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineV2CarrierSelect')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn hãng tàu
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="new_timeline_v2_carrier_select_Grid" k-options="new_timeline_v2_carrier_select_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="NewTimeLineV2CarrierSelect_OK_Click($event,new_timeline_v2_carrier_select_Grid,new_timeline_v2_carrier_select_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,new_timeline_v2_carrier_select_win,'TimeLineV2CarrierSelect')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLineSeaportSelect Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="800" k-max-height="650" k-height="500" kendo-window="new_timeline_v2_seaport_select_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineV2SeaportSelect')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn cảng biển
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="new_timeline_v2_seaport_select_Grid" k-options="new_timeline_v2_seaport_select_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="NewTimeLineV2SeaportSelect_OK_Click($event,new_timeline_v2_seaport_select_Grid,new_timeline_v2_seaport_select_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,new_timeline_v2_seaport_select_win,'TimeLineV2SeaportSelect')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLineStatusSelect Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="500" k-max-height="650" k-height="300" kendo-window="new_timeline_v2_status_select_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineV2StatusSelect')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn trạng thái
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="new_timeline_v2_status_select_Grid" k-options="new_timeline_v2_status_select_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="NewTimeLineV2StatusSelect_OK_Click($event,new_timeline_v2_status_select_Grid,new_timeline_v2_status_select_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,new_timeline_v2_status_select_win,'TimeLineV2StatusSelect')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLineDragDropInfo Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="900" k-max-height="650" k-height="500" kendo-window="new_timeline_drapdrop_info_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineInfoDragDrop',kendoEvent)">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                CHI TIẾT
+            </div>
+            <div class="right">
+                <ul class="filter-list" style="float:left;">
+                    <li data-tabindex="1" ng-click="NewScheduleDragDropInfoVehicle_Click($event,new_timeline_dragdrop_info,1)" class="k-item" ng-class="NewScheduleDragDropInfoVehicleType==1?'k-state-active':''">Theo đầu kéo</li>
+                    <li data-tabindex="2" ng-click="NewScheduleDragDropInfoVehicle_Click($event,new_timeline_dragdrop_info,2)" class="k-item" ng-class="NewScheduleDragDropInfoVehicleType==2?'k-state-active':''">Theo romooc</li>
+                </ul>
+            </div>
+            <div class="clear"> </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-scheduler new-timeline-dragdrop-info" expand-k-scheduler kendo-scheduler="new_timeline_dragdrop_info" k-options="new_timeline_dragdrop_info_Options" k-rebind="new_timeline_dragdrop_info_Options" k-delay="new_timeline_dragdrop_info_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="NewTimeLineDragDropInfo_OK_Click($event,new_timeline_dragdrop_info,new_timeline_drapdrop_info_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,new_timeline_drapdrop_info_win,'TimeLineInfoDragDrop')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLineInfo EventTemplate-->
+<script id="new-timeline-v2-dragdrop-info-event-template" type="text/x-kendo-template">
+    <div style="cursor:pointer;height:100%;" class="cus-event" ng-mouseenter="ShowNewTimeLineInfoTooltip($event,'#=uid#')" ng-mouseleave="HideNewTimeLineInfoTooltip($event)">
+        <div class="event-content" style="line-height: 20px; white-space: nowrap; overflow: hidden;">#=title#</div>
+    </div>
+</script>
+
+<!--NewTimeLineInfo Tooltip-->
+<div id="new_timeline_info_tooltip" class="cus-window opacity90" style="opacity: 0.9; position: absolute; z-index: 999999; background: #f6fafe; margin: 0; padding: 3px 10px; border: 2px solid #31b6fc; border-radius: 4px;" ng-style="NewTimeLineInfoStyle">
+    <div style="display:inline-block">{{NewTimeLineInfoItem.TypeDate}}: {{ToDateStringDMHM(NewTimeLineInfoItem.ETD)}} <span ng-show="NewTimeLineInfoItem.ETA!=null">-</span> {{ToDateStringDMHM(NewTimeLineInfoItem.ETA)}}</div>
+</div>
+
+<!--New Map TimeLine Vehicle Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="900" k-max-height="650" k-height="500" kendo-window="timeline_vehicle_map_win" k-visible="false" k-resizable="true" k-on-resize="On_Resize('TimeLineVehicleMAP')" k-modal="true" k-on-close="On_Close('TimeLineVehicleMAP')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin phương tiện
+            </div>
+            <div class="right">
+                <a href="/" class="k-button" ng-click="NewTimeLineVehicleMap_Config($event,new_timeline_vehicle_map_config_win)"><i class="fa fa-cog"></i><span class="tooltip">Thiết lập</span></a>
+                <a href="/" class="k-button" ng-click="Close_Click($event,timeline_vehicle_map_win,'TimeLineVehicleMAP')"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div kendo-splitter="timelineVehicleSplitter" k-options="timelineVehicleSplitter_Options" class="cus-splitter hor-splitter">
+                <div>
+                    <div id="timelinevehiclemap" class="cus-map"></div>
+                    <div id="timelinevehiclemap_tooltip" class="cus-map-tooltip"></div>
+                </div>
+                <div>
+                    <div style="position:relative;width:100%;height:100%;">
+                        <div ng-show="NewTimeLineVehicleMapLoading" style="position: absolute;z-index: 999999;background: #fff;width: 100%;height: 100%;">
+                            <i class="fa fa-spinner fa-spin" style="font-size: 44px;color: #31b6fc;left: calc(50% - 22px);top: calc(50% - 22px);position: relative;"></i>
+                        </div>
+                        <div class="cus-scheduler new-timeline-map-tractor" expand-k-scheduler kendo-scheduler="new_timeline_map_vehicle" k-options="new_timeline_map_vehicle_Options" k-rebind="new_timeline_map_vehicle_Options" k-delay="new_timeline_map_vehicle_Options"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--NewTimeLineVehicleMap EventTemplate-->
+<script id="new-timeline-vehicle-map-event-template" type="text/x-kendo-template">
+    <div style="cursor:pointer;height:100%;" class="cus-event">
+        <div class="event-content" style="line-height: 20px; white-space: nowrap; overflow: hidden;">#=title#</div>
+    </div>
+</script>
+
+<!--NewTimeLineVehicleMap GroupTemplate-->
+<script id="new-timeline-vehicle-map-group-template" type="text/x-kendo-template">
+    <div ng-click='NewTimeLineVehicleMapGroupClick($event,#=value#,"#=text#")' data-uid="#=value#" class="txtGroup" style='cursor:pointer;' ng-class='NewTimeLineVehicleMapParam.Class'>
+        <div ng-show="NewTimeLineVehicleMapParam.Config[0].hasShow" class='column3col' style="text-align:center;" ng-style="{'width':NewTimeLineVehicleMapParam.Config[0].Width + 'px'}">{{NewTimeLineVehicleMapGroup_GetItem(#=value#,NewTimeLineVehicleMapParam.Config[0].Field)}}</div>
+        <div ng-show="NewTimeLineVehicleMapParam.Config[1].hasShow" class='column3col' style="text-align:center;" ng-style="{'width':NewTimeLineVehicleMapParam.Config[1].Width + 'px'}">{{NewTimeLineVehicleMapGroup_GetItem(#=value#,NewTimeLineVehicleMapParam.Config[1].Field)}}</div>
+        <div ng-show="NewTimeLineVehicleMapParam.Config[2].hasShow" class='column3col' style="text-align:center;" ng-style="{'width':NewTimeLineVehicleMapParam.Config[2].Width + 'px'}">{{NewTimeLineVehicleMapGroup_GetItem(#=value#,NewTimeLineVehicleMapParam.Config[2].Field)}}</div>
+        <div ng-show="NewTimeLineVehicleMapParam.Config[3].hasShow" class='column3col' style="text-align:center;" ng-style="{'width':NewTimeLineVehicleMapParam.Config[3].Width + 'px'}">{{NewTimeLineVehicleMapGroup_GetItem(#=value#,NewTimeLineVehicleMapParam.Config[3].Field)}}</div>
+        <div class='clear'></div>
+    </div>
+</script>
+
+<!--NewTimeLineVehicleMap Config Popup-->
+<div class="cus-window" draggable-k-window kendo-window="new_timeline_vehicle_map_config_win" k-title="false" k-width="500" k-height="320" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('NewTimeLineVehicleMapConfig',kendoEvent)">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                THIẾT LẬP HIỂN THỊ
+            </div>
+            <div class="right">
+                <a href="/" class="k-button" ng-click="Close_Click($event,new_timeline_vehicle_map_config_win,'NewTimeLineVehicleMapConfig')"><i class="fa fa-close"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div style="width:100%;height:90px">
+                <table class="full config-table">
+                    <tr>
+                        <td ng-repeat="o in NewTimeLineVehicleMapParam.Config" ng-show="o.hasShow" kendo-drop-target k-options="newtimelinevehiclemapconfig_Drop_Options">
+                            <div class="config-div" kendo-draggable k-options="newtimelinevehiclemapconfig_Drag_Options" data-index="{{o.SortOrder}}">{{o.Label}}</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="width:100%;height:calc(100% - 93px);border-top:3px solid #c3c3c3;">
+                <div class="cus-grid" kendo-grid="newtimeline_vehicle_map_config_Grid" k-options="newtimeline_vehicle_map_config_GridOptions" expand-k-grid></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--New Map Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="750" k-max-height="650" k-height="400" kendo-window="vehicle_map_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('VehicleMAP')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin phương tiện
+            </div>
+            <div class="right">
+                <a href="/" class="k-button" ng-click="Close_Click($event,vehicle_map_win,'VehicleMAP')"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div ng-show="ChangeVehicleType==1" class="cus-grid" expand-k-grid kendo-grid="vehMap_Grid" k-options="vehMap_Grid_Options"></div>
+            <div ng-show="ChangeVehicleType!=1" class="cus-grid" expand-k-grid kendo-grid="romMap_Grid" k-options="romMap_Grid_Options"></div>
+        </div>
+    </div>
+</div>
+
+<!--Container By Trip Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="800" k-max-height="650" k-height="400" k-min-width="500" k-min-height="300" kendo-window="container_by_trip_win" k-visible="false" k-resizable="true" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chi tiết chặng
+            </div>
+            <div class="right">
+                <a href="/" class="k-button" ng-click="Close_Click($event,container_by_trip_win)"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="cus-grid" expand-k-grid kendo-grid="new_container_by_trip_Grid" k-options="new_container_by_trip_Grid_Options"></div>
+        </div>
+    </div>
+</div>

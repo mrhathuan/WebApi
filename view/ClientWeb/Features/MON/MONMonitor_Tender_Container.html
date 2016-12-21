@@ -1,0 +1,66 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-click="Complete($event)" class="k-button"><i class="fa fa-check-square"></i><span class="tooltip is-right">Hoàn thành</span></a>
+            <a href="/" ng-click="RevertMaster($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip">Hủy hoàn thành</span></a>
+            <a href="/" ng-click="ShowSetting($event,MONInput_Container_grid)" ng-mouseenter="ShowSetting($event,MONInput_Container_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="MONInput_Container_grid" expand-k-grid="MONInput_Container_gridOptions" k-options="MONInput_Container_gridOptions"></div>
+    </div>
+</div>
+
+<!--MasterCompleteConfirm_Win-->
+<div kendo-window="MasterCompleteConfirm_Win" draggable-k-window class="cus-window" k-title="false" k-width="640" k-height="480" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Xác nhận hoàn thành nhanh chuyến</div>
+        </div>
+        <div class="form-body with-footer">
+            <div expand-k-grid kendo-grid="MasterActualTime_Grid" k-options="MasterActualTime_GridOptions" class="cus-grid"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="CompleteMaster($event,MasterCompleteConfirm_Win)" class="k-button accept">Hoàn thành</a>
+                <a href="/" ng-click="Win_Close($event,MasterCompleteConfirm_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Confirm win-->
+<div kendo-window="Confirm_Win" draggable-k-window class="cus-window" k-title="false" k-width="500" k-height="140" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form ">
+        <div class="form-header">
+            <div class="left title">Thông báo</div>
+            <div class="right button">
+                <a ng-click="Win_Close($event,Confirm_Win)" class="k-button"><i class="fa fa-times" hide-area="true"></i></a>
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="winmessage_msg"><span>{{WinConfirmObj.Lable}}</span></div>
+
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="WinConfirmObj.Action_OK($event)" class="k-button accept">{{WinConfirmObj.TextOK}}</a>
+                <a ng-click="WinConfirmObj.Action_Deny($event)" class="k-button">{{WinConfirmObj.TextDeny}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .k-grid .k-grid-content tbody > tr > td a .hasupload { color: red; }
+</style>

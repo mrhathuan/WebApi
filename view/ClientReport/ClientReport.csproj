@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B7D30791-BA43-4070-9433-3A4D71FCC2B9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ClientReport</RootNamespace>
+    <AssemblyName>ClientReport</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Azure\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DTO">
+      <HintPath>..\..\lib\common\DTO.dll</HintPath>
+    </Reference>
+    <Reference Include="IServices">
+      <HintPath>..\..\lib\common\IServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Presentation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.Reporting">
+      <HintPath>..\lib\Telerik.Reporting.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="A3LandscapeBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="A3LandscapeBase.Designer.cs">
+      <DependentUpon>A3LandscapeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="A3PortraitBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="A3PortraitBase.Designer.cs">
+      <DependentUpon>A3PortraitBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="A4LandscapeBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="A4LandscapeBase.Designer.cs">
+      <DependentUpon>A4LandscapeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="A4PortraitBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="A4PortraitBase.Designer.cs">
+      <DependentUpon>A4PortraitBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReportData.cs" />
+    <Compile Include="rpOPSSotrans.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpOPSSotrans.Designer.cs">
+      <DependentUpon>rpOPSSotrans.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpWorkOrderFuel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpWorkOrderFuel.Designer.cs">
+      <DependentUpon>rpWorkOrderFuel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpDemo.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpDemo.Designer.cs">
+      <DependentUpon>rpDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpDemoWithParam.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpDemoWithParam.Designer.cs">
+      <DependentUpon>rpDemoWithParam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpFINManage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpFINManage.Designer.cs">
+      <DependentUpon>rpFINManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpOpsLocation.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpOpsLocation.Designer.cs">
+      <DependentUpon>rpOpsLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpOpsPodContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpOpsPodContainer.Designer.cs">
+      <DependentUpon>rpOpsPodContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpOpsPodDistributor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpOpsPodDistributor.Designer.cs">
+      <DependentUpon>rpOpsPodDistributor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpPerPayCheck.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpPerPayCheck.Designer.cs">
+      <DependentUpon>rpPerPayCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpQuickInputFuel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpQuickInputFuel.Designer.cs">
+      <DependentUpon>rpQuickInputFuel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpScheduleDriverFee.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpScheduleDriverFee.Designer.cs">
+      <DependentUpon>rpScheduleDriverFee.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="A3LandscapeBase.resx">
+      <DependentUpon>A3LandscapeBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="A3PortraitBase.resx">
+      <DependentUpon>A3PortraitBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="A4LandscapeBase.resx">
+      <DependentUpon>A4LandscapeBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="A4PortraitBase.resx">
+      <DependentUpon>A4PortraitBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseReport.resx">
+      <DependentUpon>BaseReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpOPSSotrans.resx">
+      <DependentUpon>rpOPSSotrans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpWorkOrderFuel.resx">
+      <DependentUpon>rpWorkOrderFuel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpDemo.resx">
+      <DependentUpon>rpDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpDemoWithParam.resx">
+      <DependentUpon>rpDemoWithParam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpFINManage.resx">
+      <DependentUpon>rpFINManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpOpsLocation.resx">
+      <DependentUpon>rpOpsLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpOpsPodContainer.resx">
+      <DependentUpon>rpOpsPodContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpOpsPodDistributor.resx">
+      <DependentUpon>rpOpsPodDistributor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpPerPayCheck.resx">
+      <DependentUpon>rpPerPayCheck.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpQuickInputFuel.resx">
+      <DependentUpon>rpQuickInputFuel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpScheduleDriverFee.resx">
+      <DependentUpon>rpScheduleDriverFee.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

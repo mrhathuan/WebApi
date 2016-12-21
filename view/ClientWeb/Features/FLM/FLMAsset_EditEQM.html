@@ -1,0 +1,212 @@
+﻿
+<div class="view-breakumb">
+    <ul class="breakumb">
+        <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+        <li><span>Chi tiết</span></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thiết bị: {{EQMItem.Name}} - Số Part.{{EQMItem.Code}}</div>
+            <div class="right">
+
+            </div>
+        </div>
+        <div class="form-body">
+            <div style="position:relative;height:100%">
+                <div class="cus-tabstrip" kendo-tab-strip="FLMAsset_EditEQM_Tab" k-options="FLMAsset_EditEQM_TabOptions" expand-k-tabstrip>
+                    <ul>
+                        <li id="tab_gen" class="k-state-active">Thông tin chung</li>
+                        <li id="tab_depHis" ng-show="IsShowTab">Lịch sử khấu hao</li>
+                        <li id="tab_transHis" ng-show="IsShowTab">Lịch sử điều chuyển</li>
+                    </ul>
+                    <div>
+                        <div class="cus-div" style="overflow:scroll" v-form="FLMAsset_EQM_vform">
+                            <div class="cus-div-2left">
+                                <div class="cus-div-header">Thông tin phương tiện vận tải</div>
+                                <div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Số Part. <span class="required">*</span></label>
+                                        <div style="width:70%">
+                                            <input type="text" class="k-textbox" ng-model="EQMItem.Code" ng-change="IsEdited=true" style="width:100%" v-form-require="true" v-form-length="50" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Thiết bị </label>
+                                        <div style="width:70%">
+                                            <input type="text" class="k-textbox" ng-model="EQMItem.Name" ng-change="IsEdited=true" style="width:100%" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Loại thiết bị </label>
+                                        <div style="width:70%">
+                                            <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboGoe_options" ng-model="EQMItem.GroupOfEquipmentID" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Năm sản xuất </label>
+                                        <div style="width:70%">
+                                            <input class="cus-number" kendo-numeric-text-box k-options="numYearOfProduction_options" ng-model="EQMItem.YearOfProduction" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Nhà sản xuất </label>
+                                        <div style="width:70%">
+                                            <input type="text" class="k-textbox" ng-model="EQMItem.Manufactor" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Vị trí hiện tại </label>
+                                        <div style="width:70%">
+                                            <label style="line-height:25px">{{EQMItem.CurrentLocation}}</label>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Cho thuê </label>
+                                        <div style="width:70%">
+                                            <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboRent_options" ng-model="EQMItem.RentID" style="width:100%" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cus-div-2right" style="height:100%">
+                                <div class="cus-div-header">Thông số kỹ thuật</div>
+                                <div>
+                                    <textarea rows="5" ng-model="EQMItem.Specification" style="width: calc(100% - 7px)" ng-change="IsEdited=true"></textarea>
+                                </div>
+                                <div class="cus-div-header">Thông tin giá trị phương tiện vận tải</div>
+                                <div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Giá trị ban đầu </label>
+                                        <div style="width:70%">
+                                            <input class="cus-number" kendo-numeric-text-box k-options="numBaseValue_options" ng-model="EQMItem.BaseValue" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Giá trị hiện tại </label>
+                                        <div style="width:70%">
+                                            <input class="cus-number" kendo-numeric-text-box k-options="numCurrentValue_options" ng-model="EQMItem.CurrentValue" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Giá trị còn lại </label>
+                                        <div style="width:70%">
+                                            <input class="cus-number" kendo-numeric-text-box k-options="numRemainValue_options" ng-model="EQMItem.RemainValue" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">T/g k.hao (tháng) </label>
+                                        <div ng-style="IsNewVehicle==true?{width:'70%'}:{width:'calc(70% - 40px)'}">
+                                            <input class="cus-number" kendo-numeric-text-box k-options="numDepreciationPeriod_options" ng-model="EQMItem.DepreciationPeriod" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div style="width:40px" ng-show="!IsNewVehicle">
+                                            <a href="/" ng-click="FLMAsset_Depreciation_GenerateClick($event,FLMAsset_EQM_vform)" class="k-button"><i class="fa fa-calculator"></i><span class="tooltip"></span></a>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">T/g bắt đầu tính KH </label>
+                                        <div style="width:70%">
+                                            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="EQMItem.DepreciationStart" k-on-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">T/g b.hành (tháng) </label>
+                                        <div style="width:70%">
+                                            <input kendo-numeric-text-box k-options="numWarrantyPeriod_options" ng-model="EQMItem.WarrantyPeriod" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Ngày kết thúc BH </label>
+                                        <div style="width:70%">
+                                            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="EQMItem.WarrantyEnd" k-on-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="cus-div">
+                            <div class="cus-div-header">Lịch sử khấu hao xe và trang thiết bị theo xe</div>
+                            <div class="cus-div-body"><div class="cus-grid" kendo-grid="DepreciationGrid" expand-k-grid k-options="DepreciationGrid_Options"></div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="cus-div">
+                            <div class="cus-div-header">Lịch sử điều chuyển</div>
+                            <div class="cus-div-body"><div class="cus-grid" kendo-grid="TransHistoryGrid" expand-k-grid k-options="TransHistoryGrid_Options"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabstrip-buttons">
+                    <a href="/" ng-click="FLMAsset_EQM_SaveClick($event,ChooseLocation_win,FLMAsset_EQM_vform)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu</span></a>
+                    <a href="/" ng-click="FLMAsset_EQM_BackClick($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cus-window" kendo-window="ChooseLocation_win" k-title="false" k-width="400" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn vị trí cho thiết bị</div>
+            <div class="right button">
+                
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="rowinput">
+                <label ><input type="radio" ng-model="Location.Choose"  value="truck" /> Xe tải </label>
+                <div>
+                    <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="CboAssignToTruck_Options" ng-model="Location.TruckID" ng-disabled="Location.Choose!='truck'" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="rowinput">
+                <label><input type="radio" ng-model="Location.Choose"  value="tractor" />Đầu kéo </label>
+                <div>
+                    <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="CboAssignToTractor_Options" ng-model="Location.TractorID" ng-disabled="Location.Choose!='tractor'" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="rowinput">
+                <label><input type="radio" ng-model="Location.Choose"  value="romooc" />Romooc </label>
+                <div>
+                    <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="CboAssignToRomooc_Options" ng-model="Location.RomoocID" ng-disabled="Location.Choose!='romooc'" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="rowinput">
+                <label><input type="radio" ng-model="Location.Choose" value="stock" />Kho </label>
+                <div>
+                    <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="CboAssignToStock_Options" ng-model="Location.StockID" ng-disabled="Location.Choose!='stock'" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="ChooseLocation_win_SaveClick($event,ChooseLocation_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="ChooseLocation_win_CloseClick($event,ChooseLocation_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,5 @@
+﻿/* --- Default --- */
+html, body { height: 100%; width: 100%; position: relative; padding: 0; margin: 0; font-size: 12px; font-family: Arial, Tahoma; min-width: 700px; background-color: #eaeaea; overflow: hidden; }
+.clear { clear: both; font-size: 1px; }
+
+.cus-report{position: absolute;left: 1px;right: 1px;top: 1px;bottom: 1px;overflow: hidden;font-family: Verdana, Arial;}

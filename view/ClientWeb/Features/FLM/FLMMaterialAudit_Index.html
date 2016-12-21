@@ -1,0 +1,78 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="FLMMaterialAudit_AddNew_Click($event,FLMMaterialAudit_win,FLMMaterialAudit_win_vform)" class="k-button" data-title="Tạo mới"><i class="fa fa-plus"></i><span class="tooltip">Tạo mới</span></a>
+            <a href="/" ng-click="ShowSetting($event,FLMMaterialAudit_grid)" ng-mouseenter="ShowSetting($event,FLMMaterialAudit_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="FLMMaterialAudit_grid" expand-k-grid k-options="FLMMaterialAuditgridOptions"></div>
+    </div>
+</div>
+<!--popup-->
+<div class="cus-window" draggable-k-window kendo-window="FLMMaterialAudit_win" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Nhiên liệu</div>
+            <div class="right button">
+            </div>
+        </div>
+
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="FLMMaterialAudit_win_vform">
+                    <div class="rowinput">
+                        <label>Mã đợt<span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.Code" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên đợt <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.AuditName" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Từ ngày</label>
+                        <div>
+                            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateFrom" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Đến ngày</label>
+                        <div>
+                            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateTo" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Trạng thái<span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboFLMMaterialAuditStatus_Options" disabled="disabled" ng-model="Item.MaterialAuditStatus" v-form-require="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="FLMMaterialAudit_SaveClick($event,FLMMaterialAudit_win,FLMMaterialAudit_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="FLMMaterialAudit_win_CloseClick($event,FLMMaterialAudit_win)" class="k-button close" data-title="Đóng">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>

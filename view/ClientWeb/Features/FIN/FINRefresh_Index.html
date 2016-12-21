@@ -1,0 +1,752 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <div>
+                Ngày tính giá
+            </div>
+            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateFrom" style="width: 100px;" />
+            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateTo" style="width: 100px;" />
+            <!--<a href="/" ng-show="Auth.ActAdd" ng-click="ManualFix_Click($event)" class="k-button"><i class="fa fa-wrench"></i><span class="tooltip">Thu/Chi nhập tay</span></a>-->
+            <a href="/" ng-show="Auth.ActEdit" ng-click="RoutingOrder_Click($event,RoutingOrder_win)" class="k-button"><i class="fa fa-refresh"></i><span class="tooltip is-right">Tìm lại cung đường ĐH</span></a>
+            <a href="/" ng-show="Auth.ActEdit" ng-click="RoutingTO_Click($event,RoutingTO_win)" class="k-button"><i class="fa fa-refresh"></i><span class="tooltip is-right">Tìm lại cung đường chuyến</span></a>
+            <a href="/" ng-show="Auth.ActEdit&&HasSearch" ng-click="Refresh_Click($event,finrefresh_index_plwin)" class="k-button"><i class="fa fa-calculator"></i><span class="tooltip">Tính lại lợi nhuận</span></a>
+            <a href="/" ng-show="Auth.ActEdit&&HasSearch" ng-click="ChangeORD_Click($event,finrefresh_index_ordwin)" class="k-button"><i class="fa fa-pencil"></i><span class="tooltip">Điều chỉnh ĐH</span></a>
+            <a href="/" ng-show="Auth.ActEdit&&HasSearch" ng-click="ChangeOPS_Click($event,finrefresh_index_opswin)" class="k-button"><i class="fa fa-pencil"></i><span class="tooltip">Điều chỉnh chuyến</span></a>
+            <a href="/" ng-click="Search_Click($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Xem</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" expand-k-grid kendo-grid="finrefresh_indexgrid" k-options="finrefresh_indexgridOptions"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="finrefresh_index_plwin" k-title="false" k-width="600" k-height="450" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                TÍNH LẠI LỢI NHUẬN
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="finrefresh_indexwin_grid" k-options="finrefresh_indexwin_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="PLAccept_Click($event)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,finrefresh_index_plwin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="finrefresh_index_col_plwin" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                TÍNH LẠI LỢI NHUẬN
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+          <div class="panel-col-body">
+              <div class="panel-col-1">
+                   <table class="table-refresh">
+                       <tr>
+                           <th class="width-col-1 pading-header"></th>
+                           <th class="width-col-2 pading-header">Ngày</th>
+                           <th class="pading-header">Thông báo</th>
+                       </tr>
+                       <tbody ng-repeat="msg in RefreshCol.col1">
+                           <tr data-count="{{msg.idcount}}">
+                               <td class="width-col-1"><div class="normal"><i class="fa fa-bolt"></i></div></td>
+                               <td class="width-col-2">{{msg.Date}}</td>
+                               <td class="lblError"></td>
+                           </tr>
+                       </tbody>
+                   </table>
+              </div>
+              <div class="panel-col-1">
+                  <table class="table-refresh">
+                      <tr>
+                          <th class="width-col-1 pading-header"></th>
+                          <th class="width-col-2 pading-header">Ngày</th>
+                          <th class="pading-header">Thông báo</th>
+                      </tr>
+                      <tbody ng-repeat="msg in RefreshCol.col2">
+                          <tr data-count="{{msg.idcount}}">
+                              <td class="width-col-1"><div class="normal"><i class="fa fa-bolt"></i></div></td>
+                              <td class="width-col-2">{{msg.Date}}</td>
+                              <td class="lblError"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+              <div class="panel-col-1 last-col">
+                  <table class="table-refresh">
+                      <tr>
+                          <th class="width-col-1 pading-header"></th>
+                          <th class="width-col-2 pading-header">Ngày</th>
+                          <th class="pading-header">Thông báo</th>
+                      </tr>
+                      <tbody ng-repeat="msg in RefreshCol.col3">
+                          <tr data-count="{{msg.idcount}}">
+                              <td class="width-col-1"><div class="normal"><i class="fa fa-bolt"></i></div></td>
+                              <td class="width-col-2">{{msg.Date}}</td>
+                              <td class="lblError" title="abc"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+        </div>
+        <div class="form-footer po-notification">
+            <p class="text-notification" ng-show="IsSuccess">Đã tính xong</p>
+            <div>
+                <a href="/" ng-click="PLAccept_Click($event)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,finrefresh_index_col_plwin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="finrefresh_index_opswin" k-title="false" k-width="900" k-height="450" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                ĐIỀU CHỈNH CHUYẾN
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="finrefresh_index_opswin_grid" k-options="finrefresh_index_opswin_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,finrefresh_index_opswin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="finrefresh_index_ordwin" k-title="false" k-width="900" k-height="450" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                ĐIỀU CHỈNH ĐƠN HÀNG
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip k-content-urls="[null, null]" k-options="finrefresh_tabOptions">
+                <ul>
+                    <li data-tabindex="1" class="k-state-active">
+                        Đơn hàng điều phối
+                    </li>
+                    <li data-tabindex="2" >
+                        Đơn hàng container
+                    </li>
+                </ul>
+                <div>
+                    <div class="cus-grid" expand-k-grid kendo-grid="finrefresh_index_ordwin_grid" k-options="finrefresh_index_ordwin_gridOptions"></div>
+                </div>
+                <div>
+                    <div class="cus-grid" expand-k-grid kendo-grid="finrefreshContainer_index_ordwin_grid" k-options="finrefreshContainer_index_ordwin_gridOptions"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,finrefresh_index_ordwin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="finrefresh_index_opswin" k-title="false" k-width="900" k-height="450" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                ĐIỀU CHỈNH CHUYẾN
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip k-content-urls="[null, null]" k-options="finrefreshops_tabOptions">
+                <ul>
+                    <li data-tabindex="1" class="k-state-active">
+                        Chuyến điều phối
+                    </li>
+                    <li data-tabindex="2">
+                        Chuyến container
+                    </li>
+                </ul>
+                <div>
+                    <div class="cus-grid" expand-k-grid kendo-grid="finrefresh_index_opswin_grid" k-options="finrefresh_index_opswin_gridOptions"></div>
+                </div>
+                <div>
+                    <div class="cus-grid" expand-k-grid kendo-grid="finrefreshContainer_index_opswin_grid" k-options="finrefreshContainer_index_opswin_gridOptions"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,finrefresh_index_opswin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="finrefresh_index_ord_groupwin" k-title="false" k-width="700" k-height="550" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                CHI TIẾT ĐH: {{ORDItem.OrderCode }} - {{ORDItem.CustomerCode }}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-splitter" kendo-splitter="ver_splitter" k-options="ver_splitterOptions" expand-k-splitter>
+                <div>
+                    <div class="form-content-100">
+                        <div class="rowinput">
+                            <label> Hợp đồng</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboORDContractOptions" k-ng-model="ORDItem.ContractID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> TG yêu cầu</label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItem.RequestDate" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Cung đường ĐH</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboRoutingORDOptions" k-ng-model="ORDItem.ORDRoutingID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> ETD</label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItem.ETD" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> ETA</label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItem.ETA" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Ngày chi tiết ĐH</label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItem.OrderDateConfig" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Loại xe</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboORDGOVOptions" k-ng-model="ORDItem.GroupOfVehicleID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-header">
+                        <div class="left title">
+                            Nhóm hàng: {{ORDItem.GroupCode}}
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-content-100">
+                            <div class="rowinput">
+                                <label> Cung đường</label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboORDRoutingOptions" k-ng-model="ORDItem.RoutingID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label> ETD</label>
+                                <div>
+                                    <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItem.GroupETD" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label> ETA</label>
+                                <div>
+                                    <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItem.GroupETA" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label> TG tính giá</label>
+                                <div>
+                                    <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItem.DateConfig" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="ChangeORD_Submit_Click($event,finrefresh_index_ord_groupwin)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,finrefresh_index_ord_groupwin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="finrefreshcontainer_index_ord_groupwin" k-title="false" k-width="700" k-height="550" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                CHI TIẾT ĐH: {{ORDItemCon.OrderCode }} - {{ORDItemCon.CustomerCode }}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-splitter" kendo-splitter="ver_splittercontainer" k-options="ver_splittercontainerOptions" expand-k-splitter>
+                <div>
+                    <div class="form-content-100">
+                        <div class="rowinput">
+                            <label> Hợp đồng</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboORDContractContainerOptions" k-ng-model="ORDItemCon.ContractID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Phụ lục hợp đồng</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboORDContractTermOptions" k-ng-model="ORDItemCon.ContractTermID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> TG yêu cầu</label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItemCon.RequestDate" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Cung đường ĐH</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboRoutingORDOptions" k-ng-model="ORDItemCon.ORDRoutingID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> ETD</label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItemCon.ETD" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> ETA</label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItemCon.ETA" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Ngày chi tiết ĐH</label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItemCon.OrderDateConfig" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-header">
+                        <div class="left title">
+                            Nhóm hàng: {{ORDItemCon.ContainerNo}} - {{ORDItemCon.SealNo1}} - {{ORDItemCon.SealNo2}} - {{ORDItemCon.PackingCode}}
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-content-100">
+                            <div class="rowinput">
+                                <label> Cung đường</label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboORDRoutingOptions" k-ng-model="ORDItemCon.RoutingID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label> ETD</label>
+                                <div>
+                                    <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItemCon.GroupETD" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label> ETA</label>
+                                <div>
+                                    <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItemCon.GroupETA" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label> TG tính giá</label>
+                                <div>
+                                    <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="ORDItemCon.DateConfig" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="ChangeORDContainer_Submit_Click($event,finrefreshcontainer_index_ord_groupwin)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,finrefreshcontainer_index_ord_groupwin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="finrefresh_index_ops_masterwin" k-title="false" k-width="900" k-height="550" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                CHUYẾN VẬN CHUYỂN {{OPSItem.ToMasterCode }}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-splitter" kendo-splitter="ver_splitter_ops" k-options="ver_splitterOptions" expand-k-splitter>
+                <div>
+                    <div class="form-content-200">
+                        <div class="rowinput">
+                            <label>Ngày tính giá chuyến</label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-picker k-options="DateDMYHM" k-ng-model="OPSItem.DateConfigMaster" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Loại v.chuyển</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboOPSTransportModeOptions" ng-model="OPSItem.TransportModeID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Hợp đồng</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboOPSContractOptions" ng-model="OPSItem.ContractID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Cung đường</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboOPSRoutingOptions" k-ng-model="OPSItem.RoutingID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Loại xe</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboOPSGOVOptions" k-ng-model="OPSItem.GroupOfVehicleID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <!--<div class="rowinput">
+                            <label> Lương tài xế</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboOPSDriverRouteFeeOptions" k-ng-model="OPSItem.TypeOfDriverRouteFeeID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>-->
+                    </div>
+                </div>
+                <div>
+                    <div class="form-header">
+                        <div class="left title">
+                           Mã đơn hàng: {{OPSItem.OrderCode}} - Nhóm hàng: {{OPSItem.OrderGroupCode}}
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-content-200">
+                            <div class="rowinput">
+                                <label> Cung đường</label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboOPSRoutingGroupOptions" k-ng-model="OPSItem.RoutingIDGroup" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label> Ngày tính giá chi tiết</label>
+                                <div>
+                                    <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="OPSItem.DateConfig" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="ChangeOPS_Submit_Click($event,finrefresh_index_ops_masterwin)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,finrefresh_index_ops_masterwin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>     
+
+<div class="cus-window" draggable-k-window kendo-window="finrefreshconatiner_index_ops_masterwin" k-title="false" k-width="900" k-height="550" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                CHUYẾN VẬN CHUYỂN {{OPSItemContainer.ToMasterCode }}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-splitter" kendo-splitter="ver_splitter_ops_container" k-options="ver_ops_splittercontainerOptions" expand-k-splitter>
+                <div>         
+                    <div class="form-content-200">
+                        <div class="rowinput">
+                            <label>Tên</label>
+                            <div style="padding-top: 6px;">
+                                {{OPSItemContainer.VendorName}}
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Ngày tính giá chuyến</label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-picker k-options="DateDMYHM" k-ng-model="OPSItemContainer.DateConfigMaster" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Loại v.chuyển</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboOPSTransportModeContainerOptions" ng-model="OPSItemContainer.TransportModeID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Hợp đồng</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboOPSContractContainerOptions" ng-model="OPSItemContainer.ContractID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Phụ lục hợp đồng</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboOPSContractTermOptions" k-ng-model="OPSItemContainer.ContractTermID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Cung đường</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboOPSRoutingOptions" k-ng-model="OPSItemContainer.RoutingID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Loại cont </label>
+                            <div style="padding-top: 6px;">
+                                {{OPSItemContainer.PackingCode}}
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <!--<div class="rowinput">
+                    <label> Lương tài xế</label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboOPSDriverRouteFeeOptions" k-ng-model="OPSItem.TypeOfDriverRouteFeeID" />
+                    </div>
+                    <div class="clear"></div>
+                </div>-->
+                    </div>
+                </div>
+                <div>
+                    <div class="form-header">
+                        <div class="left title">
+                            Loại cont: {{OPSItemContainer.PackingCode}}-{{OPSItemContainer.ContainerNo}} - {{OPSItemContainer.SealNo1}} - {{OPSItemContainer.SealNo2}}
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-content-200">
+                            <div class="rowinput">
+                                <label> Cung đường</label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboOPSRoutingGroupOptions" k-ng-model="OPSItemContainer.RoutingIDGroup" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label> Ngày tính giá chi tiết</label>
+                                <div>
+                                    <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="OPSItemContainer.DateConfig" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="ChangeOPS_Container_Submit_Click($event,finrefreshconatiner_index_ops_masterwin)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,finrefreshconatiner_index_ops_masterwin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>   
+
+<div class="cus-window" draggable-k-window kendo-window="RoutingOrder_win" k-title="false" k-width="600" k-height="520" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Cung đường đơn hàng
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="RoutingOrder_grid" k-options="RoutingOrder_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="RoutingOrderCheck_Click($event,RoutingOrder_win,RoutingOrder_grid)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,RoutingOrder_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="CusRefresh_win" k-title="false" k-width="600" k-height="520" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn khách hàng
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="CusRefresh_grid" k-options="CusRefresh_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CusRefresh_Choose_Click($event,CusRefresh_grid,CusRefresh_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,CusRefresh_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="RoutingTO_win" k-title="false" k-width="600" k-height="520" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Cung đường đơn hàng
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="RoutingTO_grid" k-options="RoutingTO_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="RoutingTOCheck_Click($event,RoutingTO_win,RoutingTO_grid)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,RoutingTO_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+                                        
+<style>
+    .po-notification{
+        position:relative;
+    }
+    .text-notification{
+        position: absolute;
+        top: 16px;
+        left: 45%;
+        font-size: 17px;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .panel-col-body{
+        float: left;
+        width: calc( 100% - 40px );
+        height: calc(100% - 40px);
+        padding: 15px 20px;
+    }
+    .panel-col-1{
+        float: left;
+        width: calc( 33% - 10px );
+        height: 100%;
+        padding-right:10px;
+        border-right:1px solid #c5c5c5;
+    }
+    .last-col{
+       padding-right:0px;
+       border-right:none;
+    }
+    .table-refresh{
+       width: 100%;
+       text-align: left;
+    }
+    .width-col-1{
+        width:25px;
+        text-align:center;
+        font-size:15px;
+    }
+    .width-col-2{
+        width:95px;
+    }
+    .normal{
+        color:#868686;
+    }
+    .red{
+        color:red;
+    }
+    .green {
+        color:green;
+    }
+    .lblError{
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+    .pading-header{
+        padding-bottom:10px;
+    }
+</style>

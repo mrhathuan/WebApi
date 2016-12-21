@@ -1,0 +1,73 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="KPITypeOfKPI_AddNew_Click($event,KPITypeOfKPI_win)" class="k-button" data-title="Tạo mới"><i class="fa fa-plus"></i><span class="tooltip">Tạo mới</span></a>
+            <a href="/" ng-click="ShowSetting($event,KPITypeOfKPI_grid)" ng-mouseenter="ShowSetting($event,KPITypeOfKPI_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="KPITypeOfKPI_grid" expand-k-grid k-options="KPITypeOfKPI_gridOptions"></div>
+    </div>
+</div>
+
+<!-- popup -->
+
+<div class="cus-window" draggable-k-window kendo-window="KPITypeOfKPI_win" k-title="false" k-width="600" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="KPITypeOfKPI_win_vform">
+                    <div class="rowinput">
+                        <label>Mã <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="KPITypeOfKPIItem.Code" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên<span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="KPITypeOfKPIItem.TypeName" v-form-require="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Loại<span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="KPITypeOfKPI_cboTypeOfKPIID" k-options="KPITypeOfKPI_cboTypeOfKPIID_Options" ng-model="KPITypeOfKPIItem.KPITypeOfKPIID" v-form-require="true" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Thứ tự<span class="required">*</span></label>
+                        <div>
+                            <input type="number" class="k-textbox" ng-model="KPITypeOfKPIItem.Level" v-form-require="true" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="KPITypeOfKPI_win_SaveClick($event,KPITypeOfKPI_win,KPITypeOfKPI_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="KPITypeOfKPI_win_CloseClick($event,KPITypeOfKPI_win)" class="k-button close" data-title="Đóng">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>

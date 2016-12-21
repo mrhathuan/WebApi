@@ -1,0 +1,46 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><!--span ng-show="!item.IsLink">{{item.FunctionName}}</!--span--></li>
+                <li><span>Manual Fix</span></li>
+             </ul>
+        </div>
+        <div class="right">
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="Search_Click($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Xem</span></a>
+            <a href="/" ng-click="FINRefreshMaunalFix_AddNewClick($event,manual_fix_ChooseList_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+            <a href="/" ng-click="Excel_Click($event)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" id="FINManualFix_Grid" kendo-grid="FINManualFix_Grid" k-options="FINManualFix_GridOptions" expand-k-grid></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="manual_fix_ChooseList_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn đơn hàng</div>
+            <div class="right">
+                <a href="/" ng-show="!IsFullScreen" ng-click="Zoom_Click($event)" class="k-button zoom-config"><i class="fa fa-television zoom-config"></i><span class="tooltip is-right">Phóng to</span></a>
+                <a href="/" class="k-button" ng-show="IsFullScreen" ng-click="Minimize_Click($event)"><i class="fa fa-minus config"></i><span class="tooltip is-right">Thu nhỏ</span></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" id="manual_fix_Choose_Grid" kendo-grid="manual_fix_Choose_Grid" expand-k-grid k-options="manual_fix_Choose_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="manualFix_Choose_Save_Click($event,manual_fix_ChooseList_win,manual_fix_Choose_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,manual_fix_ChooseList_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

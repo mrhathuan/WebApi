@@ -1,0 +1,62 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><a ui-sref="main.OPSAppointment.COOptimizer">Tối ưu</a></li>
+                <li><span>Romooc</span></li>
+                <li><span>{{OptimizerName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a class="k-button" ui-sref="main.OPSAppointment.COOptimizer_Container({OptimizerID:{{OptimizerID}}})"><i class="fa fa-file-text"></i><span class="tooltip">Đơn hàng</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.COOptimizer_Vehicle({OptimizerID:{{OptimizerID}}})"><i class="fa fa-truck"></i><span class="tooltip">Xe</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.COOptimizer_Location({OptimizerID:{{OptimizerID}}})"><i class="fa fa-location-arrow"></i><span class="tooltip">Địa điểm</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.COOptimizer_Route({OptimizerID:{{OptimizerID}}})"><i class="fa fa-road"></i><span class="tooltip">Cung đường</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.COOptimizer_LocationMatrix({OptimizerID:{{OptimizerID}}})"><i class="fa fa-globe"></i><span class="tooltip">Ma trận điểm</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.COOptimizer_Master({OptimizerID:{{OptimizerID}}})"><i class="fa fa-arrow-right"></i><span class="tooltip">Chạy tự động</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-history"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div kendo-splitter="splitter" k-options="splitterOptions" class="cus-splitter hor-splitter" expand-k-splitter>
+            <div>
+                <div class="cus-grid" expand-k-grid kendo-grid="romoocGrid" k-options="romoocGrid_Options"></div>
+            </div>
+            <div>
+                <div id="map" class="cus-map" style="width:100%; height:100%;"></div>
+                <div id="map_tooltip" style="display: none; position: absolute; background-color: rgb(165, 197, 185); line-height: 24px; padding: 2px 10px; color: #0A0A0A; font-weight: bold;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="romooc_Grid_toolbar">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a class="k-button" ng-show="HasChoose" ng-click="Delete_Click($event,romoocGrid)"><i class="fa fa-trash"></i><span class="tooltip is-right">Xóa</span></a>
+            <a class="k-button" ng-click="New_Click($event,romoocNotInGrid,romoocNotIn_win)"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<div class="cus-window" draggable-k-window kendo-window="romoocNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH ĐẦU KÉO
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="romoocNotInGrid" expand-k-grid k-options="romoocNotInGrid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Accept_Click($event,romoocNotInGrid,romoocNotIn_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,romoocNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,178 @@
+﻿
+<div class="view-breakumb">
+    <ul class="breakumb">
+        <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+        <li><span>Chi tiết đơn hàng</span></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Container: {{ContainerItem.RegNo}}</div>
+            <div class="right">
+
+            </div>
+        </div>
+        <div class="form-body">
+            <div style="position:relative;height:100%">
+                <div class="cus-tabstrip" kendo-tab-strip="FLMAsset_EditContainer_Tab" k-options="FLMAsset_EditContainer_TabOptions">
+                    <ul>
+                        <li id="tab_gen" class="k-state-active">Thông tin chung</li>
+                        <li id="tab_equip" ng-show="IsShowTab">Thiết bị theo xe</li>
+                        <li id="tab_depHis" ng-show="IsShowTab">Lịch sử khấu hao</li>
+                    </ul>
+                    <div>
+                        <div class="cus-div" style="overflow:scroll" v-form="FLMAsset_Container_vform">
+                            <div class="cus-div-2left">
+                                <div class="cus-div-header">Thông tin phương tiện vận tải</div>
+                                <div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Số Con. <span class="required">*</span></label>
+                                        <div style="width:70%">
+                                            <input type="text" class="k-textbox" ng-model="ContainerItem.ContainerNo" ng-change="IsEdited=true" style="width:100%" v-form-require="true" v-form-length="50" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Loại Con </label>
+                                        <div style="width:70%">
+                                            <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboPackage_options" ng-model="ContainerItem.PackageID" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">K.thước(Dài-Rộng) </label>
+                                        <div style="width:30%">
+                                            <input type="number" kendo-numeric-text-box k-options="numLength_options" ng-model="ContainerItem.Length" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <label>m </label>
+                                        <div style="width:30%">
+                                            <input type="number" kendo-numeric-text-box k-options="numWidth_options" ng-model="ContainerItem.Width" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <label>m </label>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Trọng tải </label>
+                                        <div style="width:70%">
+                                            <input type="number" kendo-numeric-text-box k-options="numHeight_options" ng-model="ContainerItem.Height" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Năm sản xuất </label>
+                                        <div style="width:70%">
+                                            <input type="number" kendo-numeric-text-box k-options="numYearOfProduction_options" ng-model="ContainerItem.YearOfProduction" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Nhà sản xuất </label>
+                                        <div style="width:70%">
+                                            <input type="text" class="k-textbox" ng-model="ContainerItem.Manufactor" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Cho thuê </label>
+                                        <div style="width:70%">
+                                            <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboRent_options" ng-model="ContainerItem.RentID" style="width:100%" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cus-div-2right" style="height:100%">
+                                <div class="cus-div-header">Thông số kỹ thuật</div>
+                                <div>
+                                    <textarea rows="5" ng-model="ContainerItem.Specification" style="width: calc(100% - 7px)" ng-change="IsEdited=true"></textarea>
+                                </div>
+                                <div class="cus-div-header">Thông tin giá trị phương tiện vận tải</div>
+                                <div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Giá trị ban đầu </label>
+                                        <div style="width:70%">
+                                            <input type="number" kendo-numeric-text-box k-options="numBaseValue_options" ng-model="ContainerItem.BaseValue" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Giá trị đã sử dụng </label>
+                                        <div style="width:70%">
+                                            <input class="cus-number" kendo-numeric-text-box k-options="numRemainValue_options" ng-model="ContainerItem.RemainValue" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Giá trị hiện tại </label>
+                                        <div style="width:70%">
+                                            <input type="number" kendo-numeric-text-box k-options="numCurrentValue_options" ng-model="ContainerItem.CurrentValue" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">T/g k.hao (tháng) </label>
+                                        <div ng-style="IsNewVehicle==true?{width:'70%'}:{width:'calc(70% - 40px)'}">
+                                            <input type="number" kendo-numeric-text-box k-options="numDepreciationPeriod_options" ng-model="ContainerItem.DepreciationPeriod" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div style="width: 40px; text-align: right;" ng-show="!IsNewVehicle">
+                                            <a href="/" ng-click="FLMAsset_Depreciation_GenerateClick($event,FLMAsset_Container_vform)" class="k-button" data-title="Tính khấu hao"><i class="fa fa-calculator"></i></a>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">T/g bắt đầu tính KH </label>
+                                        <div style="width:70%">
+                                            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="ContainerItem.DepreciationStart" k-on-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">T/g b.hành (tháng) </label>
+                                        <div style="width:70%">
+                                            <input type="number" kendo-numeric-text-box k-options="numWarrantyPeriod_options" ng-model="ContainerItem.WarrantyPeriod" style="width:100%" ng-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label style="width:calc(30% - 7px)">Ngày kết thúc BH </label>
+                                        <div style="width:70%">
+                                            <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="ContainerItem.WarrantyEnd" k-on-change="IsEdited=true" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="cus-splitter" kendo-splitter="SplitterEQM" k-options="SplitterEQM_Options" expand-k-splitter>
+                            <div class="cus-div">
+                                <div class="cus-div-header">Danh sách thiết bị theo xe hiện tại</div>
+                                <div class="cus-grid" kendo-grid expand-k-grid k-options="currEQM_GridOptions"></div>
+                            </div>
+                            <div class="cus-div">
+                                <div class="cus-div-header">Danh sách thiết bị theo xe trong quá khứ</div>
+                                <div class="cus-grid" kendo-grid expand-k-grid k-options="pastEQM_GridOptions"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="cus-div">
+                            <div class="cus-div-header">Lịch sử khấu hao xe và trang thiết bị theo xe</div>
+                            <div class="cus-div-body"><div class="cus-grid" kendo-grid="DepreciationGrid" expand-k-grid k-options="DepreciationGrid_Options"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabstrip-buttons">
+                    <a href="/" ng-click="FLMAsset_Container_SaveClick($event,FLMAsset_Container_vform)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu</span></a>
+                    <a href="/" ng-click="FLMAsset_Container_DelClick($event)" ng-show="!IsNewVehicle" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+                    <a href="/" ng-click="FLMAsset_Container_BackClick($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

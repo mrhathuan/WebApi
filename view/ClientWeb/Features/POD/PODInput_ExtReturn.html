@@ -1,0 +1,220 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><!--span ng-show="!item.IsLink">{{item.FunctionName}}</!--span--></li>
+                <li><span>Công nợ trả về</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="Search.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="Search.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="PODInputExtReturn_SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-click="PODInputExtReturn_QuickClick($event,extReturn_Quick_win)" class="k-button"><i class="fa fa-bolt"></i><span class="tooltip ">Thêm</span></a>
+            <a href="/" ng-show="MainHasChoose" ng-click="PODInputExtReturn_DeleteClick($event,PODInputExtReturn_Grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-show="MainHasChoose" ng-click="PODInputExtReturn_ApprovedClick($event,PODInputExtReturn_Grid)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Duyệt</span></a>
+            <a href="/" ng-click="ShowSetting($event,PODInputExtReturn_Grid)" ng-mouseenter="ShowSetting($event,PODInput_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid"  kendo-grid="PODInputExtReturn_Grid" k-options="PODInputExtReturn_Options" expand-k-grid></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="ext_return_Edit_win" k-title="false" k-width="900" k-height="570" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chi tiết công nợ trả về</div>
+            <div class="right"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div style="position:relative;height:100%">
+                <div class="cus-tabstrip" kendo-tabstrip="ext_return_tabstrip" k-options="ext_return_tabstripOptions" expand-k-tabstrip>
+                    <ul>
+                        <li data-tabindex="0" class="k-state-active">Thông tin chung</li>
+                        <li data-tabindex="1" ng-show="Item.ID > 0">Phân bổ</li>
+                    </ul>
+                    <div>
+                        <!--<div class="cus-form">-->
+                            <div class="form-body">
+                                <div class="form-content-200" v-form="extReturn_vform">
+                                    <div class="rowinput">
+                                        <label>Số chứng từ<span class="required">*</span></label>
+                                        <div>
+                                            <input type="text" class="k-textbox" ng-model="Item.InvoiceNo" v-form-require="true" ng-disabled="Item.IsApproved" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Ngày nhập chứng từ<span class="required">*</span></label>
+                                        <div>
+                                            <input class="cus-datepicker" focus-k-datepicker k-ng-model="Item.InvoiceDate" kendo-date-picker k-options="DateDMY" v-form-require="true" ng-disabled="Item.IsApproved" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Khách hàng <span class="required">*</span></label>
+                                        <div>
+                                            <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="PODInput_ExtReturn_cboCustomer_Options" ng-model="Item.CustomerID" v-form-require="true" ng-disabled="Item.IsApproved||Item.ID>0" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Nhà xe <span class="required">*</span></label>
+                                        <div>
+                                            <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="PODInput_ExtReturn_cboVendor_Options" ng-model="Item.VendorID" v-form-require="true" ng-disabled="Item.IsApproved" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Tài xế</label>
+                                        <div>
+                                            <input class="cus-combobox" kendo-combobox focus-k-combobox id="cboDriver" k-options="PODInput_ExtReturn_cboDriver_Options" ng-model="Item.DriverID" ng-disabled="Item.IsApproved" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Xe <span class="required">*</span></label>
+                                        <div>
+                                            <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="PODInput_ExtReturn_cboVehicle_Options" ng-model="Item.VehicleID" v-form-require="true" ng-disabled="Item.IsApproved" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Tình trạng </label>
+                                        <div>
+                                            <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="PODInput_ExtReturn_cboExtReturnStatus_Options" ng-model="Item.ExtReturnStatusID" v-form-require="true" ng-disabled="Item.IsApproved" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Ghi chú </label>
+                                        <div>
+                                            <input type="text" class="k-textbox" ng-model="Item.Note" ng-disabled="Item.IsApproved" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Nhóm sản phẩm <span class="required">*</span></label>
+                                        <div>
+                                            <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="PODInput_ExtReturn_cboGOP_Options" ng-model="Item.GroupProductID" v-form-require="true" ng-disabled="Item.IsApproved||Item.ID>0" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Sản phẩm <span class="required">*</span></label>
+                                        <div>
+                                            <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="PODInput_ExtReturn_cboProduct_Options" ng-model="Item.ProductID" v-form-require="true" ng-disabled="Item.IsApproved||Item.ID>0" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Mã chuyến </label>
+                                        <div>
+                                            <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="PODInput_ExtReturn_cboDITOMaster_Options" ng-model="Item.DITOMasterID" v-form-require="true" ng-disabled="Item.IsApproved||Item.ID>0" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Số lượng </label>
+                                        <div>
+                                            <input class="cus-number" kendo-numeric-text-box k-options="numQuantity_options" ng-model="Item.Quantity" style="width:100%" ng-disabled="Item.IsApproved||Item.ID>0" />
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!--</div>-->
+                    </div>
+                    <div>
+                        <div class="cus-form">
+                            <div class="cus-grid" kendo-grid="extReturn_Detail_Grid" expand-k-grid k-options="extReturn_Detail_GridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabstrip-buttons">
+                    <!--Location-->
+                    <a href="/" ng-click="extReturn_SaveDetail_Click($event,extReturn_Detail_Grid)" ng-show="TabIndex==1&&(!Item.IsApproved||!Item.ID>0)" class="k-button"><i class="fa fa-floppy-o"></i><span class="tooltip">Cập nhật</span></a>
+                    <a href="/" ng-show="TabIndex==1 && DetailHasChoose" ng-click="detail_Delete($event,extReturn_Detail_Grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip ">Xóa</span></a>
+                    <a href="/" ng-show="TabIndex==1&&(!Item.IsApproved||!Item.ID>0)" ng-click=" detail_AddNew($event,extReturn_DetailNotIn_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+                </div>
+                <div class="form-footer">
+                    <div>
+                        <a href="/" ng-show="TabIndex==0&&(!Item.IsApproved||!Item.ID>0)" ng-click=" suggest_click($event,extReturn_FindList_win)" class="k-button accept">Tìm kiếm</a>
+                        <a href="/" ng-show="TabIndex==0&&!Item.IsApproved" ng-click="extReturn_win_Save_Click($event,extReturn_vform)" class="k-button accept">Lưu</a>
+                        <a href="/" ng-click="window_Close_Click($event,ext_return_Edit_win)" class="k-button close">Đóng</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="extReturn_DetailNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chi tiết chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="extReturn_DetailNotIn_Grid" expand-k-grid k-options="extReturn_DetailNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="detailNotIn_Save_Click($event,extReturn_DetailNotIn_win,extReturn_DetailNotIn_Grid)" class="k-button accept">Thêm</a>
+                <a href="/" ng-click="window_Close_Click($event,extReturn_DetailNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="extReturn_FindList_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="extReturn_FindList_Grid" expand-k-grid k-options="extReturn_FindList_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="FindList_Save_Click($event,extReturn_FindList_win,extReturn_FindList_Grid)" class="k-button accept">Chọn</a>
+                <a href="/" ng-click="window_Close_Click($event,extReturn_FindList_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="extReturn_Quick_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Nhập nhanh</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="extReturn_Quick_Grid" expand-k-grid k-options="extReturn_Quick_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="window_Close_Click($event,extReturn_Quick_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">
+            Lịch sử bảng giá
+        </div>
+        <div class="right">
+            <a href="/" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="form-body">
+        <div class="cus-form" v-form="Search_vform" scrolldiv>
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Khách hàng <span class="required">*</span></label>
+                    <div>
+                        <select kendo-multi-select focus-k-select k-options="mts_CustomerOption" k-ng-model="ListCustomer" style="width:500px;float:left" v-form-require="true"></select>
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Hình thực v/c</label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combobox="cboTransport" k-options="cboTransportOptions" ng-model="Item.TransportModeID" style="width:150px;" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Loại bảng giá</label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combobox="cboTypePrice" ng-disabled="typePriceDisable" k-options="cboTypePriceOptions" ng-model="Item.TypePrice" style="width:150px;" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="rowinput rowaction">
+                    <a href="/" ng-click="PriceHistory_Export($event,Search_vform)" class="k-button accept">Xuất lịch sử</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

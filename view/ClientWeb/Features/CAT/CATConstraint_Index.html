@@ -1,0 +1,419 @@
+﻿
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right button">
+                <a href="/" ng-show="HasChoose" ng-click="Update_Constrain_Click($event,Constraint_Grid)" class="k-button" data-title="Thêm"><i class="fa fa-wrench"></i><span class="tooltip">Cập nhật ràng buộc</span></a>
+                <a href="/" ng-click="Constraint_AddRoute($event,Constraint_win)" class="k-button" data-title="Thêm"><i class="fa fa-plus"></i><span class="tooltip">Thêm</span></a>
+                <a href="/" ng-click="ShowSetting($event,Constraint_Grid)" ng-mouseenter="ShowSetting($event,Constraint_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div kendo-grid="Constraint_Grid" expand-k-grid k-options="Constraint_GridOptions" class="cus-grid"></div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Constraint_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thêm ràng buộc</div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" kendo-tab-strip="Constraint_win_Tab" k-options="Constraint_win_TabOptions" expand-k-tabstrip>
+                <ul>
+                    <li class="k-state-active">Thông tin chung</li>
+                    <li ng-show="Item.ID>0">Cung đường</li>
+                    <li ng-show="Item.ID>0">Địa điểm</li>
+                    <li ng-show="Item.ID>0">Xe tải</li>
+                    <li ng-show="Item.ID>0">Đầu kéo</li>
+                    <li ng-show="Item.ID>0">Kích thước trong tuần</li>
+                    <li ng-show="Item.ID>0">Mở cửa trong tuần</li>
+                    <li ng-show="Item.ID>0">Độ dài chặng</li>
+                </ul>
+                <div>
+                    <div class="cus-form" style="height:98%">
+                        <div class="form-body">
+                            <div class="form-content-150" v-form="Constraint_win_vform">
+                                <div class="rowinput">
+                                    <label>Mã ràng buộc <span class="required">*</span></label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="50" ng-model="Item.Code" v-form-require="true" v-form-length="50" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tên ràng buộc <span class="required">*</span></label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="200" ng-model="Item.ConstraintName" v-form-require="true" v-form-length="200" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Được duyệt <span class="required">*</span></label>
+                                    <div>
+                                        <input type="checkbox" ng-model="Item.IsApproved" v-form-require="true" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput rowaction">
+                                    <a href="/" ng-click="Constraint_win_Delete($event,Constraint_win)" ng-show="Item.ID>0" class="k-button active">Xóa ràng buộc</a>
+                                    <a href="/" ng-click="Constraint_win_Save($event,Constraint_win,Constraint_win_vform)" class="k-button active">Lưu ràng buộc</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left"></div>
+                            <div class="right button">
+                                <a href="/" ng-click="Constraint_win_AddRoute($event,Route_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm route</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="Constraint_RouteGrid" expand-k-grid k-options="Constraint_RouteGridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left"></div>
+                            <div class="right button">
+                                <a href="/" ng-click="Constraint_win_AddLocation($event,Location_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm địa điểm</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="Constraint_LocationGrid" expand-k-grid k-options="Constraint_LocationGridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left"></div>
+                            <div class="right button">
+                                <a href="/" ng-click="Constraint_win_AddTruck($event,Truck_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm xe tải</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="Constraint_TruckGrid" expand-k-grid k-options="Constraint_TruckGridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left"></div>
+                            <div class="right button">
+                                <a href="/" ng-click="Constraint_win_AddTractor($event,Tractor_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm đầu kéo</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="Constraint_TractorGrid" expand-k-grid k-options="Constraint_TractorGridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left"></div>
+                            <div class="right button">
+                                <a href="/" ng-click="Constraint_win_AddWeight($event,Weight_win,Weight_win_vform)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="Constraint_WeightGrid" expand-k-grid k-options="Constraint_WeightGridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left"></div>
+                            <div class="right button">
+                                <a href="/" ng-click="Constraint_win_AddOpenHour($event,OpenHour_win,OpenHour_win_vform)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="Constraint_OpenHourGrid" expand-k-grid k-options="Constraint_OpenHourGridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left"></div>
+                            <div class="right button">
+                                <a href="/" ng-click="Constraint_win_AddKM($event,KM_win,KM_win_vform)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="Constraint_KMGrid" expand-k-grid k-options="Constraint_KMGridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Constraint_win_CloseClick($event,Constraint_win)" class="k-button close">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Route_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Cung đường</div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="Route_win_Grid" expand-k-grid k-options="Route_win_GridOptions"></div>
+        </div>
+        <div class="form-footer with-footer">
+            <div>
+                <a href="/" ng-click="Route_win_SaveClick($event,Route_win,Route_win_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Route_win_CloseClick($event,Route_win)" class="k-button close">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Location_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Địa điểm</div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="Location_win_Grid" expand-k-grid k-options="Location_win_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Location_win_SaveClick($event,Location_win,Location_win_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Location_win_CloseClick($event,Location_win)" class="k-button close">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Weight_win" k-title="false" k-width="600" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thêm ràng buộc trọng tải</div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-250" v-form="Weight_win_vform">
+                <div class="rowinput">
+                    <label>Thứ <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="Weight_win_cbDateNameOptions" ng-model="ItemWeight.DateID" v-form-require="true" v-form-length="50" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Thời gian bắt đầu <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-timepicker" focus-k-timepicker kendo-time-picker k-options="DateHM" ng-model="ItemWeight.TimeFrom" v-form-require="true" v-form-length="50" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Thời gian kết thúc <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-timepicker" focus-k-timepicker kendo-time-picker k-options="DateHM" ng-model="ItemWeight.TimeTo" v-form-require="true" v-form-length="50" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Trọng tải <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numWeight_Option" k-ng-model="ItemWeight.Weight" v-form-require="true" style="width:100%" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Chỉ nhận bốc hàng 1 container </label>
+                    <div>
+                        <input type="checkbox" ng-model="ItemWeight.IsOneContainer" v-form-require="true" style="width:100%" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Chiều dài mooc cho phép </label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numNoOfDelivery_Option" k-ng-model="ItemWeight.NoOfDelivery" v-form-require="true" style="width:100%" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Weight_win_SaveClick($event,Weight_win,Weight_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="Weight_win_CloseClick($event,Weight_win)" class="k-button close" data-title="Đóng">Đóng</a>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="OpenHour_win" k-title="false" k-width="500" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Giờ mở cửa</div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150" v-form="OpenHour_win_vform">
+                <div class="rowinput">
+                    <label>Thứ <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="OpenHour_win_cbDateNameOptions" ng-model="ItemOpenHour.DateID" v-form-require="true" v-form-length="50" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Thời gian bắt đầu <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-timepicker" focus-k-timepicker kendo-time-picker k-options="DateHM" ng-model="ItemOpenHour.TimeFrom" v-form-require="true" v-form-length="50" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Thời gian kết thúc <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-timepicker" focus-k-timepicker kendo-time-picker k-options="DateHM" ng-model="ItemOpenHour.TimeTo" v-form-require="true" v-form-length="50" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="OpenHour_win_SaveClick($event,OpenHour_win,OpenHour_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="OpenHour_win_CloseClick($event,OpenHour_win)" class="k-button close" data-title="Đóng">Đóng</a>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Truck_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách xe tải chưa có trong ràng buộc</div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="Truck_win_Grid" expand-k-grid k-options="Truck_win_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Truck_win_SaveClick($event,Truck_win,Truck_win_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,Truck_win)" class="k-button close">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Tractor_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách đầu kéo chưa có trong ràng buộc</div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="Tractor_win_Grid" expand-k-grid k-options="Tractor_win_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Tractor_win_SaveClick($event,Tractor_win,Tractor_win_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,Tractor_win)" class="k-button close">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="KM_win" k-title="false" k-width="500" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thêm ràng buộc độ dài</div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150" v-form="KM_win_vform">
+                <div class="rowinput">
+                    <label>KMFrom <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numKMFrom_Option" k-ng-model="ItemKM.KMFrom" v-form-require="true" style="width:100%" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>KMTo <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numKMTo_Option" k-ng-model="ItemKM.KMTo" v-form-require="true" style="width:100%" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>KMScore <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numKMScore_Option" k-ng-model="ItemKM.KMScore" v-form-require="true" style="width:100%" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="KM_win_SaveClick($event,KM_win,KM_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="KM_win_CloseClick($event,KM_win)" class="k-button close" data-title="Đóng">Đóng</a>
+
+            </div>
+        </div>
+
+    </div>
+</div>

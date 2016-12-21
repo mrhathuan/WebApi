@@ -1,0 +1,143 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">
+           Trạng thái đơn hàng
+        </div>
+        <div class="right">
+            <div>Khách hàng</div>
+            <input style="width:200px;" kendo-multi-select focus-k-select k-options="mulCustomer_Options" k-ng-model="Item.lstCustomerID" />
+            <span>Lọc theo </span><input class="cus-combobox" focus-k-combobox kendo-combo-box="REPDIStatus_cboFilter" k-options="REPDIStatus_cboFilter_Options" ng-model="Item.TypeOfFilterID" v-form-require="true" />
+            <span>Trạng thái </span><input class="cus-combobox" focus-k-combobox kendo-combo-box="REPDIStatus_cbostatusID" k-options="REPDIStatus_cbostatusID_Options" ng-model="Item.StatusID" v-form-require="true" />
+            <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateFrom" />
+            <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateTo" />
+
+            <a href="/" ng-click="Search_Click($event)" class="k-button "><i class="fa fa-search"></i><span class="tooltip">Xem báo cáo</span> </a>
+            <a href="/" ng-click="SettingReport($event,SettingReport_List_win)" class="k-button "><i class="fa fa-cog"></i><span class="tooltip">Xuất dữ liệu</span></a>
+            <a href="/" ng-click="REPDIStatus_Order_Export($event)" class="k-button "><i class="fa fa-file-excel-o"></i><span class="tooltip">Xuất dữ liệu mẫu</span></a>
+            <a href="/" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="form-body ">
+        <div class="cus-grid" expand-k-grid kendo-grid="REPDIStatus_grid" k-options="REPDIStatus_gridOptions"></div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="SettingReport_List_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách thiết lập</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="settingReport_Grid" expand-k-grid k-options="settingReport_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="SettingReport_AddClick($event,SettingReport_win,Setting_vform)" class="k-button accept">Thêm mới</a>
+                <a href="/" ng-show="SettingHasChoose" ng-click="settingReport_GridDestroy_Click($event,settingReport_Grid)" class="k-button">Xóa</a>
+                <a href="/" ng-click="window_Close_Click($event,SettingReport_List_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="SettingReport_win" k-title="false" k-width="600" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin thiết lập</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" kendo-tab-strip="SettingReport_Tab" k-options="SettingReport_TabOptions" expand-k-tabstrip>
+                <ul>
+                    <li data-tabindex="0" class="k-state-active">Thông tin thiết lập</li>
+                    <li data-tabindex="1" ng-show="SettingItem.ID>0">Danh sách khách hàng</li>
+                </ul>
+                <div>
+                    <div class="cus-form" v-form="Setting_vform" scrolldiv>
+                        <div class="form-content-150">
+                            <div class="rowinput">
+                                <label>Tên thiết lập <span class="required">*</span></label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="SettingItem.Name" v-form-require="true" v-form-length="50" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>File template <span class="required">*</span></label>
+                                <div>
+                                    <a href="/" ng-click="SettingReport_AddFileClick($event)" class="k-button " data-title="Thêm mới"><i class="fa fa-file"></i></a>
+                                    <span>{{SettingItem.FileName}}</span>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Loại Export </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboTypeExport" k-options="cboTypeExport_options" ng-model="SettingItem.TypeExport" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Loại ngày </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboTypeDateRange" k-options="cboTypeDateRange_options" ng-model="SettingItem.TypeDateRange" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tình trạng </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="REPDIStatus_cbostatusID" k-options="REPDIStatus_cbostatusID_Options" ng-model="SettingItem.StatusID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Lọc theo </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="REPDIStatus_cboFilter" k-options="REPDIStatus_cboFilter_Options" ng-model="SettingItem.TypeOfFilter" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="cus-grid" kendo-grid="SettingReport_Customer_Grid" expand-k-grid k-options="SettingReport_Customer_GridOptions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="SettingReport_TabIndex==1" ng-click="customer_AddNew($event,customerNotIn_win)" class="k-button accept" data-title="Thêm mới">Thêm mới</a>
+                <a href="/" ng-show="SettingReport_TabIndex==1 && CustomerHasChoose" ng-click="customer_Delete($event,SettingReport_Customer_Grid)" class="k-button" data-title="Xóa">Xóa</a>
+
+                <a href="/" ng-show="SettingReport_TabIndex==0" ng-click="SettingReport_SaveClick($event,SettingReport_win,Setting_vform)" class="k-button accept" data-title="Lưu/Cập nhật">Lưu/Cập nhật</a>
+                <a href="/" ng-show="SettingReport_TabIndex==0 && SettingItem.ID>0" ng-click="SettingReport_Destroy_Click($event,SettingReport_win)" class="k-button" data-title="Xóa">Xóa</a>
+                <a href="/" ng-click="window_Close_Click($event,SettingReport_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="customerNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Khách hàng chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="customerNotIn_Grid" expand-k-grid k-options="customerNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="customerNotIn_Save_Click($event,customerNotIn_win,customerNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,customerNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

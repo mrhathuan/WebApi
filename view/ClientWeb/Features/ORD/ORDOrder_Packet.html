@@ -1,0 +1,48 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="ShowSetting($event,order_Grid)" ng-mouseenter="ShowSetting($event,order_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div kendo-tooltip k-options="tooltipOptions" class="full cus-tooltip">
+            <div class="cus-scheduler" expand-k-scheduler kendo-scheduler="scheduler" k-options="schedulerOptions" k-rebind="schedulerOptions" k-delay="schedulerOptions"></div>
+        </div>
+    </div>
+</div>
+
+<!--EventTemplate-->
+<script id="scheduler-event-template" type="text/x-kendo-template">
+    <div style="cursor:pointer;margin-left: 3px;background:rgb(49, 182, 252);" class="cus-event" data-value="#=ToolTipText#" ng-click="SchedulerEvent_Click($event,#=id#,event_info_win)">
+        <div style="line-height: 26px; white-space: nowrap; overflow: hidden;">#=title#</div>
+    </div>
+</script>
+
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="900" k-max-height="650" k-height="500" k-min-width="500" k-min-height="300" kendo-window="event_info_win" k-visible="false" k-resizable="true" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách đơn hàng
+            </div>
+            <div class="right">                
+                <a href="/" class="k-button" ng-click="Close_Click($event,event_info_win)"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="cus-grid" expand-k-grid kendo-grid="order_Grid" k-options="order_Grid_Options"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .k-event.status1 .cus-event { background: red !important; }
+    .k-event.status2 .cus-event { background: orange !important; color: #000 !important; }
+    .k-event.status3 .cus-event { background: lightgreen !important; color: #000 !important; }
+    .k-event.status4 .cus-event { background: green !important; color: #000 !important; }
+</style>

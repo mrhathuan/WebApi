@@ -1,0 +1,991 @@
+﻿<!--View-->
+<div class="full" id="2view-container">
+    <div class="cus-form winform" id="2view" style="{{IsFullScreen?'padding:0':''}}">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                    <li><a ui-sref="main.MONMonitor.ControlTowerCOTimeline" style="cursor:pointer;">Giám sát</a></li>
+                </ul>
+            </div>
+            <div class="right">  
+                <div style="color: #fff; margin: 12px 0; height: 17px; line-height: 17px; margin-right: 5px;">
+                    <a href="/" ng-click="TimeLine_Tick_Change($event,60)" class="btn-tick active">1</a>'
+                    <a href="/" ng-click="TimeLine_Tick_Change($event,120)" class="btn-tick">2</a>
+                    <a href="/" ng-click="TimeLine_Tick_Change($event,180)" class="btn-tick">3</a>
+                    <a href="/" ng-click="TimeLine_Tick_Change($event,360)" class="btn-tick">6</a>
+                    <a href="/" ng-click="TimeLine_Tick_Change($event,720)" class="btn-tick">12</a>
+                </div>
+                <a href="/" class="k-button" ng-class="ShowOrder?'active':''" ng-click="ShowOrder_Click($event)"><i class="fa fa-bars"></i><span class="tooltip">Đơn hàng</span></a>
+                <a href="/" class="k-button" ng-click="TimeLine_Click($event,veh_timeline_win)"><i class="fa fa-calendar"></i><span class="tooltip">TimeLine</span></a>
+                <a href="/" class="k-button" ng-click="ViewSize_Click($event)"><i class="fa fa-font"></i><span class="tooltip">Chữ nhỏ/vừa</span></a>                
+                <a href="/" class="k-button" ng-show="!IsFullScreen" ng-click="ViewA_Click($event)"><i class="fa fa-television"></i><span class="tooltip">Toàn màn hình</span></a>
+                <a href="/" class="k-button setting" ng-show="!IsFullScreen" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event)" ng-mouseleave="HideSetting($event)" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+                <a href="/" class="k-button" ng-show="IsFullScreen" ng-click="ViewB_Click($event)"><i class="fa fa-thumb-tack"></i><span class="tooltip is-right">Thu nhỏ</span></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div class="cus-splitter ver-splitter" kendo-splitter="verSplitter" k-options="verSplitter_Options" style="width:calc(100% - 2px);">
+                <div>
+                    <div ng-show="false&&TimeLineLoading" style="position: absolute;z-index: 999999;background: #fff;width: 100%;height: 100%; opacity:0.7;">
+                        <i class="fa fa-spinner fa-spin" style="font-size: 44px;color: #31b6fc;left: calc(50% - 22px);top: calc(50% - 22px);position: relative;"></i>
+                    </div>
+                    <div class="cus-splitter hor-splitter" kendo-splitter="vehSplitter" k-options="vehSplitter_Options">
+                        <div>
+                            <div class="full" style="overflow:hidden;">
+                                <div class="cus-grid over-grid" id="timeline-vehicle-grid" expand-k-grid="ops_timeline_vehicle_Grid" kendo-grid="veh_Grid" k-options="veh_Grid_Options"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="full" style="overflow:hidden;">
+                                <div class="cus-scheduler timeline-veh over-scheduler" expand-k-scheduler kendo-scheduler="timelineVeh" k-options="timelineVeh_Options" k-rebind="timelineVeh_Options" k-delay="timelineVeh_Options"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>        
+                <div>
+                    <div ng-show="false&&TimeLineConLoading" style="position: absolute;z-index: 999999;background: #fff;width: 100%;height: 100%; opacity:0.7;">
+                        <i class="fa fa-spinner fa-spin" style="font-size: 44px;color: #31b6fc;left: calc(50% - 22px);top: calc(50% - 22px);position: relative;"></i>
+                    </div>
+                    <div class="cus-splitter hor-splitter" kendo-splitter="conSplitter" k-options="conSplitter_Options">
+                        <div>
+                            <div class="full" style="overflow:hidden;">
+                                <div class="cus-grid over-grid" id="timeline-con-grid" expand-k-grid="ops_timeline_con_Grid" kendo-grid="con_Grid" k-options="con_Grid_Options"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="full" style="overflow:hidden;">
+                                <div class="cus-scheduler timeline-con over-scheduler" expand-k-scheduler kendo-scheduler="timelineCon" k-options="timelineCon_Options" k-rebind="timelineCon_Options" k-delay="timelineCon_Options"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>        
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine EventTemplate-->
+<script id="timeline-event-template" type="text/x-kendo-template">
+    <div style="height:100%;" class="cus-event event#=StatusOfEvent#" id="event#=TOMasterID#" data-eventid="#=id#" data-connection="#=JSON.stringify(Connections, Common.JSON.QuoteReplacer)#">
+        <div class="event-content" data-newevent="#=IsNew#" ng-show="dataItem.StatusOfTimeSheet<=2" ng-click="TimeLineEvent_Click($event,#=TOMasterID#,#=TypeOfEvent#,#=StatusOfEvent#,#=StatusOfTimeSheet#,timeline_event_win)" ng-mouseenter="ShowTimeLineTooltip($event,#=id#,#=TOMasterID#,#=StatusOfTimeSheet#)" ng-mouseleave="HideTimeLineTooltip($event)">#=title#</div>
+        <div class="event-bkg bkg#=StatusOfTimeSheet# double#=TypeOfDoubleContainer#" data-double-container="#=IsDoubleContainer#" ng-click="TimeLineEvent_Click($event,#=TOMasterID#,#=TypeOfEvent#,#=StatusOfEvent#,#=StatusOfTimeSheet#,timeline_event_win)" ng-mouseenter="ShowTimeLineTooltip($event,#=id#,#=TOMasterID#,#=StatusOfTimeSheet#)" ng-mouseleave="HideTimeLineTooltip($event)"></div>
+        <div class="event-icon" ng-click="TimeLineEvent_Click($event,#=TOMasterID#,#=TypeOfEvent#,#=StatusOfEvent#,#=StatusOfTimeSheet#,timeline_event_win)">
+            <div class="event-infinity" ng-show="dataItem.StatusOfTimeSheet<=2&&dataItem.IsLocal&&dataItem.NoC>1" ng-mouseenter="ShowTimeLineInfinityTooltip($event,#=id#,#=TOMasterID#)" ng-mouseleave="HideTimeLineInfinityTooltip($event)"><div style="background-image:url(Images/ops_co/ico_infinity.png);width:100%;height:100%;background-repeat:no-repeat;background-position:1px 1px;border-style:none;" /></div>
+            <div class="event-rstation" ng-show="dataItem.StatusOfTimeSheet==4"><div style="background-image:url(Images/ops_co/ico_station.png);width:100%;height:100%;background-repeat:no-repeat;border-style:none; transform: scaleX(-1);" ng-mouseenter="ShowTimeLineTooltip($event,#=id#,#=TOMasterID#,#=StatusOfTimeSheet#)" ng-mouseleave="HideTimeLineTooltip($event)" /></div>
+            <div class="event-romempty" ng-show="dataItem.StatusOfTimeSheet==5"><div style="background-image:url(Images/ops_co/ico_romempty.png);width:100%;height:100%;background-repeat:no-repeat;border-style:none; transform: scaleX(-1);" ng-mouseenter="ShowTimeLineTooltip($event,#=id#,#=TOMasterID#,#=StatusOfTimeSheet#)" ng-mouseleave="HideTimeLineTooltip($event)" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="event-border" style="width:calc(100% + #=PxToNext#px)">
+            <div>
+                <div class="pleft" ng-show="dataItem.StatusOfTimeSheet!=2&&dataItem.IsStart"></div> <div class="pright" ng-show="dataItem.StatusOfTimeSheet!=2&&dataItem.IsEnd"></div><div class="pmid" ng-show="dataItem.PxToEvent>0&&(!dataItem.IsEnd||dataItem.StatusOfTimeSheet==2)" style="width:calc(0% + #=PxToNext#px)"></div>
+            </div>
+        </div> 
+    </div>
+</script>
+
+<!--TimeLine Con EventTemplate-->
+<script id="timeline-con-event-template" type="text/x-kendo-template">
+    <div style="cursor:pointer;height:100%;" class="cus-event event#=StatusOfEvent#" id="event#=id#" data-eventid="#=id#" ng-click="TimeLineConEvent_Click($event,#=id#,#=TOMasterID#,#=SortOrder#,#=start.getTime()#,#=end.getTime()#,timeline_info_win,timeline_event_win)" ng-mouseenter="ShowTimeLineTooltip($event,#=id#,#=TOMasterID#,1)" ng-mouseleave="HideTimeLineTooltip($event)">
+        <div class="event-content" style="width: calc(100% - 4px);">#=title#</div>
+        <div class="event-image" ng-show="dataItem.IsEmpty" style="left:0;width:100%;"></div>
+        <div class="event-bkg"></div>
+    </div>
+</script>
+
+<!--TimeLine Vehicle Tooltip-->
+<div id="timeline_vehicle_tooltip" class="cus-window opacity90" style="width: 400px; height:165px; position: absolute; z-index: 999999; background: #ffffff; margin: 0; padding: 3px 10px; border-radius: 4px; border: 1px solid #bebebe; box-shadow: 5px -5px 5px #bebebe;" ng-style="TimeLineVehicleEventStyle">    
+    <div style="width:100%;height:100%;position:relative;">
+        <div ng-show="!TimeLineVehicleEventItem.IsLoaded" style="position: absolute;z-index: 999999;background: #fff;width: 100%;height: 100%;">
+            <i class="fa fa-spinner fa-spin" style="font-size: 44px;color: #31b6fc;left: calc(50% - 22px);top: calc(50% - 22px);position: relative;"></i>
+        </div>
+        <div style="z-index: 999998;background: #fff;width: 100%;height: 100%;">
+            <div class="tooltip-row header-row">
+                <span class="tooltip-title">Thông tin đơn hàng</span>
+            </div>
+            <div class="tooltip-row" ng-show="TimeLineVehicleEventItem.Item.ListContainer.length<=1&&TimeLineVehicleEventItem.StatusOfTimeSheet<=2">
+                <div class="cell">
+                    <i class="fa fa-user"></i>
+                    <span class="text">Khách hàng:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].CustomerCode}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-file-o"></i>
+                    <span class="text">Đơn hàng:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].OrderCode}}</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row" ng-show="TimeLineVehicleEventItem.Item.ListContainer.length>1&&TimeLineVehicleEventItem.StatusOfTimeSheet<=2">
+                <div class="cell">
+                    <i class="fa fa-user"></i>
+                    <span class="text">Khách hàng 1:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].CustomerCode}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-file-o"></i>
+                    <span class="text">Đơn hàng 1:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].OrderCode}}</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row" ng-show="TimeLineVehicleEventItem.Item.ListContainer.length>1&&TimeLineVehicleEventItem.StatusOfTimeSheet<=2">
+                <div class="cell">
+                    <i class="fa fa-user"></i>
+                    <span class="text">Khách hàng 2:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[1].CustomerCode}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-file-o"></i>
+                    <span class="text">Đơn hàng 2:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[1].OrderCode}}</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <div class="cell">
+                    <i class="fa fa-calendar"></i>
+                    <span class="text">ETD:</span>
+                    <span class="value">{{ToDateStringDMY(TimeLineVehicleEventItem.Item.ListContainer[0].ETD)}}</span>
+                    <i class="fa fa-clock-o"></i>
+                    <span class="value">{{ToDateStringHM(TimeLineVehicleEventItem.Item.ListContainer[0].ETD)}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-calendar"></i>
+                    <span class="text">ETA:</span>
+                    <span class="value">{{ToDateStringDMY(TimeLineVehicleEventItem.Item.ListContainer[0].ETA)}}</span>
+                    <i class="fa fa-clock-o"></i>
+                    <span class="value">{{ToDateStringHM(TimeLineVehicleEventItem.Item.ListContainer[0].ETA)}}</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <div class="cell" ng-show="TimeLineVehicleEventItem.StatusOfTimeSheet<=2">
+                    <i class="fa fa-truck"></i>
+                    <span class="text">Dịch vụ:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].ServiceOfOrderName}}</span>
+                </div>
+                <div class="cell" ng-show="TimeLineVehicleEventItem.StatusOfTimeSheet > 2">
+                    <i class="fa fa-truck"></i>
+                    <span class="text">Vận chuyển:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].StatusOfContainerName}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-paper-plane"></i>
+                    <span class="text">Hành trình:</span>
+                    <span class="value" title="{{TimeLineVehicleEventItem.Item.ListContainer[0].LocationFromCode + " đến " + TimeLineVehicleEventItem.Item.ListContainer[0].LocationToCode}}">{{TimeLineVehicleEventItem.Item.ListContainer[0].LocationFromCode + " đến " + TimeLineVehicleEventItem.Item.ListContainer[0].LocationToCode}}</span>
+                </div>
+            </div>
+            <div class="tooltip-row header-row">
+                <span class="tooltip-title">Thông tin chuyến</span>
+            </div>
+            <div class="tooltip-row">
+                <div class="cell">
+                    <i class="fa fa-user"></i>
+                    <span class="text">Tài xế:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.DriverName}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-phone"></i>
+                    <span class="text">Điện thoại:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.DriverTel}}</span>
+                </div>
+            </div>
+            <div class="tooltip-row">
+                <div class="cell">
+                    <i class="fa fa-certificate"></i>
+                    <span class="text">Số xe</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.VehicleNo}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-certificate"></i>
+                    <span class="text">Số romooc:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.RomoocNo}}</span>
+                </div>
+            </div>
+            <div class="tooltip-row">
+                <div class="cell">
+                    <i class="fa fa-certificate"></i>
+                    <span class="text">Loại cont:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.ListContainer[0].TypeOfContainerName}}</span>
+                </div>
+                <div class="cell right">
+                    <i class="fa fa-certificate"></i>
+                    <span class="text">Trọng tải romooc:</span>
+                    <span class="value">{{TimeLineVehicleEventItem.Item.RomoocMaxWeight}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Vehicle Infinity Tooltip-->
+<div id="timeline_vehicle_infinity_tooltip" class="cus-window opacity90" style="width: 450px; height:150px; position: absolute; z-index: 999999; background: #ffffff; margin: 0; padding: 3px 10px; border-radius: 4px; border: 1px solid #bebebe; box-shadow: 5px -5px 5px #bebebe;" ng-style="TimeLineVehicleInfinityEventStyle">
+    <div style="width:100%;height:100%;position:relative;">
+        <div ng-show="!TimeLineVehicleInfinityEventItem.IsLoaded" style="position: absolute;z-index: 999999;background: #fff;width: 100%;height: 100%;">
+            <i class="fa fa-spinner fa-spin" style="font-size: 44px;color: #31b6fc;left: calc(50% - 22px);top: calc(50% - 22px);position: relative;"></i>
+        </div>
+        <div style="z-index: 999998;background: #fff;width: 100%;height: 100%;">
+            <div class="tooltip-row header-row">
+                <span class="tooltip-title">Thông tin đơn hàng</span>
+            </div>
+            <div class="tooltip-row">
+                <div class="floatcell">
+                    <i class="fa fa-file-o"></i>
+                    <span class="text">ĐH</span>
+                </div>
+                <div class="floatcell">
+                    <i class="fa fa-certificate"></i>
+                    <span class="text">L.cont</span>
+                </div>
+                <div class="floatcell">
+                    <i class="fa fa-calendar"></i>
+                    <span class="text">ETD</span>
+                </div>
+                <div class="floatcell">
+                    <i class="fa fa-calendar"></i>
+                    <span class="text">ETA</span>
+                </div>
+                <div class="floatcell" style="width:75px;">
+                    <i class="fa fa-paper-plane"></i>
+                    <span class="text">Điểm nhận</span>
+                </div>
+                <div class="floatcell" style="width:75px;">
+                    <i class="fa fa-paper-plane"></i>
+                    <span class="text">Điểm giao</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row" ng-repeat="item in TimeLineVehicleInfinityEventItem.Item.ListContainer">
+                <div class="floatcell">
+                    <span class="value">{{item.OrderCode}}</span>
+                </div>
+                <div class="floatcell">
+                    <span class="value">{{item.TypeOfContainerName}}</span>
+                </div>
+                <div class="floatcell">
+                    <span class="value">{{ToDateStringDMHM(item.ETD)}}</span>
+                </div>
+                <div class="floatcell">
+                    <span class="value">{{ToDateStringDMHM(item.ETA)}}</span>
+                </div>
+                <div class="floatcell" style="width:75px;">
+                    <span class="value">{{item.LocationFromCode}}</span>
+                </div>
+                <div class="floatcell" style="width:75px;">
+                    <span class="value">{{item.LocationToCode}}</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Description Tooltip-->
+<div id="description_tooltip" class="cus-window opacity90" style="display:none; width: 250px; height: 350px; position: absolute; z-index: 999999; background: #ffffff; margin: 0; padding: 3px 10px; border-radius: 4px; border: 1px solid #bebebe; box-shadow: 5px -5px 5px #bebebe;">
+    <div style="width:100%;height:100%;position:relative;">
+        <div style="z-index: 999998;background: #fff;width: 100%;height: 100%;">
+            <div class="tooltip-row header-row">
+                <span class="tooltip-title">Thông tin trạng thái</span>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/approved/laden.png)" />
+                <span class="desc">Chưa đủ thông tin</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/tenderable/laden.png)" />
+                <span class="desc">Có thể duyệt</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/tendered/laden.png)" />
+                <span class="desc">Đã duyệt</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/delivering/laden.png)" />
+                <span class="desc">Đang vận chuyển</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/recieved/laden.png)" />
+                <span class="desc">Đã hoàn thành</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/undefined/laden.png)" />
+                <span class="desc">Khác/Không xác định</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row header-row">
+                <span class="tooltip-title">Thông tin chặng</span>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/approved/laden.png)" />
+                <span class="desc">Chặng đầy</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/approved/empty.png)" />
+                <span class="desc">Chặng rỗng</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/approved/load.png)" />
+                <span class="desc">Chặng load/unload</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/approved/1x_empty_1x_laden.png)" />
+                <span class="desc">Con. kẹp (1xEmpty + 1xLaden)</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/approved/2x_empty.png)" />
+                <span class="desc">Con. kẹp (2xEmpty)</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/approved/2x_laden.png)" />
+                <span class="desc">Con. kẹp (2xLaden)</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/ico_infinity.png); background-size: 38px 12px; background-position: 1px 1px;" />
+                <span class="desc">Đơn hàng chuyển kho</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/ico_romempty.png); background-size: 22px 14px; background-position: 50%;" />
+                <span class="desc">Các chặng lấy container</span>
+                <div class="clear"></div>
+            </div>
+            <div class="tooltip-row">
+                <img class="img" style="background-image:url(Images/ops_co/ico_station.png); background-size: 10px 14px; background-position: 50%;" />
+                <span class="desc">Các chặng về bãi/lấy romooc</span>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <a href="#" ng-click="HideTooltipDescription($event)" class="k-button" style=" position: absolute; top: -3px; right: -10px; z-index: 3; border: none;"><i class="fa fa-close"></i></a>
+    </div>
+</div>
+
+<!--TimeLine Vehicle Info Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="600" k-max-height="650" k-height="300" old-height="550" kendo-window="timeline_info_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineDetail')">
+    <div class="cus-form">
+        <div class="form-header" style="background: #f6fafe;">
+            <div class="left title">
+                Chuyến: {{TimeLineItem.Code}}
+            </div>
+            <div class="right" style="font-weight:bold;" ng-show="TimeLineItem.Status==1">
+                <div ng-show="TimeLineItem.IsCheching">
+                    <i class="fa fa-spinner fa-spin" style="font-size: 26px; color: #31b6fc;"></i>
+                </div>
+                <span ng-show="!TimeLineItem.IsCheching" style="padding: 0 10px; color:{{TimeLineItem.StatusColor}}">{{TimeLineItem.StatusCode}}</span>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" scrolldiv>
+            <table class="td-right">
+                <tbody>
+                    <tr>
+                        <td style="width:140px;">
+                            Đầu kéo:
+                        </td>
+                        <td colspan="6">
+                            <a class="k-button" title="{{TimeLineItem.VehicleNo}}" style="width: 347px; background: none; height: 26px; text-align: left; " ng-click="TimeLineVehicle_Change_Click($event,1,vehicle_win)">{{TimeLineItem.VehicleNo}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Romooc:
+                        </td>
+                        <td colspan="6">
+                            <a class="k-button" title="{{TimeLineItem.RomoocNo}}" style="width: 347px; background: none; height: 26px; text-align: left; " ng-click="TimeLineVehicle_Change_Click($event,2,vehicle_win)">{{TimeLineItem.RomoocNo}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tài xế:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="true" kendo-auto-complete focus-k-complete ng-model="TimeLineItem.DriverName" k-options="atcTimeLineDriverNameOptions" style="width: 205px;" />
+                            <input ng-disabled="true" type="text" class="k-textbox" ng-model="TimeLineItem.DriverTel" maxlength="11" placeholder="SĐT" style="width: 139px; height: 26px; line-height: 26px; padding: .177em 0; text-indent: .33em; border-color: #c5c5c5; " />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETD:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="TimeLineItem.Status!=1" style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="TimeLineItem.ETD" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETA:
+                        </td>
+                        <td colspan="6">
+                            <input ng-disabled="TimeLineItem.Status!=1" style="width: 347px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="TimeLineItem.ETA" k-options="DateDMYHM" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-show="TimeLineItem.Status==1&&TimeLineItem.VehicleID>0&&!TimeLineItem.IsCheching&&!TimeLineItem.HideUpdate" ng-click="TimeLine_Update_OK_Click($event,timeline_info_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-show="TimeLineItem.Status==1" ng-click="TimeLine_Change_Time_Click($event)" class="k-button">Điều chỉnh chặng</a>
+                <a href="/" ng-click="Close_Click($event,timeline_info_win,'TimeLineDetail')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Detail Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="900" k-max-height="650" k-height="500" k-min-width="500" k-min-height="300" kendo-window="timeline_event_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineDetail')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chuyến {{TimeLineItem.Code}}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-form thin" style="float:left;width:300px;border-right:#d7e3f0 solid 3px">
+                <div class="form-header">
+                    <div class="left title">Thông tin chuyến</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="form-body">
+                    <table class="td-right" style="padding:10px;width:100%;">
+                        <tbody>
+                            <tr></tr>
+                            <tr>
+                                <td>
+                                    Đầu kéo:
+                                </td>
+                                <td colspan="6">
+                                    <a class="k-button" ng-show="TimeLineItem.Status==1" title="{{TimeLineItem.VehicleNo}}" style="width: 210px; background: none; height: 26px; text-align: left; " ng-click="TimeLineVehicle_Change_Click($event,1,vehicle_win)">{{TimeLineItem.VehicleNo}}</a>
+                                    <span ng-show="TimeLineItem.Status>1">{{TimeLineItem.VehicleNo}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Romooc:
+                                </td>
+                                <td colspan="6">
+                                    <a class="k-button" ng-show="TimeLineItem.Status==1" title="{{TimeLineItem.RomoocNo}}" style="width: 210px; background: none; height: 26px; text-align: left; " ng-click="TimeLineVehicle_Change_Click($event,2,vehicle_win)">{{TimeLineItem.RomoocNo}}</a>
+                                    <span ng-show="TimeLineItem.Status>1">{{TimeLineItem.RomoocNo}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Tài xế:
+                                </td>
+                                <td colspan="6">
+                                    <span ng-show="TimeLineItem.Status>1">{{TimeLineItem.DriverName}}</span>
+                                    <input ng-show="TimeLineItem.Status==1" ng-disabled="TimeLineItem.Status>1||TimeLineItem.VendorOfVehicleID==-1" kendo-auto-complete focus-k-complete ng-model="TimeLineItem.DriverName" k-options="atcTimeLineDriverNameOptions" style="width: 210px;" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    SĐT:
+                                </td>
+                                <td colspan="6">
+                                    <span ng-show="TimeLineItem.Status>1">{{TimeLineItem.DriverTel}}</span>
+                                    <input ng-show="TimeLineItem.Status==1" ng-disabled="TimeLineItem.Status>1||TimeLineItem.VendorOfVehicleID==-1" type="text" class="k-textbox" ng-model="TimeLineItem.DriverTel" maxlength="11" placeholder="SĐT" style="width: 210px; height: 26px; line-height: 26px; padding: .177em 0; text-indent: .33em; border-color: #c5c5c5; " />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ETD:
+                                </td>
+                                <td colspan="6">
+                                    <span ng-show="TimeLineItem.Status>1" ng-bind="ToDateString(TimeLineItem.ETD)"></span>
+                                    <input ng-show="TimeLineItem.Status==1" ng-disabled="TimeLineItem.Status!=1" style="width: 210px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="TimeLineItem.ETD" k-options="DateDMYHM" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ETA:
+                                </td>
+                                <td colspan="6">
+                                    <span ng-show="TimeLineItem.Status>1" ng-bind="ToDateString(TimeLineItem.ETA)"></span>
+                                    <input ng-show="TimeLineItem.Status==1" ng-disabled="TimeLineItem.Status!=1" style="width: 210px" class="cus-datepicker" focus-k-datetimepicker kendo-date-time-picker k-ng-model="TimeLineItem.ETA" k-options="DateDMYHM" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="cus-form thin" style="float:left;width:calc(100% - 305px);">
+                <div class="form-header">
+                    <div class="left title">Chi tiết vận chuyển</div>
+                    <div class="right" >
+                        <a href="/" class="k-button" ng-show="TimeLineItem.ID>0&&TimeLineItem.IsAllowAddLocal" ng-click="TimeLine_AddIMEX_Click($event,timeline_con_Grid,timeline_container_win)"><i class="fa fa-plus-circle"></i><span class="tooltip">Thêm đơn XNK</span></a>
+                        <a href="/" class="k-button" ng-show="TimeLineItem.ID>0&&TimeLineItem.IsAllowAddLocal" ng-click="TimeLine_AddLocal_Click($event,timeline_con_Grid,timeline_container_win)"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm đơn chuyển kho</span></a>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="form-body">
+                    <div class="cus-grid" expand-k-grid kendo-grid="timeline_info_Grid" k-options="timeline_info_Grid_Options"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <span ng-show="TimeLineItem.Status==1&&!TimeLineItem.IsCheching" style="padding: 0 10px; color:{{TimeLineItem.StatusColor}}">{{TimeLineItem.StatusCode}}</span>
+                <a href="/" ng-show="TimeLineItem.Status==1&&!TimeLineItem.HideUpdate" ng-click="TimeLine_Update_OK_Click($event,timeline_event_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-show="TimeLineItem.Status==1&&TimeLineItem.ID>0" ng-click="TimeLine_Delete_OK_Click($event,timeline_event_win)" class="k-button delete">Xóa</a>
+                <a href="/" ng-show="TimeLineItem.Status==1&&TimeLineItem.ID>0&&!TimeLineItem.HideUpdate" ng-click="TimeLine_Tender_OK_Click($event,timeline_event_win)" class="k-button accept">Duyệt</a>
+                <a href="/" ng-show="TimeLineItem.Status==2&&TimeLineItem.ID>0" ng-click="TimeLine_Cancel_OK_Click($event,timeline_event_win)" class="k-button accept">Hủy duyệt</a>
+                <a href="/" ng-show="TimeLineItem.ID>0" ng-click="TimeLine_Update_Driver_Click($event)" class="k-button">Cập nhật tài xế</a>
+                <a href="/" ng-show="TimeLineItem.Status>1&&TimeLineItem.ID>0" class="k-button" id="btnSotransPrintReciept" target="_blank">In phiếu</a>
+                <a href="/" ng-show="TimeLineItem.Status==1&&TimeLineItem.ID>0" ng-click="TimeLine_Change_Time_Click($event)" class="k-button">Điều chỉnh chặng</a>
+                <a href="/" ng-click="Close_Click($event,timeline_event_win,'TimeLineDetail')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Container Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="900" k-max-height="650" k-height="500" kendo-window="timeline_container_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Đơn hàng
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="timeline_con_Grid" k-options="timeline_con_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>                
+                <a href="/" ng-click="TimeLine_AddIMEX_OK_Click($event,timeline_con_Grid,timeline_container_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,timeline_container_win,'')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Vehicle Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="750" k-max-height="650" k-height="400" kendo-window="vehicle_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('VehicleWin')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách phương tiện
+            </div>
+            <div class="right">
+                <a href="/" class="k-button" ng-click="Close_Click($event,vehicle_win,'VehicleWin')"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div ng-show="ChangeVehicleType==1" class="cus-grid" expand-k-grid kendo-grid="vehWin_Grid" k-options="vehWin_Grid_Options"></div>
+            <div ng-show="ChangeVehicleType!=1" class="cus-grid" expand-k-grid kendo-grid="romWin_Grid" k-options="romWin_Grid_Options"></div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Info Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="900" k-max-height="650" k-height="500" kendo-window="timeline_info_time_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineInfo',kendoEvent)">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                CHI TIẾT
+            </div>
+            <div class="right">
+                <ul class="filter-list" style="float:left;">
+                    <li data-tabindex="1" ng-click="TimeLineInfoResource_Click($event,timeline_info,1)" class="k-item" ng-class="TimeLineInfoVehicleType==1?'k-state-active':''">Theo đầu kéo</li>
+                    <li data-tabindex="2" ng-click="TimeLineInfoResource_Click($event,timeline_info,2)" class="k-item" ng-class="TimeLineInfoVehicleType==2?'k-state-active':''">Theo romooc</li>
+                </ul>
+            </div>
+            <div class="clear"> </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-scheduler info-scheduler timeline-info" expand-k-scheduler kendo-scheduler="timeline_info" k-options="timeline_info_Options" k-rebind="timeline_info_Options" k-delay="timeline_info_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="TimeLineInfo_OK_Click($event,timeline_info,timeline_info_time_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,timeline_info_time_win,'TimeLineInfo')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLineInfo EventTemplate-->
+<script id="timeline-info-event-template" type="text/x-kendo-template">
+    <div style="cursor:pointer;height:100%;" class="cus-event" ng-mouseenter="ShowTimeLineInfoTooltip($event,'#=uid#')" ng-mouseleave="HideTimeLineInfoTooltip($event)">
+        <div class="event-content" style="line-height: 20px; white-space: nowrap; overflow: hidden;">#=title#</div>
+    </div>
+</script>
+
+<!--TimeLineInfo Tooltip-->
+<div id="timeline_info_tooltip" class="cus-window opacity90" style="opacity: 0.9; position: absolute; z-index: 999999; background: #f6fafe; margin: 0; padding: 3px 10px; border: 2px solid #31b6fc; border-radius: 4px;" ng-style="TimeLineInfoStyle">
+    <div style="display:inline-block">{{TimeLineInfoItem.TypeDate}}: {{ToDateStringDMHM(TimeLineInfoItem.ETD)}} <span ng-show="TimeLineInfoItem.ETA!=null">-</span> {{ToDateStringDMHM(TimeLineInfoItem.ETA)}}</div>
+</div>
+
+<!--Vehicle Change Romooc Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="800" k-max-height="650" k-height="450" kendo-window="timeline_romooc_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn romooc
+            </div>
+            <div class="right">
+                <a href="/" class="k-button" ng-click="Close_Click($event,timeline_romooc_win)"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="cus-grid" expand-k-grid kendo-grid="timeline_romooc_Grid" k-options="timeline_romooc_Grid_Options"></div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Service Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="400" k-max-height="650" k-height="300" kendo-window="timeline_service_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineService')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn dịch vụ
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="timeline_service_Grid" k-options="timeline_service_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="TimeLine_Service_OK_Click($event,timeline_service_Grid,timeline_service_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,timeline_service_win,'TimeLineService')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Customer Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="500" k-max-height="650" k-height="500" kendo-window="timeline_customer_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineCustomer')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn khách hàng
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="timeline_customer_Grid" k-options="timeline_customer_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="TimeLine_Customer_OK_Click($event,timeline_customer_Grid,timeline_customer_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,timeline_customer_win,'TimeLineCustomer')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Carrier Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="500" k-max-height="650" k-height="500" kendo-window="timeline_carrier_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineCarrier')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn hãng tàu
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="timeline_carrier_Grid" k-options="timeline_carrier_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="TimeLine_Carrier_OK_Click($event,timeline_carrier_Grid,timeline_carrier_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,timeline_carrier_win,'TimeLineCarrier')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Seaport Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="800" k-max-height="650" k-height="500" kendo-window="timeline_seaport_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineSeaport')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn cảng biển
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="timeline_seaport_Grid" k-options="timeline_seaport_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="TimeLine_Seaport_OK_Click($event,timeline_seaport_Grid,timeline_seaport_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,timeline_seaport_win,'TimeLineSeaport')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine OrderCO Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="2500" k-width="900" k-max-height="900" k-height="500" kendo-window="timeline_orderco_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineMap')">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chọn đơn hàng
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="timeline_orderco_Grid" k-options="timeline_orderco_Grid_Options"></div>
+        </div>
+        <div class="form-footer" style="background: #f6fafe;">
+            <div>
+                <a href="/" ng-click="TimeLine_OrderCO_OK_Click($event,timeline_orderco_Grid,timeline_orderco_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,timeline_orderco_win,'TimeLineOrderCO')" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLine Map Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="2500" k-width="900" k-max-height="900" k-height="500" kendo-window="timeline_map_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineMap')">
+    <div class="cus-form thin">
+        <div class="form-header">
+            <div class="left title">
+                Bản đồ
+            </div>
+            <div class="right">
+                <a href="/" class="k-button" ng-click="Close_Click($event,timeline_map_win,'TimeLineMap')"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="full">
+                <div id="map" class="cus-map"></div>
+                <div id="map_tooltip" class="cus-map-tooltip"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--TimeLine Vehicle Popup-->
+<div class="cus-window opacity90" k-title="false" draggable-k-window k-max-width="1200" k-width="900" k-max-height="650" k-height="500" kendo-window="veh_timeline_win" k-visible="false" k-resizable="false" k-modal="true" k-on-close="On_Close('TimeLineInfo',kendoEvent)">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                TIMELINE
+            </div>
+            <div class="right">
+                <ul class="filter-list" style="float:left;">
+                    <li data-tabindex="1" ng-click="TimeLineVehicle_Click($event,1)" class="k-item" ng-class="TimeLineVehicleType==1?'k-state-active':''">Đầu kéo</li>
+                    <li data-tabindex="2" ng-click="TimeLineVehicle_Click($event,2)" class="k-item" ng-class="TimeLineVehicleType==2?'k-state-active':''">Romooc</li>
+                </ul>
+            </div>
+            <div class="clear"> </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="full" ng-show="TimeLineVehicleType==1">
+                <div class="cus-scheduler veh-scheduler" expand-k-scheduler kendo-scheduler="veh_timeline_1" k-options="veh_timeline_1_Options" k-rebind="veh_timeline_1_Options" k-delay="veh_timeline_1_Options"></div>
+            </div>
+            <div class="full" ng-show="TimeLineVehicleType==2">
+                <div class="cus-scheduler veh-scheduler" expand-k-scheduler kendo-scheduler="veh_timeline_2" k-options="veh_timeline_2_Options" k-rebind="veh_timeline_2_Options" k-delay="veh_timeline_2_Options"></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,veh_timeline_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TimeLineInfo EventTemplate-->
+<script id="timeline-veh-event-template" type="text/x-kendo-template">
+    <div style="cursor:pointer;height:100%;" class="cus-event">
+        <div class="event-content" style="line-height: 20px; white-space: nowrap; overflow: hidden;">#=title#</div>
+    </div>
+</script>
+
+
+
+
+
+
+
+
+<style>
+    .k-grid.cus-grid.over-grid .k-grid-content { padding-right: 17px; overflow-y: auto; }
+    .k-grid.cus-grid.over-grid .k-grid-header .k-grid-header-wrap { padding-right: 17px; }
+    .k-grid.cus-grid.over-grid .k-grid-header .k-grid-header-wrap .grid-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager { border-bottom: 1px solid #435f6e; padding-left: calc(100% - 180px); background-color: #435f6e !important; overflow: hidden; width: 180px; display: block; }
+    .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager a{ color: #fff; background-color: #fff;}
+    .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .grid-title { position: absolute; left: 12px; font-weight: bold; color: #ffffff; background: #435f6e; }
+    .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-info { background-color: #435f6e; position: absolute; right: 180px; color: #fff; }
+    .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-input { background-color: #c6ced3; border-radius: 20px; display: block; height: 26px; line-height: 26px; padding-left: 0; width: 46px; text-align: center;}
+    .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-input .k-textbox { background-color: #c6ced3; border-radius: 20px; text-align: right; margin: 0; padding: 0; position: relative; top: -1px; width: 26px; pointer-events: none; -webkit-pointer-events: none; -moz-pointer-events: none; -o-pointer-events: none; }
+    .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-numbers li { background-color: #435f6e; }
+    .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-numbers li.k-current-page { display: inherit; }
+    .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-numbers li:not(.k-current-page) { display: none; }
+    .k-grid.cus-grid.over-grid .k-pager-wrap.k-grid-pager .k-pager-numbers, .k-grid.cus-grid.over-grid .k-grid-pager.k-pager-wrap .k-pager-numbers .k-state-ed, .k-grid.cus-grid.over-grid .k-grid-pager.k-pager-wrap .k-pager-numbers .k-pager-nav { background-color: #fff; color: #000; border-color: #fff; }
+
+
+    .k-grid.cus-grid.over-grid .k-grid-content tbody > tr > td { height: 38px; }
+    .k-grid.cus-grid.over-grid .k-grid-content tbody > tr.k-state-ed:not(.k-grouping-row) > td { height: 37px; }
+    .k-grid.cus-grid.over-grid .k-grid-content tbody > tr:not(.k-grouping-row):hover > td { height: 37px; }
+    .k-grid.cus-grid.over-grid .k-grid-content tbody > tr.k-state-selected > td { height: 37px; }
+
+    .k-grid.cus-grid.over-grid .k-grid-header table thead tr:not(.k-filter-row) th { font-weight: bold; }
+    .k-grid.cus-grid.over-grid .k-grid-header table thead tr:not(.k-filter-row) th:first-child { border-left: none; }
+    .k-grid.cus-grid.over-grid .k-grid-header table thead tr:not(.k-filter-row) { background-color: #e4e4e4; }
+    .k-grid.cus-grid.over-grid .k-grid-header table thead tr:not(.k-filter-row):hover { background-color: #e4e4e4; }
+
+    .cus-form .form-header .right div .btn-tick { border: 1px solid #435f6e; width: 15px; height: 15px; display: inline-block; text-align: center; margin: 0 3px; line-height: 15px; border-radius: 50%; font-size: 10px; background-color: #ffffff; font-weight: bold; color: #435f6e; text-decoration: none;}
+    .cus-form .form-header .right div .btn-tick.active { border: 1px solid #31b6fc; background-color: #31b6fc; color: #ffffff; }
+
+    .cus-form.thin .form-header .k-button.text-button, .cus-form.thin .form-header .k-button.text-button:active { border: 2px solid #435f6e; border-radius: 6px; background: #5FC782; color: #fff; font-size: 13px; font-weight: bold; padding: 1px 5px; line-height: 26px; }
+    .cus-form.thin .form-header .k-button.text-button:hover { color: #fff; opacity: 0.9; }
+
+
+    .tooltip-row { position: relative; line-height: 20px; height: 20px; margin: 0; overflow: hidden;}
+    .tooltip-row.header-row { color: #2CB5FC; font-weight: bold; }
+    .tooltip-row.header-row .tooltip-title { position: absolute; padding: 0; margin: 0; z-index: 999; display: inline-block; background: #ffffff; }
+    .tooltip-row.header-row:after { content: ""; position: absolute; top: 50%; left: 0; right: 0; border-top: solid 1px #2CB5FC; z-index: 1; }
+    .tooltip-row .cell { position: absolute; z-index: 990; background: #fff; }
+    .tooltip-row .cell.right { margin-left: 180px; padding-left: 5px; z-index: 999; overflow: hidden; text-overflow: ellipsis; }
+    .tooltip-row .cell .text { color: #2CB5FC; font-weight: bold; }
+    .tooltip-row .img { width: 40px; height: 14px; position: relative; top: 3px; background-repeat: no-repeat; background-size: cover;}
+    .tooltip-row .desc { padding-left: 10px; }
+    .tooltip-row .cell i.fa { color: #2CB5FC; }
+    .tooltip-row .floatcell { float: left; z-index: 990; background: #fff; width: 65px; overflow: hidden; margin: 0 3px; text-align: left; }
+    .tooltip-row .floatcell i.fa { color: #2CB5FC; font-weight: bold;}
+    .tooltip-row .floatcell .text { color: #dfa412; }
+    .tooltip-row .floatcell .value { color: #5e6163; overflow: hidden; text-overflow: ellipsis; }
+
+    #timeline_vehicle_tooltip:after,#timeline_vehicle_infinity_tooltip:after { content: ''; position: absolute; top: calc(100% + 0px); left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: rgb(190, 190, 190) transparent transparent transparent; }
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content { overflow: scroll !important; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content .k-scheduler-table tbody tr { height: 39px !important; background: #fff; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content .k-scheduler-table tbody tr td.container-time { background: rgb(190, 218, 231); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-times .k-scheduler-table { display: none !important; }
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar { margin: 0; padding: 0; height:35px; background-color: #435f6e !important;}
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form { height: 34px; padding: 0; margin: 0; border-bottom: #435f6e solid 1px; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header .k-button.active { color: #31B6FC; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header { top: 0; height: 34px; border: none; background-color: #435f6e; padding-top:2px; }    
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header > div a.k-button > .tooltip:not(.is-right) { left: -30px; } 
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header > div a.k-button > .tooltip.is-left { left: 0; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header > div a.k-button > .tooltip.is-left:after { left: 15px; }
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-header { background: #f1f1f1; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-times .k-scheduler-table tr:first-child,
+    .k-scheduler.cus-scheduler.info-scheduler .k-scheduler-times .k-scheduler-table tr:first-child,
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-header .k-scheduler-header-wrap .k-scheduler-table tr:first-child,
+    .k-scheduler.cus-scheduler.info-scheduler .k-scheduler-header .k-scheduler-header-wrap .k-scheduler-table tr:first-child { background-color: #e4e4e4; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-header .k-scheduler-header-wrap .k-scheduler-table tr th.k-slot-cell strong[data-dayofweek="0"],
+    .k-scheduler.cus-scheduler.info-scheduler .k-scheduler-header .k-scheduler-header-wrap .k-scheduler-table tr th.k-slot-cell strong[data-dayofweek="0"]{ color: #E9283C; }
+    
+    
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .k-resize-handle { top: 2px; width: 5px; background-color: red; height: 16px; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event { background: none; color: #f0f0f0; font-weight: bold; top: 0px; height: 20px; line-height: 16px; margin: 9px 0; border: none; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.k-event-drag-hint { background: none; top: 0px; height: 20px !important; line-height: 16px !important; margin: 9px 0; border: none; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event { width: calc(100% - 0px) !important; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-content { display: inline-block; cursor: pointer; position: absolute; top: 2px; left: 5px; z-index: 9; line-height: 16px; white-space: nowrap; overflow: hidden; font-size: 11px; color: #000; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-content[data-newevent="true"] { color: red; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg { cursor: pointer; position: absolute; line-height: 20px; white-space: nowrap; overflow: hidden; top: 2px; left: 0; z-index: 2; width: calc(100% - 0px); height: calc(100% - 4px); }
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event1 .event-bkg.bkg1 { background-image: url(Images/ops_co/approved/laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event1 .event-bkg.bkg2 { background-image: url(Images/ops_co/approved/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event11 .event-bkg.bkg1 { background-image: url(Images/ops_co/tenderable/laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event11 .event-bkg.bkg2 { background-image: url(Images/ops_co/tenderable/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event2 .event-bkg.bkg1 { background-image: url(Images/ops_co/tendered/laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event2 .event-bkg.bkg2 { background-image: url(Images/ops_co/tendered/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important;}
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event3 .event-bkg.bkg1 { background-image: url(Images/ops_co/recieved/laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event3 .event-bkg.bkg2 { background-image: url(Images/ops_co/recieved/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important;}
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event-1 .event-bkg.bkg1 { background-image: url(Images/ops_co/undefined/laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event-1 .event-bkg.bkg2 { background-image: url(Images/ops_co/undefined/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important;}
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.bkg3, div.k-event .cus-event .event-bkg.bkg3 { background-image: url(Images/ops_co/ico_load.png); background-repeat: no-repeat; background-size: 100% 100%; opacity: 0.5; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.bkg4, div.k-event .cus-event .event-bkg.bkg4 { background-image: url(Images/ops_co/ico_load.png); background-repeat: no-repeat; background-size: 100% 100%; opacity: 0.5; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.bkg5, div.k-event .cus-event .event-bkg.bkg5 { background-image: url(Images/ops_co/ico_load.png); background-repeat: no-repeat; background-size: 100% 100%; opacity: 0.5; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.bkg6, div.k-event .cus-event .event-bkg.bkg6 { background-image: url(Images/ops_co/ico_load.png); background-repeat: no-repeat; background-size: 100% 100%; opacity: 0.5; }
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg[data-double-container="true"], div.k-event .cus-event .event-bkg[data-double-container="true"] { background-size: contain; background-repeat: repeat-x; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event .event-bkg.double3[data-double-container="true"] { border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; background-position-y: -1px; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event .event-bkg.double1[data-double-container="true"] { border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event1 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/approved/2x_empty.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event1 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/approved/2x_laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event1 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/approved/1x_empty_1x_laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event11 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/tenderable/2x_empty.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event11 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/tenderable/2x_laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event11 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/tenderable/1x_empty_1x_laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event2 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/tendered/2x_empty.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event2 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/tendered/2x_laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event2 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/tendered/1x_empty_1x_laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event3 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/recieved/2x_empty.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event3 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/recieved/2x_laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event3 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/recieved/1x_empty_1x_laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event-1 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/undefined/2x_empty.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event-1 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/undefined/2x_laden.png); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event-1 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/undefined/1x_empty_1x_laden.png); }
+    
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-image { cursor: pointer; position: absolute; width: calc(100% - 2px); background-image: url(Images/bgline3.png); height: calc(100% - 6px); top: 3px; z-index: 3; opacity: 0.9; background-position-y: 1px; }
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border { position: absolute; height: 21px; top: 2px; left: 0; z-index: 1; opacity: 0.2; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border > div { position: relative; top: 0; left: 0; width: 100%; height: 100%; background-image: url(Images/ops_co/event_bottom.png); background-repeat: repeat-x; background-position-y: 100%; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border > div .pleft { position: absolute; left: 0; width: 10px; height: 100%; background-image: url(Images/ops_co/event_left.png); background-repeat: no-repeat; background-position-y: 100%; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border > div .pright { position: absolute; right: 0; width: 10px; height: 100%; background-image: url(Images/ops_co/event_right.png); background-repeat: no-repeat; background-position: 100% 100%; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border > div .pmid { position: absolute; height: 3px; right: 0; background-image: url(Images/ops_co/event_middle.png); background-repeat: repeat-x; top: 7px; }
+    
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon { display: inline-block; right: 5px; height: 100%; z-index: 7; position: absolute; text-align: right; overflow: hidden; cursor: pointer; opacity: 0.5; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon .event-infinity { position: relative; float: right; width: 21px; height: 10px; top: 5px; z-index: 7; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon .event-doubleco { position: relative; float: right; width: 22px; height: 13px; top: 3px; z-index: 7; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon .event-rstation { position: relative; float: right; width: 10px; height: 13px; top: 4px; z-index: 7; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon .event-romempty { position: relative; float: right; width: 22px; height: 13px; top: 3px; z-index: 7; }
+    
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.approved .event-bkg, div.k-event .cus-event.event1 .event-bkg { background: #E5493A; border-color: #E5493A; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.tendered .event-bkg, div.k-event .cus-event.event2 .event-bkg { background: #4BADE8; border-color: #4BADE8; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.tenderable .event-bkg, div.k-event .cus-event.event11 .event-bkg { background: #FFBF01; border-color: #FFBF01; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.recieved .event-bkg, div.k-event .cus-event.event3 .event-bkg { background: #63BA3C; border-color: #63BA3C; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.undefined .event-bkg, div.k-event .cus-event.event-1 .event-bkg { background: #5e6163; border-color: #5e6163; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.maintainance .event-bkg { background: lightgreen; border-color: lightgreen; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.registry .event-bkg { background: green; border-color: green; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.repair .event-bkg { background: darkgreen; border-color: darkgreen; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.empty .event-bkg { background: #BBB138; border-color: #BBB138; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.con-planning .event-bkg { background: #FF6C87; border-color: #FF6C87; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.con-tranfers .event-bkg { background: #f4b35d; border-color: #f4b35d; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.con-revieved .event-bkg { background: #4B9139; border-color: #4B9139; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .tendered .event-bkg { background: #ff2438; border-color: #ff2438; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .recieved .event-bkg { background: #4B9139; border-color: #4B9139; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .delivery .event-bkg { background: #F28126; border-color: #F28126; }
+
+
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr > td { font-size: 11px; height: 24px; padding: 0px 5px 0px 5px; border-top: #fff solid 1px; }
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr > td a.text { font-size: 11px; }
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr > td a { font-size: 11px; }
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr.k-state-ed td { height: 24px; }
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr:not(.k-grouping-row):hover td { height: 24px; }
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr.IsChoose td { height: 24px; }
+
+    .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event { margin: 2px 0; }
+    .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content .k-scheduler-table tbody tr { height: 24px !important; }
+    .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content .k-scheduler-table tbody tr td { height: 23px; padding: 1px 0.5em; font-size: 100%; margin: 0; }
+    .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event { background: none; color: #f0f0f0; font-weight: bold; top: 0px; height: 20px; line-height: 16px; margin: 2px 0; border: none; }    
+    .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.k-event-drag-hint { background: none; top: 0px; height: 20px !important; line-height: 16px !important; margin: 2px 0; border: none;  }    
+</style>

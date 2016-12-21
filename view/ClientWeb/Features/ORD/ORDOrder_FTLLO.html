@@ -1,0 +1,352 @@
+﻿<div class="cus-form full">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span>Chi tiết đơn hàng</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="ShowSetting($event,product_grid)" ng-mouseenter="ShowSetting($event,product_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-form">
+            <div class="form-header">
+                <div class="left title">
+                    Khách hàng: {{Item.CustomerName}}
+                </div>
+                <div class="right title">
+                    Đơn hàng {{Item.ServiceOfOrderName}} {{Item.TransportModeName}} : {{Item.Code}}
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="form-body">
+                <div style="position:relative;height:100%;">
+                    <div class="cus-tabstrip" kendo-tabstrip="ftllo_tabstrip" k-options="ftllo_tabstripOptions" expand-k-tabstrip>
+                        <ul>
+                            <li data-tabindex="0" class="k-state-active">Thông tin vận chuyển</li>
+                            <li data-tabindex="1" tabindex="1">Chi tiết vận chuyển</li>
+                            <li data-tabindex="2">Thông tin chung</li>
+                        </ul>
+                        <div>
+                            <div class="cus-splitter" kendo-splitter="hor_splitter" k-options="hor_splitterOptions" expand-k-splitter>
+                                <div>
+                                    <div class="cus-form thin">
+                                        <div class="form-header">
+                                            <div class="left title">
+                                                Thông tin địa điểm
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="form-content-150">
+                                                <div class="rowinput">
+                                                    <label>{{RS.ORDOrder.Code}} <span class="required">*</span></label>
+                                                    <div>
+                                                        <input class="k-textbox" type="text" ng-model="Item.Code" ng-disabled="Item.IsGenCode" />
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="rowinput" ng-show="Item.HasSettingGenCode">
+                                                    <label>{{RS.ORDOrder_FTLLO.IsGenCode}} </label>
+                                                    <div>
+                                                        <input type="checkbox" ng-model="Item.IsGenCode" ng-click="resetOrderCode($event)"/>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="rowinput">
+                                                    <label>{{RS.ORDOrder.RequestDate}} <span class="required">*</span></label>
+                                                    <div>
+                                                        <input class="cus-datetimepicker" k-ng-model="Item.RequestDate" focus-k-datetimepicker kendo-date-time-picker="fcllo_dtpRequestDate" k-options="fcllo_dtpRequestDateOptions" />
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="rowinput">
+                                                    <label>{{RS.ORDOrder.ETD}} </label>
+                                                    <div>
+                                                        <input class="cus-datetimepicker" k-ng-model="Item.ETD" focus-k-datetimepicker kendo-date-time-picker k-on-change="OnETDChange(kendoEvent,product_grid)" k-options="DateDMYHM" />
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="rowinput">
+                                                    <label>{{RS.ORDOrder.ETA}} </label>
+                                                    <div>
+                                                        <input class="cus-datetimepicker" k-ng-model="Item.ETA" focus-k-datetimepicker kendo-date-time-picker k-on-change="OnETAChange(kendoEvent,product_grid)" k-options="DateDMYHM" />
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="rowinput">
+                                                    <label>{{RS.ORDOrder.ETARequest}} </label>
+                                                    <div>
+                                                        <input class="cus-datetimepicker" k-ng-model="Item.ETARequest" focus-k-datetimepicker kendo-date-time-picker k-on-change="OnETARequestChange(kendoEvent,product_grid)" k-options="DateDMYHM" />
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="rowinput">
+                                                    <label>{{RS.ORDOrder.GroupOfVehicleName}} </label>
+                                                    <div>
+                                                        <input class="cus-combobox cboGroupOfVehicle" ng-model="Item.GroupOfVehicleID" focus-k-combobox kendo-combobox="ftllo_cboGroupOfVehicle" k-options="ftllo_cboGroupOfVehicleOptions" />
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="rowinput" ng-show="!Item.IsMain">
+                                                    <label>{{RS.ORDOrder.RoutePrice}} </label>
+                                                    <div>
+                                                        <input class="cus-number" kendo-numeric-text-box k-options="Number" ng-model="Item.RoutePrice" min="0" step="1" ng-change="OnPriceRouteChange(Item)" style="width:100%" />
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <!--Map-->
+                                    <div id="ftllo_map" class="cus-map"></div>
+                                    <div id="ftllo_tooltip" class="cus-map-tooltip"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="cus-grid" kendo-grid="product_grid" k-options="product_gridOptions" expand-k-grid="ftllo_product_grid"></div>
+                        </div>
+                        <div>
+                            <div class="form-content-200" style="padding-right: 100px;">
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.ContractName}} </label>
+                                    <div>
+                                        <input class="k-textbox" ng-model="Item.ContractName" disabled style="width: calc(100% - 38px)" />
+                                        <a ng-click="ORD_FTLLO_ChangeContract($event,contract_win)" class="k-button">Đổi</a>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.TypeOfOrderName}} <span class="required">*</span></label>
+                                    <div>
+                                        <input class="cus-combobox" ng-model="Item.TypeOfOrderID" focus-k-combobox kendo-combobox="ftllo_cboTypeOfOrder" k-options="ftllo_cboTypeOfOrderOptions" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.ExternalCode}} </label>
+                                    <div>
+                                        <input class="k-textbox" ng-model="Item.ExternalCode" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.ExternalDate}} </label>
+                                    <div>
+                                        <input class="cus-datetimepicker" k-ng-model="Item.ExternalDate" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.AllowCoLoad}} </label>
+                                    <div>
+                                        <input ng-model="Item.AllowCoLoad" type="checkbox" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.LeadTime}} </label>
+                                    <div>
+                                        <input class="k-textbox" type="text" ng-model="Item.LeadTime" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.UserDefine1}} </label>
+                                    <div>
+                                        <input class="k-textbox" type="text" ng-model="Item.UserDefine1" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.UserDefine2}} </label>
+                                    <div>
+                                        <input class="k-textbox" type="text" ng-model="Item.UserDefine2" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.UserDefine3}} </label>
+                                    <div>
+                                        <input class="k-textbox" type="text" ng-model="Item.UserDefine3" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.UserDefine4}} </label>
+                                    <div>
+                                        <input class="k-textbox" type="text" ng-model="Item.UserDefine4" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.UserDefine5}} </label>
+                                    <div>
+                                        <input class="k-textbox" type="text" ng-model="Item.UserDefine5" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.UserDefine6}} </label>
+                                    <div>
+                                        <input class="k-textbox" type="text" ng-model="Item.UserDefine6" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.UserDefine7}} </label>
+                                    <div>
+                                        <input class="k-textbox" type="text" ng-model="Item.UserDefine7" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.UserDefine8}} </label>
+                                    <div>
+                                        <input class="k-textbox" type="text" ng-model="Item.UserDefine8" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.UserDefine9}} </label>
+                                    <div>
+                                        <input class="k-textbox" type="text" ng-model="Item.UserDefine9" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>{{RS.ORDOrder.Note}} </label>
+                                    <div>
+                                        <textarea ng-model="Item.Note" style="height:80px;" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabstrip-buttons">
+                        <a ng-click="ORD_FTLLO_Update($event)" ng-show="(Auth.ActEdit||Auth.ActAdd)&&!Auth.ActAddAndApproved&&(Item.IsGenCode?true:Item.Code.length>0)&&ftllo_cboTypeOfOrder.select()>=0" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu</span></a>
+                        <a ng-click="ORD_FTLLO_Delete($event)" ng-show="Auth.ActDel&&Item.ID>0" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+                        <a ng-click="ORD_FTLLO_Back($event)" class="k-button"><i class="fa fa-history"></i></a><!--<span class="tooltip is-right">Quay lại</span>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="product_grid_toolbar" type="text/x-kendo-template">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a ng-show="(Auth.ActEdit||Auth.ActAdd||Auth.ActAddAndApproved)&&!IsProductEdit" href="/" ng-click="ORD_FTLLO_Product_AddNew($event,product_grid)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<div class="cus-window" draggable-k-window kendo-window="contract_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                THAY ĐỔI HỢP ĐỒNG
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="contract_grid" k-options="contract_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="Auth.ActEdit||Auth.ActAdd||Auth.ActAddAndApproved" ng-click="Contract_Update_Click($event,contract_win,contract_grid)" class="k-button accept">Lưu thay đổi</a>
+                <a href="/" ng-show="Auth.ActEdit||Auth.ActAdd||Auth.ActAddAndApproved" ng-click="Contract_Update_None_Click($event,contract_win)" class="k-button">Không hợp đồng</a>
+                <a href="/" ng-click="Contract_Close_Click($event,contract_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="address_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thêm mới địa chỉ
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post" class="cus-form">
+                <div v-form="newLocationvForm">
+                    <div class="form-content-100">
+                        <div class="rowinput">
+                            <label>Mã hệ thống<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="NewLocationItem.CATLocationCode" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tên hệ thống<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="NewLocationItem.CATLocationName" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Mã KH sử dụng<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="NewLocationItem.CUSLocationCode" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tên KH sử dụng<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="NewLocationItem.CUSLocationName" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Địa chỉ<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="NewLocationItem.CATLocationAddress" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Quốc gia<span class="required">*</span></label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="cboCountry" k-options="cboCountryOptions" ng-model="NewLocationItem.CountryID" v-form-cbb="true" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tỉnh/Thành<span class="required">*</span></label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="cboProvince" k-options="cboProvinceOptions" ng-model="NewLocationItem.ProvinceID" v-form-cbb="true" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Quận Huyện<span class="required">*</span></label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="cboDistrict" k-options="cboDistrictOptions" ng-model="NewLocationItem.DistrictID" v-form-cbb="true" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>{{RS.CUSLocation.RoutingAreaCode}}</label>
+                            <div>
+                                <input ng-model="NewLocationItem.AreaCode" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="NewLocationSave($event,newLocationvForm,address_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,address_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

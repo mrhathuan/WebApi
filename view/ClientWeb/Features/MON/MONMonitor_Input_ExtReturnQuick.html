@@ -1,0 +1,26 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><!--span ng-show="!item.IsLink">{{item.FunctionName}}</!--span--></li>
+                <li><span>Công nợ trả về nhanh</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="SettingGrid_Click($event,wincustom,extReturn_Quick_Grid)" class="k-button" data-title="Hiển thị"><i class="fa fa-cog"></i><span class="tooltip">Hiển thị</span></a>
+            <label>KH</label>
+            <input kendo-multi-select focus-k-select k-options="mts_CustomerOptions" k-ng-model="ItemSearch.ListCustomerID" style="width: 200px;" />
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="PODInput_SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+            
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="extReturn_Quick_Grid" expand-k-grid="MONInput_extReturn_Quick_Grid" k-options="extReturn_Quick_GridOptions"></div>
+    </div>
+</div>

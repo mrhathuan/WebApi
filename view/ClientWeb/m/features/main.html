@@ -1,0 +1,8 @@
+<ion-view view-title="TMS">
+    <ion-content class="padding">
+        <div style="text-align:center">
+            <a ng-repeat="item in ViewTransfer" class="metro-brick" ng-click="TransferClick($event,item)" ng-show="item.IsUsed">{{item.Title}}</a>
+        </div>
+    </ion-content>
+</ion-view>
+

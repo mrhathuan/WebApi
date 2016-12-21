@@ -1,0 +1,67 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="ORDTypeOfDoc_Excel_Click($event)" class="k-button" data-title="Excel"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-click="ORDTypeOfDoc_AddNew_Click($event,ORDTypeOfDoc_win)" class="k-button" data-title="Tạo mới"><i class="fa fa-plus"></i><span class="tooltip">Tạo mới</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+            <a href="/" ng-click="ShowSetting($event,ORDTypeOfDoc_grid)" ng-mouseenter="ShowSetting($event,ORDTypeOfDoc_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="ORDTypeOfDoc_grid" expand-k-grid k-options="ORDTypeOfDoc_gridOptions"></div>
+    </div>
+</div>
+
+<!--popup-->
+<div class="cus-window" draggable-k-window kendo-window="ORDTypeOfDoc_win" k-title="false" k-width="600" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Hạn mục kiểm hóa</div>
+            <div class="right button">
+            </div>
+        </div>
+
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="ORDTypeOfDoc_win_vform">
+                    <div class="rowinput">
+                        <label>Mã <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="ORDTypeOfDocItem.Code" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="ORDTypeOfDocItem.TypeName" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên tình trạng</label>
+                        <div>
+                            <input class="cus-combobox" kendo-combo-box="cboTypeOfDoc_cboGroup" ng-model="ORDTypeOfDocItem.TypeOfWAInspectionStatusID" k-options="cboTypeOfDoc_Options" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="ORDTypeOfDoc_win_SaveClick($event,ORDTypeOfDoc_win,ORDTypeOfDoc_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="ORDTypeOfDoc_win_CloseClick($event,ORDTypeOfDoc_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+

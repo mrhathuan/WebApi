@@ -1,0 +1,94 @@
+﻿<div class="mainform">    
+    <div ng-show="IsShowMenu" class="mainmenu">
+        <div class="container" scrolldiv>
+            <div ng-show="IsShowMenu" class="visible">
+                <div ng-repeat="func in Functions" class="parent">
+                    <div class="title"><span>{{func.FunctionName}}</span></div>
+                    <div ng-repeat="child in func.Childs" ng-class="child.IsActive==true?'child active':'child'">
+                        <div class="title"><a ng-click="ItemMenu_Click($event,child)" ui-sref="{{child.Code}}"><i class="fa {{child.Icon}}"></i> <span>{{child.FunctionName}}</span></a></div>
+                        <div class="note" ng-show="child.Note!=null"><a href="/">{{child.Note}}</a></div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="!IsShowMenu" class="invisible">
+                <div ng-repeat="func in Functions" class="parent">
+                    <div class="title"><span>&nbsp;</span></div>
+                    <div ng-repeat="child in func.Childs" ng-class="child.IsActive==true?'child active':'child'" ng-mouseenter="ItemMenu_ShowToolTip($event, child)" ng-mouseleave="ItemMenu_HideToolTip()">
+                        <div class="title">
+                            <a ng-click="ItemMenu_Click($event,child)" data-title="{{child.FunctionName}}" ui-sref="{{child.Code}}">
+                                <i class="fa {{child.Icon}}"></i>
+                            </a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+    <div ng-show="IsShowMenu" class="mainbody" ng-class="hasComment==true?'mainbody hascomment':'mainbody'">
+        <div class="mainview" ui-view="view"></div>
+    </div>
+    <div ng-show="hasComment" class="maincomment">
+        <div class="top">
+            <div class="button">
+                <a href="/" ng-click="comment_hide($event)"><i class="fa fa-times"></i></a>
+            </div>
+            <div class="text" ng-bind-html="HTML(comment_title)">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="comment" scrolldiv>
+                <div ng-repeat="item in comment_list" class="item" ng-class="item.Mine ? 'mine' : ''">
+                    <div class="container">
+                        <div class="username">{{item.UserName}}</div>
+                        <div class="content">{{item.Comment}}</div>
+                    </div>
+                    <div class="date">{{item.Date}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom command">
+            <form ng-submit="comment_send($event)" action="/" method="post" class="cus-form">
+                <div class="text"><input class="k-textbox" type="text" ng-model="comment_text" placeholder="Nhập nội dung" /></div>
+                <div class="button"><a href="/" ng-click="comment_send($event)" class="k-button">Gửi</a></div>
+                <div class="clear"></div>
+                <div class="hidden"><input type="submit" /></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div ng-style="mainsetting.Style" main-setting ng-show="isPopupVisible" ng-mouseenter="VisibleSetting($event)" ng-mouseleave="HiddenSetting($event)">
+    <ul class="mainsetting">
+        <li>
+            <a href="/" ng-click="MainSetting_Click($event)">
+                <div class="left">Mặc định hiển thị</div>
+                <div class="right">
+                    <i ng-show="!mainsetting.IsDefault" class="fa fa-circle-o"></i><i ng-show="mainsetting.IsDefault" class="fa fa-check-circle-o"></i>
+                </div>
+                <div class="clear"></div>
+            </a>
+        </li>
+        <li>
+            <a href="/" ng-click="SettingGrid_Click($event,wincustom)">
+                <div class="left">Thiết lập</div>
+                <div class="right">
+                    <i class="fa fa-cog"></i>
+                </div>
+                <div class="clear"></div>
+            </a>
+        </li>
+        <li ng-repeat="view in mainsetting.Views">
+            <a ng-click="MainSetting_Change($event,view)" ui-sref="{{view.Code}}">
+                <div class="left">{{view.Name}}</div>
+                <div class="right">
+                    <i class="fa fa-play-circle-o"></i>
+                </div>
+                <div class="clear"></div>
+            </a>
+        </li>
+    </ul>
+</div>
+<span ng-style="menutooltip.Style" class="menutooltip">{{menutooltip.FunctionName}}</span>

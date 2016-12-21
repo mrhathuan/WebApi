@@ -1,0 +1,774 @@
+﻿<!--Window-->
+<div class="view-breakumb">
+    <div class="left">
+        <ul class="breakumb">
+            <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+            <li><span>Thông tin</span></li>
+        </ul>
+    </div>
+    <div class="right"></div>
+    <div class="clear"></div>
+</div>
+<div class="view-breakumb-content">
+    <div style="position: relative; height: 100%; background-color:#fff;">
+        <div class="cus-tabstrip" kendo-tab-strip="term_tabstrip" k-options="term_tabstripOptions" expand-k-tabstrip>
+            <ul>
+                <li class="k-state-active" data-tabindex="0">Thông tin chung</li>
+                <li data-tabindex="1" ng-show="Item.ID > 0">Thiết lập</li>
+                <li data-tabindex="2" ng-show="Item.ID > 0">Danh sách bảng giá</li>
+                <li data-tabindex="3" ng-show="Item.ID > 0 && !Item.IsEditAllRouting">KPI thời gian</li>
+                <li data-tabindex="4" ng-show="Item.ID > 0 && !Item.IsEditAllRouting">KPI sản lượng</li>
+            </ul>
+            <div>
+                <div class="cus-form">
+                    <div class="form-content-200" style="padding-right: 100px;" v-form="term_form">
+                        <div class="rowinput">
+                            <label> Mã phụ lục <span class="required"> *</span></label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.Code" v-form-require="true" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Phụ lục<span class="required"> *</span></label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.TermName" v-form-require="true" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Tên hiển thị<span class="required"> *</span></label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.DisplayName" v-form-require="true" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Ngày hiệu lực <span class="required"> *</span></label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateEffect" v-form-require="true" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Ngày hết hạn <span class="required"> *</span></label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateExpire" v-form-require="true" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" ng-show="Item.TypeOfMode == 1">
+                            <label> Dịch vụ</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="cboService" ng-disabled="!Item.IsEditAllRouting || Item.IsClosed" k-options="cboServiceOptions" ng-model="Item.ServiceOfOrderID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tính phụ phí </label>
+                            <div>
+                                <input type="checkbox" ng-model="Item.IsAllRouting" ng-disabled="!Item.IsEditAllRouting || Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" ng-show="Item.TypeOfMode == 2">
+                            <label>Đã đóng </label>
+                            <div>
+                                <input type="checkbox" ng-model="ItemIsClosed" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Ghi chú</label>
+                            <div>
+                                <textarea ng-model="Item.Note" style="height: 150px;" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Tab Thiết lập-->
+            <div>
+                <div class="cus-form">
+                    <div class="form-content-200" style="padding-right: 100px;" v-form="typeDetail_form">
+                        <div class="rowinput" ng-show="Item.TypeOfMode == 2">
+                            <label> Ngày tính giá bậc thang  </label>
+                            <div>
+                                <input class="cus-datetimepicker" focus-k-datetimepicker k-ng-model="Item.SortConfigDateStart" kendo-date-time-picker k-options="DateDMYHM" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Vật tư</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="cboMaterial" k-options="cboMaterial_Options" k-ng-model="Item.MaterialID" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" ng-show="Item.MaterialID > 0">
+                            <label> Giá nhiên liệu hợp đồng</label>
+                            <div>
+                                <input class="cus-number" kendo-numeric-text-box k-options="numValue_options" ng-model="Item.PriceContract" style="width:100%" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" ng-show="Item.MaterialID > 0">
+                            <label> Giá nhiên liệu hiện tại</label>
+                            <div>
+                                <input class="cus-number" kendo-numeric-text-box k-options="numValue_options" ng-model="Item.PriceCurrent" style="width:100%" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Tỷ lệ thay đổi giá nhiên liệu </label>
+                            <div>
+                                <label style="line-height: 26px;">{{Item.RateMaterial }} %</label>
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Tỷ lệ thay đổi giá chính</label>
+                            <div>
+                                <label style="line-height: 26px;">{{Item.RatePrice }} %</label>
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" ng-show="Item.TypeOfMode == 1">
+                            <label>Số ngày lưu Cont miễn phí(Cont)</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.DEM" v-form-require="true" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" ng-show="Item.TypeOfMode == 1">
+                            <label>Số ngày lưu vỏ miễn phí(Cont)</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.DET" v-form-require="true" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" >
+                            <label>Công thức ngày dự kiến giao hàng</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ExprETA" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Công thức ngày yêu cầu giao hàng</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ExprETARequest" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Công thức ngày dự kiến lấy hàng</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ExprETD" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Công thức ngày yêu cầu lấy hàng</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ExprETDRequest" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" ng-show="Item.MaterialID > 0">
+                            <label> Giá nhiên liệu cảnh báo</label>
+                            <div>
+                                <input class="cus-number" kendo-numeric-text-box k-options="numValue_options" ng-model="Item.PriceWarning" ng-disabled="true" style="width:100%" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" ng-show="Item.MaterialID > 0">
+                            <label>Cảnh báo </label>
+                            <div>
+                                <input type="checkbox" ng-model="Item.IsWarning" ng-disabled="true" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" ng-show="Item.MaterialID > 0">
+                            <label> Công thức ngày hiệu lực</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ExprDatePrice" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" ng-show="Item.MaterialID > 0">
+                            <label> Công thức giá nhiên liệu cảnh báo</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ExprInput" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" ng-show="Item.MaterialID > 0">
+                            <label> Công thức giá chính</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ExprPrice" ng-disabled="Item.IsClosed" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Chú thích: </label>
+                            <div style="margin-top: 7px;">
+                                Date: ngày giá nhiên liệu thay đổi </br>
+                                PriceContract: giá nhiên liệu hợp đồng</br>
+                                PriceCurrent: giá nhiên liệu hiện tại  </br>
+                                Price: giá vận chuyển chính hợp đồng  </br>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="cus-grid" kendo-grid="price_grid" expand-k-grid k-options="price_gridOptions"></div>
+            </div>
+            
+           
+            <div>
+                <div class="cus-grid" kendo-grid="kpi_grid" expand-k-grid k-options="kpi_gridOptions"></div>
+            </div>
+            <div>
+                <div class="cus-grid" kendo-grid="kpiQuantity_grid" expand-k-grid k-options="kpiQuantity_gridOptions"></div>
+            </div>
+        </div>
+        <div class="tabstrip-buttons">
+            <a href="/" ng-click="Update_Click($event,term_form)" ng-show="TabIndex == 0 && !Item.IsClosed" class="k-button"><i class="fa fa-floppy-o"></i><span class="tooltip">Cập nhật</span></a>
+            <a href="/" ng-click="Delete_Click($event)" ng-show="TabIndex == 0 && !Item.IsClosed && Item.ID > 0" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="UpdateDetail_Click($event,typeDetail_form)" ng-show="TabIndex == 1 && !Item.IsClosed" class="k-button"><i class="fa fa-floppy-o"></i><span class="tooltip">Lưu</span></a>
+            <!--Bang chuyen gia-->
+            <a class="k-button k-button-icontext" ng-show="HasPriceChoose && TabIndex==2 && !Item.IsClosed" ng-click="Price_Copy_Click($event,price_grid,price_copy_win)"><i class="fa fa-copy"></i><span class="tooltip">Copy BG</span></a>
+            <a class="k-button k-button-icontext" ng-show="TabIndex==2 && !Item.IsClosed" ng-click="Price_Add_Click($event,price_win,price_win_vform)"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+
+            <!-- KPI Time -->
+            <a class="k-button k-button-icontext" ng-show="TabIndex==3 && !Item.IsClosed" ng-click="KPITime_Add_Click($event,kpitime_info_win)"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+            <a class="k-button k-button-icontext" ng-show="TabIndex==4 && !Item.IsClosed" ng-click="KPIQuantity_Add_Click($event,kpiQuantity_info_win)"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+
+            <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Thoát</span></a>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="kpitime_info_win" k-title="false" k-width="1000" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH KPI
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="KpiNotInList_grid" expand-k-grid k-options="KpiNotInList_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="KPITimeHasChoose" ng-click="KPITime_NotInList_Save_Click($event,KpiNotInList_grid,kpitime_info_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Window_Close_Click($event,kpitime_info_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="kpi_check_win" k-title="false" k-width="700" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                KIỂM TRA CÔNG THỨC
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" scrolldiv>
+            <div class="form-content-300">
+                <div class="rowinput">
+                    <label> Khu vực ([Zone])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIItemCheck.Zone">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> LeadTime ([LeadTime])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIItemCheck.LeadTime">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG Yêu cầu ([DateRequest])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateRequest" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG DN ([DateDN])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateDN" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG đến kho ([DateFromCome])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateFromCome" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG rời kho ([DateFromLeave])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateFromLeave" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG BĐ bốc hàng ([DateFromLoadStart])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateFromLoadStart" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG KT bốc hàng ([DateFromLoadEnd])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateFromLoadEnd" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG đến NPP ([DateToCome])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateToCome" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG rời NPP ([DateToLeave])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateToLeave" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG BD dỡ hàng ([DateToLoadStart])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateToLoadStart" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG KT dỡ hàng ([DateToLoadEnd])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateToLoadEnd" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG hóa đơn ([DateInvoice])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateInvoice" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG yêu cầu giao hàng ([ETARequest])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.ETARequest" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <!-- new -->
+                <div class="rowinput">
+                    <label> Ngày ETD chuyến ([DateTOMasterETD])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateTOMasterETD" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày ETA chuyến ([DateTOMasterETA])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateTOMasterETA" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày ATD chuyến ([DateTOMasterATD])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateTOMasterATD" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày ATA chuyến ([DateTOMasterATA])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateTOMasterATA" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày đơn hàng ETD ([DateOrderETD])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateOrderETD" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày đơn hàng ETA ([DateOrderETA])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateOrderETA" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày đơn hàng ETD yêu cầu ([DateOrderETDRequest])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateOrderETDRequest" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày đơn hàng ETA yêu cầu ([DateOrderETARequest])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateOrderETARequest" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> CutOfTime ([DateOrderCutOfTime])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIItemCheck.DateOrderCutOfTime" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <!-- end -->
+                <div class="rowinput">
+                    <label> Ghi chú</label>
+                    <div>
+                        Lấy zone [Zone], lấy leadtime [LeadTime], lấy ngày [DateRequest.Date], lấy giờ [DateRequest.Time], sử dụng KPI khác [mã KPI] VD: [OPS]
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput" style="height:110px;">
+                    <label> Công thức ngày KPI</label>
+                    <div>
+                        <textarea class="k-textbox" ng-model="KPIItemCheck.Expression" style="height: 100px;" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG so sánh</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="KPIItemCheck.CompareField" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="KPI_Save_Click($event,kpi_grid,kpi_check_win)" class="k-button accept">Lưu công thức</a>
+                <a href="/" ng-show="KPIItemCheck.CompareField.length > 0" ng-click="KPI_Check_KPI_Click($event)" class="k-button">Kiểm tra KPI</a>
+                <a href="/" ng-click="KPI_Check_Expression_Click($event)" class="k-button">Kiểm tra công thức</a>
+                <a href="/" ng-click="Window_Close_Click($event,kpi_check_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="kpiQuantity_info_win" k-title="false" k-width="1000" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH KPI
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="KpiQuantityNotInList_grid" expand-k-grid k-options="KpiQuantityNotInList_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="KPIQuantityHasChoose" ng-click="KPIQuantity_NotInList_Save_Click($event,KpiQuantityNotInList_grid,kpiQuantity_info_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Window_Close_Click($event,kpiQuantity_info_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="kpiQuantity_check_win" k-title="false" k-width="700" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                KIỂM TRA CÔNG THỨC
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" scrolldiv>
+            <div class="form-content-300">
+                <div class="rowinput">
+                    <label> Khu vực ([Zone])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIQuantityCheck.Zone">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> LeadTime ([LeadTime])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIQuantityCheck.LeadTime">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <!-- new -->
+                <div class="rowinput">
+                    <label> Ngày đơn hàng yêu cầu ([DateOrderRequest])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIQuantityCheck.DateTOMasterETD" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày ETD chuyến ([DateTOMasterETD])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIQuantityCheck.DateTOMasterETD" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày ETA chuyến ([DateTOMasterETA])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIQuantityCheck.DateTOMasterETA" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày ATD chuyến ([DateTOMasterATD])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIQuantityCheck.DateTOMasterATD" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày ATA chuyến ([DateTOMasterATA])</label>
+                    <div>
+                        <input class="cus-datetimepicker" kendo-date-time-picker k-options="DateDMYHM" k-ng-model="KPIQuantityCheck.DateTOMasterATA" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Tấn đơn hàng ([TonOrder])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIQuantityCheck.TonOrder">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Khối đơn hàng ([CBMOrder])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIQuantityCheck.CBMOrder">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Số lượng đơn hàng ([QuantityOrder])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIQuantityCheck.QuantityOrder">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Tấn gửi([TonReceive])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIQuantityCheck.TonReceive">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Khối gửi ([CBMReceive])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIQuantityCheck.CBMReceive">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Số lượng gửi ([QuantityReceive])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIQuantityCheck.QuantityReceive">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Tấn trả về ([TonReturn])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIQuantityCheck.TonReturn">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Khối trả về ([CBMReturn])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIQuantityCheck.CBMReturn">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Số lượng trả về ([QuantiyReturn])</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="KPIQuantityCheck.QuantiyReturn">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <!-- end -->
+                <div class="rowinput">
+                    <label> Ghi chú</label>
+                    <div>
+                        Lấy zone [Zone], lấy leadtime [LeadTime], lấy ngày [DateRequest.Date], lấy giờ [DateRequest.Time], sử dụng KPI khác [mã KPI] VD: [OPS]
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="rowinput" style="padding-left:30px; height:300px;">
+                    <label style="text-align:left; width:100%;"> Các công thức đã có</label>
+                    <div style="width:100%; height:100%;">
+                        <div class="cus-grid" kendo-grid="KpiQuantityEx_grid" expand-k-grid k-options="KpiQuantityEx_gridOptions"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="rowinput" style="height:110px;">
+                    <label> Công thức ngày KPI tấn</label>
+                    <div>
+                        <textarea class="k-textbox" ng-model="KPIQuantityCheck.ExpressionTon" style="height: 100px;" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="rowinput" style="height:110px;">
+                    <label> Công thức ngày KPI khối</label>
+                    <div>
+                        <textarea class="k-textbox" ng-model="KPIQuantityCheck.ExpressionCBM" style="height: 100px;" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="rowinput" style="height:110px;">
+                    <label> Công thức ngày KPI số lượng</label>
+                    <div>
+                        <textarea class="k-textbox" ng-model="KPIQuantityCheck.ExpressionQuantity" style="height: 100px;" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+              
+                <div class="rowinput">
+                    <label> TG so sánh tấn</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="KPIQuantityCheck.CompareFieldTon" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG so sánh khối</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="KPIQuantityCheck.CompareFieldCBM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> TG so sánh số lượng</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="KPIQuantityCheck.CompareFieldQuantity" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="KPIQuantity_Save_Click($event,kpiQuantity_grid,kpiQuantity_check_win)" class="k-button accept">Lưu công thức</a>
+                <a href="/" ng-click="KPIQuantity_Check_KPI_Click($event)" class="k-button">Kiểm tra KPI</a>
+                <a href="/" ng-click="KPIQuantity_Check_Expression_Click($event)" class="k-button">Kiểm tra công thức</a>
+                <a href="/" ng-click="Window_Close_Click($event,kpiQuantity_check_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--price-->
+<div class="cus-window" draggable-k-window kendo-window="price_win" k-title="false" k-width="800" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">THÔNG TIN BẢNG GIÁ</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-200" v-form="price_win_vform">
+                <div class="rowinput">
+                    <label> Mã bảng giá<span class="required"> *</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemPrice.Code" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Tên bảng giá<span class="required"> *</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemPrice.Name" v-form-require="true" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày hiệu lực</label>
+                    <div>
+                        <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="ItemPrice.EffectDate" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Loại đơn hàng</label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combobox="cboOrderType" k-options="cboOrderTypeOptions" ng-model="ItemPrice.TypeOfOrderID" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Price_win_Submit_Click($event,price_win,price_win_vform)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Window_Close_Click($event,price_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="price_copy_win" k-title="false" k-width="800" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                SAO CHÉP BẢNG GIÁ
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="price_copy_grid" expand-k-grid k-options="price_copy_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Price_Copy_Submit_Click($event,price_copy_grid,price_copy_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Window_Close_Click($event,price_copy_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,111 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-show="FuelID > 0" ng-click="FLMWorkOrderFuel_win_PrintClick($event)" class="k-button"><i class="fa fa-print"></i><span class="tooltip">Xuất phiếu</span></a>
+            <a href="/" ng-show="!Item.IsApproved" ng-click="FLMWorkOrderFuel_win_SaveClick($event)" class="k-button"><i class="fa fa-floppy-o"></i><span class="tooltip">Cập nhật</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-splitter" kendo-splitter="FLMWorkOrderFuel_splitter" k-options="FLMWorkOrderFuel_splitter_Options" expand-k-splitter>
+            <div class="width-calc">
+                <div class="cus-form">
+                    <div class="form-header">
+                        <div class="left title">Thông tin phiếu {{Item.Code}} </div>
+                        <div class="right button">
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-body" style="position: relative; ">
+                        <div class="form-content-150">
+                            <div class="rowinput">
+                                <label>Nhà cung cấp </label>
+                                <div>
+                                    <input class="cus-combobox" kendo-combo-box k-ng-model="Item.SupplierID" k-options="FLMWorkOrderFuel_numSupplier_Options" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" style="width:50%;float:left">
+                                <label>Số xe <span class="required">*</span></label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box ng-model="Item.VehicleID" k-options="FLMWorkOrderFuel_cboVehicle_Options" />
+                                </div>
+                            </div>
+                            <div class="rowinput" style="width:50%;float:right">
+                                <label>Ngày cấp phiếu <span class="required">*</span></label>
+                                <div>
+                                    <input class="cus-datepicker" focus-k-datepicker k-ng-model="Item.DateReceipt" kendo-date-picker k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="rowinput" style="width:50%;float:left">
+                                <label>Số KM bắt đầu </label>
+                                <div>
+                                    <input class="cus-number" kendo-numeric-text-box ng-model="Item.KMStart" style="width:100%" k-options="FLMWorkOrderFuel_numKMStart_Options" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" style="width:50%;float:right">
+                                <label>Số KM cuối </label>
+                                <div>
+                                    <input class="cus-number" kendo-numeric-text-box ng-model="Item.KMEnd" style="width:100%" k-options="FLMWorkOrderFuel_numKMEnd_Options" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="rowinput" style="width:50%;float:left">
+                                <label>Số hóa đơn </label>
+                                <div>
+                                    <input type="text" class="k-textbox" ng-model="Item.InvoiceNo" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" style="width:50%;float:right">
+                                <label>Ngày hóa đơn </label>
+                                <div>
+                                    <input class="cus-datepicker" focus-k-datepicker k-ng-model="Item.InvoiceDate" kendo-date-picker k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="rowinput">
+                                <label>Ghi chú </label>
+                                <div>
+                                    <textarea rows="4" style="width:calc(100% - 7px)" ng-model="Item.Note"></textarea>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="width-calc">
+                <div class="cus-form">
+                    <div class="form-header">
+                        <div class="left title">Chi tiết vật tư/nhiên liệu</div>
+                        <div class="right button">
+                            <a href="/" ng-show="!Item.IsApproved" ng-click="FLMWorkOrderFuel_win_AddMaterialClick($event,FLMWorkOrderFuel_win_Grid)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới vật tư</span></a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-body">
+                        <div class="cus-grid" kendo-grid="FLMWorkOrderFuel_win_Grid" expand-k-grid k-options="FLMWorkOrderFuel_win_GridOptions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+ .width-calc, .k-splitbar.k-state-default{
+     width:calc( 100% - 4px ) !important;
+ }  
+</style>

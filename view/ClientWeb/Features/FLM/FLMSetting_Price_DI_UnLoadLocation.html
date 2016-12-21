@@ -1,0 +1,37 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">Thiết lập bốc xếp xuống theo địa điểm</div>
+        <div class="right">
+            <a class="k-button" ng-click="Loading_Excel_Click($event,winexcel)"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a class="k-button" ng-click="UnLoading_Add_Click($event,unloading_location_notin_win)" ng-show="!Item.TermClosed"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a class="k-button" ng-click="UnLoading_Update_Click($event,unLoading_grid)" ng-show="!Item.TermClosed"><i class="fa fa-check"></i><span class="tooltip">Lưu thay đổi</span></a>
+            <a class="k-button k-grid-cancel-changes" ng-click="UnLoading_CancelUpdate_Click($event,unLoading_grid)" ng-show="!Item.TermClosed"><i class="fa fa-ban"></i><span class="tooltip">Hủy thay đổi</span></a>
+            <a class="k-button" ng-click="UnLoading_DeleteAll_Click($event,unLoading_grid)" ng-show="!Item.TermClosed"><i class="fa fa-trash"></i><span class="tooltip is-right">Xóa tất cả</span></a>
+            <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Thoát</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="unLoading_grid" expand-k-grid k-options="unLoading_gridOptions" k-ng-delay="unLoading_gridOptions"></div>
+    </div>
+</div>
+
+<!--Window-->
+<div class="cus-window" draggable-k-window kendo-window="unloading_location_notin_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH ĐỊA CHỈ
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="unloading_location_notin_grid" expand-k-grid k-options="unloading_location_notin_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="UnLoading_Location_NotIn_Submit_Click($event,unloading_location_notin_grid,unloading_location_notin_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Window_Close_Click($event,unloading_location_notin_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

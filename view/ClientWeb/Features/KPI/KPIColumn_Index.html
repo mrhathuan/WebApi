@@ -1,0 +1,81 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="KPIColumn_AddNew_Click($event,KPIColumn_win)" class="k-button" data-title="Tạo mới"><i class="fa fa-plus"></i><span class="tooltip">Tạo mới</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="KPIColumn_grid" expand-k-grid k-options="KPIColumn_gridOptions"></div>
+    </div>
+</div>
+
+<!-- popup -->
+<div class="cus-window" draggable-k-window kendo-window="KPIColumn_win" k-title="false" k-width="600" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Nhóm thành phần KPI Column
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="KPIColumn_win_vform">
+                    <div class="rowinput">
+                        <label>Mã <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="KPIColumnItem.Code" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Column Name<span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="KPIColumnItem.ColumnName" v-form-require="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="rowinput">
+                        <label>Column Type<span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="KPIColmn_cboTypeOfKPIID" k-options="KPIColumn_cboColumnTypeID_Options" ng-model="KPIColumnItem.KPIColumnTypeID" v-form-require="true" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+                   <div class="rowinput">
+                        <label>FieldName<span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="KPIColmn_cboFieldID" k-options="KPIColumn_cboColumnFieldID_Options" ng-model="KPIColumnItem.FieldID" v-form-require="true" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>ExprData<span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="KPIColumnItem.ExprData" v-form-require="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="KPIColumn_win_SaveClick($event,KPIColumn_win,KPIColumn_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="KPIColumn_win_CloseClick($event,KPIColumn_win)" class="k-button close" data-title="Đóng">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>

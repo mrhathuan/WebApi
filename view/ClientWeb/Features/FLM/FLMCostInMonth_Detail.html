@@ -1,0 +1,474 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span>Chi tiết</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="Refresh_Click($event)" class="k-button"><i class="fa fa-refresh"></i><span class="tooltip is-right">Hủy dữ liệu</span></a>
+            <a href="/"  ng-click="Calculate_Click($event)" class="k-button"><i class="fa fa-calculator"></i><span class="tooltip is-right">Tính lương tài xế</span></a>
+
+            <a href="/" ng-click="Close_Click($event,FLMSchedule_Detail_Tab)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-tabstrip" kendo-tab-strip="FLMSchedule_Detail_Tab" k-options="FLMSchedule_Detail_TabOptions" expand-k-tabstrip>
+            <ul>
+                <li data-tabindex="0" class="k-state-active">Chi phí tài xế tháng</li>
+                <li data-tabindex="1">Chi phí xe tháng</li>
+                <li data-tabindex="2">Chi phí lái/phụ xe</li>
+            </ul>
+            <!--<div>
+                <div class="cus-grid" kendo-grid="schedule_grid" expand-k-grid></div>
+            </div>
+            <div>
+                <div class="cus-grid" kendo-grid="date_Grid" expand-k-grid k-options="dateGrid_Options"></div>
+            </div>-->
+            <div>
+                <div class="cus-grid" kendo-grid="driverFee_Grid" expand-k-grid k-options="driverFeeGrid_Options"></div>
+            </div>
+            <div>
+                <div class="cus-grid" kendo-grid="assetFee_Grid" expand-k-grid k-options="assetFeeGrid_Options"></div>
+            </div>
+            <div>
+                <div class="cus-grid" kendo-grid="assistantFee_Grid" expand-k-grid k-options="assistantFee_GridOptions"></div>
+            </div>
+        </div>
+        <div class="tabstrip-buttons">
+            <!--<a href="/" ng-show="TabIndex==0" ng-click="schedule_Excel_Click($event,winexcel)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-show="TabIndex==0" ng-click="Calculate_Click($event)" class="k-button"><i class="fa fa-calculator"></i><span class="tooltip is-right">Tính lương tài xế</span></a>
+            <a class="k-button" ng-show="TabIndex==0" ng-click="schedule_Save_Click($event,schedule_grid)"><i class="fa fa-check"></i><span class="tooltip">Lưu thay đổi</span></a>
+            <a href="/" ng-show="TabIndex==0" ng-click="driver_Click($event,driver_win)" class="k-button"><i class="fa fa-male"></i><span class="tooltip is-right">Tài xế</span></a>-->
+
+            <!--<a href="/" ng-show="TabIndex==0" ng-click="driverFee_Excel_Click($event,winexcel)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-show="TabIndex==0" ng-click="driverFee_AddNew($event,driverFee_win,driverFee_vform)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+
+            <a href="/" ng-show="TabIndex==1" ng-click="assetFee_Excel_Click($event,winexcel)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-show="TabIndex==1" ng-click="assetFee_AddNew($event,assetFee_win,assetFee_vform)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+
+            <a href="/" ng-show="TabIndex==2" ng-click="assistantFee_AddNew($event,assistantFee_win,assistantFee_vform)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>-->
+        </div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="driver_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách tài xế trong bảng chấm công
+            </div>
+            <div class="right button">  </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="driver_Grid" expand-k-grid k-options="driverGrid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="driver_Update_Click($event,driver_Grid)" class="k-button accept">Cập nhật tài xế</a>
+                <a href="/" ng-click="driver_AddNew($event,driverNotIn_win)" class="k-button accept">Thêm mới</a>
+                <a href="/" ng-click="WinClose_Click($event,driver_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="driverNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách tài xế ngoài bảng chấm công</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="driverNotIn_Grid" expand-k-grid k-options="driverNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <!--<a href="/" ng-click="driverNotIn_Save_Click($event,driverNotIn_win,driverNotIn_Grid)" class="k-button accept">Lưu</a>-->
+                <a href="/" ng-click="WinClose_Click($event,driverNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="driverDetail_win" k-title="false" k-width="500" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin tài xế trong bảng chấm công</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" v-form="driverDetail_vform">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Mã tài xế</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemDriver.DriverCode" ng-disabled="true" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tên tài xế</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemDriver.DriverName" ng-disabled="true" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Lương cơ bản <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="ItemDriver.FeeBase" style="width:100%" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Ngày được phép nghỉ <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numDaysAllowOff_options" ng-model="ItemDriver.DaysAllowOff" style="width:100%" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Phụ lái? </label>
+                    <div>
+                        <input type="checkbox" disabled="disabled" ng-model="ItemDriver.IsAssistantl" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Xe</label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box k-ng-model="ItemDriver.AssetID" k-options="cboDriverAsset_Options" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Ghi chú </label>
+                    <div>
+                        <textarea rows="4" style="width:calc(100% - 7px)" ng-model="ItemDriver.Note"></textarea>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <!--<a href="/" ng-click="driverDetail_Save_Click($event,driverDetail_win,driverDetail_vform)" class="k-button accept">Lưu</a>-->
+                <a href="/" ng-click="WinClose_Click($event,driverDetail_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="date_win" k-title="false" k-width="500" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin ngày</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" v-form="date_vform">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Ngày <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="ItemDate.Date" v-form-require="true" ng-disabled="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Loại ngày <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box ng-model="ItemDate.TypeScheduleDateID" k-options="cboTypeScheduleDate_Options" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <!--<a href="/" ng-click="date_Save_Click($event,date_win,date_vform)" class="k-button accept">Lưu</a>-->
+                <a href="/" ng-click="WinClose_Click($event,date_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="driverFee_win" k-title="false" k-width="500" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin chi phí tài xế tháng</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" v-form="driverFee_vform">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Tài xế <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box k-ng-model="ItemDriverFee.DriverID" k-options="cboDriver_Options" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Loại tính phí <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box k-ng-model="ItemDriverFee.TypeOfScheduleFeeID" k-options="cboTypeOfScheduleFee_Options" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Giá </label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="ItemDriverFee.Price" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprDay </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemDriverFee.ExprDay" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Số ngày </label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="ItemDriverFee.Day" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprPriceDay </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemDriverFee.ExprPriceDay" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprPriceTOMaster </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemDriverFee.ExprPriceTOMaster" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprInputDay </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemDriverFee.ExprInputDay" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprInputTOMaster </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemDriverFee.ExprInputTOMaster" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <!--<a href="/" ng-click="driverFee_Save_Click($event,driverFee_win,driverFee_vform)" class="k-button accept">Lưu</a>-->
+                <a href="/" ng-click="WinClose_Click($event,driverFee_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="assetFee_win" k-title="false" k-width="500" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin chi phí xe tháng</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" v-form="assetFee_vform">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Xe<span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box k-ng-model="ItemAssetFee.AssetID" k-options="cboAsset_Options" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Loại tính phí <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box k-ng-model="ItemAssetFee.TypeOfScheduleFeeID" k-options="cboTypeOfScheduleFee_Options" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Giá </label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="ItemAssetFee.Price" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprDay </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssetFee.ExprDay" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Số ngày </label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numFeeBase_options" ng-model="ItemAssetFee.Day" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprPriceDay </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssetFee.ExprPriceDay" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprPriceTOMaster </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssetFee.ExprPriceTOMaster" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprInputDay </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssetFee.ExprInputDay" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprInputTOMaster </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssetFee.ExprInputTOMaster" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <!--<a href="/" ng-click="assetFee_Save_Click($event,assetFee_win,assetFee_vform)" class="k-button accept">Lưu</a>-->
+                <a href="/" ng-click="WinClose_Click($event,assetFee_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="assistantFee_win" k-title="false" k-width="500" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin chi phí lái phụ xe</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" v-form="assistantFee_vform">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Loại tính phí <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box k-ng-model="ItemAssistantFee.TypeOfScheduleFeeID" k-options="cboAssistantTypeOfScheduleFee_Options" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Lái xe <span class="required">*</span></label>
+                    <div>
+                        <input type="checkbox" ng-model="ItemAssistantFee.IsAssistant" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Giá </label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numAssistantPrice_options" ng-model="ItemAssistantFee.Price" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprDay </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssistantFee.ExprDay" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Số ngày </label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-options="numAssistantDay_options" ng-model="ItemAssistantFee.Day" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprPriceDay </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssistantFee.ExprPriceDay" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprPriceTOMaster </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssistantFee.ExprPriceTOMaster" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprInputDay </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssistantFee.ExprInputDay" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprInputTOMaster </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssistantFee.ExprInputTOMaster" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <!--<a href="/" ng-click="assistantFee_Save_Click($event,assistantFee_win,assistantFee_vform)" class="k-button accept">Lưu</a>-->
+                <a href="/" ng-click="WinClose_Click($event,assistantFee_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-template" id="template_row">
+    <tr class="#: TypeDate == 1 ? '': TypeDate == 2 ? 'holiday': 'absence' #" data-uid="#: uid #">
+        <td><a href="/" ng-click="date_GridEdit_Click($event,date_win,dataItem,date_vform)" class="k-button"><i class="fa fa-pencil"></i></a></td>
+        <td>#: DateName #</td>
+        <td>#=Date==null?' ':Common.Date.FromJsonDMY(Date)#</td>
+        <td>#: TypeScheduleDateName #</td>
+    </tr>
+</script>
+<style>
+    .absence {
+        background-color: #d059d1;
+        color: white !important;
+    }
+
+    .holiday {
+        background-color: #fda;
+    }
+</style>

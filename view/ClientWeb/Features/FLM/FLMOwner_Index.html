@@ -1,0 +1,131 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="FLMOwner_Date_Click($event,SettingDate_win,SettingDate_vform)" class="k-button"><i class="fa fa-calendar"></i><span class="tooltip">Chọn ngày</span></a>
+            <a href="/" ng-click="FLMOwner_GPS_Click($event,SettingDate_win,SettingDate_vform)" class="k-button" ng-show="Item.DateFrom != null && Item.DateTo != null"><i class=" fa fa-newspaper-o"></i><span class="tooltip">Dữ liệu GPS</span></a>
+            <a href="/" ng-click="FLMOwner_Check_Click($event,FLMOwnerRefresh_win)" class="k-button"><i class="fa fa-tasks"></i><span class="tooltip is-right">Lập phiếu nhiên liệu</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="form-body ">
+        <div class="cus-grid" kendo-grid="FLMOwner_grid"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="SettingDate_win" k-title="false" k-width="400" k-height="200" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn ngày</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-form" scrolldiv>
+                <div class="form-content-150" v-form="SettingDate_vform">
+                    <div class="rowinput">
+                        <label>Ngày bắt đầu <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-datepicker" focus-k-datepicker k-ng-model="Item.DateFrom" kendo-date-picker k-options="DateDMY" v-form-require="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Ngày kết thúc <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-datepicker" focus-k-datepicker k-ng-model="Item.DateTo" kendo-date-picker k-options="DateDMY" v-form-require="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="SettingDate_Click($event,SettingDate_win,SettingDate_vform)" class="k-button accept" data-title="Xóa">Xác nhận</a>
+                <a href="/" ng-click="window_Close_Click($event,SettingDate_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Setting_win" k-title="false" k-width="1000" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông số chuyến của xe</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" kendo-tab-strip="SettingReport_Tab" k-options="SettingReport_TabOptions" expand-k-tabstrip>
+                <ul>
+                    <li data-tabindex="0" class="k-state-active">Xe tải</li>
+                    <li data-tabindex="1" >Xe Container</li>
+                </ul>
+                <div>
+                    <div class="cus-form">
+                        <div class="cus-grid" kendo-grid="Setting_Truck_Grid" expand-k-grid k-options="Setting_Truck_GridOptions"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="cus-grid" kendo-grid="Setting_Cont_Grid" expand-k-grid k-options="Setting_Cont_GridOptions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="SettingReport_TabIndex==1 && CustomerHasChoose" ng-click="customer_Delete($event,Setting_Truck_Grid)" class="k-button" data-title="Xóa">Xóa</a>
+
+                <a href="/" ng-show="SettingReport_TabIndex==0" ng-click="Setting_SaveClick($event,Setting_win,Setting_vform)" class="k-button accept" data-title="Lưu/Cập nhật">Lưu/Cập nhật</a>
+                <a href="/" ng-show="SettingReport_TabIndex==0 && SettingItem.ID>0" ng-click="SettingReport_Destroy_Click($event,Setting_win)" class="k-button" data-title="Xóa">Xóa</a>
+                <a href="/" ng-click="window_Close_Click($event,Setting_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="cus-window" draggable-k-window kendo-window="FLMOwnerRefresh_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách phiếu</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="FLMOwnerRefresh_Grid" expand-k-grid k-options="FLMOwnerRefresh_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="FLMOwnerRefresh_Save_Click($event,FLMOwnerRefresh_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="window_Close_Click($event,FLMOwnerRefresh_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="FLMOwnerMaterial_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Vật tư </div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="FLMOwnerMaterial_Grid" expand-k-grid k-options="FLMOwnerMaterial_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="FLMOwnerRefresh_Save_Click($event,FLMOwnerMaterial_win,FLMOwnerMaterial_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,FLMOwnerMaterial_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

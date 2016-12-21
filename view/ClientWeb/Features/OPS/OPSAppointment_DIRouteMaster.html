@@ -1,0 +1,60 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <ul class="breakumb">
+            <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+            <li><span>Lập lệnh LTL</span></li>
+        </ul>
+        <div class="right">
+            <a href="/" ng-click="Tendered_Click($event, OPSAppointment_DIRouteMaster_VendorRate_win, OPSAppointment_DIRouteMaster_VendorRate_grid)" class="k-button" data-title="Gửi Tender"><i class="fa fa-send"></i><span class="tooltip">Gửi Tender</span></a>
+            <a href="/" ng-click="Approved_Click($event)" class="k-button" data-title="Duyệt"><i class="fa fa-check-square-o"></i><span class="tooltip">Duyệt</span></a>
+            <a href="/" ng-click="Save_Click($event)" class="k-button" data-title="Lưu"><i class="fa fa-check"></i><span class="tooltip">Lưu</span></a>
+            <a href="/" ng-click="UnApproved_Click($event)" class="k-button" data-title="Hủy duyệt"><i class="fa fa-ban"></i><span class="tooltip">Hủy</span></a>
+            <a href="/" ng-click="Delete_Click($event)" class="k-button" data-title="Xóa"><i class="fa fa-times"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="MergeCancel_Click($event)" ng-show="IsShowCombine" class="k-button" data-title="Hủy gom hàng"><i class="fa fa-ban"><span class="tooltip">Hủy gom hàng</span></i></a>
+            <a href="/" ng-click="Close_Click($event)" class="k-button" data-title="Thoát"><i class="fa fa-history"></i><span class="tooltip is-right">Thoát</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="gridNoDN" k-options="gridNoDNOptions" expand-k-grid></div>
+    </div>
+</div>
+
+<!--TO Vendor Rate-->
+<div class="cus-window" kendo-window="OPSAppointment_DIRouteMaster_VendorRate_win" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <span style="font-weight:bold">Thời gian chờ duyệt (giờ): </span>
+                <input type="number" class="k-textbox" min="0" max="100000" ng-model="RateTime" />
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="OPSAppointment_DIRouteMaster_VendorRate_grid" k-options="OPSAppointment_DIRouteMaster_VendorRate_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="TenderSend_Click($event,OPSAppointment_DIRouteMaster_VendorRate_win, OPSAppointment_DIRouteMaster_VendorRate_grid)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="TenderClose_Click($event,OPSAppointment_DIRouteMaster_VendorRate_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="OPSAppointment_DIRouteMaster_gridToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <span class="header"> {{ HTML(Summary)}} </span>
+        </div>
+        <div class="right">
+            <input type="checkbox" ng-model="IsHasDNMonitor" ng-click="CreateHasDNMonitor_Click($event)" id="IsHasDNMonitor" /><label for="IsHasDNMonitor">Đã duyệt</label>
+            <input focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Search.DateFrom" style="width: 95px" />
+            <input focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Search.DateTo" style="width:95px" />
+            <input focus-k-select kendo-multi-select="mltCustomer" k-options="mltCustomerOptions" k-ng-model="Search.ListCustomerID" style="width:170px" />
+            <a href="/" ng-click="Search_Click($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>

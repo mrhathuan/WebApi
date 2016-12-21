@@ -1,0 +1,7 @@
+﻿<label class="item item-input">
+    <div class="style-select">
+        <span>{{filterMenu.name}}</span>
+        <select class="select-chart" ng-model="filterMenu.choice" ng-change="updateChart()" ng-options="idx as choice for (idx, choice) in filterMenu.filterOptions"></select>
+        <br>
+    </div>
+</label>

@@ -1,0 +1,114 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><a ui-sref="main.OPSAppointment.DIPacket">Đơn hàng gửi đối tác</a></li>
+                <li><span>{{PacketName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a class="k-button" ng-show="IsSend == false" ng-click="Send_Click($event)"><i class="fa fa-clock-o"></i><span class="tooltip">Gửi</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-history"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip k-content-urls="[null, null]" k-options="tabstripOptions">
+            <ul>
+                <li data-tabindex="1" class="k-state-active">Danh sách hàng hóa</li>
+                <li data-tabindex="2">Đối tác</li>
+                <li data-tabindex="3">Chi tiết đã gửi</li>
+            </ul>
+            <div>
+                <div class="cus-grid" expand-k-grid kendo-grid="gopGrid" k-options="gopGrid_Options"></div>
+            </div>
+            <div>
+                <div class="cus-grid" expand-k-grid kendo-grid="rateGrid" k-options="rateGrid_Options"></div>
+            </div>
+            <div>
+                <div class="cus-grid" expand-k-grid kendo-grid="detailGrid" k-options="detailGrid_Options"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="gopNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH HÀNG HÓA
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="gopNotInGrid" expand-k-grid k-options="gopNotInGrid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Accept_Click($event,gopNotInGrid,gopNotIn_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,gopNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="rateWin" k-title="false" k-width="600" k-height="200" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                ĐIỀU CHỈNH ĐỐI TÁC
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Đối tác</label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboPacketRateVendor" ng-model="RateEdit.VendorID" k-options="cboPacketRateVendor_Options" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tgian đồng ý</label>
+                    <div>
+                        <input class="k-textbox cus-number" type="number" ng-model="RateEdit.RateTime">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tgian xác nhận</label>
+                    <div>
+                        <input class="k-textbox cus-number" type="number" ng-model="RateEdit.RateTimeConfirm">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>          
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Save_Click($event,rateWin)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,rateWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="gopGrid_toolbar">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a class="k-button" ng-show="HasChoose" ng-click="Delete_Click($event,gopGrid)"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a class="k-button" ng-click="Add_Gop_Click($event,gopNotInGrid,gopNotIn_win)"><i class="fa fa-plus"></i><span class="tooltip  is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="rateGrid_toolbar">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a class="k-button" ng-click="Add_Rate_Click($event,rateWin)"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>

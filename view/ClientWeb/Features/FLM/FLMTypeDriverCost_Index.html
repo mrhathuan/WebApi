@@ -1,0 +1,97 @@
+﻿<div class="view-breakumb">
+    <ul class="breakumb">
+        <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+
+<div class="cus-form thin">
+    <div class="form-header">
+        <div class="left title"></div>
+        <div class="right">
+            <a href="/" ng-click="DriverCost_Add_Click($event, DriverCost_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="DriverCost_Grid" expand-k-grid k-options="DriverCost_GridOptions"></div>
+    </div>
+</div>
+
+<!--Windown-->
+<div class="cus-window" draggable-k-window kendo-window="DriverCost_win" k-title="false" k-width="500" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin chi phí xe</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" v-form="assetFee_vform">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Loại tính phí <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box k-ng-model="ItemAssetFee.TypeOfScheduleFeeID" k-options="cboTypeOfScheduleFee_Options" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tài xế? </label>
+                    <div>
+                        <input type="checkbox" ng-model="ItemAssetFee.IsAssistant" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Giá </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssetFee.ExprPrice" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="rowinput">
+                    <label>Công thức giá </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssetFee.ExprPrice" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Công thức theo ngày </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssetFee.ExprPriceDay" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Công thức theo chuyến </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssetFee.ExprPriceTOMaster" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Điều kiện ngày </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssetFee.ExprInputDay" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Điều kiện chuyến </label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemAssetFee.ExprInputTOMaster" style="width:100%" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="DriverCost_Save_Click($event,DriverCost_win,assetFee_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Win_Close($event,DriverCost_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

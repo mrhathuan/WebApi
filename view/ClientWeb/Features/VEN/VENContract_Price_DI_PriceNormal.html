@@ -1,0 +1,30 @@
+﻿<div class="cus-form" ng-show="Item.TypeOfMode == 2">
+    <div class="form-header">
+        <div class="left title ">Bảng giá FTL thường</div>
+        <div class="right">
+            <a class="k-button" ng-click="GroupVehicle_ExcelOn_Click($event)"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <!--<a class="k-button" ng-click="GroupVehicle_Excel_Click($event,gov_grid,winexcel)"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>-->
+            <a class="k-button" ng-click="GroupVehicle_Save_Click($event,gov_grid)" ng-show="!Item.TermClosed"><i class="fa fa-check"></i><span class="tooltip">Lưu thay đổi</span></a>
+            <a class="k-button" ng-click="GroupVehicle_CancelChange_Click($event,gov_grid)" ng-show="!Item.TermClosed"><i class="fa fa-ban"></i><span class="tooltip">Hủy thay đổi</span></a>
+            <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Thoát</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="gov_grid" expand-k-grid></div>
+    </div>
+</div>
+<div class="cus-form" ng-show="Item.TypeOfMode == 3">
+    <div class="form-header">
+        <div class="left title ">Bảng giá LTL thường</div>
+        <div class="right">
+            <a class="k-button" ng-click="GroupProduct_ExcelOn_Click($event)"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <!--<a class="k-button" ng-click="GroupProduct_Excel_Click($event,gop_grid,winexcel)"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>-->
+            <a class="k-button" ng-click="GroupProduct_SaveChanges_Click($event,gop_grid)" ng-show="!Item.TermClosed"><i class="fa fa-check"></i><span class="tooltip">Lưu thay đổi</span></a>
+            <a class="k-button" ng-click="GroupProduct_CancelChange_Click($event,gop_grid)" ng-show="!Item.TermClosed"><i class="fa fa-ban"></i><span class="tooltip">Hủy thay đổi</span></a>
+            <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Thoát</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="gop_grid" expand-k-grid></div>
+    </div>
+</div>

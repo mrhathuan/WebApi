@@ -1,0 +1,246 @@
+﻿<script id="CATLocation_grid_toolbar" type="text/x-kendo-template">
+    <div class="gridtoolbar">
+
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="CATLocation_GetLatLng_Click($event,GetLatLng_win)" class="k-button" data-title="Gợi ý tọa độ"><i class="fa fa-recycle"></i><span class="tooltip">Gợi ý tọa độ</span></a>
+            <a href="/" ng-click="CATLocation_Excel_Click($event,winexcel)" class="k-button" data-title="Excel"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-click="CATLocationAddNew_Click($event,CATLocationEdit_win)" class="k-button" data-title="Thêm mới"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-click="ShowSetting($event,CATLocation_grid)" ng-mouseenter="ShowSetting($event,CATLocation_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+</script>
+<div class="cus-grid" kendo-grid="CATLocation_grid" expand-k-grid k-options="CATLocation_gridOptions"></div>
+
+<!-- popup add new -->
+<div class="cus-window" draggable-k-window kendo-window="CATLocationEdit_win" k-title="false" k-width="600" k-height="520" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thêm mới địa điểm
+            </div>
+        </div>
+        <div class="form-body with-footer" scrolldiv>
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="CATLocationEdit_win_vform">
+                    <div class="rowinput">
+                        <label>Mã <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="LocationItem.Code" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="500" ng-model="LocationItem.Location" v-form-require="true" v-form-length="500" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Địa chỉ <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="500" ng-model="LocationItem.Address" v-form-require="true" v-form-length="500" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Quốc gia <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboCountry" ng-model="LocationItem.CountryID" k-options="CATLocationEdit_win_cboCountryOptions" v-form-require="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tỉnh thành <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboProvince" ng-model="LocationItem.ProvinceID" k-options="CATLocationEdit_win_cboProvinceOptions" v-form-require="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Quận huyện <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboDistrict" ng-model="LocationItem.DistrictID" k-options="CATLocationEdit_win_cboDistrictOptions" v-form-require="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Xã phường </label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboWard" ng-model="LocationItem.WardID" k-options="CATLocationEdit_win_cboWardOptions" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Vĩ độ </label>
+                        <div>
+                            <input kendo-numeric-text-box="CATLocationEdit_win_numLat" ng-model="LocationItem.Lat" k-options="CATLocationEdit_win_numLatOptions" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Kinh độ </label>
+                        <div>
+                            <input kendo-numeric-text-box="CATLocationEdit_win_numLng" ng-model="LocationItem.Lng" k-options="CATLocationEdit_win_numLngOptions" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>RouteID </label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="500" ng-model="LocationItem.EconomicZone" v-form-length="500" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Loại địa điểm </label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="CATLocationEdit_win_cboGOL" ng-model="LocationItem.GroupOfLocationID" k-options="CATLocationEdit_win_cboGOLOptions" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>LoadTimeCO </label>
+                        <div>
+                            <input kendo-numeric-text-box="CATLocationEdit_win_numLoadTimeCO" ng-model="LocationItem.LoadTimeCO" k-options="CATLocationEdit_win_numUnLoadTimeCOOptions" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>UnLoadTimeCO </label>
+                        <div>
+                            <input kendo-numeric-text-box="CATLocationEdit_win_numUnLoadTimeCO" ng-model="LocationItem.UnLoadTimeCO" k-options="CATLocationEdit_win_numUnLoadTimeCOOptions" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>LoadTimeDI </label>
+                        <div>
+                            <input kendo-numeric-text-box="CATLocationEdit_win_numLoadTimeDI" ng-model="LocationItem.LoadTimeDI" k-options="CATLocationEdit_win_numLoadTimeDIOptions" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>UnLoadTimeDI </label>
+                        <div>
+                            <input kendo-numeric-text-box="CATLocationEdit_win_numUnLoadTimeDI" ng-model="LocationItem.UnLoadTimeDI" k-options="CATLocationEdit_win_numUnLoadTimeDIOptions" style="width:100%" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Ghi chú </label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="500" ng-model="LocationItem.Note" v-form-length="500" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Ghi chú 1</label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="500" ng-model="LocationItem.Note1" v-form-length="500" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Depot cho tất cả hãng tàu </label>
+                        <div>
+                            <input type="checkbox" ng-model="LocationItem.IsAllCarrier" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CATLocationSave_Click($event,CATLocationEdit_win,CATLocationEdit_win_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Window_Close_Click($event,CATLocationEdit_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- popup add new -->
+<div class="cus-window" draggable-k-window kendo-window="CATLocationMap_win" k-title="false" k-width="900" k-height="550" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Xác định tọa độ bằng bản đồ</div>
+        </div>
+        <div class="form-body with-footer">
+            <div id="map" class="cus-map" style="width:100%; height:100%;"></div>
+            <div id="map_tooltip" style="display: none; position: absolute; background-color: rgb(165, 197, 185); line-height: 24px; padding: 2px 10px; color: #0A0A0A; font-weight: bold;"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CATLocationMapSave_Click($event,CATLocationMap_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Window_Close_Click($event,CATLocationMap_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="location_detail_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chi tiết điểm</div>
+            <div class="right"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div style="position:relative;height:100%">
+                <div class="cus-tabstrip" kendo-tabstrip="location_detail_tabstrip" k-options="lcoation_detail_tabstripOptions" expand-k-tabstrip>
+                    <ul>
+                        <li data-tabindex="0" class="k-state-active">Thông tin nhà phân phối</li>
+                        <li data-tabindex="1">Thông tin khách hàng</li>
+                    </ul>
+                    <div>
+                        <div class="cus-form">
+                            <div class="cus-grid" kendo-grid="location_partner_Grid" expand-k-grid k-options="locationPartner_GridOptions"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="cus-form">
+                            <div class="cus-grid" kendo-grid="location_customer_Grid" expand-k-grid k-options="locationCustomer_GridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Window_Close_Click($event,location_detail_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="GetLatLng_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Tìm kiếm tọa độ</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="getLatLng_grid" k-options="getLatLng_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="UpdateLatLng_Click($event,GetLatLng_win,getLatLng_grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,GetLatLng_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span>Tối ưu</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a ng-show="HasSelect" ng-click="Optimizer_Select($event)" class="k-button"><i class="fa fa-check"></i> <span class="tooltip">Chi tiết</span></a>
+            <a class="k-button" ng-click="Optimizer_New($event,optimizerGrid,optimizer_info_win)"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-click="ShowSetting($event,optimizerGrid)" ng-mouseenter="ShowSetting($event,optimizerGrid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" expand-k-grid="optimizerGridExpand" kendo-grid="optimizerGrid" k-options="optimizerGrid_Options"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="optimizer_info_win" k-title="false" k-width="600" k-height="220" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin Optimizer
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label> Tên Optimizer<span class="required"> *</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="Optimizer.OptimizerName" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày BD</label>
+                    <div>
+                        <input class="cus-datetimepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Optimizer.DateFrom" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày KT</label>
+                    <div>
+                        <input class="cus-datetimepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Optimizer.DateTo" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Optimizer_Save_Click($event,optimizerGrid,optimizer_info_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,optimizer_info_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

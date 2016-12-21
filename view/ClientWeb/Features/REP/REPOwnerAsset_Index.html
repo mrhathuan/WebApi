@@ -1,0 +1,79 @@
+﻿<div class="cus-form" style="height:100%">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right button">
+            <a href="/" ng-click="REPOwnerAsset_AddClick($event,REPOwnerAsset_win,REPOwnerAsset_vform)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-show="SettingHasChoose" ng-click="REPOwnerAsset_Delete_Click($event,REPOwnerAsset_Grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip ">Xóa</span></a>
+            <a href="/" ng-click="ShowSetting($event,REPOwnerAsset_Grid)" ng-mouseenter="ShowSetting($event,REPOwnerAsset_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="REPOwnerAsset_Grid" expand-k-grid k-options="REPOwnerAsset_GridOptions"></div>
+    </div>
+</div>
+
+
+<div class="cus-window" draggable-k-window kendo-window="REPOwnerAsset_win" k-title="false" k-width="600" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin Tài sản</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-form" v-form="REPOwnerAsset_vform" scrolldiv>
+                <div class="form-content-150">
+                    <div class="rowinput">
+                        <label>Tên Tài sản <span class="required">*</span></label>
+                        <div>
+                            <input class="k-textbox" type="text" ng-model="AssetItem.Name" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>File template <span class="required">*</span></label>
+                        <div>
+                            <a href="/" ng-click="REPOwnerAssett_AddFileClick($event)" class="k-button " data-title="Thêm mới"><i class="fa fa-file"></i></a>
+                            <span>{{AssetItem.FileName}}</span>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Loại Báo cáo </label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboTypeOfFilter" k-options="cboTypeOfFilter_options" ng-model="AssetItem.TypeOfFilter" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Loại tài sản </label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboTypeExport" k-options="cboTypeExport_options" ng-model="AssetItem.TypeExport" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="REPOwnerAsset_SaveClick($event,REPOwnerAsset_win,REPOwnerAsset_vform)" class="k-button accept" data-title="Lưu/Cập nhật">Lưu/Cập nhật</a>
+                <a href="/" ng-show="SettingItem.ID>0" ng-click="REPOwnerAsset_Destroy_Click($event,REPOwnerAsset_win)" class="k-button" data-title="Xóa">Xóa</a>
+                <a href="/" ng-click="window_Close_Click($event,REPOwnerAsset_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<style>
+    .cus-window.k-window-content .cus-form > .form-body.with-footer > .cus-form {
+        height: calc(100% - 5px);
+    }
+</style>

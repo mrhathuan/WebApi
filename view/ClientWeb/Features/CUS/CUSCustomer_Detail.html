@@ -1,0 +1,1530 @@
+﻿
+<div class="view-breakumb">
+    <ul class="breakumb">
+        <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+        <li><span>Thông tin</span></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<div class="view-breakumb-content">
+    <div style="position:relative; height:100%; width:100%;" class="full">
+
+        <div kendo-tabstrip="Main_Tab" k-options="Main_TabOptions" expand-k-tabstrip class="cus-tabstrip">
+            <ul>
+                <li data-tabindex="1" class="k-state-active">Thông tin chung</li>
+                <li data-tabindex="2" ng-show="CusData.ID>0 ">Thiết lập</li>
+                <li data-tabindex="3" ng-show="CusData.ID>0 ">Thông tin liên hệ</li>
+                <li data-tabindex="4" ng-show="CusData.ID>0 ">Thông tin hàng hóa</li>
+                <li data-tabindex="5" ng-show="CusData.ID>0 ">Danh mục địa chỉ</li>
+                <li data-tabindex="6" ng-show="CusData.ID>0  && false">Cung đường</li>
+                <li data-tabindex="7" ng-show="CusData.ID>0  && false">Thông tin thiết lập</li>
+                <li data-tabindex="8" ng-show="CusData.ID>0 ">Hợp đồng</li>
+                <li data-tabindex="9" ng-show="CusData.ID>0 ">Hợp đồng Vendor</li>
+               
+            </ul>
+            <div>
+                <div class="cus-form">
+                    <form action="/" method="post">
+                        <div v-form="Cus_vCusForm">
+                            <div style="float: left; width: calc(50% - 2px)">
+                                <div class="form-content-150">
+                                    <div class="rowinput">
+                                        <label>Mã khách hàng<span class="required">*</span></label>
+                                        <div>
+                                            <input ng-model="CusData.Code" type="text" class="k-textbox" v-form-require="true" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Khách hàng<span class="required">*</span></label>
+                                        <div>
+                                            <input ng-model="CusData.CustomerName" type="text" class="k-textbox" v-form-require="true" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Tên ngắn<span class="required">*</span></label>
+                                        <div>
+                                            <input ng-model="CusData.ShortName" type="text" class="k-textbox" v-form-require="true" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Địa chỉ liên hệ</label>
+                                        <div>
+                                            <input ng-model="CusData.Address" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Quốc gia</label>
+                                        <div>
+                                            <input focus-k-combobox kendo-combobox="CusCountry_Cbb" k-options="CusCountry_CbbOptions" k-ng-model="CusData.CountryID" class="cus-combobox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Tỉnh thành</label>
+                                        <div>
+                                            <input focus-k-combobox kendo-combobox="CusProvince_Cbb" k-options="CusProvince_CbbOptions" k-ng-model="CusData.ProvinceID" class="cus-combobox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Quận huyện</label>
+                                        <div>
+                                            <input focus-k-combobox kendo-combobox="CusDistrict_Cbb" k-options="CusDistrict_CbbOptions" k-ng-model="CusData.DistrictID" class="cus-combobox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput" ng-show="false">
+                                        <label>Xã phường</label>
+                                        <div>
+                                            <input ng-model="CusData.WardID" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Số điện thoại</label>
+                                        <div>
+                                            <input ng-model="CusData.TelNo" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Fax</label>
+                                        <div>
+                                            <input ng-model="CusData.Fax" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="float: left; width: calc(50% - 2px)">
+                                <div class="form-content-150">
+                                    <div class="rowinput">
+                                        <label>Email</label>
+                                        <div>
+                                            <input ng-model="CusData.Email" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Tên thanh toán</label>
+                                        <div>
+                                            <input ng-model="CusData.BillingName" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Mã số thuế</label>
+                                        <div>
+                                            <input ng-model="CusData.TaxCode" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Địa chỉ thanh toán</label>
+                                        <div>
+                                            <input ng-model="CusData.BillingAddress" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Lãnh vực</label>
+                                        <div>
+                                            <input ng-model="CusData.Field" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Loại hình KD</label>
+                                        <div>
+                                            <input ng-model="CusData.TypeBusiness" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Qui mô</label>
+                                        <div>
+                                            <input ng-model="CusData.Scale" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Ghi chú 1</label>
+                                        <div>
+                                            <input ng-model="CusData.Note" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Ghi chú 2</label>
+                                        <div>
+                                            <input ng-model="CusData.Note1" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                    <div class="rowinput">
+                                        <label>Ghi chú 3</label>
+                                        <div>
+                                            <input ng-model="CusData.Note2" type="text" class="k-textbox" v-form-require="false" />
+                                        </div>
+                                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <div class="cus-form">
+                    <div class="form-header">
+                        <div class="right">
+                            <a href="/" ng-click="Setting_Generate_Click($event)" class="k-button" data-title="Đưa điểm vào khu vực"><i class="fa fa-refresh"></i><span class="tooltip">Đưa điểm vào khu vực</span></a>
+                            <a href="/" ng-click="Setting_Save_Click($event)" class="k-button" data-title="Lưu"><i class="fa fa-check"></i><span class="tooltip is-right">Lưu</span></a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-content-250" style="padding-right:15%; padding-left: 15%;">
+                            <div class="rowinput">
+                                <label>Tự động thêm điểm vào khu vực có cùng mã</label>
+                                <div>
+                                    <input type="checkbox" ng-model="CusData.IsFindEconomicZone" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tìm theo mã khu vực </label>
+                                <div>
+                                    <input type="checkbox" ng-model="CusData.IsFindRoutingAreaCode" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tạo nhà phân phối mới </label>
+                                <div>
+                                    <input type="checkbox" ng-model="CusData.IsCreatePartner" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tạo địa chỉ </label>
+                                <div>
+                                    <input type="checkbox" ng-model="CusData.IsCreateLocation" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Giờ gợi ý hạn chót </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="Setting.CutOfTimeSuggest" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div kendo-grid="Contact_Grid" expand-k-grid k-options="Contact_GridOptions" id="contact-grid" class="cus-grid"></div>
+            </div>
+            <div>
+                <div class="cus-splitter ver-splitter" expand-k-grid kendo-splitter="Product_Splitter" k-options="Product_SplitterOptions" expand-k-splitter style="height: 100%; width: calc(100% - 5px);">
+                    <div>
+                        <div kendo-treelist="GOP_Tree" k-options="GOP_TreeOptions" expand-k-grid id="goproduct-treelist" class="cus-tree"></div>
+                    </div>
+                    <div>
+                        <div kendo-grid="Product_Grid" k-options="Product_GridOptions" expand-k-grid id="product-grid" class="cus-grid"></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div kendo-grid="Partner_Grid" k-options="Partner_GridOptions" expand-k-grid class="cus-grid"></div>
+            </div>
+            <div>
+                <div kendo-grid="Routing_Grid" k-options="Routing_GridOptions" expand-k-grid id="routing-grid" class="cus-grid"></div>
+            </div>
+            <div>
+                <div class="cus-form" v-form="FLMDriver_vform" scrolldiv>
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Điểm trả về </label>
+                            <div>
+                                <div class="form-footer view-html">
+                                    <div>
+                                        <a href="/" ng-click="SelectLocation($event,LocationWin)" class="k-button close" style=" width: 100%; height: 27px;">{{SettingInfo.LocationReturnAddress}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div kendo-grid="Contract_Grid" expand-k-grid k-options="Contract_GridOptions" id="contact-grid" class="cus-grid"></div>
+            </div>
+            <div>
+                <div kendo-grid="ContractVendor_Grid" expand-k-grid k-options="ContractVendor_GridOptions" id="contactVendor-grid" class="cus-grid"></div>
+            </div>
+            
+        </div>
+        <div class="tabstrip-buttons">
+            <a ng-click="Location_Check($event)" ng-show="false" class="k-button"><i class="fa fa-spotify"></i><span class="tooltip">location check</span></a>
+            <a ng-click="Contract_Add_Click($event)" ng-show="TabIndex==8" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm</span></a>
+            <a ng-click="Cus_SaveAndApproved($event,Cus_vCusForm)" ng-show="TabIndex==1 && ( id <= 0 && Auth.ActAddAndApproved)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu/Duyệt</span></a>
+            <a ng-click="Cus_Save($event,Cus_vCusForm)" ng-show="TabIndex==1 && ( id > 0 && Auth.ActEdit)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu/Cập nhật</span></a>
+            <a ng-click="Cus_Save($event,Cus_vCusForm)" ng-show="TabIndex==1 && ( id <= 0 && Auth.ActAdd)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu/Cập nhật</span></a>
+            <a ng-click="Cus_Delete($event)" ng-show="TabIndex==1 && Auth.ActDel" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a ui-sref="main.CUSCustomer.Index" class="k-button"><i class="fa fa-history"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+
+    </div>
+</div>
+<script type="text/x-kendo-tmpl" id="goproduct-treelist-toolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <div class="title">Nhóm hàng hóa</div>
+        </div>
+        <div class="right">
+            <a ng-click="Product_OnlExcel($event)" class="k-button" ng-show="Auth.ActExcel"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel online</span></a>
+            <a ng-click="Product_Excel($event,GOP_Tree,Product_Grid,winexcel)" class="k-button" ng-show="Auth.ActExcel"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a ng-click="GOP_Add($event)" id="goproduct-btnAdd" class="k-button" ng-show="Auth.ActEdit"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a ng-click="GOP_Reset($event)" id="goproduct-btnReset" class="k-button"><i class="fa fa-circle-o-notch"></i><span class="tooltip is-right">Cập nhật bảng giá</span></a>
+        </div>
+    </div>
+</script>
+
+<script id="contact-grid-toolbar" type="text/x-kendo=template">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a ng-click="Contact_Add($event)" class="k-button" ng-show="Auth.ActEdit"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+        </div>
+    </div>
+</script>
+
+<script id="company-grid-toolbar" type="text/x-kendo=template">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a id="company-grid-btnSearch" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm kiếm</span></a>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="product-grid-toolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <div class="title">Hàng hóa</div>
+        </div>
+        <div class="right">
+            <a ng-show="gopID>0 && Auth.ActEdit" ng-click="Product_Add($event)" id="product-btnAdd" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="store-grid-toolbar">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a ng-click="Stock_Add($event)" class="k-button" ng-show="Auth.ActEdit"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a ng-click="Stock_Search($event)" class="k-button" ng-show="Auth.ActEdit"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm kiếm</span></a>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="partner-grid-toolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <div class="title">
+                Danh mục địa chỉ
+            </div>
+        </div>
+        <div class="right">
+            <a href="/" ng-class="IsFilterPartner==true?'ActiveFilter':''" ng-click="Partner_FilterByPartner($event,filterByPartner_win,filterByPartner_grid)" class="k-button"><i class="fa fa-map"></i><span class="tooltip">Filter map</span></a>
+            <a href="/" ng-class="IsFilterLocation==true?'ActiveFilter':''" ng-click="Partner_FilterByLocation($event,filterByLocation_win,filterByLocation_grid)" class="k-button"><i class="fa fa-map-marker"></i><span class="tooltip">Filter map marker</span></a>
+            <a href="/" ng-class="IsFilterUseLocation==true?'ActiveFilter':''" ng-click="Partner_FilterByUseLocation($event,filterByLocation_grid)" class="k-button"><i class="fa fa-check-square-o"></i><span class="tooltip">Chỉ hiện thị địa điểm có mã sử dụng</span></a>
+            <a href="/" ng-click="Partner_ExcelOnl($event)" ng-show="Auth.ActExcel" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-click="Partner_Add($event,Partner_win)" ng-show="Auth.ActEdit" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <div style="float:left" ng-show="Auth.ActEdit">
+                <ul kendo-menu k-options="SearchPartnerMenuOptions" style="border:none;">
+                    <li class="noborder">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <ul>
+                            <li ng-click='Partner_Search($event,1,Partner_NotinWin,Partner_NotinGrid)'><i class='fa fa-anchor'></i> Cảng biển</li>
+                            <li ng-click='Partner_Search($event,2,Partner_NotinWin,Partner_NotinGrid)'><i class='fa fa-ship'></i> Hãng tàu</li>
+                            <li ng-click='Partner_Search($event,3,Partner_NotinWin,Partner_NotinGrid)'><i class='fa fa-home'></i> Nhà phân phối</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div style="float:left;width:10px"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<style>
+    .noborder {
+        border: none !important;
+        background: none !important;
+    }
+
+        .noborder.k-state-hover > .k-link {
+            color: #32B6FC;
+        }
+
+            .noborder.k-state-hover > .k-link .k-icon {
+                color: #32B6FC;
+            }
+
+        .noborder > .k-link {
+            background: none !important;
+        }
+
+    .k-grid .k-header.k-grid-toolbar .gridtoolbar a.k-button.ActiveFilter {
+        background-color: rgb(49,182,252);
+    }
+
+        .k-grid .k-header.k-grid-toolbar .gridtoolbar a.k-button.ActiveFilter:hover {
+            color: white;
+        }
+</style>
+
+<script id="routing-toolbar" type="text/x-kendo=template">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a ng-click="Routing_Search($event)" id="btnRoutingAdd" class="k-button"><i class="fa fa-search"></i><span class="tooltip ">Tìm kiếm</span></a>
+            <a ng-click="Routing_Refresh($event)" id="btnRoutingRefresh" class="k-button"><i class="fa fa-refresh"></i><span class="tooltip is-right">Cập nhật đơn hàng</span></a>
+        </div>
+    </div>
+</script>
+
+<!-- Contact_Win -->
+<div class="cus-window" draggable-k-window kendo-window="Contact_Win" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                {{FunctionName}}: {{ContactData.FirstName}}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post" class="cus-form">
+                <div v-form="Cus_vContactForm">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Tên<span class="required"> *</span></label>
+                            <div>
+                                <input ng-model="ContactData.FirstName" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Họ và tên lót<span class="required"> *</span></label>
+                            <div>
+                                <input ng-model="ContactData.LastName" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Chức danh</label>
+                            <div>
+                                <input ng-model="ContactData.PositionName" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Phòng ban</label>
+                            <div>
+                                <input ng-model="ContactData.DepartmentName" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>SĐT bàn</label>
+                            <div>
+                                <input ng-model="ContactData.TelNo" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Số di động</label>
+                            <div>
+                                <input ng-model="ContactData.Celphone" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Email</label>
+                            <div>
+                                <input ng-model="ContactData.Email" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Ghi chú</label>
+                            <div>
+                                <input ng-model="ContactData.Note" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Contact_Save($event,Cus_vContactForm)" class="k-button accept" ng-show="Auth.ActEdit">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,Contact_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GOP_Win -->
+<div class="cus-window" draggable-k-window kendo-window="GOP_Win" k-title="false" k-width="600" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                {{FunctionName}}: {{GopData.GroupName}}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post" class="cus-form">
+                <div v-form="Cus_vGOPForm">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Mã nhóm SP<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="GopData.Code" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tên nhóm SP<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="GopData.GroupName" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tính theo<span class="required">*</span></label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="PriceOfGOP_Cbb" k-options="PriceOfGOP_CbbOptions" k-ng-model="GopData.PriceOfGOPID" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Hàng mặc định</label>
+                            <div>
+                                <input type="checkbox" ng-model="GopData.IsDefault" v-form-require="true" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Hàng trả về</label>
+                            <div>
+                                <input type="checkbox" ng-model="GopData.HasReturn" v-form-require="false" />
+                            </div>
+                        </div>
+                        <div class="rowinput" ng-show="false">
+                            <label>Thuộc nhóm</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="Parent_CbbOptions" ng-model="GopData.ParentID" v-form-require="false" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="GOP_Save($event,Cus_vGOPForm)" class="k-button accept" ng-show="Auth.ActEdit">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,GOP_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Product_Win -->
+<div class="cus-window" draggable-k-window kendo-window="Product_Win" k-title="false" k-width="650" k-height="550" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                {{FunctionName}}: {{ProductData.ProductName}}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post" class="cus-form">
+                <div v-form="Cus_vProductForm">
+                    <div class="form-content-200">
+                        <div class="rowinput">
+                            <label>Mã hàng hóa/đơn vị<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="ProductData.Code" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tên hàng hóa/đơn vị<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="ProductData.ProductName" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>UOM<span class="required">*</span></label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="Packing_Cbb" k-options="Packing_CbbOptions" ng-model="ProductData.PackingID" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Hàng mặc định</label>
+                            <div>
+                                <input ng-model="ProductData.IsDefault" type="checkbox" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tính theo kg</label>
+                            <div>
+                                <input ng-model="ProductData.IsKg" type="checkbox" v-form-require="false" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Dài (cm)</label>
+                            <div>
+                                <input ng-model="ProductData.Length" kendo-numeric-text-box k-options="number_options" v-form-require="false" style="width:100%"/>
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Rộng (cm)</label>
+                            <div>
+                                <input ng-model="ProductData.Width" kendo-numeric-text-box k-options="number_options" v-form-require="false" style="width:100%" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Cao (cm)</label>
+                            <div>
+                                <input ng-model="ProductData.Height" kendo-numeric-text-box k-options="number_options" v-form-require="false" style="width:100%" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Thể tích (cm3)</label>
+                            <div>
+                                <input ng-model="ProductData.CBM" kendo-numeric-text-box k-options="number_options" v-form-require="false" style="width:100%" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Trọng tải (kg)</label>
+                            <div>
+                                <input ng-model="ProductData.Weight" kendo-numeric-text-box k-options="number_options" v-form-require="false" style="width:100%" />
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Mô tả</label>
+                            <div>
+                                <input ng-model="ProductData.Description" type="text" class="k-textbox"/>
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Nhiệt độ tối đa (độ C)</label>
+                            <div>
+                                <input class="k-textbox cus-number" type="number" ng-model="ProductData.TempMax">
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Nhiệt độ tối thiểu (độ C)</label>
+                            <div>
+                                <input class="k-textbox cus-number" type="number" ng-model="ProductData.TempMin">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Product_Save($event,Cus_vProductForm)" class="k-button accept" ng-show="Auth.ActEdit">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,Product_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Stock_SearchWin -->
+<div class="cus-window" draggable-k-window kendo-window="Stock_SearchWin" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách kho chưa sử dụng
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-grid="StockNotin_Grid" k-options="StockNotin_GridOptions" expand-k-grid class="cus-grid"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="StockSearchHasChoose&&Auth.ActEdit" ng-click="StockNotIn_SaveList($event,StockNotin_Grid,Stock_SearchWin)" class="k-button accept">Chọn</a>
+                <a href="/" ng-click="Close_Click($event,Stock_SearchWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stock_EditWin -->
+<div class="cus-window" draggable-k-window kendo-window="Stock_EditWin" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header" ng-click="test()">
+            <div class="left title">Kho:{{StockData.LocationName}}</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-tabstrip="Stock_Tab" k-options="Stock_TabOptions" class="cus-tabstrip" expand-k-tabstrip>
+                <ul>
+                    <li data-tabindex="1" class="k-state-active">Thông tin chung</li>
+                    <li data-tabindex="2" ng-show="StockData.ID>0">Thông tin sản phẩm</li>
+                </ul>
+                <div>
+                    <form action="/" method="post" class="cus-form">
+                        <div v-form="Cus_vStockForm">
+                            <div class="form-content-150">
+                                <div class="rowinput">
+                                    <label>Loại đối tác<span class="required">*</span></label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combobox="cboStockType" k-options="cboStockType_Options" k-ng-model="StockTypeID" ng-disabled="StockData.ID>0" v-form-require="false" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Mã hệ thống<span class="required">*</span></label>
+                                    <div>
+                                        <input ng-model="StockData.CATCode" type="text" class="k-textbox" v-form-require="true" ng-disabled="StockData.ID>0" ng-blur="autoUpdateCusStockCode()" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tên hệ thống<span class="required">*</span></label>
+                                    <div>
+                                        <input ng-model="StockData.CATLocationName" type="text" class="k-textbox" v-form-require="true" ng-disabled="StockData.ID>0" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Mã KH sử dụng<span class="required">*</span></label>
+                                    <div>
+                                        <input ng-model="StockData.Code" type="text" class="k-textbox" v-form-require="true" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tên sử dụng<span class="required">*</span></label>
+                                    <div>
+                                        <input ng-model="StockData.LocationName" type="text" class="k-textbox" v-form-require="true" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Địa chỉ</label>
+                                    <div>
+                                        <input ng-model="StockData.Address" type="text" class="k-textbox" v-form-require="false" />
+                                    </div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Quốc gia</label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combobox="Stock_Country" k-options="Stock_CountryOptions" ng-model="StockData.CountryID" v-form-require="false" />
+                                    </div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tỉnh thành</label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combobox="Stock_Province" k-options="Stock_ProvinceOptions" ng-model="StockData.ProvinceID" v-form-require="false" />
+                                    </div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Quận huyện</label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combobox="Stock_District" k-options="Stock_DistrictOptions" ng-model="StockData.DistrictID" v-form-require="false" />
+                                    </div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Vĩ độ</label>
+                                    <div>
+                                        <input ng-model="StockData.Lat" type="text" class="k-textbox" v-form-require="false" />
+                                    </div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Kinh độ</label>
+                                    <div>
+                                        <input ng-model="StockData.Lng" type="text" class="k-textbox" v-form-require="false" />
+                                    </div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Ghi chú</label>
+                                    <div>
+                                        <input ng-model="StockData.Note" type="text" class="k-textbox" v-form-require="false" />
+                                    </div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Ghi chú 1</label>
+                                    <div>
+                                        <input ng-model="StockData.Note1" type="text" class="k-textbox" v-form-require="false" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <div kendo-grid="Stock_ProductGrid" k-options="Stock_ProductGridOptions" expand-k-grid class="cus-grid"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Stock_Save($event,Cus_vStockForm,routing_contract_win,routing_contract_grid)" ng-show="Auth.ActEdit&&TabIndexStock==1" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Stock_Product_Delete($event,Stock_ProductGrid)" ng-show="Auth.ActEdit&&TabIndexStock==2" class="k-button accept">Xóa</a>
+                <a href="/" ng-click="Stock_Product_Search($event,Stock_SearchProductWin,StockNotin_ProductGrid)" ng-show="Auth.ActEdit&&TabIndexStock==2" class="k-button accept">Tìm kiếm</a>
+
+                <a href="/" ng-click="Close_Click($event,Stock_EditWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Stock_SearchProductWin -->
+<div class="cus-window" draggable-k-window kendo-window="Stock_SearchProductWin" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách hàng hóa</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-grid="StockNotin_ProductGrid" k-options="StockNotin_ProductGridOptions" class="cus-grid" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Stock_ProductSaveList($event,StockNotin_ProductGrid,Stock_ProductGrid)" class="k-button accept">Chọn</a>
+                <a href="/" ng-click="Close_Click($event,Stock_SearchProductWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Routing_Win -->
+<div class="cus-window" draggable-k-window kendo-window="Routing_Win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-grid="Routing_NotinGrid" k-options="Routing_NotinGridOptions" id="routing-notin-grid" class="cus-grid" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="Routing_SaveList($event)" id="btnRoutingNotinAdd" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,Routing_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Location_NotinWin -->
+<div class="cus-window" draggable-k-window kendo-window="Location_NotinWin" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Địa chỉ</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-grid="Location_NotinGrid" expand-k-grid k-options="Location_NotinGridOptions" class="cus-grid"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="Location_NotinSaveList($event,Location_NotinGrid,Location_NotinWin)" ng-show="LocationSearchHasChoose" class="k-button accept">Chọn</a>
+                <a ng-click="Close_Click($event,Location_NotinWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Location_EditWin  -->
+<div class="cus-window" draggable-k-window kendo-window="Location_EditWin" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thêm mới/chỉnh sửa địa điểm
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div v-form="Cus_vLocationForm">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Mã<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="LocationData.Code" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Mã khu vực</label>
+                            <div>
+                                <input ng-model="LocationData.RoutingAreaCode" type="text" class="k-textbox"/>
+                            </div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tên</label>
+                            <div>
+                                <input ng-model="LocationData.Location" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Địa chỉ</label>
+                            <div>
+                                <input ng-model="LocationData.Address" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Loại địa điểm</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="Location_cboGOL" k-options="Location_GOLCbbOptions" ng-model="LocationData.GroupOfLocationID" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Quốc gia</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="Location_CountryCbb" k-options="Location_CountryCbbOptions" ng-model="LocationData.CountryID" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tỉnh thành</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="Location_ProvinceCbb" k-options="Location_ProvinceCbbOptions" ng-model="LocationData.ProvinceID" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Quận huyện</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="Location_DistrictCbb" k-options="Location_DistrictCbbOptions" ng-model="LocationData.DistrictID" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput" ng-show="ItemPartner.TypeID==2&&LocationData.ID<1">
+                            <label>Dùng cho tất cả hãng tàu</label>
+                            <div>
+                                <input ng-model="LocationData.ApplyForAllCarrier" type="checkbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput" ng-show="ItemPartner.TypeID==1&&LocationData.ID<1">
+                            <label>Dùng cho tất cả cảng biển</label>
+                            <div>
+                                <input ng-model="LocationData.ApplyForAllSeaport" type="checkbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Vĩ độ</label>
+                            <div>
+                                <input ng-model="LocationData.Lat" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Kinh độ</label>
+                            <div>
+                                <input ng-model="LocationData.Lng" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Ghi chú</label>
+                            <div>
+                                <input ng-model="LocationData.Note" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Ghi chú 1</label>
+                            <div>
+                                <input ng-model="LocationData.Note1" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Location_Save($event,Cus_vLocationForm,Location_EditWin,routing_contract_win,routing_contract_grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,Location_EditWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Partner_NotinWin -->
+<div class="cus-window" draggable-k-window kendo-window="Partner_NotinWin" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">{{FunctionName}}</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-grid="Partner_NotinGrid" expand-k-grid k-options="Partner_NotinGridOptions" class="cus-grid"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="Partner_NotinSaveList($event,Partner_NotinGrid,Partner_NotinWin)" class="k-button accept">Lưu</a>
+                <a ng-click="Close_Click($event,Partner_NotinWin)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--partner -->
+<div class="cus-window" draggable-k-window kendo-window="Partner_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin chi tiết {{ItemPartner.TypeName}}: {{ItemPartner.PartnerName}}</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-tabstrip="Partner_Tab" k-options="Partner_TabOptions" expand-k-tabstrip class="cus-tabstrip">
+                <ul>
+                    <li data-tabindex="1" class="k-state-active">Thông tin chung</li>
+                    <li data-tabindex="2" ng-show="ItemPartner.ID>0 ">Danh sách địa chỉ</li>
+                </ul>
+                <div>
+                    <div class="form-content-150" v-form="Partner_win_vform">
+                        <div class="rowinput">
+                            <label>Loại đối tác<span class="required">*</span></label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="cboType" k-options="cboType_Options" k-ng-model="ItemPartner.TypeID" ng-disabled="ItemPartner.ID>0" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Mã hệ thống<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="ItemPartner.CATCode" type="text" class="k-textbox" v-form-require="true" ng-disabled="ItemPartner.ID>0" ng-blur="autoUpdateCusPartnerCode()" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tên hệ thống<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="ItemPartner.CATPartnerName" type="text" class="k-textbox" v-form-require="true" ng-disabled="ItemPartner.ID>0" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Mã KH sử dụng<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="ItemPartner.CUSCode" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Địa chỉ</label>
+                            <div>
+                                <input ng-model="ItemPartner.Address" type="text" class="k-textbox" v-form-require="false" ng-disabled="ItemPartner.ID>0" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput" ng-show="ItemPartner.TypeID==3">
+                            <label>Nhóm NPP</label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="PartnerType_Cbb" k-options="PartnerType_CbbOptions" k-ng-model="ItemPartner.GroupOfPartnerID" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Quốc gia<span class="required">*</span></label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="Partner_CountryCbb" k-options="Partner_CountryCbbOptions" ng-model="ItemPartner.CountryID" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tỉnh thành<span class="required">*</span></label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="Partner_ProvinceCbb" k-options="Partner_ProvinceCbbOptions" ng-model="ItemPartner.ProvinceID" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Quận huyện<span class="required">*</span></label>
+                            <div>
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox="Partner_DistrictCbb" k-options="Partner_DistrictCbbOptions" ng-model="ItemPartner.DistrictID" v-form-require="true" />
+                            </div><div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>SĐT</label>
+                            <div>
+                                <input ng-model="ItemPartner.TelNo" type="text" class="k-textbox" v-form-require="false" />
+                            </div><div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Fax</label>
+                            <div>
+                                <input ng-model="ItemPartner.Fax" type="text" class="k-textbox" v-form-require="false" />
+                            </div><div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Email</label>
+                            <div>
+                                <input ng-model="ItemPartner.Email" type="text" class="k-textbox" v-form-require="false" />
+                            </div><div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tên thanh toán</label>
+                            <div>
+                                <input ng-model="ItemPartner.BillingName" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Địa chỉ thanh toán</label>
+                            <div>
+                                <input ng-model="ItemPartner.BillingAddress" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Mã thuế</label>
+                            <div>
+                                <input ng-model="ItemPartner.TaxCode" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Ghi chú</label>
+                            <div>
+                                <input ng-model="PartnerData.Note" type="text" class="k-textbox" v-form-require="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput" ng-show="ItemPartner.TypeID">
+                            <label>Hạn lấy rỗng</label>
+                            <div>
+                                <input kendo-numeric-text-box="numRateGetEmpty" k-options="numRateGetEmpty_Options" k-ng-model="ItemPartner.RateGetEmpty" style="width:100%" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Hạn trả rỗng</label>
+                            <div>
+                                <input kendo-numeric-text-box="numRateReturnEmpty" k-options="numRateReturnEmpty_Options" k-ng-model="ItemPartner.RateReturnEmpty" style="width:100%" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-grid" kendo-grid="PartnerLocation_Grid" k-options="PartnerLocation_GridOptions" expand-k-grid></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Partner_Save($event,Partner_win_vform,Partner_win)" class="k-button accept" ng-show="Auth.ActEdit&&TabIndexPartner==1">Lưu</a>
+                <a href="/" ng-click="Partner_Delete($event,Partner_win)" class="k-button accept" ng-show="Auth.ActDel&&TabIndexPartner==1&&ItemPartner.ID>0">Xóa</a>
+                <a href="/" ng-click="Location_Add($event,Location_EditWin,Location_NotinGrid)" class="k-button accept" ng-show="Auth.ActEdit&&TabIndexPartner==2">Thêm mới</a>
+                <a href="/" ng-click="Location_Search($event,Location_NotinWin,Location_NotinGrid)" class="k-button accept" ng-show="Auth.ActEdit&&TabIndexPartner==2">Tìm kiếm</a>
+                <a href="/" ng-click="Close_Click($event,Partner_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--stock new -->
+<div class="cus-window" draggable-k-window kendo-window="Stock_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách kho
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-grid="Stock_Grid" k-options="Stock_GridOptions" expand-k-grid class="cus-grid"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Stock_Add($event, Stock_EditWin)" ng-show="Auth.ActEdit" class=" k-button accept">Thêm mới</a>
+                <a href="/" ng-click="Stock_Search($event, Stock_SearchWin,StockNotin_Grid)" ng-show="Auth.ActEdit" class="k-button accept">Tìm kiếm</a>
+                <a href="/" ng-click="Close_Click($event,Stock_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- area location-->
+<div class="cus-window" draggable-k-window kendo-window="Area_win" k-title="false" k-width="700" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách khu vực
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-grid="Area_Grid" k-options="Area_GridOptions" expand-k-grid class="cus-grid"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Area_Search($event, Area_NotIn_win,Area_NotIn_Grid)" ng-show="Auth.ActEdit" class="k-button accept">Tìm kiếm</a>
+                <a href="/" ng-click="Area_Delete($event,Area_Grid)" ng-show="Area_GridChooseChange && Auth.ActDel" class="k-button accept">Xóa</a>
+                <a href="/" ng-click="Close_Click($event,Area_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Area_NotIn_win" k-title="false" k-width="700" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Tìm kiếm khu vực
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-grid="Area_NotIn_Grid" k-options="Area_NotIn_GridOptions" expand-k-grid class="cus-grid"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Area_Save($event,Area_NotIn_Grid,Area_NotIn_win)" ng-show="AreaSearchHasChoose && Auth.ActEdit" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,Area_NotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- filter by partner-->
+<div class="cus-window" draggable-k-window kendo-window="filterByPartner_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn đối tác</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="filterByPartner_grid" k-options="filterByPartner_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="ApplyFilterByPartner_Click($event,filterByPartner_win,filterByPartner_grid)" class="k-button accept">Apply</a>
+                <a href="/" ng-click="Close_Click($event,filterByPartner_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- filter by location-->
+<div class="cus-window" draggable-k-window kendo-window="filterByLocation_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn địa điểm</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="filterByLocation_grid" k-options="filterByLocation_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="ApplyFilterByLocation_Click($event,filterByLocation_win,filterByLocation_grid)" class="k-button accept">Apply</a>
+                <a href="/" ng-click="Close_Click($event,filterByLocation_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- STMS-2017 popup cung duong khi tao kho -->
+<div class="cus-window" draggable-k-window kendo-window="routing_contract_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách cung đường theo khu vực</div>
+            <div class="right"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="routing_contract_grid" k-options="routing_contract_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="PartnerRouting_AddClick($event,partnerNewRouting_win)" class="k-button accept">Thêm mới</a>
+                <a href="/" ng-click="PartnerRouting_SaveClick($event,routing_contract_win,routing_contract_grid)" class="k-button accept">Cập nhật khu vực</a>
+                <a href="/" ng-click="Close_Click($event,routing_contract_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="partnerNewRouting_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thêm mới cung đường</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150" v-form="partnerNewRouting_win_vform">
+                <div class="rowinput">
+                    <label>Mã cung đường<span class="required">*</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="NewItemRouting.RoutingCode" v-form-require="false" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tên cung đường<span class="required">*</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="NewItemRouting.RoutingName" v-form-require="false" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+                <div class="rowinput">
+                    <label>Hợp đồng<span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" kendo-combo-box="cboRoutingContract" k-options="cboRoutingContract_Options" k-ng-model="NewItemRouting.ContractID" v-form-require="false" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+                <div class="rowinput">
+                    <label>Khu vực đi<span class="required">*</span></label>
+                    <div>
+                        <a href="/" ng-click="ChooseArea_Click($event,PartnerRoutingArea_win,PartnerRoutingArea_Grid,true)" class="k-button" style="width:calc(100% - 35px)">{{NewItemRouting.AreaFromCode_Name}}</a>
+                        <a href="/" ng-click="AddArea_Click($event,partnerNewArea_win)" class="k-button" style="width:30px"><i class="fa fa-plus"></i></a>
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+                <div class="rowinput">
+                    <label>Khu vực đến<span class="required">*</span></label>
+                    <div>
+                        <a href="/" ng-click="ChooseArea_Click($event,PartnerRoutingArea_win,PartnerRoutingArea_Grid,false)" class="k-button" style="width:calc(100% - 35px)">{{NewItemRouting.AreaToCode_Name}}</a>
+                        <a href="/" ng-click="AddArea_Click($event,partnerNewArea_win)" class="k-button" style="width:30px"><i class="fa fa-plus"></i></a>
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="PartnerNewRouting_SaveClick($event,partnerNewRouting_win,partnerNewRouting_win_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,partnerNewRouting_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="PartnerRoutingArea_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách khu vực</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="PartnerRoutingArea_Grid" k-options="PartnerRoutingArea_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,PartnerRoutingArea_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="partnerNewArea_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thêm mới khu vực</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150" v-from="partnerNewArea_win_vform">
+                <div class="rowinput">
+                    <label>Mã khu vực<span class="required">*</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="NewItemArea.Code" v-form-require="false" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tên khu vực<span class="required">*</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="NewItemArea.AreaName" v-form-require="false" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="PartnerNewArea_SaveClick($event,partnerNewArea_win,partnerNewArea_win_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,partnerNewArea_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Theo điểm-->
+<div class="cus-window" draggable-k-window kendo-window="routingLocation_contract_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách cung đường theo điểm</div>
+            <div class="right"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="routingLocation_contract_grid" k-options="routingLocation_contract_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="PartnerRoutingLocation_AddClick($event,partnerNewRoutingLocation_win)" class="k-button accept">Thêm mới</a>
+                <!--<a href="/" ng-click="PartnerRoutingLocation_SaveClick($event,routing_contract_win,routing_contract_grid)" class="k-button accept">Cập nhật khu vực</a>-->
+                <a href="/" ng-click="Close_Click($event,routingLocation_contract_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="partnerNewRoutingLocation_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thêm mới cung đường theo điểm</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150" v-form="partnerNewRoutingLocation_win_vform">
+                <div class="rowinput">
+                    <label>Mã cung đường<span class="required">*</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="NewItemRouting.RoutingCode" v-form-require="false" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tên cung đường<span class="required">*</span></label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="NewItemRouting.RoutingName" v-form-require="false" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+                <div class="rowinput">
+                    <label>Hợp đồng<span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" kendo-combo-box="cboRoutingContract" k-options="cboRoutingContract_Options" k-ng-model="NewItemRouting.ContractID" v-form-require="false" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+                <div class="rowinput">
+                    <label>Điểm đi<span class="required">*</span></label>
+                    <div>
+                        <a href="/" ng-click="ChooseLocation_Click($event,PartnerRoutingLocation_win,PartnerRoutingLocation_Grid,true)" class="k-button" style="width:calc(100%)">{{NewItemRouting.LocationFromCode_Name}}</a>
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+                <div class="rowinput">
+                    <label>Điểm đến<span class="required">*</span></label>
+                    <div>
+                        <a href="/" ng-click="ChooseLocation_Click($event,PartnerRoutingLocation_win,PartnerRoutingLocation_Grid,false)" class="k-button" style="width:calc(100%)">{{NewItemRouting.LocationToCode_Name}}</a>
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="PartnerNewRoutingLocation_SaveClick($event,partnerNewRoutingLocation_win,partnerNewRoutingLocation_win_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,partnerNewRoutingLocation_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="PartnerRoutingLocation_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách khu vực</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="PartnerRoutingLocation_Grid" k-options="PartnerRoutingLocation_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,PartnerRoutingLocation_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="PartnerCATDock_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách bến tàu</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="PartnerCATDock_Grid" k-options="PartnerCATDock_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="PartnerCATDock_AddClick($event,PartnerCATDockAdd_win)" class="k-button accept">Thêm mới</a>
+                <a href="/" ng-click="Close_Click($event,PartnerCATDock_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="PartnerCATDockAdd_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thêm mới bến tàu</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div v-form="CATDock_vCusForm">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Mã<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="CatDockData.Code" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Tên<span class="required">*</span></label>
+                            <div>
+                                <input ng-model="CatDockData.DockName" type="text" class="k-textbox" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="PartnerCATDock_SaveClick($event,CATDock_vCusForm,PartnerCATDockAdd_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,PartnerCATDockAdd_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,197 @@
+﻿<!--ORD-View-->
+<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a ng-show="Auth.ActAdd" href="/" ui-sref="main.ORDOrder.New" class="btn-new-order" data-title="Thêm mới">
+                <button>
+                    <i class="fa fa-plus"></i>&nbsp;Tạo đơn hàng mới
+                </button>
+            </a>
+            <!--<a ng-show="false" href="/" ui-sref="main.ORDOrder.Excel" class="k-button" data-title="Excel"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>-->
+            <a ng-show="Auth.ActExcel" href="/" ui-sref="main.ORDOrder.ExcelOnline" class="k-button" data-title="Excel"><i class="fa fa-file-excel-o"></i><span class="tooltip">Gửi dữ liệu</span></a>
+            <!--<a href="/" ui-sref="main.ORDOrder.DN" class="k-button" data-title="Hiện số DN"><i class="fa fa-braille"></i><span class="tooltip">Hiện số DN</span></a>-->
+            <a ng-show="Auth.ActEdit" href="/" ng-click="UpdateWarning_Click($event,order_grid)" class="k-button" ><i class="fa fa-clock-o"></i><span class="tooltip">Kiểm tra thời gian</span></a>
+            <a ng-show="Auth.ActComment" href="/" ng-click="Comment_Click($event,order_grid)" class="k-button" data-title="Comment"><i class="fa fa-comments"></i><span class="tooltip">Comment</span></a>
+            <a ng-show="Auth.ActOPS&&HasChoose" href="/" ng-click="OPS_Click($event,order_grid,routing_area_win)" class="k-button" data-title="Gửi điều phối"><i class="fa fa-repeat"></i><span class="tooltip">Gửi điều phối</span></a>
+            <a ng-show="Auth.ActAdd&&HasChoose" href="/" ng-click="Copy_Click($event,order_grid,copy_win,copy_grid)" class="k-button" data-title="Sao chép"><i class="fa fa-clipboard"></i><span class="tooltip">Sao chép</span></a>
+            <a ng-show="Auth.ActDel&&HasChoose" href="/" ng-click="Del_Click($event,order_grid)" class="k-button" data-title="Xóa"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="ShowSetting($event,order_grid)" ng-mouseenter="ShowSetting($event,order_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-form">
+            <div class="form-header">
+                <div class="left">
+                    <ul class="filter-list">
+                        <li data-tabindex="0" ng-click="ViewStatus_Click($event,order_grid)" ng-class="ParamRequest.sStatus.indexOf(0)>-1?'item-status item-status-new-active':'item-status item-status-new'">Mới tạo</li>
+                        <li data-tabindex="1" ng-click="ViewStatus_Click($event,order_grid)" ng-class="ParamRequest.sStatus.indexOf(1)>-1?'item-status item-status-planning-active':'item-status item-status-planning'">Đang kế hoạch</li>
+                        <li data-tabindex="2" ng-click="ViewStatus_Click($event,order_grid)" ng-class="ParamRequest.sStatus.indexOf(2)>-1?'item-status item-status-approved-active':'item-status item-status-approved'">Đã lập chuyến</li>
+                        <!--<li data-tabindex="3" ng-click="ViewStatus_Click($event,order_grid)" ng-class="ParamRequest.sStatus.indexOf(3)>-1?'item-status item-status-tendered-active':'item-status item-status-tendered'">Đã duyệt chuyến</li>-->
+                        <li data-tabindex="4" ng-click="ViewStatus_Click($event,order_grid)" ng-class="ParamRequest.sStatus.indexOf(4)>-1?'item-status item-status-delivery-active':'item-status item-status-delivery'">Đang vận chuyển</li>
+                        <li data-tabindex="5" ng-click="ViewStatus_Click($event,order_grid)" ng-class="ParamRequest.sStatus.indexOf(5)>-1?'item-status item-status-received-active':'item-status item-status-received'">Đã giao hàng</li>
+                        <li data-tabindex="6" ng-click="ViewStatus_Click($event,order_grid)" ng-class="ParamRequest.sStatus.indexOf(6)>-1?'item-status item-status-podreceived-active':'item-status item-status-podreceived'">Nhận CT</li>
+                        <li data-tabindex="-1" ng-click="ViewStatus_Click($event,order_grid)" ng-class="ParamRequest.sStatus.indexOf(-1)>-1?'item-status item-status-cancel-active':'item-status item-status-cancel'">Bị hủy</li>
+                    </ul>
+                </div>
+                <div class="right">
+                    <ul class="filter-list">
+                        <li data-tabindex="3" ng-click="ViewDate_Click($event,order_grid)" class="k-item" ng-class="ParamRequest.typeDate==3?'view-date-active':''">Tất cả</li>
+                        <li data-tabindex="0" ng-click="ViewDate_Click($event,order_grid)" class="k-item" ng-class="ParamRequest.typeDate==0?'view-date-active':''">Hôm nay</li>
+                        <li data-tabindex="1" ng-click="ViewDate_Click($event,order_grid)" class="k-item" ng-class="ParamRequest.typeDate==1?'view-date-active':''">Trong tuần</li>
+                        <li data-tabindex="2" ng-click="ViewDate_Click($event,order_grid)" class="k-item" ng-class="ParamRequest.typeDate==2?'view-date-active':''">Trong tháng</li>
+                        <li data-tabindex="4" ng-click="ViewDate_Click($event,order_grid)" class="k-item" ng-class="ParamRequest.typeDate==4?'view-date-active':''">
+                            Chọn
+                            <ul ng-show="ShowDate" style="z-index: 990001; position: absolute; right: 0; background-color: #fff; color: #000; width: 125px; list-style: none; padding: 2px 10px; box-shadow: -2px 2px 3px #d7e3f0; ">
+                                <li>
+                                    Từ ngày: <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-ng-model="ParamRequest.fDate" k-options="DateDMY" />
+                                </li>
+                                <li>
+                                    Đến ngày: <input class="cus-datepicker" focus-k-datepicker kendo-date-picker k-ng-model="ParamRequest.tDate" k-options="DateDMY" />
+                                </li>
+                                <li style="text-align: center;">
+                                    <a class="accept" ng-click="ViewDate_Options_Click($event,order_grid)">Đồng ý</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="form-body">
+                <div kendo-tooltip k-options="tooltipOptions" class="full cus-tooltip">
+                    <div class="cus-grid" kendo-grid="order_grid" k-options="order_gridOptions" expand-k-grid="order_grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Window-->
+<div class="cus-window" draggable-k-window kendo-window="copy_win" k-title="false" k-width="500" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                COPY ĐƠN HÀNG
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="copy_grid" k-options="copy_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Copy_Save_Click($event,copy_grid,copy_win, order_grid)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,copy_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="routing_area_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH KHU VỰC
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="routing_area_grid" k-options="routing_area_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="RoutingArea_Refresh_All($event,routing_area_grid)" class="k-button accept">Làm mới</a>
+                <a href="/" ng-click="Close_Click($event,routing_area_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="container_win" k-title="false" k-width="800" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH CONTAINER
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="container_Grid" k-options="container_GridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Container_ToOPS_Update($event,container_Grid,container_win)" class="k-button accept">Cập nhật</a>
+                <a href="/" ng-click="Close_Click($event,container_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="tender_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Gửi tender
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="tender_grid" k-options="tender_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="OrderToTender_Click($event,tender_grid,tender_win)" class="k-button accept">Gửi tender</a>
+                <a href="/" ng-click="Close_Click($event,tender_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-new-order { text-decoration: none; padding: 4px 4px; }
+    .btn-new-order button { background-color: #20C7FF; border: none; color: white; padding: 8px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; border-radius: 4px; cursor: pointer; }
+    .btn-new-order button:hover { background-color: #1da0e5; border-color: #1da0e5; }
+
+    .item-status { padding: 0px 10px !important; border-radius: 12px; }
+    .item-status-new-active { border: solid 1px #d3d5d6; background-color: #d3d5d6; color: #fff !important; }
+    .item-status-new { border: solid 1px #d3d5d6; background-color: #fff; color: #393434 !important; }
+    .item-status-planning-active { border: solid 1px #1CBEF8; background-color: #1CBEF8; color: #fff !important; }
+    .item-status-planning { border: solid 1px #1CBEF8; background-color: #fff; color: #393434 !important; }
+    .item-status-approved-active { border: solid 1px #F7B20C; background-color: #F7B20C; color: #fff !important; }
+    .item-status-approved { border: solid 1px #F7B20C; background-color: #fff; color: #393434 !important; }
+    .item-status-tendered-active { border: solid 1px #0026ff; background-color: #0026ff; color: #fff !important; }
+    .item-status-tendered { border: solid 1px #0026ff; background-color: #fff; color: #393434 !important; }
+    .item-status-delivery-active { border: solid 1px #48BA52; background-color: #48BA52; color: #fff !important; }
+    .item-status-delivery { border: solid 1px #48BA52; background-color: #fff; color: #393434 !important; }
+    .item-status-received-active { border: solid 1px #678BFB; background-color: #678BFB; color: #fff !important; }
+    .item-status-received { border: solid 1px #678BFB; background-color: #fff; color: #393434 !important; }
+    .item-status-podreceived-active { border: solid 1px #B365DA; background-color: #B365DA; color: #fff !important; }
+    .item-status-podreceived { border: solid 1px #B365DA; background-color: #fff; color: #393434 !important; }
+    .item-status-cancel-active { border: solid 1px #ff0000; background-color: #ff0000; color: #fff !important; }
+    .item-status-cancel { border: solid 1px #ff0000; background-color: #fff; color: #393434 !important; }
+
+    .view-date-active { border: solid 1px #1CBEF8; background-color: #fff; color: #1CBEF8 !important; border-radius: 5px; }
+
+    .status-bar { width: 100%; display: block; position: relative; }
+    .status-bar-item { cursor: pointer; position: absolute; top: -8px; }
+    .status-bar-item.with-border { border: 1px solid #fff; box-sizing: border-box; border-bottom: none; border-top: none; border-left: none; }
+
+    .status-bar .status { height: 15px; border-radius: 12px; }
+    .status-bar .status.new { background-color: #d3d5d6; }
+    .status-bar .status.cancel { background-color: #ff0000; }
+    .status-bar .status.planning { background-color: #1CBEF8; }
+    .status-bar .status.approved { background-color: #F7B20C; }
+    .status-bar .status.tendered { background-color: #0026ff; }
+    .status-bar .status.delivery { background-color: #48BA52; }
+    .status-bar .status.received { background-color: #678BFB; }
+    .status-bar .status.podreceived { background-color: #B365DA; }
+
+    .k-animation-container { margin-left: 0 !important; }
+    .k-tooltip.k-popup { margin: 0; padding: 0; }
+    .k-tooltip-content { display:inline; width: auto; height: 16px !important; margin-bottom: -10px !important; background-color: black !important; color: #fff !important; text-align: center !important; padding: 5px 5px !important; border-radius: 4px !important; z-index: 9999 !important; font-size: 13px !important; opacity: 0.8 !important; }
+    .k-callout { content: ''; position: absolute !important; top: calc(100% + 6px) !important; left: 50% !important; margin-bottom: -10px !important; margin-left: -5px !important; border-width: 5px !important; border-style: solid !important; border-color: black transparent transparent transparent !important; background: transparent !important; }
+
+    .displayComment{display:block;width:20px;height:20px;border-radius:50%;background-color:#ccc329;color:white;text-align:center;vertical-align:middle;line-height:20px;margin:0 auto;}
+
+</style>

@@ -1,0 +1,88 @@
+﻿<div class="view-breakumb">
+    <ul class="breakumb">
+        <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+        <li><span>Thiết lập đơn hàng chi tiết</span></li>
+    </ul>
+</div>
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="right">
+                <span>Tên</span>
+                <input type="text" class="k-textbox w120" ng-model="SettingItem.Name" />
+                <span>Thiết lập ĐH: {{SettingOrder}}</span>
+                <a href="/" ng-click="SettingOrderList($event, SettingOrder_win)" class="k-button"><i class="fa fa-cog"></i><span class="tooltip">Thiết lập ĐH</span></a>
+                <span>File mẫu: <a href="/" ng-show="SettingItem.FileID>0" ng-click="DowloadFileTemplate_Click($event)">{{SettingItem.FileName}}</a></span>
+                <a href="/" ng-click="ChooseFile_Click($event,winfile)" class="k-button"><i class="fa fa-upload"></i><span class="tooltip">Template</span></a>
+                <a href="/" ng-click="Save_Click($event)" class="k-button"><i class="fa fa-check"></i><span class="tooltip is-right">Lưu</span></a>
+                <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="cus-splitter hoz-splitter" kendo-splitter k-options="splitter_Options" expand-k-splitter>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header" ng-click="Revert_Click($event)">
+                            <div class="left title">Các cột có sẵn</div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="AllSettingGrid" k-options="AllSettingGrid_Options" expand-k-grid></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left title">Các cột đã chọn</div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="SelectedSettingGrid" k-options="SelectedSettingGrid_Options" expand-k-grid></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--SettingsOrder-->
+<div class="cus-window" draggable-k-window kendo-window="SettingOrder_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách thiết lập</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="settingOrder_Grid" expand-k-grid k-options="settingOrder_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="SettingOrder_SelectClick($event,settingOrder_Grid,SettingOrder_win)" class="k-button accept" data-title="Thực hiện">Chọn</a>
+                <a href="/" ng-click="window_Close_Click($event,SettingOrder_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-template" id="rowTemplate">
+    <tr data-uid="#: uid #" class="#: isOrder == 0 ? '': 'absence' #">
+        <td>#: Column #</td>
+        <td>#: Code #</td>
+        <td>#: Name #</td>
+    </tr>
+</script>
+
+<style>
+    .absence {
+        background-color: #d059d1;
+        color: white !important;
+        line-height: 25px;
+    }
+
+    .holiday {
+        background-color: #fda;
+        line-height: 25px;
+    }
+</style>

@@ -1,0 +1,26 @@
+﻿<ion-side-menus enable-menu-with-back-views="false">
+    <ion-side-menu-content>
+        <ion-nav-bar class="bar-stable">
+            <ion-nav-back-button></ion-nav-back-button>
+            <ion-nav-buttons side="left">
+                <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <ion-nav-view name="menu"></ion-nav-view>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="left" enable-menu-with-back-views="false">
+        <div class="cus-menu-header">
+            <div class="cus-menu-avata">
+                <!--<img src="{{Host}}{{DirverItem.Image}}" />-->
+            </div>
+            <div class="cus-menu-name">{{DirverItem.UserName}}</div>
+        </div>
+        <ul class="ulMenu">
+            <li class="visible"><div menu-close ui-sref="main.truck"><div class="menuicon"><img src="img/ipack.png" /></div><span>ĐƠN HÀNG</span></div></li>
+            <li class="visible"><div menu-close ui-sref="main.sumary"><div class="menuicon"><img src="img/isummary.png" /></div><span>THỐNG KÊ</span></div></li>
+            <li class="visible"><div menu-close ui-sref="main.info"><div class="menuicon"><img src="img/iaccount.png" /></div><span>TÀI KHOẢN</span></div></li>
+            <li class="visible"><div menu-close ui-sref="log"><div class="menuicon"><img src="img/iaccount.png" /></div><span style="color:grey">SYSTEM</span></div></li>
+        </ul>
+    </ion-side-menu>
+</ion-side-menus>

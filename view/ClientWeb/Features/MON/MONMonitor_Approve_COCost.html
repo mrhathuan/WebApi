@@ -1,0 +1,108 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="ReloadClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-click="troubleCost_Approve($event,trouble_grid)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Duyệt chi phí</span></a>
+            <a href="/" ng-click="troubleCost_Revert($event,trouble_grid)" class="k-button"><i class="fa fa-times"></i><span class="tooltip">Hủy duyệt</span></a>
+            <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="trouble_grid" expand-k-grid k-options="trouble_gridOptions"></div>
+    </div>
+</div>
+
+<!--Thong tin chuyen-->
+<div kendo-window="TO_Win" k-title="false" k-options="TO_WinOptions" class="cus-window" style="display:none">
+    <div class="cus-form ">
+        <div class="form-header">
+            <div class="left title">
+                {{TO_Win_Title}}
+            </div>
+            <div class="right button">
+
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-tabstrip="TO_Tabstrip" k-options="TO_TabstripOptions" class="cus-tabstrip" expand-k-tabstrip>
+                <ul>
+                    <li class="k-state-active">Thông tin vận chuyển</li>
+                    <li>Thông tin đơn hàng</li>
+                    <li>Thông tin chặng</li>
+                    <li>Thông tin cung đường</li>
+                    <li>Vấn đề phát sinh</li>
+                    <li>Danh sách trạm</li>
+                </ul>
+                <div>
+                    <div style="width:99%" kendo-splitter="TO_Splitter" k-rebind="TO_SplitterOptions" k-options="TO_SplitterOptions" class="cus-splitter" expand-k-splitter>
+                        <div>
+                            <table class="ct-form-table">
+                                <tr>
+                                    <td>Nhà xe</td>
+                                    <td><input ng-disabled="true" class="k-textbox" ng-model="CurrentMaster.VendorName" /></td>
+                                    <td>Số xe</td>
+                                    <td><input ng-disabled="true" class="k-textbox" ng-model="CurrentMaster.VehicleNo" /></td>
+                                    <td>Mã chuyến</td>
+                                    <td><input ng-disabled="true" type="text" ng-model="CurrentMaster.Code" class="k-textbox" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Số Romooc</td>
+                                    <td><input ng-disabled="true" class="k-textbox" ng-model="CurrentMaster.RomoocNo" /></td>
+                                    <td>KM từ</td>
+                                    <td><input ng-disabled="true" type="text" ng-model="CurrentMaster.KMStart" class="k-textbox" /></td>
+                                    <td>KM đến</td>
+                                    <td><input ng-disabled="true" type="number" ng-model="CurrentMaster.KMEnd" class="k-textbox" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Tổng ngày đi tỉnh</td>
+                                    <td><input ng-disabled="true" type="number" ng-model="CurrentMaster.ExTotalDayOut" class="k-textbox" /></td>
+                                    <td>Số lượng kết hợp</td>
+                                    <td><input ng-disabled="true" type="number" ng-model="CurrentMaster.ExTotalJoin" class="k-textbox" /></td>
+                                    <td>Quá tải</td>
+                                    <td><input ng-disabled="true" type="checkbox" ng-model="CurrentMaster.ExIsOverWeight" />  Qua đêm <input ng-disabled="true" type="checkbox" ng-model="CurrentMaster.ExIsOverNight" /></td>
+                                </tr>
+                                <tr>
+                                    <td>ATD</td>
+                                    <td><input ng-disabled="true" class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="CurrentMaster.ATD" /></td>
+                                    <td>ATA</td>
+                                    <td><input ng-disabled="true" class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="CurrentMaster.ATA" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div expand-k-grid kendo-grid="COContainer_Grid" k-options="COContainer_GridOptions" class="cus-grid"></div>
+                </div>
+                <div>
+                    <div expand-k-grid kendo-grid="TOContainer_Grid" k-options="TOContainer_GridOptions" class="cus-grid"></div>
+                </div>
+                <div>
+                    <div expand-k-grid kendo-grid="Location_Grid" k-options="Location_GridOptions" class="cus-grid"></div>
+                </div>
+                <div>
+                    <div expand-k-grid kendo-grid="Trouble_Grid" k-options="Trouble_GridOptions" class="cus-grid"></div>
+                </div>
+                <div>
+                    <div expand-k-grid kendo-grid="Station_Grid" k-options="Station_GridOptions" class="cus-grid"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Win_Close($event,TO_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

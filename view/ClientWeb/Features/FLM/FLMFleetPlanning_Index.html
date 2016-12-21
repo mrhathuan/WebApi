@@ -1,0 +1,519 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right button">
+            <input kendo-multi-select focus-k-select k-options="mtsFLMAsset_Options" k-ng-model="ItemSearch.ListFLMAssetID" style="width:200px;float:left" />
+            <a href="/" ng-click="Search_Click($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Xem</span></a>
+            <a href="/" ng-click="FLMFLeetPlanning_Add_Click($event)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-scheduler" kendo-scheduler="main_scheduler" k-options="main_schedulerOptions" k-rebind="main_schedulerOptions"></div>
+    </div>
+</div>
+<!--template-->
+
+<script id="task-template" type="text/x-kendo-template">
+    <div class="cus-task" ng-click="Event_Click($event, #=meetingID#,driver_Add_win)">#=title#</div>
+</script>
+
+<!--lich su xe-->
+<div class="cus-gantt-info" ng-class="{'show-info':Show_Gantt_Info==true}">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left"><span>Danh sách tài xế</span></div>
+            <div class="right">
+                <a ng-click="CloseWinInfo($event)" class="k-button"><i class="fa fa-times"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div kendo-grid="Driver_Grid" expand-k-grid k-options="Driver_GridOptions" class="cus-grid"></div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="driver_Add_win" k-title="false" k-width="700" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chi tiết
+            </div>
+            <div class="right">
+            </div>
+        </div>
+        <div class="form-body with-footer" v-form="driver_vform">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Xe <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboVehicle_cboGroup" v-form-require="true" k-ng-model="ItemVehicle.VehicleID" k-options="cboVehicle_Options" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Loại tài xế <span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="typeOfDriver_cboGroup" v-form-require="true" k-ng-model="ItemVehicle.TypeOfDriverID" k-options="typeOfDriver_Options" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Từ ngày</label>
+                    <div>
+                        <input class="cus-datetimepicker" focus-k-datetimepicker k-ng-model="ItemVehicle.DateFrom" kendo-date-time-picker k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Đến ngày</label>
+                    <div>
+                        <input class="cus-datetimepicker" focus-k-datetimepicker k-ng-model="ItemVehicle.DateTo" kendo-date-time-picker k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Driver_Save_Click($event,driver_Add_win,driver_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Driver_Delete_Click($event,driver_Add_win)" class="k-button accept">Xóa</a>
+                <a href="/" ng-click="win_close($event,driver_Add_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .k-scheduler-header .k-scheduler-table tr th {
+        text-align: left;
+    }
+
+    .schedule-dot-list {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 20px;
+    }
+
+    .k-scheduler-times .k-scheduler-table tr th {
+        text-align: left;
+    }
+
+    .k-scheduler-times .k-scheduler-table tr {
+        border-color: #eae6e6;
+    }
+
+    .k-scheduler-table .k-nonwork-hour {
+        background-color: white;
+    }
+
+    .k-scheduler-table tr td {
+        border-color: #eae6e6;
+        border-width: 0 0 0px 1px;
+    }
+
+    .schedule-img {
+        vertical-align: middle;
+        height: 23px;
+        margin-right: 5px;
+    }
+
+    .order-grid-img {
+        vertical-align: middle;
+        height: 27px;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    .map-max-button {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border-radius: 33px;
+        height: 40px;
+        text-align: center;
+        color: #fff;
+        width: 40px;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .minimum-button {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 50px;
+        border-radius: 33px;
+        height: 40px;
+        text-align: center;
+        color: #fff;
+        width: 40px;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .fitler-pane {
+        transition: width 0.2s;
+        -webkit-transition: width 0.2s;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .cus-gantt-info {
+        cursor: pointer;
+        position: absolute;
+        width: 450px;
+        height: 400px;
+        bottom: 0px;
+        right: -450px;
+        z-index: 100;
+        -webkit-box-shadow: -5px 0 5px 1px #C9C9C9;
+        box-shadow: -5px 0 5px 1px #C9C9C9;
+        -webkit-transition: right 0.5s;
+        transition: right .5s;
+    }
+
+        .cus-gantt-info.show-info {
+            right: 0px;
+        }
+
+    .info-hover:hover {
+        background-color: #F2F6F9;
+    }
+
+    .k-gantt .k-gantt-treelist td {
+        vertical-align: middle;
+    }
+
+    .ct-warning {
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-animation: aniopa 0.2s infinite alternate; /* Chrome, Safari, Opera */
+        -webkit-animation-timing-function: linear; /* Chrome, Safari, Opera */
+        animation: aniopa 0.2s infinite alternate;
+        animation-timing-function: linear;
+    }
+
+    @-webkit-keyframes aniopa {
+        from {
+            opacity: 0.6;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes aniopa {
+        from {
+            opacity: 0.6;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .filter-bar {
+        display: table;
+        width: 60px;
+        height: 12px;
+    }
+
+    .filter-bar-row {
+        display: table-row;
+        height: 100%;
+    }
+
+    .filter-bar-cell {
+        display: table-cell;
+        width: 20px;
+        height: 100%;
+        border: 1px solid;
+        border-radius: 2px;
+        cursor: pointer;
+    }
+
+        .filter-bar-cell.going {
+            border-color: orange;
+            background-color: orange;
+        }
+
+        .filter-bar-cell.complete {
+            border-color: green;
+            background-color: green;
+        }
+
+        .filter-bar-cell.none {
+            background-color: #fff;
+        }
+
+    .filter-status {
+        position: fixed;
+        z-index: 10;
+        background-color: #fff;
+        border: 1px solid #cacaca;
+        width: 130px;
+    }
+
+    .img-filter {
+        cursor: pointer;
+        vertical-align: middle;
+        height: 13px;
+        padding: 7px;
+        float: right;
+        display: table;
+    }
+
+    .filter-status-row {
+        display: table-row;
+        width: 100%;
+        cursor: pointer;
+    }
+
+        .filter-status-row:hover, .filter-status-row.filteractived {
+            background-color: #31b6fc;
+            color: #fff;
+        }
+
+    .filter-status-cell {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        padding-left: 5px;
+    }
+
+        .filter-status-cell .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+        }
+
+        .filter-status-cell .green {
+            background-color: green;
+        }
+
+        .filter-status-cell .orange {
+            background-color: orange;
+        }
+
+    .cus-gantt-header {
+        width: 250px;
+        height: 100%;
+        text-align: center;
+    }
+
+    .ganttbar {
+        width: 95%;
+        background-color: #F7F7F7;
+        border-radius: 10px;
+        line-height: 30px;
+        margin: 5px 0px 5px 5px;
+    }
+
+        .ganttbar div {
+            display: inline-block;
+            text-align: center;
+            border-radius: 10px;
+            width: 33%;
+            cursor: pointer;
+        }
+
+        .ganttbar .viewselected {
+            background-color: #24B5FF;
+            color: #fff;
+        }
+
+    .cus-task {
+        width: 101%;
+        height: 29px;
+        background: inherit;
+        border-radius: 3px;
+    }
+
+    .cus-task-content {
+        display: table-row;
+        width: 100%;
+    }
+
+        .cus-task-content > div {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            color: #fff;
+        }
+
+    .task-estimate-line {
+        width: 100%;
+        border: 1px solid red;
+    }
+
+    .k-task-content .k-task-template {
+        padding: 0px;
+    }
+
+    .k-task.k-task-single {
+        border: none;
+        overflow: visible;
+    }
+
+    .k-task-template {
+        height: 100%;
+    }
+
+    .k-gantt-treelist .k-treelist .k-grid-content tr.k-state-selected td {
+        background-color: #31b6fc;
+    }
+    /*hide the dots which are displayed when hover*/
+    .k-task-dot {
+        display: none !important;
+    }
+
+    div.k-event {
+        background-color: #31B6FC;
+        border: none;
+    }
+
+    .cus-task-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 10px;
+        background-color: red;
+    }
+
+    .cus-task-actual {
+        height: 100%;
+        position: absolute;
+        display: table;
+        table-layout: fixed;
+        z-index: 10;
+    }
+
+        .cus-task-actual > div {
+            display: table-cell;
+        }
+
+    .fixlayout-table {
+        width: 100%;
+        display: table;
+        table-layout: fixed;
+    }
+
+    .fixlayout-cell {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .notify-item {
+        border-bottom: 1px solid #e2e2e2;
+        line-height: 50px;
+        text-indent: 10px;
+    }
+
+    .chart-menu-item {
+        cursor: pointer;
+        line-height: 25px;
+        border-bottom: 1px solid #C9C9C9;
+        padding: 5px 5px 0px 5px;
+    }
+
+        .chart-menu-item:hover {
+            background-color: #31b6fc;
+            color: #fff;
+        }
+
+    .chart-menu-item-active {
+        background-color: #8ce2e2;
+    }
+
+    .map-route-info > div {
+        line-height: 25px;
+    }
+
+    .cus-scheduler .k-event {
+        overflow: visible;
+    }
+
+    .filter-sum {
+        display: inline-block;
+        transition: opacity 0.3s;
+        -webkit-transition: opacity 0.3s;
+        background-color: #fff;
+        width: 170px;
+        height: 250px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .filter-sum-title {
+        float: left;
+        margin: 11px;
+        overflow: hidden;
+    }
+
+    .filter-sum-close {
+        float: right;
+        margin: 11px;
+        cursor: pointer;
+    }
+
+    .filter-sum-header {
+        width: 100%;
+        height: 40px;
+        background-color: #24B5FF;
+        color: white;
+        border-radius: 10px 10px 0px 0px;
+    }
+
+    .filter-sum-content {
+        width: 100%;
+        height: 210px;
+    }
+
+    table.filter-result-table {
+        width: 100%;
+        height: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+
+    .filter-result-table th {
+        background-color: #F2F8FB;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .filter-result-table td {
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .filter-result-table th, .filter-result-table td {
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .filter-result-table .sumtoncbm {
+        font-size: 13px;
+        text-align: left;
+    }
+
+    .sumtoncbm > div:last-child {
+        color: #5BB2B3;
+    }
+
+    .map-view-buttonleft {
+        position: absolute;
+        top: 8em;
+        left: .5em;
+    }
+
+    .map-view-buttonleft1 {
+        position: absolute;
+        top: 11em;
+        left: .5em;
+    }
+</style>

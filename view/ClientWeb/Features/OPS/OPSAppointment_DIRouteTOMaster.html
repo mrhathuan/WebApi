@@ -1,0 +1,138 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span>Lập lệnh</span></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="right">
+            <a href="/" ng-show="IsChangeView" ng-click="Change_View($event,1)" class="k-button"><i class="fa fa-caret-square-o-up"></i><span class="tooltip">Chuyển View</span></a>
+            <a href="/" ng-show="!IsChangeView" ng-click="Change_View($event,2)" class="k-button"><i class="fa fa-caret-square-o-down"></i><span class="tooltip">Chuyển View</span></a>
+            <a href="/" ng-show="!IsFullScreen" ng-click="ViewA_Click($event)" class="k-button"><i class="fa fa-television"></i><span class="tooltip">Toàn màn hình</span></a>
+            <a href="/" ng-show="!IsFullScreen" ng-click="ShowSetting($event,gridNoDN)" ng-mouseenter="ShowSetting($event,gridNoDN)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body" id="2view-container">
+        <div class="cus-form" id="2view">
+            <div kendo-splitter="viewSplitter" k-rebind="viewSplitter_Options" k-options="viewSplitter_Options" class="cus-splitter" ng-class="{'hor-splitter':!IsChangeView,'ver-splitter':IsChangeView}">
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left title">
+                                CÁC CHUYẾN - {{ HTML(SummaryMaster)}}
+                            </div>
+                            <div class="right">
+                                <!--<a href="/" ng-click="Excel_Click($event)" class="k-button"><i class="fa fa-sitemap"></i><span class="tooltip is-right">Kế hoạch</span></a>-->
+                                <a href="/" ng-click="SettingGrid_Click($event,wincustom,gridNoDNMaster)" class="k-button" data-title="Hiển thị"><i class="fa fa-cog"></i><span class="tooltip is-right">Hiển thị</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="gridNoDNMaster" k-options="gridNoDNMasterOptions" expand-k-grid></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left title">
+                                ĐƠN HÀNG - {{ HTML(Summary)}}
+                            </div>
+                            <div class="right">
+                                <a href="/" ng-show="IsFullScreen && IsChangeView" ng-click="Change_View($event,1)" class="k-button"><i class="fa fa-caret-square-o-up"></i><span class="tooltip">Chuyển View</span></a>
+                                <a href="/" ng-show="IsFullScreen && !IsChangeView" ng-click="Change_View($event,2)" class="k-button"><i class="fa fa-caret-square-o-down"></i><span class="tooltip">Chuyển View</span></a>
+                                <a href="/" ng-show="IsFullScreen" ng-click="ViewB_Click($event)" class="k-button"><i class="fa fa-thumb-tack"></i><span class="tooltip">Thu nhỏ</span></a>
+                                <a href="/" ng-click="SettingGrid_Click($event,wincustom,gridNoDN)" class="k-button" data-title="Hiển thị"><i class="fa fa-cog"></i><span class="tooltip is-right">Hiển thị</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body" id="grid-view">
+                            <div id="grid-container" class="full">
+                                <div class="cus-grid" kendo-grid="gridNoDN" k-options="gridNoDNOptions" expand-k-grid="gridNoDNExpand"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="tmp-container" style="display:none;">
+
+</div>
+ 
+<!--TO Vendor Rate-->
+<div class="cus-window" kendo-window="OPSAppointment_DIRouteTOMaster_VendorRate_win" k-title="false" k-width="700" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+               Gửi Tender
+            </div>
+            <div class="right"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="OPSAppointment_DIRouteTOMaster_VendorRate_grid" k-options="OPSAppointment_DIRouteTOMaster_VendorRate_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="TenderSend_Click($event,OPSAppointment_DIRouteTOMaster_VendorRate_win, OPSAppointment_DIRouteTOMaster_VendorRate_grid)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="TenderClose_Click($event,OPSAppointment_DIRouteTOMaster_VendorRate_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="OPSAppointment_DIRouteTOMaster_RateTime">
+    <div class="gridtoolbar">
+        <div class="left">
+        </div>
+        <div class="right">
+            <span style="font-weight:bold">Thời gian chờ duyệt (giờ): </span>
+            <input type="number" class="k-textbox" min="0" max="100000" ng-model="RateTime" style="width: 40px;" />
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="OPSAppointment_DIRouteTOMaster_gridToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+        </div>
+        <div class="right">
+            <a href="/" ng-show="IsShowUnMerge" ng-click="MergeCancel_Click($event, gridNoDN)" class="k-button" data-title="Hủy gom hàng"><i class="fa fa-ban"></i><span class="tooltip">Hủy gom hàng</span></a>
+            <input focus-k-datepicker kendo-date-picker class="cus-datepicker" k-options="DateDMY" k-ng-model="Search.DateFrom" style="width:95px" />
+            <input focus-k-datepicker kendo-date-picker class="cus-datepicker" k-options="DateDMY" k-ng-model="Search.DateTo" style="width:95px" />
+            <input style="width: 250px" focus-k-select kendo-multi-select="mltCustomer" k-options="mltCustomerOptions" k-ng-model="Search.ListCustomerID" />            
+            <a href="/" ng-click="Search_Click($event)" class="k-button" data-title="Tìm"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm</span></a>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="OPSAppointment_DIRouteTOMaster_gridMasterToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+        </div>
+        <div class="right">
+            <a href="/" ng-show="IsShowDelete && 1 == 0" ng-click="Master_ChangeMode_Click($event)" class="k-button" data-title="Gửi Tender"><i class="fa fa-exclamation-triangle"></i><span class="tooltip">Chuyển LTL</span></a>
+            <a href="/" ng-show="IsShowTendered" ng-click="Tendered_Click($event, OPSAppointment_DIRouteTOMaster_VendorRate_win, OPSAppointment_DIRouteTOMaster_VendorRate_grid)" class="k-button" data-title="Gửi Tender"><i class="fa fa-send"></i><span class="tooltip">Gửi Tender</span></a>
+            <a href="/" ng-show="IsShowApproved" ng-click="Approved_Click($event)" class="k-button" data-title="Duyệt"><i class="fa fa-check-square-o"></i><span class="tooltip">Duyệt</span></a>
+            <a href="/" ng-show="IsShowUnApproved" ng-click="UnApproved_Click($event)" class="k-button" data-title="Hủy duyệt"><i class="fa fa-ban"></i><span class="tooltip">Hủy duyệt</span></a>
+            <a href="/" ng-show="IsShowSave" ng-click="Save_Click($event, true)" class="k-button" data-title="Lưu"><i class="fa fa-check"></i><span class="tooltip">Lưu</span></a>
+            <a href="/" ng-show="IsShowDelete" ng-click="Delete_Click($event)" class="k-button" data-title="Xóa"><i class="fa fa-times"></i><span class="tooltip">Xóa</span></a>
+            <input focus-k-combobox kendo-drop-down-list="ddlTypeOfView" k-options="ddlTypeOfViewOptions" ng-model="Search.TypeOfViewID" style="width:95px" />
+            <a href="/" ng-click="Search_Click($event)" class="k-button" data-title="Tìm"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm</span></a>
+        </div>
+    </div>
+</script>
+
+<style>
+    .groupPLFooter { width: 500px; font-weight: bold; float: left; padding: 7px; margin: 0px 0px 0px 25px; display: block; }
+    .groupPLFooter .red { color: red; }
+    .groupPLFooter .green { color: #006600; }
+    .groupPLFooter .pointer { cursor: pointer; margin-right: 5px; color: #337ab7; }
+    .change-hor-top { float: left; width: calc(50% - 3px); height: 100%; border-right: 3px solid #d7e3f0; }
+    .change-hor-down { float: left; width: calc(50%); height: 100%; }
+    .change-ver-top { float: left; width: 100%; height: calc(50% - 5px); }
+    .change-ver-down { float: left; width: 100%; height: calc(50%); border-top: 5px solid #d7e3f0; }
+</style>
+

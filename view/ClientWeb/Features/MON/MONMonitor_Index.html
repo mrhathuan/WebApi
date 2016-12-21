@@ -1,0 +1,17 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ui-sref="main.MONMonitor.DockRegister" class="k-button"><i class="fa fa-flag"></i></a>
+            <a href="/" ui-sref="main.MONMonitor.DockManage" class="k-button"><i class="fa fa-server"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div kendo-diagram="opsDiagram" k-options="opsDiagram_Options" style="height: calc(100% - 2px); width: calc(100% - 2px); "></div>
+    </div>
+</div>

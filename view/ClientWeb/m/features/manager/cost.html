@@ -1,0 +1,52 @@
+﻿<ion-view hide-nav-bar="true" view-title="Phát sinh">
+    <ion-content scroll="false">
+        <div class="bar bar-header bar-royal">
+            <button class="button button-clear" ng-click="BackTo()"><img src="img/back.png" /></button>
+            <h1 class="title">Phát sinh</h1>
+            <button class="button button-clear" ng-show="View==1" ng-click="PickDate()"><img src="img/slide.png" /></button>
+        </div>
+        <div style="height:100%" class="content has-header" ng-show="View==1">
+            <ion-scroll style="width:100%;height:90%;">
+                <div class="list">
+                    <a ng-repeat="o in CostDataSummary" class="item item-icon-left item-icon-right" ng-click="CostSummaryClick(o.TroubleGroupID)">
+                        <span ng-class="ColorClass(o.StatusOfOrderCode)">{{o.TroubleGroup}}</span> <br />
+                        <span class="color-span">Tổng chi phí: {{o.Cost}}</span>
+                        <i class="icon ion-ios-arrow-right"></i>
+                    </a>
+                </div>
+            </ion-scroll>
+        </div>
+        <div style="height:100%" class="content has-header" ng-show="View==2">
+            <ion-scroll style="width:100%;height:90%;">
+                <div class="list">
+                    <a ng-repeat="o in CostData" class="item item-icon-right" ng-click="CostClick($event,o)">
+                        Chi phí phát sinh: ngày {{o.Date | date:'dd/MM'}} <br />
+                        <span class="color-span color-grey">Lý do: {{o.TroubleGroup}}</span>
+                        <i class="icon ion-ios-arrow-right"></i>
+                    </a>
+                </div>
+            </ion-scroll>
+        </div>
+        <div class="select-pane" ng-class="{'actived':ShowSelectPane==true}">
+            <div class="select-pane-header">
+                <div class="row">
+                    <div class="col col-80"><input ng-model="ComoboboxKey" style="width:100%;border-radius:5px;margin-top: 6px;" type="search" placeholder="Search"></div>
+                    <div class="col col-20"><button class="button button-clear" style="color:#fff" ng-click="CloseSelectPane()"> Cancel</button></div>
+                </div>
+            </div>
+            <div style="padding:10px;height:100%;overflow-y:scroll;overflow-x: hidden;">
+                <ul class="list">
+                    <li ng-repeat="o in DataCombobox | filter:ComoboboxKey" ng-click="ComboboxSelect(o.obj)" class="item">
+                        {{o.text}}
+                    </li>
+                </ul>
+                <div class="div-empty h110p"></div>
+            </div>
+
+        </div>
+    </ion-content>
+</ion-view>
+<style>
+    
+</style>
+

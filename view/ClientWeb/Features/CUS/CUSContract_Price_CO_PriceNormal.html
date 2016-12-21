@@ -1,0 +1,55 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">Bảng giá thường</div>
+        <div class="right">
+            <a class="k-button" ng-click="GroupContainer_ExcelOn_Click($event)"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <!--<a class="k-button" ng-click="GroupContainer_Excel_Click($event,winexcel)"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>-->
+            <!--<a class="k-button" ng-click="GroupContainer_Choose_Click($event,group_of_Container_win)"><i class="fa fa-truck"></i><span class="tooltip">Loại container</span></a>-->
+            <a class="k-button" ng-click="GroupContainer_Save_Click($event,goc_grid)"><i class="fa fa-check"></i><span class="tooltip">Lưu thay đổi</span></a>
+            <a class="k-button" ng-click="GroupContainer_CancelChange_Click($event,goc_grid)"><i class="fa fa-ban"></i><span class="tooltip">Hủy thay đổi</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="goc_grid" expand-k-grid></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="group_of_Container_NotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Loại container chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="groupOfContainer_NotIn_Grid" expand-k-grid k-options="groupOfContainer_NotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="groupOfContainer_Save_Click($event,group_of_Container_NotIn_win,groupOfContainer_NotIn_Grid)" class="k-button accept">Thêm</a>
+                <a href="/" ng-click="window_Close_Click($event,group_of_Container_NotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="group_of_Container_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Loại container</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="groupOfContainer_Grid" expand-k-grid k-options="groupOfContainer_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="GroupContainer_ChooseNotIn_Click($event,group_of_Container_NotIn_win)" class="k-button accept">Thêm mới</a>
+                <a href="/" ng-show="GroupContainerHasChoose" ng-click="GroupContainer_Choose_DeleteClick($event,groupOfContainer_Grid)" class="k-button">Xóa</a>
+                <a href="/" ng-click="window_Close_Click($event,group_of_Container_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

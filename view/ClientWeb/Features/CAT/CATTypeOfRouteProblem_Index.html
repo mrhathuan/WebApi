@@ -1,0 +1,56 @@
+﻿<script id="CATTypeOfRouteProblem_grid_toolbar" type="text/x-kendo-template">
+    <div class="gridtoolbar">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="CATTypeOfRouteProblem_Excel_Click($event)" class="k-button" data-title="Excel"><i class="fa fa-file-excel-o"></i><span class="tooltip">excel</span></a>
+            <a href="/" ng-click="CATTypeOfRouteProblemAddNew_Click($event,CATTypeOfRouteProblem_win,CATTypeOfRouteProblem_win_form)" class="k-button" data-title="Thêm mới"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+</script>
+<div class="cus-grid" kendo-grid="CATTypeOfRouteProblem_grid" expand-k-grid="CATTypeOfRouteProblem_grid" k-options="CATTypeOfRouteProblem_gridOptions"></div>
+<!--popup-->
+<div class="cus-window" draggable-k-window kendo-window="CATTypeOfRouteProblem_win" k-title="false" k-width="400" k-height="200" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Vấn đề của chuyến
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="CATTypeOfRouteProblem_win_form">
+                    <div class="rowinput">
+                        <label>Mã <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.Code" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.TypeName" v-form-require="true" v-form-length="500" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CATTypeOfRouteProblem_win_SaveClick($event,CATTypeOfRouteProblem_win,CATTypeOfRouteProblem_win_form)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="CATTypeOfRouteProblem_win_CloseClick($event,CATTypeOfRouteProblem_win)" class="k-button close" data-title="Đóng">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+

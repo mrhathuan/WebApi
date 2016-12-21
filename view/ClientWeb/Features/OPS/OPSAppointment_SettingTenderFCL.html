@@ -1,0 +1,211 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                <li><span>Thiết lập</span></li>
+            </ul>
+        </div>                                                                 
+        <div class="right">
+            <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-history"></i><span class="tooltip">Quay lại</span></a>
+            <a href="/" ng-click="SettingApply_Click($event,SettingApply_win)" class="k-button"><i class="fa fa-check-circle"></i><span class="tooltip">Áp dụng</span></a>
+            <a href="/" ng-click="Add_Click($event,SettingTenderFCLEdit_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-click="ShowSetting($event,SettingTenderFCL_grid)" ng-mouseenter="ShowSetting($event,paSettingTenderFCL_gridcketGrid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="SettingTenderFCL_grid" k-options="SettingTenderFCL_gridOptions" expand-k-grid></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="SettingTenderFCL_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chi tiết
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip k-content-urls="[null, null]" k-options="win_tabOptions">
+                <ul>
+                    <li data-tabindex="1" class="k-state-active">Khách hàng</li>
+                    <li data-tabindex="2">Cung đường</li>
+                    <li data-tabindex="3">Dịch vụ</li>  
+                    <li data-tabindex="4">Đối tác</li>                 
+                </ul>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="right">
+                                <a href="/" ng-click="CustomerAdd_Click($event,PopupEdit_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" expand-k-grid kendo-grid="Customer_Grid" k-options="Customer_Grid_Options"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="right">
+                                <a href="/" ng-click="RoutingAdd_Click($event,PopupEdit_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" expand-k-grid kendo-grid="Routing_Grid" k-options="Routing_Grid_Options"></div>
+                        </div>
+                    </div>
+                </div> 
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="right">
+                                <a href="/" ng-click="ServiceAdd_Click($event,PopupEdit_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" expand-k-grid kendo-grid="Service_Grid" k-options="Service_Grid_Options"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="right">
+                                <a href="/" ng-click="VendorAdd_Click($event,PopupEdit_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" expand-k-grid kendo-grid="Vendor_Grid" k-options="Vendor_Grid_Options"></div>
+                        </div>
+                    </div>
+                </div>             
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="SaveGrid_Click($event,SettingTenderFCL_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,SettingTenderFCL_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="SettingApply_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Áp dụng
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="SettingTenderFCLApply_grid" k-options="SettingTenderFCLApply_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="SettingTenderApplyChoose" ng-click="Apply_Save_Click($event,SettingTenderFCLApply_grid,SettingApply_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,SettingApply_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="VenderEdit_win" k-title="false" k-width="500" k-height="230" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Chỉnh sửa
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Tên</label>
+                    <div>
+                        <input class="k-textbox" type="text" disabled ng-model="dataVendor.VendorName" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Thời gian</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="dataVendor.RateTime" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>'Xác nhận Thời gian</label>
+                    <div>
+                        <input class="k-textbox" type="number" ng-model="dataVendor.RateTimeConfirm" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>            
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="VenderSaveEdit_Click($event,VenderEdit_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,VenderEdit_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="SettingTenderFCLEdit_win" k-title="false" k-width="500" k-height="130" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Nhập tên
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-100">
+                <div class="rowinput">
+                    <label>Tên</label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="item.Name" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="SaveEdit_Click($event,SettingTenderFCLEdit_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,SettingTenderFCLEdit_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>          
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="PopupEdit_win" k-title="false" k-width="850" k-height="450" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thêm {{name}}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" ng-show="isCustomer" expand-k-grid kendo-grid="CustomerAdd_Grid" k-options="CustomerAdd_Grid_Options"></div>
+            <div class="cus-grid" ng-show="isRouting" expand-k-grid kendo-grid="RoutingAdd_Grid" k-options="RoutingAdd_Grid_Options"></div>
+            <div class="cus-grid" ng-show="isService" expand-k-grid kendo-grid="ServiceAdd_Grid" k-options="ServiceAdd_Grid_Options"></div>
+            <div class="cus-grid" ng-show="isVendor" expand-k-grid kendo-grid="VendorAdd_Grid" k-options="VendorAdd_Grid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="FormSaveEdit_Click($event,PopupEdit_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,PopupEdit_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

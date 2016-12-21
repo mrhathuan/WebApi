@@ -1,0 +1,107 @@
+﻿<!--Window-->
+<div class="view-breakumb">
+    <div class="left">
+        <ul class="breakumb">
+            <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+            <li><span>Thay đổi bảng giá</span></li>
+        </ul>
+    </div>
+    <div class="right">
+
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="view-breakumb-content">
+    <div style="position: relative; height: 100%; background-color:#fff;">
+        <div class="cus-tabstrip" kendo-tab-strip="contract_tabstrip" k-options="contract_tabstripOptions" expand-k-tabstrip>
+            <ul>
+                <li class="k-state-active" data-tabindex="0">Thông tin chung</li>
+                <li data-tabindex="1">Bảng giá hiện tại</li>
+                <li data-tabindex="2">Bảng giá thay đổi</li>
+                <!-->li data-tabindex="3">Bảng giá không thay đổi</li-->
+            </ul>
+            <div>
+                <div class="form-body">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Loại vật tư/nhiên liệu</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="ItemMaterial.MaterialName" ng-disabled="true" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Giá hợp đồng</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="ItemMaterial.PriceContract" style="width:100%" ng-disabled="true" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Giá hiện tại</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="ItemMaterial.PriceCurrent" style="width:100%" ng-disabled="true" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Ghi chú</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="ItemMaterial.Note" ng-disabled="true" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Công thức kiểm tra</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="ItemMaterial.ExprInput" ng-disabled="true" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Công thức giá</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="ItemMaterial.ExprPrice" ng-disabled="true" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label>Công thức ngày áp dụng</label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="ItemMaterial.ExprDatePrice" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="cus-grid" kendo-grid="FCL_Grid" expand-k-grid ng-show="ItemPriceCurrent.ItemPrice.TypeOfMode==1"></div>
+                <div class="cus-grid" kendo-grid="FTL_Grid" expand-k-grid ng-show="ItemPriceCurrent.ItemPrice.TypeOfMode==2"></div>
+                <div class="cus-grid" kendo-grid="LTL_Grid" expand-k-grid ng-show="ItemPriceCurrent.ItemPrice.TypeOfMode==3"></div>
+            </div>
+            <div>
+                <div class="cus-grid" kendo-grid="FCLChange_Grid" expand-k-grid ng-show="ItemPriceCurrent.ItemPrice.TypeOfMode==1"></div>
+                <div class="cus-grid" kendo-grid="FTLChange_Grid" expand-k-grid ng-show="ItemPriceCurrent.ItemPrice.TypeOfMode==2"></div>
+                <div class="cus-grid" kendo-grid="LTLChange_Grid" expand-k-grid ng-show="ItemPriceCurrent.ItemPrice.TypeOfMode==3"></div>
+            </div>
+            <div>
+                <div class="cus-grid" kendo-grid="FCLNoChange_Grid" expand-k-grid ng-show="ItemPriceCurrent.ItemPrice.TypeOfMode==1"></div>
+                <div class="cus-grid" kendo-grid="FTLNoChange_Grid" expand-k-grid ng-show="ItemPriceCurrent.ItemPrice.TypeOfMode==2"></div>
+                <div class="cus-grid" kendo-grid="LTLNoChange_Grid" expand-k-grid ng-show="ItemPriceCurrent.ItemPrice.TypeOfMode==3"></div>
+            </div>
+        </div>
+        <div class="tabstrip-buttons">
+            <label ng-show="TabIndex==2&&!ItemMaterial.IsClosed">Mã</label>
+            <input ng-show="TabIndex==2&&!ItemMaterial.IsClosed" class="k-textbox" type="text" ng-model="ItemPriceChange.ItemPrice.Code" style="width: 100px;">
+            <label ng-show="TabIndex==2&&!ItemMaterial.IsClosed">Tên</label>
+            <input ng-show="TabIndex==2&&!ItemMaterial.IsClosed" class="k-textbox" type="text" ng-model="ItemPriceChange.ItemPrice.Name" style="width: 100px;">
+            <label ng-show="TabIndex==2">Ngày hiệu lực</label>
+            <input ng-show="TabIndex==2" ng-disabled="ItemMaterial.IsClosed" class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemPriceChange.ItemPrice.EffectDate" style="width: 100px;" />
+            <a ng-show="TabIndex==2&&!ItemMaterial.IsClosed" href="/" ng-click="Save_Click($event)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Đồng ý</span></a>
+            <!--Bang quy đổi-->
+            <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-history"></i><span class="tooltip is-right">Thoát</span></a>
+        </div>
+    </div>
+</div>

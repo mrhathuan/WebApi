@@ -1,0 +1,100 @@
+﻿<div class="cus-grid" kendo-grid="WFLSetting_Field_grid" k-options="WFLSetting_Field_gridOptions" expand-k-grid></div>
+
+<div class="cus-window" draggable-k-window kendo-window="WFLSetting_Field_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thiết lập dữ liệu</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post" ng-submit="Save_Click($event,WFLSetting_Field_win,WFLSetting_Field_grid,WFLSetting_Field_win_vform)">
+                <div class="WFLSetting_Form" v-form="WFLSetting_Field_win_vform">
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Tên bảng <span class="required">*</span></label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.TableName" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="form-content-150">
+                        <div class="rowinput" style=" height: 105px;">
+                            <label>Mô tả bảng </label>
+                            <div>
+                                <textarea class="k-textbox" ng-model="Item.TableDescription" style="height: 100px;width:100%" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Tên cột <span class="required">*</span></label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ColumnName" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="form-content-150">
+                        <div class="rowinput" style=" height: 105px;">
+                            <label>Mô tả cột </label>
+                            <div>
+                                <textarea class="k-textbox" ng-model="Item.ColumnDescription" style="height: 100px;width:100%" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Kiểu <span class="required">*</span></label>
+                            <div>
+                                <input type="text" class="k-textbox" ng-model="Item.ColumnType" v-form-require="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="form-content-150">
+                        <div class="rowinput">
+                            <label>Duyệt </label>
+                            <div>
+                                <input type="checkbox" ng-model="Item.IsApproved" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden"><input type="submit" /></div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Save_Click($event,WFLSetting_Field_win,WFLSetting_Field_grid,WFLSetting_Field_win_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,WFLSetting_Field_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="WFLSetting_Field_gridToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-show="HasChoose" ng-click="Del_Click($event,WFLSetting_Field_grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="Add_Click($event,WFLSetting_Field_win,WFLSetting_Field_win_vform)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+            <a href="/" ng-click="ShowSetting($event,WFLSetting_Field_grid)" ng-mouseenter="ShowSetting($event,WFLSetting_Field_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>

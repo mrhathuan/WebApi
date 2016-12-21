@@ -1,0 +1,288 @@
+﻿<div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+                </div>
+            <div class="right">
+                <a href="/" ng-click="CATSeaPortExcel_Click($event,winexcel)" class="k-button" data-title="Excel"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+                <a href="/" ng-click="CATSeaPortExcelCode_Click($event,winexcel)" class="k-button" data-title="Phân bổ mã"><i class="fa fa-file-excel-o"></i><span class="tooltip">Phân bổ mã</span></a>
+                <a href="/" ng-click="CATSeaPort_AddClick($event,CATSeaPort_win)" class="k-button " data-title="Thêm mới"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+                <a href="/" ng-click="ShowSetting($event,CATSeaPort_MainGrid)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+            </div>
+            </div>
+     
+        <div class="form-body">
+            <div class="cus-form">
+                <div class="form-header">
+                    <div class="left"></div>
+                    <div class="right">
+                        <label style="float:left"><strong>Khách hàng &nbsp;</strong></label>
+                        <select kendo-multi-select k-options="CATSeaPort_mts_CustomerOption" k-ng-model="CATSeaPort_ListCustomer" style="width:500px;float:left"></select>
+                        <a href="/" ng-click="CATSeaPort_mts_CancelClick($event)" class="k-button k-button-icontext" style="float:left"><i class="fa fa-ban"></i><span class="tooltip">Hủy</span></a>
+                    </div>
+                </div>
+                <div class="form-body">
+                    <div class="cus-grid" kendo-grid="CATSeaPort_MainGrid" expand-k-grid ></div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- popup edit-->
+<div class="cus-window" draggable-k-window kendo-window="CATSeaPort_win" k-title="false" k-width="900" k-height="600" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin Cảng biển</div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip="CATSeaPort_Tab" k-options="CATSeaPort_TabOptions">
+                <ul>
+                    <li class="k-state-active">Thông tin chung</li>
+                    <li ng-show="IsShowTab2">Thông tin địa chỉ</li>
+                </ul>
+                <div>
+                    <div class="cus-form" v-form="CATSeaPort_vform" style="overflow:scroll">
+                        <div class="form-content-150">
+                            <div class="rowinput">
+                                <label>Mã <span class="required">*</span></label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="SeaPortItem.Code" v-form-require="true" v-form-length="50" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tên nhà phân phối <span class="required">*</span></label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="SeaPortItem.PartnerName" v-form-require="true" v-form-length="50" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Nhóm </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="SeaPort_cboGroupOfPartnerOptions" ng-model="SeaPortItem.GroupOfPartnerID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Địa chỉ </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="SeaPortItem.Address" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Quốc gia </label>
+                                <div>
+                                    <input class="cus-combobox " focus-k-combobox kendo-combo-box="SeaPort_cboCountry" k-options="SeaPort_cboCountryOptions" ng-model="SeaPortItem.CountryID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tỉnh thành </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="SeaPort_cboProvince" k-options="SeaPort_cboProvinceOptions" ng-model="SeaPortItem.ProvinceID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Quận huyện </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="SeaPort_cboDistrict" k-options="SeaPort_cboDistrictOptions" ng-model="SeaPortItem.DistrictID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Xã phường </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="SeaPort_cboWard" k-options="SeaPort_cboWardOptions" ng-model="SeaPortItem.WardID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>SĐT </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="SeaPortItem.TelNo" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Fax </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="SeaPortItem.Fax" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Email </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="SeaPortItem.Email" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tên thanh toán </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="SeaPortItem.BillingName" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Địa chỉ thanh toán </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="SeaPortItem.BillingAddress" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Mã Tax </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="SeaPortItem.TaxCode" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Ghi chú </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="SeaPortItem.Note" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left title"></div>
+                            <div class="right button">
+                                <a href="/" ng-click="CATSeaPort_Location_AddClick($event,CATSeaPort_Location_win)" class="k-button" data-title="Thêm mới"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+                                <a href="/" ng-click="CATSeaPort_Location_SearchClick($event,CATSeaPort_LocationNotIn_win)" class="k-button" data-title="Tìm"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm</span></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" expand-k-grid kendo-grid="CATSeaPort_Location_Grid" k-options="CATSeaPort_Location_GridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CATSeaPort_SaveClick($event,CATSeaPort_win,CATSeaPort_vform)" class="k-button accept" data-title="Lưu/Cập nhật">Lưu/Cập nhật</a>
+                <a href="/" ng-click="CATSeaPort_DeleteClick($event,CATSeaPort_win)" ng-show="IsShowTab2" class="k-button" data-title="Xóa">Xóa</a>
+                <a href="/" ng-click="CATSeaPort_CloseClick($event,CATSeaPort_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="CATSeaPort_Location_win" k-title="false" k-width="600" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin địa điểm</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" v-form="CATSeaPort_Location_vform">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Mã <span class="required">*</span></label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="SeaPortLocationItem.PartnerCode" v-form-require="true" v-form-length="50" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tên <span class="required">*</span></label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="SeaPortLocationItem.Location" v-form-require="true" v-form-length="50" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Địa chỉ <span class="required">*</span></label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="SeaPortLocationItem.Address" v-form-require="true" v-form-length="50" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Quốc gia </label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="SeaPortLocation_cboCountry" k-options="SeaPortLocation_cboCountryOptions" ng-model="SeaPortLocationItem.CountryID" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tỉnh thành </label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="SeaPortLocation_cboProvince" k-options="SeaPortLocation_cboProvinceOptions" ng-model="SeaPortLocationItem.ProvinceID" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Quận huyện </label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="SeaPortLocation_cboDistrict" k-options="SeaPortLocation_cboDistrictOptions" ng-model="SeaPortLocationItem.DistrictID" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Xã phường </label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="SeaPortLocation_cboWard" k-options="SeaPortLocation_cboWardOptions" ng-model="SeaPortLocationItem.WardID" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Vĩ độ </label>
+                    <div>
+                        <input class="cus-number" style="width:100%" kendo-numeric-text-box k-options="SeaPortLocation_numLatOptions" ng-model="SeaPortLocationItem.Lat" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Kinh độ </label>
+                    <div>
+                        <input class="cus-number" style="width:100%" kendo-numeric-text-box k-options="SeaPortLocation_numLngOptions" ng-model="SeaPortLocationItem.Lng" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CATSeaPort_Location_SaveClick($event,CATSeaPort_Location_win,CATSeaPort_Location_vform)" class="k-button" data-title="Lưu/Cập nhật">Lưu/Cập nhật</a>
+                <a href="/" ng-click="CATSeaPort_Location_CloseClick($event,CATSeaPort_Location_win)" class="k-button" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="CATSeaPort_LocationNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn địa điểm</div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="CATSeaPort_LocationSearch_Grid" k-options="CATSeaPort_LocationSearch_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CATSeaPort_LocationSearch_ChooseClick($event,CATSeaPort_LocationNotIn_win,CATSeaPort_LocationSearch_Grid)" class="k-button" data-title="Chọn">Chọn</a>
+                <a href="/" ng-click="CATSeaPort_LocationSearch_CloseClick($event,CATSeaPort_LocationNotIn_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

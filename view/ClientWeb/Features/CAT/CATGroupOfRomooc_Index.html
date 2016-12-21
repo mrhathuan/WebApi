@@ -1,0 +1,111 @@
+﻿
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right">
+                <a href="/" ng-click="CATGroupOfRomooc_Excel_Click($event)" class="k-button" data-title="Excel"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+                <a href="/" ng-click="CATGroupOfRomooc_AddNew_Click($event,CATGroupOfRomooc_win)" class="k-button" data-title="Tạo mới"><i class="fa fa-plus"></i><span class="tooltip">Tạo mới</span></a>
+                <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+                <a href="/" ng-click="ShowSetting($event,CATGroupOfRomooc_grid)" ng-mouseenter="ShowSetting($event,CATGroupOfRomooc_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div class="cus-grid" expand-k-grid kendo-grid="CATGroupOfRomooc_grid" expand-k-grid="CATGroupOfRomooc_grid" k-options="CATGroupOfRomooc_gridOptions"></div>
+        </div>
+    </div>
+
+<!--popup-->
+<div class="cus-window" draggable-k-window kendo-window="CATGroupOfRomooc_win" k-title="false" k-width="600" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Loại Rommoc
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip="Rommoc_win_tab" k-content-urls="[null, null]" k-options="Rommoc_win_tabOptions">
+                <ul>
+                    <li data-tabindex="1" class="k-state-active">
+                        Thông tin chung
+                    </li>
+                    <li data-tabindex="2" ng-show="CATGroupOfRomoocItem.ID > 0">
+                        Loại container
+                    </li>
+                </ul>
+                <div>
+                    <div class="form-body with-footer">
+                        <form action="/" method="post">
+                            <div class="form-content-150" v-form="CATGroupOfRomooc_win_vform">
+                                <div class="rowinput">
+                                    <label>Mã <span class="required">*</span></label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="50" ng-model="CATGroupOfRomoocItem.Code" v-form-require="true" v-form-length="50" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tên <span class="required">*</span></label>
+                                    <div>
+                                        <input type="text" class="k-textbox" maxlength="50" ng-model="CATGroupOfRomoocItem.GroupName" v-form-require="true" v-form-length="50" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <!--<div class="rowinput">
+                            <label>Thuộc nhóm </label>
+                            <div>
+                                <input class="cboParent_Options cus-combobox" focus-k-combobox kendo-combo-box="CATGroupOfRomooc_cboParent" k-options="CATGroupOfRomooc_cboParent_Options" ng-model="CATGroupOfRomoocItem.ParentID" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>-->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div ng-show="CATGroupOfRomoocItem.ID > 0">
+                    <div class="cus-grid" expand-k-grid kendo-grid="GroupOfRomoocPacking_Grid" k-options="GroupOfRomoocPacking_Grid_Options"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="TabIndex == 1" ng-click="CATGroupOfRomooc_win_SaveClick($event,CATGroupOfRomooc_win,CATGroupOfRomooc_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-show="TabIndex == 2" ng-click="CATGroupOfPackingList_SaveClick($event,GroupOfRomoocPacking_Grid)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="CATGroupOfRomooc_win_CloseClick($event,CATGroupOfRomooc_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="CATGroupOfPacking_win" k-title="false" k-width="600" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Loại container
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="GroupOfRomoocPackingNotList_Grid" k-options="GroupOfRomoocPackingNotList_Grid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="HasChoose" ng-click="CATGroupOfPackingNoList_SaveClick($event,GroupOfRomoocPackingNotList_Grid,CATGroupOfPacking_win)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="CATGroupOfRomooc_win_CloseClick($event,CATGroupOfPacking_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="CATGroupOfPacking_grid_toolbar" type="text/x-kendo-template">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a href="/" ng-click="CATGroupOfPackingAddNew_Click($event,CATGroupOfPacking_win)" class="k-button" data-title="Thêm mới"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+        </div>
+    </div>
+</script>
+

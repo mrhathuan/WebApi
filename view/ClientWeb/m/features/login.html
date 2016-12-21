@@ -1,0 +1,17 @@
+﻿<ion-view>
+    <ion-content scroll="false">
+        <div class="login-container" style="background-image:url('img/loginbgr.png');">
+            <div class="loginheader"><img src="img/loginlogo.png" /></div>
+            <div class="logintext">Transport Management System</div>
+            <div class="div-empty h50p"></div>
+            <form class="loginform" action="/" role="form" ng-submit='eventLogin($event)'>
+                <input type="text" class="txt" ng-model="modelUsername" placeholder="Tài khoản *" />
+                <div class="div-empty h25p"></div>
+                <input type="password" class="txt" ng-model="modelPassword" placeholder="Mật khẩu *" />
+                <div class="div-empty h25p"></div>
+                <input class="bold" type="submit" value="Đăng nhập" />
+            </form>
+            <div style="width:100%;text-align:center;margin-top:10px;color:white;">{{ErrorStr}}</div>
+        </div>
+    </ion-content>
+</ion-view>

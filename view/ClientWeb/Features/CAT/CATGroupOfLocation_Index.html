@@ -1,0 +1,67 @@
+﻿<script id="CATGroupOfLocation_grid_toolbar" type="text/x-kendo-template">
+    <div class="gridtoolbar">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="CATGroupOfLocation_Excel_Click($event)" class="k-button" data-title="Excel"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-click="CATGroupOfLocationAddNew_Click($event,CATGroupOfLocation_winPopup)" class="k-button" data-title="Thêm mới"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+            <a href="/" ng-click="ShowSetting($event,CATGroupOfLocation_grid)" ng-mouseenter="ShowSetting($event,CATGroupOfLocation_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+</script>
+<div class="cus-grid" kendo-grid="CATGroupOfLocation_grid" expand-k-grid="CATGroupOfLocation_grid" k-options="CATGroupOfLocation_gridOptions"></div>
+<!--popup-->
+<div class="cus-window" draggable-k-window kendo-window="CATGroupOfLocation_winPopup" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Loại địa chỉ
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="sysfunction_win_vform">
+                    <div class="rowinput">
+                        <label>Mã <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.Code" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.GroupName" v-form-require="true" v-form-length="50" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Loại địa chỉ <span class="required">*</span></label>
+                        <div>
+                            <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="cboGOP_Options" ng-model="Item.GroupOfPartnerID" v-form-require="true"  />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CATGroupOfLocationSave_Click($event,CATGroupOfLocation_winPopup,sysfunction_win_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="CATGroupOfLocationClose_Click($event,CATGroupOfLocation_winPopup)" class="k-button close" >Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+

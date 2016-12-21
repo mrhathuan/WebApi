@@ -1,0 +1,93 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><a ui-sref="main.OPSAppointment.COOptimizer">Tối ưu</a></li>
+                <li><span>Kết quả - Danh sách chuyến</span></li>
+                <li><span>{{OptimizerName}}</span></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="right">
+            <a class="k-button" ui-sref="main.OPSAppointment.COOptimizer_COTOContainer({OptimizerID:{{OptimizerID}}})"><i class="fa fa-file-text"></i><span class="tooltip">Đơn hàng</span></a>
+            <a class="k-button" ng-show="!OptimizerClosed" ng-click="ReOptimize_Click($event)"><i class="fa fa-refresh"></i><span class="tooltip">Chạy lại</span></a>
+            <a class="k-button" ng-show="StatusOfOptimizer != 2" ui-sref="main.OPSAppointment.COOptimizer_2View({OptimizerID:{{OptimizerID}}})"><i class="fa fa-bars"></i><span class="tooltip">Điều chỉnh</span></a>
+            <a class="k-button" ng-show="!OptimizerClosed && HasChoose" ng-click="Optimize_ToMon_Click($event)"><i class="fa fa-floppy-o"></i><span class="tooltip">Lưu chuyến</span></a>
+            <a class="k-button" ng-show="StatusOfOptimizer != 0" ng-click="Optimize_GetJson_Click($event)"><i class="fa fa-download"></i><span class="tooltip">Tải về DL</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.COOptimizer_Container({OptimizerID:{{OptimizerID}}})"><i class="fa fa-history"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div kendo-splitter="ver_splitter" k-options="verSplitter_Options" class="cus-splitter ver-splitter" expand-k-splitter style="width: calc(100% - 2px);">
+            <div>
+                <div id="map" class="cus-map"></div>
+                <div id="map_tooltip" class="cus-map-tooltip"></div>
+            </div>
+            <div>
+                <div class="cus-grid" expand-k-grid kendo-grid="master_grid" k-options="master_gridOptions"></div>
+            </div>
+        </div>
+    </div>        
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="master_win" k-title="false" k-width="900" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <div>
+                    <span class="title">{{COTOMaster.Note}}</span>
+                    <input class="cus-combobox" ng-disabled="OptimizerClosed" focus-k-combobox kendo-combo-box k-options="cboVehicle_Options" ng-model="COTOMaster.VehicleID" style="width: 130px;" />
+                    <span> </span>
+                    <input class="cus-combobox" ng-disabled="OptimizerClosed" focus-k-combobox kendo-combo-box k-options="cboRomooc_Options" ng-model="COTOMaster.RomoocID" style="width: 130px;" />
+                    <span> ETD</span>
+                    <input class="cus-datetimepicker" ng-disabled="OptimizerClosed" focus-k-datetimepicker kendo-datetimepicker k-options="DateDMYHM" k-ng-model="COTOMaster.ETD" style="width: 150px;" />
+                    <span> ETA</span>
+                    <input class="cus-datetimepicker" ng-disabled="OptimizerClosed" focus-k-datetimepicker kendo-datetimepicker k-options="DateDMYHM" k-ng-model="COTOMaster.ETA" style="width: 150px;" />
+                </div>                
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="containerGrid" expand-k-grid k-options="containerGrid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="!OptimizerClosed" ng-click="Delete_Click($event,master_win)" class="k-button">Xóa chuyến</a>
+                <a href="/" ng-show="!OptimizerClosed" ng-click="Accept_Click($event,master_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,master_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="routing_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <div class="title">
+                    DANH SÁCH CUNG ĐƯỜNG
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="routingGrid" expand-k-grid k-options="routingGrid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,routing_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="notification_win" k-options="notification_winOptions" k-title="false" k-width="500" k-height="100" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="full" style="background-color: #fff">
+        <div style="width: calc(100% - 20px); position: relative; display: inline-block; padding: 10px; text-align: center;">
+            <i style="font-size: 40px; color: #31b6fc;" class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <span ng-style="Notification_Color" style="color: blue; font-size: 16px; display: block; line-height: 40px;">{{Notification_Text}}</span>
+        </div>
+    </div>
+</div>

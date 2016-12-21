@@ -1,0 +1,53 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><a ui-sref="main.OPSAppointment.DIOptimizer">Tối ưu</a></li>
+                <li><span>Đơn hàng</span></li>
+                <li><span>{{OptimizerName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_Vehicle({OptimizerID:{{OptimizerID}}})"><i class="fa fa-truck"></i><span class="tooltip">Xe</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_Location({OptimizerID:{{OptimizerID}}})"><i class="fa fa-location-arrow"></i><span class="tooltip">Địa điểm</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_Route({OptimizerID:{{OptimizerID}}})"><i class="fa fa-road"></i><span class="tooltip">Cung đường</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_LocationMatrix({OptimizerID:{{OptimizerID}}})"><i class="fa fa-globe"></i><span class="tooltip">Ma trận điểm</span></a>
+            <a class="k-button" ui-sref="main.OPSAppointment.DIOptimizer_Master({OptimizerID:{{OptimizerID}}})"><i class="fa fa-arrow-right"></i><span class="tooltip">{{ButtonRunTooltip}}</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-history"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" expand-k-grid kendo-grid="gopGrid" k-options="gopGrid_Options"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="gopNotIn_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH ĐƠN HÀNG
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="gopNotInGrid" expand-k-grid k-options="gopNotInGrid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Accept_Click($event,gopNotInGrid,gopNotIn_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,gopNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="gopGrid_toolbar">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a class="k-button" ng-show="HasChoose" ng-click="Delete_Click($event,gopGrid)"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a class="k-button" ng-click="Insert_Click($event,gopNotInGrid,gopNotIn_win)"><i class="fa fa-plus"></i><span class="tooltip  is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>

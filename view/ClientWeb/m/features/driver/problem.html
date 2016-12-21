@@ -1,0 +1,37 @@
+﻿<ion-view>
+    <ion-content class="" scroll="false">
+        <div style="height:100%;">
+            <div class="itab">
+                <ul class="itab-title">
+                    <li ng-class="{'tab-noactive': selectedTab!=1}" ng-click="SwicthTab(1)">Danh sách sự cố</li>
+                    <li ng-class="{'tab-noactive': selectedTab!=2}" ng-click="SwicthTab(2)">Báo sự cố</li>
+                </ul>
+                <ul class="itab-footer">
+                    <li ng-class="{ 'tab-active': selectedTab==1}" ng-click="selectedTab=1"></li>
+                    <li ng-class="{ 'tab-active': selectedTab==2}" ng-click="selectedTab=2"></li>
+                </ul>
+                <div ng-show="selectedTab==1" style="height: 100%;">
+                    <ion-scroll style="height:100vh">
+                        <ul class="list">
+                            <li class="item item-avatar" ng-repeat="item in ProblemList" ng-click="LoadMap(item)">
+                                <h2>{{item.TypeOfRouteProblemName}}</h2>
+                                <p>{{item.DateStart | date:'HH:mm'}}</p>
+                            </li>
+                        </ul>
+                        <div class="div-empty h110p"></div>
+                    </ion-scroll>
+                </div>
+                <div class="" ng-show="selectedTab==2" style="height: 100%;">
+                    <div class="div-empty h10p"></div>
+                    <select ng-model="ProblemItem.TypeOfRouteProblemID" style="width:100%;margin-bottom:8px;">
+                        <option value="" disabled selected style="opacity:0.5">Loại sự cố</option>
+                        <option ng-repeat="option in ProblemTypeData" value="{{option.ID}}">{{option.TypeName}}</option>
+                    </select>
+                    <div class="master-control">
+                        <div style="width:50%"><div ng-click="ProblemSave()" class="btn-active btn-accept">Báo sự cố</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>     
+    </ion-content>
+</ion-view>

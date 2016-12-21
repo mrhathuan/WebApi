@@ -1,0 +1,47 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="right">
+            <span>Tháng: </span><label><input class="cus-number cus-number-search" kendo-numeric-text-box k-options="numMonth_options" ng-model="ItemSearch.Month" style="width:100%" /></label>
+            <span>Năm: </span><label><input class="cus-number cus-number-search" kendo-numeric-text-box k-options="numYear_options" ng-model="ItemSearch.Year" style="width:100%" /></label>
+            <a href="/" ng-click="FLMFixedCost_SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Xem</span></a>
+            <a href="/" ng-show="FixedCostHasChoose" ng-click="FLMFixedCost_Save_Click($event,FLMFixedCost_Grid)" class="k-button"><i class="fa fa-floppy-o"></i><span class="tooltip">Cập nhật</span></a>
+            <a href="/" ng-show="FixedCostHasChoose" ng-click="FLMFixedCost_Refresh_Click($event,FLMFixedCost_Grid)" class="k-button"><i class="fa fa-refresh"></i><span class="tooltip">Cập nhật</span></a>
+            <a href="/" ng-click="ShowSetting($event,FLMFixedCost_Grid)" ng-mouseenter="ShowSetting($event,FLMFixedCost_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="FLMFixedCost_Grid" k-options="FLMFixedCost_GridOptions" expand-k-grid></div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="Receipt_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách phiếu </div>
+            <div class="right button">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="Receipt_Grid" k-options="Receipt_GridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Win_CloseClick($event,Receipt_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .cus-number-search{
+        line-height:27px;
+    }
+</style>

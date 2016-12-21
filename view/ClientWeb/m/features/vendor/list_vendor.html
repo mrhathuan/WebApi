@@ -1,0 +1,10 @@
+﻿<ion-view view-title="Chọn nhà xe">
+    <ion-content scroll="true">
+        <ul class="list">
+            <li ng-repeat="o in VendorList" ng-click="ClickVendor(o)" class="item">
+                <h2>{{o.Code}}</h2>
+                <p>{{o.CustomerName}}</p>
+            </li>
+        </ul>
+    </ion-content>
+</ion-view>

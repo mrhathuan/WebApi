@@ -1,0 +1,42 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span>Đơn hàng gửi đối tác</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <input type="radio" name="Radio" ng-model="IsAccept" ng-click="Refresh_Click($event,packetGrid)" id="ActiveView" ng-value="null" /><label for="ActiveView">Chờ duyệt &nbsp;</label>
+            <input type="radio" name="Radio" ng-model="IsAccept" ng-click="Refresh_Click($event,packetGrid)" id="RejectView" ng-value="false" /><label for="RejectView">Đã từ chối &nbsp;</label>
+            <input type="radio" name="Radio" ng-model="IsAccept" ng-click="Refresh_Click($event,packetGrid)" id="AcceptView" ng-value="true" /><label for="AcceptView">Đã chấp nhận &nbsp;</label>
+
+            <a class="k-button" ng-show="IsRateSelected" ng-click="Rate_Accept($event,packetGrid)"><i class="fa fa-check-square-o"></i><span class="tooltip">Chấp nhận</span></a>
+            <a class="k-button" ng-show="IsRateSelected" ng-click="Rate_Reject($event,packetGrid)"><i class="fa fa-ban"></i><span class="tooltip">Từ chối</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-history"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" expand-k-grid kendo-grid="packetGrid" k-options="packetGrid_Options"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="packet_info_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH HÀNG HÓA
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" expand-k-grid kendo-grid="gopGrid" k-options="gopGrid_Options"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="HasChoose" ng-click="AcceptPart_Click($event,gopGrid,packet_info_win)" class="k-button accept">Chấp nhận</a>
+                <a href="/" ng-click="Close_Click($event,packet_info_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

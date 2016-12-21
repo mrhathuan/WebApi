@@ -1,0 +1,29 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <label>KH</label>
+            <input kendo-multi-select focus-k-select k-options="mts_CustomerOptions" k-ng-model="ItemSearch.ListCustomerID" style="width: 250px;" />
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="PODCheck_SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-click="ShowSetting($event,PODCOCheck_grid)" ng-mouseenter="ShowSetting($event,PODCOCheck_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="PODCOCheck_grid" expand-k-grid="InputCheck_PODCOCheck_grid" k-options="PODCOCheck_gridOptions"></div>
+    </div>
+</div>
+
+
+<style>
+    .k-grid .k-grid-content tbody > tr > td a .hasupload {
+        color: red;
+    }
+</style>

@@ -1,0 +1,17 @@
+﻿<script type="text/x-kendo-tmpl" id="gop_GridToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-show="!Auth.ViewVendor" ui-sref="main.OPSAppointment.DIRouteDN" class="k-button"><i class="fa fa-sitemap"></i><span class="tooltip">Nhập dữ liệu</span></a>
+            <a href="/" ng-show="!Auth.ViewVendor&&HasChoose" ng-click="Cancel_Click($event,gop_Grid)" class="k-button"><i class="fa fa-history"></i><span class="tooltip">Trả về</span></a>
+            <a href="/" ng-show="!Auth.ViewVendor" ng-click="ShowSetting($event,gop_Grid)" ng-mouseenter="ShowSetting($event,gop_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<div class="cus-grid" kendo-grid="gop_Grid" k-options="gop_GridOptions" expand-k-grid="gop_GridExpand"></div>

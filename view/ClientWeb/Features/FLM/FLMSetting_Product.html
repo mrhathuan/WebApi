@@ -1,0 +1,99 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a ng-click="GOP_Add($event)" id="goproduct-btnAdd" class="k-button" ng-show="Auth.ActEdit"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a ng-click="GOP_Reset($event)" id="goproduct-btnReset" class="k-button" ng-show="Auth.ActEdit"><i class="fa fa-check"></i><span class="tooltip">Cập nhật bảng giá</span></a>
+            <a href="/" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div style="float:left; width:100%; height:50%;">
+            <div kendo-treelist="GOP_Tree" k-options="GOP_TreeOptions" id="goproduct-treelist" class="cus-tree" expand-k-grid></div>
+        </div>
+        <div style="float:left; width:100%; height:50%;">
+            <div kendo-grid="Product_Grid" expand-k-grid k-options="Product_GridOptions" class="cus-grid"></div>
+            <script type="text/x-kendo-tmpl" id="product-grid-toolbar">
+                <div class="gridtoolbar">
+                    <div class="left">
+                        <div class="title">Hàng hóa</div>
+                    </div>
+                    <div class="right">
+                        <a ng-show="gopID>0" ng-click="Product_Add($event,Product_Win)" class="k-button" ng-show="Auth.ActEdit"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm kiếm</span></a>
+                    </div>
+                </div>
+            </script>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="GOP_Win" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Nhóm sản phẩm: {{DetailItem.GroupName}}
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="content-content">
+                <form action="/" method="post">
+                    <div v-form="Cus_vGOPForm">
+                        <div class="form-content-150">
+                            <div class="rowinput">
+                                <label>Mã nhóm SP<span class="required">*</span></label>
+                                <div>
+                                    <input ng-model="DetailItem.Code" type="text" class="k-textbox" v-form-require="true" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tên nhóm SP<span class="required">*</span></label>
+                                <div>
+                                    <input ng-model="DetailItem.GroupName" type="text" class="k-textbox" v-form-require="true" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tính theo<span class="required">*</span></label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="PriceOfGOP_CbbOptions" ng-model="DetailItem.PriceOfGOPID" v-form-require="true" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="GOP_Save($event,Cus_vGOPForm)" class="k-button accept" ng-show="Auth.ActEdit">Lưu</a>
+                <a href="/" ng-click="Win_Close($event,GOP_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="Product_Win" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Tìm kiếm hàng hóa
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div kendo-grid="Product_NotinGrid" k-options="Product_NotinGridOptions" class="cus-grid" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="Product_SaveList($event)" class="k-button accept" ng-show="Auth.ActEdit">Lưu</a>
+                <a ng-click="Win_Close($event,Product_Win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

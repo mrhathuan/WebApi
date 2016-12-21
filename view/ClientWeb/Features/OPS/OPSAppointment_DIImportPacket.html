@@ -1,0 +1,62 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span>Import chuyến xe tải</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <label for="chkCreated">Đã gửi OPS</label><input id="chkCreated" type="checkbox" ng-model="IsCreated"/>
+            <a class="k-button" ng-show="HasSelect" ng-click="Packet_Select($event,packetGrid)"><i class="fa fa-bars"></i><span class="tooltip">Chi tiết</span></a>
+            <a class="k-button" ng-click="Packet_New($event,packetGrid,packet_info_win)"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" expand-k-grid kendo-grid="packetGrid" k-options="packetGrid_Options"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="packet_info_win" k-title="false" k-width="600" k-height="230" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                CHI TIẾT
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label> Tên</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="PacketItem.PacketName" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ghi chú</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="PacketItem.Note" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Thiết lập</label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboSettingPlan" k-options="cboSettingPlan_Options" ng-model="PacketItem.CUSSettingID" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Packet_Save_Click($event,packetGrid,packet_info_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,packet_info_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+

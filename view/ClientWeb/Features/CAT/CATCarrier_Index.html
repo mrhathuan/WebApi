@@ -1,0 +1,291 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="CATCarrierExcel_Click($event,winexcel)" class="k-button " data-title="Excel"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-click="CATCarrierExcelCode_Click($event,winexcel)" class="k-button" data-title="Phân bổ mã"><i class="fa fa-file-excel-o"></i><span class="tooltip">Phân bổ mã</span></a>
+            <a href="/" ng-click="CATCarrier_AddClick($event,CATCarrier_win)" class="k-button " data-title="Thêm mới"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-click="ShowSetting($event,CATCarrier_MainGrid)" ng-mouseenter="ShowSetting($event,CATCarrier_MainGrid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-form">
+            <div class="form-header">
+                <div class="left"></div>
+                <div class="right">
+                    <label style="float:left"><strong>Khách hàng &nbsp;</strong></label>
+                    <select kendo-multi-select focus-k-select k-options="CATCarrier_mts_CustomerOption" k-ng-model="CATCarrier_ListCustomer" style="width:500px;float:left"></select>
+                    <a href="/" ng-click="CATCarrier_mts_CancelClick($event)" class="k-button" data-title="Hủy"><i class="fa fa-ban"></i><span class="tooltip is-right">Hủy</span></a>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="form-body">
+                <div class="cus-grid" kendo-grid="CATCarrier_MainGrid" expand-k-grid k-options="CATCarrier_MainGrid_Options"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- popup edit-->
+<div class="cus-window" draggable-k-window kendo-window="CATCarrier_win" k-title="false" k-width="900" k-height="600" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin hãng tàu</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" kendo-tab-strip="CATCarrier_Tab" k-options="CATCarrier_TabOptions" expand-k-tabstrip>
+                <ul>
+                    <li data-tabindex="1" class="k-state-active">Thông tin chung</li>
+                    <li data-tabindex="1" ng-show="IsShowTab2">Thông tin địa chỉ</li>
+                </ul>
+                <div>
+                    <div class="cus-form" v-form="CATCarrier_vform" scrolldiv>
+                        <div class="form-content-150">
+                            <div class="rowinput">
+                                <label>Mã <span class="required">*</span></label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="CarrierItem.Code" v-form-require="true" v-form-length="50" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tên hãng tàu <span class="required">*</span></label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="CarrierItem.PartnerName" v-form-require="true" v-form-length="50" />
+                                </div>
+                                <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Nhóm </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box k-options="Carrier_cboGroupOfPartnerOptions" ng-model="CarrierItem.GroupOfPartnerID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Địa chỉ </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="CarrierItem.Address" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Quốc gia </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="Carrier_cboCountry" k-options="Carrier_cboCountryOptions" ng-model="CarrierItem.CountryID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tỉnh thành </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="Carrier_cboProvince" k-options="Carrier_cboProvinceOptions" ng-model="CarrierItem.ProvinceID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Quận huyện </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="Carrier_cboDistrict" k-options="Carrier_cboDistrictOptions" ng-model="CarrierItem.DistrictID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Xã phường </label>
+                                <div>
+                                    <input class="cus-combobox" focus-k-combobox kendo-combo-box="Carrier_cboWard" k-options="Carrier_cboWardOptions" ng-model="CarrierItem.WardID" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>SĐT </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="CarrierItem.TelNo" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Fax </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="CarrierItem.Fax" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Email </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="CarrierItem.Email" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Tên thanh toán </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="CarrierItem.BillingName" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Địa chỉ thanh toán </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="CarrierItem.BillingAddress" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Mã Tax </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="CarrierItem.TaxCode" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Ghi chú </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="CarrierItem.Note" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left title"></div>
+                            <div class="right">
+                                <a href="/" ng-click="CATCarrier_Location_AddClick($event,CATCarrier_Location_win)" class="k-button" data-title="Thêm mới"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+                                <a href="/" ng-click="CATCarrier_Location_SearchClick($event,CATCarrier_LocationNotIn_win)" class="k-button" data-title="Tìm kiếm"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm kiếm</span></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="CATCarrier_Location_Grid" expand-k-grid k-options="CATCarrier_Location_GridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="CATCarrier_TabIndex == 1" ng-click="CATCarrier_SaveClick($event,CATCarrier_win,CATCarrier_vform)" class="k-button accept" data-title="Lưu/Cập nhật">Lưu/Cập nhật</a>
+                <a href="/" ng-show="CATCarrier_TabIndex == 1" ng-click="CATCarrier_DeleteClick($event,CATCarrier_win)" ng-show="IsShowTab2" class="k-button" data-title="Xóa">Xóa</a>
+                <a href="/" ng-click="CATCarrier_CloseClick($event,CATCarrier_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="CATCarrier_Location_win" k-title="false" k-width="600" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <div class="title">
+                    Thông tin địa điểm
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer" v-form="CATCarrier_Location_vform">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Mã <span class="required">*</span></label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="CarrierLocationItem.PartnerCode" v-form-require="true" v-form-length="50" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tên <span class="required">*</span></label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="CarrierLocationItem.Location" v-form-require="true" v-form-length="50" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Địa chỉ </label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="CarrierLocationItem.Address" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Quốc gia </label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="CarrierLocation_cboCountry" k-options="CarrierLocation_cboCountryOptions" ng-model="CarrierLocationItem.CountryID" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tỉnh thành </label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="CarrierLocation_cboProvince" k-options="CarrierLocation_cboProvinceOptions" ng-model="CarrierLocationItem.ProvinceID" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Quận huyện </label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="CarrierLocation_cboDistrict" k-options="CarrierLocation_cboDistrictOptions" ng-model="CarrierLocationItem.DistrictID" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Xã phường </label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="CarrierLocation_cboWard" k-options="CarrierLocation_cboWardOptions" ng-model="CarrierLocationItem.WardID" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Vĩ độ </label>
+                    <div>
+                        <input class="cus-number" style="width:100%" kendo-numeric-text-box k-options="CarrierLocation_numLatOptions" ng-model="CarrierLocationItem.Lat" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Kinh độ </label>
+                    <div>
+                        <input class="cus-number" style="width:100%" kendo-numeric-text-box k-options="CarrierLocation_numLngOptions" ng-model="CarrierLocationItem.Lng" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CATCarrier_Location_SaveClick($event,CATCarrier_Location_win,CATCarrier_Location_vform)" class="k-button accept" data-title="Lưu/Cập nhật">Lưu/Cập nhật</a>
+                <a href="/" ng-click="CATCarrier_Location_win_CloseClick($event,CATCarrier_Location_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="CATCarrier_LocationNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Chọn địa điểm</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="CATCarrier_LocationSearch_Grid" expand-k-grid k-options="CATCarrier_LocationSearch_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CATCarrier_Location_ChooseClick($event,CATCarrier_LocationNotIn_win,CATCarrier_LocationSearch_Grid)" class="k-button accept" data-title="Chọn">Chọn</a>
+                <a href="/" ng-click="CATCarrier_LocationNotIn_win_CloseClick($event,CATCarrier_LocationNotIn_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+﻿<div class="cus-form">
+    <div class="ORDOrder_New">
+        <div class="ORDOrder_New_form">
+            <form action="/" ng-submit="ORDNew_Click($event);" class="cus-form">
+                <div class="form-header">
+                    <div class="title">Tạo mới đơn hàng</div>
+                </div>
+                <div class="form-body">
+                    <div class="form-content-200" v-form="ORDNew_vform" style="padding-right: 100px; margin: 35px auto; width: 600px; padding-right: 150px;">
+                        <div class="rowinput">
+                            <label> Khách hàng</label>
+                            <div>
+                                <input class="cus-combobox cboCustomer" focus-k-combobox kendo-combobox="cboCustomer" k-options="cboCustomerOptions" k-ng-model="ItemParam.CustomerID" v-form-require="true" v-form-cbb="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Loại v.chuyển</label>
+                            <div>
+                                <input class="cus-combobox cboTransportMode" focus-k-combobox kendo-combobox="cboTransportMode" k-options="cboTransportModeOptions" k-ng-model="ItemParam.TransportID" v-form-require="true" v-form-cbb="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput" ng-show="IsShowService">
+                            <label> Dịch vụ</label>
+                            <div>
+                                <input class="cus-combobox cboService" focus-k-combobox kendo-combobox="cboService" k-options="cboServiceOptions" k-ng-model="ItemParam.ServiceID" v-form-require="false"  />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Hợp đồng</label>
+                            <div>
+                                <input class="cus-combobox cboContract" focus-k-combobox kendo-combobox="cboContract" k-options="cboContractOptions" k-ng-model="ItemParam.ContractID" v-form-require="false" v-form-cbb="true" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput">
+                            <label> Phụ lục</label>
+                            <div>
+                                <input class="cus-combobox cboContractTemp" focus-k-combobox kendo-combobox="cboContractTemp" k-options="cboContractTempOptions" k-ng-model="ItemParam.TermID" v-form-require="false" v-form-cbb="false" />
+                            </div>
+                            <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="rowinput rowaction" style="text-align:right; right: 22px; margin-top:20px;">
+                            <a href="/" ui-sref='main.ORDOrder.Index' class="k-button close">Quay về</a>
+                            <a href="/" ng-click="ORDNew_Click($event,ORDNew_vform)" class="k-button accept">Tiếp tục</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

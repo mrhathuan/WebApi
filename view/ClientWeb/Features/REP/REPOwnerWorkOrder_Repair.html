@@ -1,0 +1,23 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateFrom" />
+            <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateTo" />
+
+            <a href="/" ng-click="Search_Click($event)" class="k-button "><i class="fa fa-search"></i><span class="tooltip">Xem báo cáo</span> </a>
+            <!--<a href="/" ng-click="SettingReport($event,SettingReport_List_win)" class="k-button "><i class="fa fa-cog"></i><span class="tooltip">Xuất dữ liệu</span></a>-->
+            <a href="/" ng-click="Excel_Export($event)" class="k-button "><i class="fa fa-file-excel-o"></i><span class="tooltip">Xuất dữ liệu mẫu</span></a>
+            <a href="/" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event,REPOwnerWorkOrder_grid)" ng-mouseleave="HideSetting($event,REPOwnerWorkOrder_grid)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="form-body ">
+        <div class="cus-grid" expand-k-grid kendo-grid="REPOwnerWorkOrder_grid" k-options="REPOwnerWorkOrder_gridOptions"></div>
+    </div>
+</div>

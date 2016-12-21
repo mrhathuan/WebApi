@@ -1,0 +1,46 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">
+            Báo cáo quay đầu xe
+        </div>
+        <div class="right">
+            <div>Đối tác</div>
+            <input style="width:200px;" kendo-multi-select focus-k-select k-options="mulVendor_Options" k-ng-model="Item.lstVendorID" />
+            <input style="width:100px;" class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="Item.DateFrom" />
+            <input style="width:100px;" class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="Item.DateTo" />
+
+            <a href="/" ng-click="Search_Click($event)" class="k-button "><i class="fa fa-search"></i><span class="tooltip">Xem báo cáo</span> </a>
+            <a href="/" ng-click="Excel_Click($event)" class="k-button "><i class="fa fa-file-excel-o"></i><span class="tooltip">Xuất dữ liệu</span></a>
+            <a href="/" ng-click="Chart_Click($event)" class="k-button "><i class="fa fa-line-chart"></i><span class="tooltip is-right">Biểu đồ</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="form-body ">
+        <div class="cus-grid" kendo-grid="rep_grid" expand-k-grid></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="chart_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thống kê hệ số quay đầu xe
+            </div>
+            <div class="right button">
+                <a href="/" ng-click="Close_Click($event, chart_win)" style="padding: 10px; color:black"><i class="fa fa-times"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div class="form-body-header" style="height:30px; padding:5px 0px">
+                <div style="float:left; ">
+                    <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboThemeOptions" ng-model="Item.Theme" style="width: 150px;" />
+                    <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboTypeOptions" ng-model="Item.Type" style="width: 150px;" />
+                </div>
+            </div>
+            <div class="form-body-content" style="height: calc(100% - 40px);">
+                <div id="REPOwnerTotalSchedule_Chart" class="cus-chart"></div>
+            </div>
+        </div>
+    </div>
+</div>

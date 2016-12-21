@@ -1,0 +1,20 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <span>Khách hàng </span><input class="cus-combobox" focus-k-combobox kendo-combobox="cboCustomer" k-options="cboCustomerOptions" k-ng-model="Item.CustomerID" style="width:200px" v-form-require="true" />
+            <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateFrom" />
+            <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateTo" />
+            <a href="/" ng-click="POD_Search_Click($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip is-right">Tìm Kiếm</span></a>
+            <a href="/" ng-click="ShowSetting($event,PODInVoice_grid)" ng-mouseenter="ShowSetting($event,PODInVoice_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="PODInVoice_grid" k-options="PODInVoice_gridOptions" expand-k-grid></div>
+    </div>
+</div>

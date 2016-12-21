@@ -1,0 +1,23 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="SettingGrid_Click($event,wincustom,PODInput_grid)" class="k-button" data-title="Hiển thị"><i class="fa fa-cog"></i><span class="tooltip">Hiển thị</span></a>
+            <label>KH</label>
+            <input kendo-multi-select focus-k-select k-options="mts_CustomerOptions" k-ng-model="PODInputItem.ListCustomerID" style="width: 200px;" />
+            <label>Từ</label> 
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="PODInputItem.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="PODInputItem.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="PODInput_SearchClick($event)" class="k-button" ><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-click="ShowSetting($event,PODInput_grid)" ng-mouseenter="ShowSetting($event,PODInput_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>            
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="PODInput_grid" expand-k-grid k-options="PODInput_gridOptions"></div>
+    </div>
+</div>

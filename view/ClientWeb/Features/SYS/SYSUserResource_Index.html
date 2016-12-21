@@ -1,0 +1,83 @@
+﻿
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right">
+                <!--develop -->
+                <a href="/" ng-click="SYSUserResource_ExcelClick($event,winexcel)" class="k-button" data-title="Excel"><span class="tooltip">Excel</span><i class="fa fa-file-excel-o"></i></a>
+                <a href="/" ng-click="SYSUserResource_SetDefault($event)" class="k-button" ><span class="tooltip">Reset về mặc định</span><i class="fa fa-refresh"></i></a>
+                <a href="/" ng-mouseover="ShowSetting($event,SYSUserResource_Grid)" ng-mouseleave="HideSetting($event)" class="k-button" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+
+            </div>
+        </div>
+        <div class="form-body">
+            <div class="cus-grid" kendo-grid="SYSUserResource_Grid" expand-k-grid k-options="SYSUserResource_GridOptions"></div>
+        </div>
+    </div>
+
+<div class="cus-window" draggable-k-window kendo-window="SYSUserResource_win" k-title="false" k-width="500" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thêm mới/Chỉnh sửa</div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <form action="/" method="post">
+                <div class="form-content-150" v-form="SYSUserResource_win_vform">
+                    <div class="rowinput">
+                        <label>Mã hệ thống</label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="50" ng-model="Item.SYSKey" v-form-require="true" v-form-length="50" ng-readonly="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên hệ thống </label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="500" ng-model="Item.SYSName" v-form-require="true" v-form-length="500" ng-readonly="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên ngắn hệ thống </label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="500" ng-model="Item.SYSShortName" v-form-require="true" v-form-length="500" ng-readonly="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên người dùng</label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="500" ng-model="Item.Name" v-form-length="500" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tên ngắn người dùng</label>
+                        <div>
+                            <input type="text" class="k-textbox" maxlength="500" ng-model="Item.ShortName" v-form-length="500" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="SYSUserResource_win_SaveClick($event,SYSUserResource_win,SYSUserResource_win_vform)" class="k-button accept" data-title="Lưu">Lưu</a>
+                <a href="/" ng-click="SYSUserResource_win_CloseClick($event,SYSUserResource_win)" class="k-button close" data-title="Đóng">Đóng</a>
+
+            </div>
+        </div>
+    </div>
+</div>

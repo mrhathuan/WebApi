@@ -1,0 +1,143 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">
+            Phân tích lợi nhuận
+        </div>
+        <div class="right">
+            <div>
+                Khách hàng
+            </div>
+            <select style="width:300px;" focus-k-combobox kendo-multi-select="repdipivot_index_cbo" k-ng-model="Item.lstCustomerID" k-options="mulCustomer_Options" />
+
+            <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateFrom" />
+            <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateTo" />
+
+            <a href="/" ng-click="REPDIPivot_Search($event,repdipivot_index_cbo)" class="k-button " style="float:left"><i class="fa fa-search"></i><span class="tooltip">Xem báo cáo</span></a>
+            <a href="/" ng-click="Template_Click($event, REPDIPivot_Template_win)" class="k-button " style="float:left"><i class="fa fa-cloud"></i><span class="tooltip">Xem theo template</span></a>
+            <a href="/" ng-click="Add_Click($event, REPDIPivot_Template_New_win)" class="k-button " style="float:left"><i class="fa fa-bookmark"></i><span class="tooltip">Lưu template hiện tại</span></a>
+            <a href="/" ng-click="REPDIPivot_PivotExcel_Click($event)" class="k-button " style="float:left"><i class="fa fa-file-excel-o"></i><span class="tooltip is-right">Xuất dữ liệu</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-tabstrip" expand-k-tabstrip kendo-tabstrip k-options="pivot_tabstripOptions">
+            <ul>
+                <li class="k-state-active">Bảng phân tích</li>
+                <li>Biểu đồ</li>
+            </ul>
+            <div>
+                <div class="cus-splitter" expand-k-splitter kendo-splitter="REPDIPivot_Splitter" k-options="REPDIPivot_Splitter_Options">
+                    <div class="cus-form">
+                        <div class="cus-pivot-config" id="repdipivot_pivot_config"></div>
+                    </div>
+                    <div class="cus-form">
+                        <div class="cus-pivot" id="repdipivot_pivot_grid"></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="cus-form">
+                    <div class="form-header">
+                        <div class="right" style="float:left; ">
+                            <span>Theme:</span>
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboDashBoard_ThemeOptions" ng-model="Item.ChartTheme" style="width: 120px;" k-on-change="OnDashBoard_ThemeChange(kendoEvent)" />
+                            <span>Type:</span>
+                            <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboChart_Options" ng-model="Item.chart_typeDisplay" style="width: 120px;" />
+                            <span ng-show="Item.chart_type=='document'">Loại biểu đồ:</span>
+                            <div ng-repeat="filter in barChartSettings">
+                                <div ng-show="Item.chart_type=='document'" filter-menu="filter" update="REPDIPivot_UpdateChart()" class="cus-combobox"></div>
+                            </div>
+                            <div ng-show="Item.chart_type=='finance'">
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboFChart_Options" ng-model="Item.fchart_type" style="width: 120px;" />
+                            </div>
+                            <div ng-show="Item.chart_type=='analysis'">
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboPieChartCat_Options" ng-model="Item.PieChart.category" style="width: 120px;" />
+                                <input class="cus-combobox" focus-k-combobox kendo-combobox k-options="cboPieChartMeasure_Options" ng-model="Item.PieChart.measure" style="width: 120px;" />
+                            </div>
+                        </div>
+                        <div class="right" ng-show="Item.chart_type!='analysis'">
+                            <div ng-repeat="filter in filters">
+                                <div filter-menu="filter" update="REPDIPivot_UpdateChart()" class="cus-combobox"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div id="repdipivot_pivot_chart" class="cus-chart"></div>
+                        <div class="overlay"><div>No data available</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Grid Template-->
+<div class="cus-window" kendo-window="REPDIPivot_Template_win" k-title="false" k-width="700" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách template
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="REPDIPivot_Template_grid" k-options="REPDIPivot_Template_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Accept_Click($event,REPDIPivot_Template_win, REPDIPivot_Template_grid)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="Close_Click($event,REPDIPivot_Template_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Add Template-->
+<div class="cus-window" kendo-window="REPDIPivot_Template_New_win" k-title="false" k-width="500" k-height="150" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Template mới
+            </div>
+            <div class="right button">
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Tên template <span class="required">*</span></label>
+                    <div>
+                        <input class="k-textbox" type="text" ng-model="Template.Name" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Save_Click($event,REPDIPivot_Template_New_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,REPDIPivot_Template_New_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="REPDIPivot_Template_gridToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+        </div>
+        <div class="right">
+            <a href="/" ng-show="HasChooseTemplate" ng-click="Delete_Click($event,REPDIPivot_Template_win, REPDIPivot_Template_grid)" class="k-button" data-title="Xóa"><i class="fa fa-trash"></i><span class="tooltip is-right">Xóa</span></a>
+        </div>
+    </div>
+</script>
+
+<style>
+    .cus-chart { width: 100%; height: 99%; }
+
+    .select-chart { height: 26px; width: 100px; }
+
+        .select-chart option:hover { background-color: green !important; }
+</style>

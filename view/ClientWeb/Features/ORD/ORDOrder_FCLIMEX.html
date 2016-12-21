@@ -1,0 +1,409 @@
+﻿<div class="view-breakumb">
+    <ul class="breakumb">
+        <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+        <li><span>Chi tiết đơn hàng</span></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Khách hàng: {{Item.CustomerName}}
+            </div>
+            <div class="right title">
+                Đơn hàng {{Item.ServiceOfOrderName}} {{Item.TransportModeName}} : {{Item.Code}}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div style="position:relative;height:100%;">
+                <div class="cus-tabstrip" kendo-tabstrip="order_tabstrip" k-options="order_tabstripOptions" expand-k-tabstrip>
+                    <ul>
+                        <li data-tabindex="0" class="k-state-active">Thông tin vận chuyển</li>
+                        <li data-tabindex="1" tabindex="1">Danh sách container</li>
+                        <li data-tabindex="2">Nhóm sản phẩm</li>
+                        <li data-tabindex="3" style="display:none;">Dịch vụ</li>
+                        <li data-tabindex="4" ng-hide="Item.IsMain">Đơn giá spot-rate</li>
+                        <li data-tabindex="5">Thông tin chung</li>
+                    </ul>
+                    <div>
+                        <div class="cus-splitter hor-splitter" kendo-splitter="hor_splitter" k-options="hor_splitterOptions" expand-k-splitter>
+                            <div>
+                                <div class="cus-form thin">
+                                    <div class="form-header">
+                                        <div class="left title">
+                                            Thông tin địa điểm
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-content-150">
+                                            <div class="rowinput">
+                                                <label>{{RS.ORDOrder.Code}} <span class="required">*</span></label>
+                                                <div>
+                                                    <input class="k-textbox" type="text" ng-model="Item.Code" ng-disabled="Item.IsGenCode" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="rowinput" ng-show="Item.HasSettingGenCode">
+                                                <label>{{RS.ORDOrder_FCLIMEX.IsGenCode}} </label>
+                                                <div>
+                                                    <input type="checkbox" ng-model="Item.IsGenCode" ng-click="resetOrderCode($event)" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="rowinput">
+                                                <label>{{RS.ORDOrder.RequestDate}} <span class="required">*</span></label>
+                                                <div>
+                                                    <input class="cus-datetimepicker" k-ng-model="Item.RequestDate" focus-k-datetimepicker kendo-date-time-picker="fcllo_dtpRequestDate" k-options="fcllo_dtpRequestDateOptions" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="rowinput">
+                                                <label ng-show="Item.ViewID==2?true:false">{{RS.ORDOrder_FCLIMEX.CutOffTimeEX}} </label>
+                                                <label ng-show="Item.ViewID==1?true:false">{{RS.ORDOrder_FCLIMEX.CutOffTimeIM}} </label>
+                                                <div>
+                                                    <input class="cus-datetimepicker" focus-k-datetimepicker k-ng-model="Item.CutOffTime" kendo-date-time-picker k-options="fclimex_dtpCutOffTimeOptions" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="rowinput" ng-show="Item.ViewID==2?true:false">
+                                                <label>{{RS.ORDOrder.LoadingTime}} </label>
+                                                <div>
+                                                    <input k-ng-model="Item.LoadingTime" kendo-numeric-text-box="numLoadingTime" k-options="numLoadingTime_Options" style="width:100%" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="rowinput" ng-show="Item.ViewID==1?true:false">
+                                                <label>{{RS.ORDOrder.UnLoadingTime}} </label>
+                                                <div>
+                                                    <input k-ng-model="Item.UnLoadingTime" kendo-numeric-text-box="numUnLoadingTime" k-options="numUnLoadingTime_Options" style="width:100%" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-header">
+                                        <div class="left title">
+                                            Thông tin empty depot
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-content-150">
+                                            <div class="rowinput">
+                                                <label>{{RS.ORDOrder_FCLIMEX.PartnerID}} <span class="required">*</span></label>
+                                                <div>
+                                                    <input class="cus-combobox cboShippingCo" v-form-require="true" v-form-cbb="true" focus-k-combobox kendo-combobox="fclimex_cboShippingCo" k-options="fclimex_cboShippingCoOptions" k-ng-model="Item.PartnerID" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="rowinput">
+                                                <label>{{RS.ORDOrder_FCLIMEX.LocationDepotID}} </label>
+                                                <div>
+                                                    <input class="cus-combobox cboLocationDepotOptions" v-form-cbb="true" focus-k-combobox kendo-combobox="fclimex_cboLocationDepot" k-options="fclimex_cboLocationDepotOptions" ng-model="Item.LocationDepotID" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-header">
+                                        <div class="left title">
+                                            Thông tin điểm nhận hàng
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-content-150">
+                                            <div class="rowinput">
+                                                <label>{{RS.ORDOrder_FCLIMEX.LocationFromID}} <span class="required">*</span></label>
+                                                <div>
+                                                    <input class="cus-combobox cboLocationFrom" v-form-require="true" v-form-cbb="true" focus-k-combobox kendo-combobox="fclimex_cboLocationFrom" k-options="fclimex_cboLocationFromOptions" ng-model="Item.LocationFromID" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="rowinput">
+                                                <label>{{RS.ORDOrder.ETD}} </label>
+                                                <div>
+                                                    <input class="cus-datetimepicker" focus-k-datetimepicker k-ng-model="Item.ETD" kendo-date-time-picker k-options="fclimex_dtpETDOptions" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="rowinput">
+                                                <label>{{RS.ORDOrder.ETDRequest}} </label>
+                                                <div>
+                                                    <input class="cus-datetimepicker" focus-k-datetimepicker k-ng-model="Item.ETDRequest" kendo-date-time-picker k-options="fclimex_dtpETDRequestOptions" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-header">
+                                        <div class="left title">
+                                            Thông tin điểm giao hàng
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-content-150">
+                                            <div class="rowinput">
+                                                <label>{{RS.ORDOrder_FCLIMEX.LocationToID}} <span class="required">*</span></label>
+                                                <div>
+                                                    <input class="cus-combobox cboLocationTo" v-form-require="true" v-form-cbb="true" focus-k-combobox kendo-combobox="fclimex_cboLocationTo" k-options="fclimex_cboLocationToOptions" ng-model="Item.LocationToID" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="rowinput">
+                                                <label>{{RS.ORDOrder.ETA}} </label>
+                                                <div>
+                                                    <input class="cus-datetimepicker" focus-k-datetimepicker k-ng-model="Item.ETA" kendo-date-time-picker k-options="fclimex_dtpETAOptions" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="rowinput">
+                                                <label>{{RS.ORDOrder.ETARequest}} </label>
+                                                <div>
+                                                    <input class="cus-datetimepicker" focus-k-datetimepicker k-ng-model="Item.ETARequest" kendo-date-time-picker k-options="fclimex_dtpETARequestOptions" />
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <!--Map-->
+                                <div id="fclimex_map" class="cus-map"></div>
+                                <div id="fclimex_tooltip" class="cus-map-tooltip"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="cus-grid" kendo-grid="container_grid" k-options="container_gridOptions" expand-k-grid></div>
+                    </div>
+                    <div>
+                        <div class="cus-grid" kendo-grid="product_grid" k-options="product_gridOptions" expand-k-grid></div>
+                    </div>
+                    <div>
+                        <div class="cus-grid" kendo-grid="service_grid" k-options="service_gridOptions" expand-k-grid></div>
+                    </div>
+                    <div>
+                        <div class="cus-grid" kendo-grid="price_grid" k-options="price_gridOptions" expand-k-grid></div>
+                    </div>
+                    <div>
+                        <div class="form-content-200" style="padding-right: 100px;">
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.ContractName}} </label>
+                                <div>
+                                    <input class="k-textbox" ng-model="Item.ContractName" disabled style="width: calc(100% - 38px)" />
+                                    <a ng-click="ORD_FCLIMEX_ChangeContract($event,contract_win)" class="k-button">Đổi</a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.TypeOfOrderName}} <span class="required">*</span></label>
+                                <div>
+                                    <input class="cus-combobox" ng-model="Item.TypeOfOrderID" focus-k-combobox kendo-combobox="fclimex_cboTypeOfOrder" k-options="fclimex_cboTypeOfOrderOptions" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.ExternalCode}} </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="Item.ExternalCode" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.ExternalDate}} </label>
+                                <div>
+                                    <input class="cus-datetimepicker" k-ng-model="Item.ExternalDate" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.TypeOfWAInspectionName}} </label>
+                                <div>
+                                    <input class="cus-combobox" k-ng-model="Item.TypeOfWAInspectionID" focus-k-combobox kendo-combobox="fclimex_cboTypeOfDoc" k-options="fclimex_cboTypeOfDocOptions" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" ng-show="Item.ViewID==2?true:false">
+                                <label>{{RS.ORDOrder.DateShipCome}} </label>
+                                <div>
+                                    <input class="cus-datetimepicker" k-ng-model="Item.DateShipCome" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.DateDocument}} </label>
+                                <div>
+                                    <input class="cus-datetimepicker" k-ng-model="Item.DateDocument" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.DateInspect}} </label>
+                                <div>
+                                    <input class="cus-datetimepicker" k-ng-model="Item.DateInspect" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" ng-show="Item.ViewID==1?true:false">
+                                <label>{{RS.ORDOrder.DateInspect}} </label>
+                                <div>
+                                    <input class="cus-datetimepicker" k-ng-model="Item.DateGetEmpty" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" ng-show="Item.ViewID==2?true:false">
+                                <label>{{RS.ORDOrder.DateInspect}} </label>
+                                <div>
+                                    <input class="cus-datetimepicker" k-ng-model="Item.DateReturnEmpty" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" ng-show="Item.ViewID==1?true:false">
+                                <label>{{RS.ORDOrder.DateInspect}} </label>
+                                <div>
+                                    <input class="cus-datetimepicker" k-ng-model="Item.DateLoading" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" ng-show="Item.ViewID==2?true:false">
+                                <label>{{RS.ORDOrder.DateInspect}} </label>
+                                <div>
+                                    <input class="cus-datetimepicker" k-ng-model="Item.DateUnLoading" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.UserDefine1}} </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="Item.UserDefine1" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.UserDefine2}} </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="Item.UserDefine2" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.UserDefine3}} </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="Item.UserDefine3" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.UserDefine4}} </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="Item.UserDefine4" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.UserDefine5}} </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="Item.UserDefine5" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.UserDefine6}} </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="Item.UserDefine6" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.UserDefine7}} </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="Item.UserDefine7" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.UserDefine8}} </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="Item.UserDefine8" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.UserDefine9}} </label>
+                                <div>
+                                    <input class="k-textbox" type="text" ng-model="Item.UserDefine9" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>{{RS.ORDOrder.Note}} </label>
+                                <div>
+                                    <textarea ng-model="Item.Note" style="height:80px;" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabstrip-buttons">
+                    <a ng-click="ORD_FCLIMEX_Update($event)" ng-show="(Auth.ActEdit||Auth.ActAdd)&&!Auth.ActAddAndApproved&&(Item.IsGenCode?true:Item.Code.length>0)&&fclimex_cboShippingCo.select()>=0&&fclimex_cboLocationFrom.select()>=0&&fclimex_cboLocationTo.select()>=0" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu</span></a>
+                    <a ng-click="ORD_FCLIMEX_Delete($event)" ng-show="Auth.ActDel&&Item.ID>0" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+                    <a ng-click="ORD_FCLIMEX_Back($event)" class="k-button"><i class="fa fa-history"></i><span class="tooltip is-right">Quay lại</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="container_grid_toolbar" type="text/x-kendo-template">
+    <div class="gridtoolbar">
+        <div class="left" style="display: inline-block">
+            <input type="number" ng-model="NoContainer" class="k-textbox" min="0" max="100" placeholder="SL" step="1" style="width: 82px;" />
+            <input class="cus-combobox" ng-model="ContainerNew.PackingID" focus-k-combobox kendo-combo-box k-options="cbo_CO_PackingOptions" style="width: 117px;" />
+            <input class="cus-combobox" ng-show="Item.ViewID==2?true:false" ng-model="ContainerNew.LocationFromID" focus-k-combobox kendo-combo-box="cbo_CO_LocationFrom" k-options="cbo_CO_LocationFromOptions" style="width: 167px; " />
+            <input class="cus-combobox" ng-show="Item.ViewID==1?true:false" ng-model="ContainerNew.LocationToID" focus-k-combobox kendo-combo-box="cbo_CO_LocationTo" k-options="cbo_CO_LocationToOptions" style="width: 167px; " />
+            <!--<div ng-show="Item.ViewID==2?true:false" style="width: 167px; display: inline-block;">
+                <input class="cus-datetimepicker" k-ng-model="ContainerNew.ETD" focus-k-datetimepicker kendo-date-time-picker placeholder="ETD" k-options="DateDMYHM" />
+            </div>
+            <div ng-show="Item.ViewID==1?true:false" style="width:167px; display:inline-block;">
+                <input class="cus-datetimepicker" k-ng-model="ContainerNew.ETA" focus-k-datetimepicker kendo-date-time-picker placeholder="ETA" k-options="DateDMYHM" />
+            </div>-->
+            <input class="cus-combobox" ng-show="Item.ViewID==2?true:false" ng-model="ContainerNew.LocationDepotID" focus-k-combobox kendo-combo-box="cbo_CO_LocationDepot" k-options="cbo_CO_LocationDepotOptions" style="width: 167px; " />
+            <input class="cus-combobox" ng-show="Item.ViewID==1?true:false" ng-model="ContainerNew.LocationDepotReturnID" focus-k-combobox kendo-combo-box="cbo_CO_LocationDepotReturn" k-options="cbo_CO_LocationDepotReturnOptions" style="width: 167px; " />
+            <a href="/" ng-show="(Auth.ActEdit||Auth.ActAdd||Auth.ActAddAndApproved)&&!IsContainerEdit" ng-click="ORD_FCLIMEX_Container_AddNew($event,container_grid)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<script id="product_grid_toolbar" type="text/x-kendo-template">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a ng-show="(Auth.ActEdit||Auth.ActAdd||Auth.ActAddAndApproved)&&!IsProductEdit" href="/" ng-click="ORD_FCLIMEX_Product_AddNew($event,product_grid)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<div class="cus-window" draggable-k-window kendo-window="contract_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                THAY ĐỔI HỢP ĐỒNG
+            </div>           
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="contract_grid" k-options="contract_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="Auth.ActEdit||Auth.ActAdd||Auth.ActAddAndApproved" ng-click="Contract_Update_Click($event,contract_win,contract_grid)" class="k-button accept">Lưu thay đổi</a>
+                <a href="/" ng-show="Auth.ActEdit||Auth.ActAdd||Auth.ActAddAndApproved" ng-click="Contract_Update_None_Click($event,contract_win)" class="k-button">Không hợp đồng</a>
+                <a href="/" ng-click="Contract_Close_Click($event,contract_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

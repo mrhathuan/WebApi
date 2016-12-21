@@ -1,0 +1,88 @@
+﻿
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right button">
+                <a href="/" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+            </div>
+        </div>
+        <div class="form-body">
+            <div class="cus-grid" kendo-grid="FLMDriverTimeSheet_grid" expand-k-grid></div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="FLMDriverTimeSheet_win" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin chi tiết</div>
+            <div class="right button">
+
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" kendo-tabstrip="FLMDriverTimeSheet_Tab" k-options="FLMDriverTimeSheet_TabOptions" expand-k-tabstrip>
+                <ul>
+                    <li class="k-state-active">Thông tin sự kiện</li>
+                    <li>Tài xế thực hiện</li>
+                </ul>
+                <div>
+                    <div class="FLMDriverTimeSheet_Form" v-form="FLMDriverTimeSheet_win_vform">
+                        <div class="form-content-150">
+                            <div class="rowinput">
+                                <label>Số xe </label>
+                                <div>
+                                    <input type="text" class="k-textbox" ng-model="Item.RegNo" ng-readonly="true" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Loại </label>
+                                <div>
+                                    <input type="text" class="k-textbox" ng-model="Item.StatusOfAssetTimeSheetName" ng-readonly="true" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Từ ngày </label>
+                                <div>
+                                    <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="Item.PlanDateFrom" ng-readonly="true" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Đến ngày </label>
+                                <div>
+                                    <input class="cus-datetimepicker" focus-k-datetimepicker kendo-date-time-picker k-options="DateDMYHM" k-ng-model="Item.PlanDateTo" ng-readonly="true" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left"></div>
+                            <div class="right button"></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="FLMDriverTimeSheet_Driver_grid" expand-k-grid k-options="FLMDriverTimeSheet_Driver_gridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,FLMDriverTimeSheet_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

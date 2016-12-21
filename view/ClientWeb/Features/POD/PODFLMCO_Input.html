@@ -1,0 +1,183 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="SettingGrid_Click($event,wincustom,PODInput_grid)" class="k-button" data-title="Hiển thị"><i class="fa fa-cog"></i><span class="tooltip">Hiển thị</span></a>
+            <label>Từ</label> 
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="PODInputItem.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="PODInputItem.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="PODInput_SearchClick($event)" class="k-button" ><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a class="k-button" ng-click="Excel_Click($event,winexcel)"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a href="/" ng-show="HasChoose" ng-click="FLMDIInput_Approved_Click($event,PODInput_grid)" class="k-button"><i class="fa fa-paper-plane"></i><span class="tooltip">Duyệt</span></a>
+            <a href="/" ng-click="ShowSetting($event,PODInput_grid)" ng-mouseenter="ShowSetting($event,PODInput_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>            
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="PODInput_grid" expand-k-grid k-options="PODInput_gridOptions"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="StationCost_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin trạm
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="StationCost_grid" expand-k-grid k-options="StationCost_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="StationCost_Save_Click($event,StationCost_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,StationCost_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="DriverList_win" k-title="false" k-width="900" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách tài xế
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div style="width: 50%; float: left;">
+                <div class="form-content-150">
+                    <div class="rowinput">
+                        <label>Tài xế 1</label>
+                        <div>
+                            <input  focus-k-combobox kendo-combo-box k-options="DriverID_Options" ng-model="dataDriver.DriverID1" style="width: 100%"></input>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tài xế 2</label>
+                        <div>
+                            <input  focus-k-combobox kendo-combo-box k-options="DriverID_Options" ng-model="dataDriver.DriverID2" style="width: 100%"></input>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tài xế 3</label>
+                        <div>
+                            <input  focus-k-combobox kendo-combo-box k-options="DriverID_Options" ng-model="dataDriver.DriverID3" style="width: 100%"></input>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tài xế 4</label>
+                        <div>
+                            <input  focus-k-combobox kendo-combo-box k-options="DriverID_Options" ng-model="dataDriver.DriverID4" style="width: 100%"></input>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Tài xế 5</label>
+                        <div>
+                            <input  focus-k-combobox kendo-combo-box k-options="DriverID_Options" ng-model="dataDriver.DriverID5" style="width: 100%"></input>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="width:50%; float:right;">
+                <div class="form-content-150">
+                    <div class="rowinput">
+                        <label>Loại tài xế 1</label>
+                        <div>
+                            <input  focus-k-combobox kendo-combo-box k-options="TypeOfDriverID1_Options" ng-model="dataDriver.TypeOfDriverID1" style="width: 100%"></input>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Loại tài xế 2</label>
+                        <div>
+                            <input  focus-k-combobox kendo-combo-box k-options="TypeOfDriverID2_Options" ng-model="dataDriver.TypeOfDriverID2" style="width: 100%"></input>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Loại tài xế 3</label>
+                        <div>
+                            <input  focus-k-combobox kendo-combo-box k-options="TypeOfDriverID3_Options" ng-model="dataDriver.TypeOfDriverID3" style="width: 100%"></input>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Loại tài xế 4</label>
+                        <div>
+                            <input  focus-k-combobox kendo-combo-box k-options="TypeOfDriverID4_Options" ng-model="dataDriver.TypeOfDriverID4" style="width: 100%"></input>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Loại tài xế 5</label>
+                        <div>
+                            <input  focus-k-combobox kendo-combo-box k-options="TypeOfDriverID5_Options" ng-model="dataDriver.TypeOfDriverID5" style="width: 100%"></input>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="DriverList_Save_Click($event,DriverList_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,DriverList_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="TroubleCost_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin phát sinh
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="TroubleCost_grid" expand-k-grid k-options="TroubleCost_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="TroubleCost_Save_Click($event,TroubleCost_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="troubleCost_AddNew($event,TroubleCostNotIn_win)" class="k-button accept">Thêm mới</a>
+                <a href="/" ng-show="TroubleCostHasChoose" ng-click="troubleCost_Delete($event,TroubleCost_grid)" class="k-button">Xóa</a>
+                <a href="/" ng-click="Close_Click($event,TroubleCost_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="TroubleCostNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin phát sinh chưa có
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="TroubleCostNotIn_grid" expand-k-grid k-options="TroubleCostNotIn_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="TroubleCostNotInHasChoose" ng-click="TroubleCostNotIn_Save_Click($event,TroubleCostNotIn_win, TroubleCostNotIn_grid)" class="k-button accept">Thêm</a>
+                <a href="/" ng-click="Close_Click($event,TroubleCostNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

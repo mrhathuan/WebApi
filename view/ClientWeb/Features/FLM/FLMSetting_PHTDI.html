@@ -1,0 +1,85 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-show="IsSettingEdit == false" ng-click="New_Click($event,setting_PHTDI_grid)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới</span></a>
+            <a href="/" ng-click="Excel_Click($event,winexcel)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <a ng-show="HasChoose" href="/" ng-click="Delete_Click($event,setting_PHTDI_grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="ShowSetting($event,setting_PHTDI_grid)" ng-mouseenter="ShowSetting($event,setting_PHTDI_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="setting_PHTDI_grid" expand-k-grid k-options="setting_PHTDI_gridOptions"></div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="StationCost_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin trạm
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="StationCost_grid" expand-k-grid k-options="StationCost_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="StationCost_New_Click($event,Add_StationCost_win)" class="k-button">Thêm mới</a>
+                <a href="/" ng-click="StationCost_Save_Click($event,StationCost_grid,StationCost_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-show="StationCost_gridHasChoose" ng-click="StationCost_Delete_Click($event,StationCost_grid)" class="k-button accept">Xóa</a>
+                <a href="/" ng-click="Close_Click($event,StationCost_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="Add_StationCost_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thêm trạm
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="StationNotList_grid" expand-k-grid k-options="StationNotList_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="StationNotListHasChoose" ng-click="Add_StationNotList_Click($event,StationNotList_grid,Add_StationCost_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,Add_StationCost_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cus-window" draggable-k-window kendo-window="TroubleCost_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin phát sinh
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="TroubleCost_grid" expand-k-grid k-options="TroubleCost_gridOptions"></div>
+        </div>
+        <div class="form-footer">    
+            <div>
+                <a href="/" ng-show="IsAddTroubleCost" ng-click="TroubleCost_New_Click($event,TroubleCost_grid)" class="k-button">Thêm mới</a>
+                <a href="/" ng-show="TroubleCostHasChoose" ng-click="TroubleCost_DeleteAll_Click($event,TroubleCost_grid)" class="k-button">Xóa</a>
+                <a href="/" ng-click="TroubleCost_SaveAll_Click($event,TroubleCost_grid,TroubleCost_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,TroubleCost_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

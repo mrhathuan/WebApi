@@ -1,0 +1,16 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span>Lịch trình</span></li>
+            </ul>
+        </div>
+        <div class="right button">
+            <a href="/" ng-click="OPSAppointment_CO_BackClick($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div expand-k-grid kendo-grid="grid" k-options="gridOptions" class="cus-grid"></div>
+    </div>
+</div>

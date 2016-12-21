@@ -1,0 +1,83 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <ul class="breakumb">
+            <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+        </ul>
+        <div class="right">
+            <span ng-show="HasTemplate&&!IsClose">Template: {{Template.Name}}</span>
+            <a href="/" ui-sref="main.OPSAppointment.DIImportPacket_Detail_2View({ID:{{PacketID}}})" class="k-button"><i class="fa fa-pencil-square-o"></i><span class="tooltip">Chi tiết</span></a>
+            <a href="/" ui-sref="main.OPSAppointment.DIImportPacket_Detail_Input({ID:{{PacketID}}})" class="k-button"><i class="fa fa-th"></i><span class="tooltip">Danh sách ĐH</span></a>
+            <!--<a href="/" ng-show="IsExcelChecked&&!IsClose" ng-click="Import_Click($event)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu chuyến</span></a>-->
+            <!--<a href="/" ng-show="HasTemplate&&!IsClose" ng-click="UpFile_Click($event,excel_file)" class="k-button"><i class="fa fa-upload"></i><span class="tooltip">Upload</span></a>-->
+            <!--<a href="/" ng-show="HasTemplate&&!IsClose" ng-click="DownLoadFile_Click($event)" class="k-button"><i class="fa fa-download"></i><span class="tooltip">Download</span></a>-->
+            <a href="/" ng-show="!IsClose" ng-click="Template_Click($event,template_win)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Chọn template</span></a>
+            <a href="/" ui-sref="main.OPSAppointment.DIImportPacket" class="k-button"><i class="fa fa-history"></i><span class="tooltip is-right">Thoát</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div id="spreadsheetOPS" style="width: 99%;height:99%"></div>
+    </div>
+</div>
+
+<div style="display:none;"><input name="files" type="file" kendo-upload="excel_file" accept=".xlsx" k-options="excel_fileOptions" /></div>
+
+<div class="cus-window" draggable-k-window kendo-window="template_win" k-title="false" k-width="800" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Template
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="excel_template_grid" k-options="excel_template_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Excel_Template_Accept_Click($event,template_win,excel_template_grid)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,template_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="gop_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                CHI TIẾT
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div ng-show="MasterID < 1" class="cus-grid" kendo-grid="gop_grid" k-options="gop_gridOptions" expand-k-grid></div>
+            <div ng-show="MasterID > 0" class="cus-grid" kendo-grid="gopbyid_grid" k-options="gopbyid_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,gop_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="vehicle_win" k-title="false" k-width="600" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH XE MỚI
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="vehicle_grid" k-options="vehicle_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="NewVehicle_Update_Click($event,vehicle_grid,vehicle_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,vehicle_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

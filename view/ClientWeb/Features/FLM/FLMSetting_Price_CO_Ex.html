@@ -1,0 +1,464 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">Chi tiết phụ thu</div>
+        <div class="right">
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div style="position:relative;height:100%">
+            <div class="cus-tabstrip" kendo-tabstrip="price_ex_tabstrip" k-options="price_ex_tabstripOptions" expand-k-tabstrip>
+                <ul>
+                    <li data-tabindex="0" class="k-state-active">Thông tin chung</li>
+                    <li data-tabindex="3" ng-show="ItemPriceEx.ID>0">Địa điểm</li>
+                    <li data-tabindex="4" ng-show="ItemPriceEx.ID>0">Cung đường</li>
+                    <li data-tabindex="5" ng-show="ItemPriceEx.ID>0">Area</li>
+                    <li data-tabindex="6" ng-show="ItemPriceEx.ID>0">Đối tác</li>
+                </ul>
+                <div>                                                                     
+                    <div class="cus-form">
+                        <div class="form-body">
+                            <div class="form-content-200" v-form="priceEx_vform">
+                                <div class="rowinput">
+                                    <label>Loại phụ thu<span class="required">*</span></label>
+                                    <div>
+                                        <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="cboTypePrice_Options" ng-model="ItemPriceEx.TypeOfPriceCOExID" v-form-require="true"  />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Loại tính tổng<span class="required">*</span></label>
+                                    <div>
+                                        <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="cboTypeDIExSum_Options" ng-model="ItemPriceEx.COExSumID" v-form-require="true"  />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>ExprInput</label>
+                                    <div>
+                                        <a href="/" ng-click="Btn_Expr_Click($event,Btn_Expr_win,'ExprInput')" class="k-button  Expr-btn">Thiết lập</a>
+                                        <input type="text" class="k-textbox Expr-input" ng-model="ItemPriceEx.ExprInput"  />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>ExprQuan</label>
+                                    <div>
+                                        <a href="/" ng-click="Btn_Expr_Click($event,Btn_Expr_win,'ExprQuan')" class="k-button  Expr-btn">Thiết lập</a>
+                                        <input type="text" class="k-textbox Expr-input" ng-model="ItemPriceEx.ExprQuan"  />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>ExprPrice</label>
+                                    <div>
+                                        <a href="/" ng-click="Btn_Expr_Click($event,Btn_Expr_win,'ExprPrice')" class="k-button  Expr-btn">Thiết lập</a>
+                                        <input type="text" class="k-textbox Expr-input" ng-model="ItemPriceEx.ExprPrice"  />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>ExprPriceFix</label>
+                                    <div>
+                                        <a href="/" ng-click="Btn_Expr_Click($event,Btn_Expr_win,'ExprPriceFix')" class="k-button  Expr-btn">Thiết lập</a>
+                                        <input type="text" class="k-textbox Expr-input" ng-model="ItemPriceEx.ExprPriceFix"  />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>[DropPoint]-Số điểm giao</label>
+                                    <label>[GetPoint]-Số điểm lấy hàng</label>
+                                    <label>[TonOrder]-Tấn yêu cầu</label>
+                                    <label>[CBMOrder]-Khối yêu cầu</label>
+                                </div>
+                                <div class="rowinput">
+                                    <label>[QuantityOrder]-Số lượng yêu cầu</label>
+                                    <label>[TonTransfer]-Tấn giao</label>
+                                    <label>[CBMTransfer]-Khối giao</label>
+                                    <label>[QuantityTransfer]-Số lượng giao</label>
+                                </div>
+                                <div class="rowinput">
+                                    <label>[GOVCodeOrder]-Mã loại xe đơn hàng</label>
+                                    <label>[GOVCodeSchedule]-Mã loại xe chuyến</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="cus-grid" kendo-grid="priceEx_Location_Grid" expand-k-grid k-options="priceEx_Location_GridOptions"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="cus-grid" kendo-grid="priceEx_Route_Grid" expand-k-grid k-options="priceEx_Route_GridOptions"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="cus-grid" kendo-grid="priceEx_ParentRoute_Grid" expand-k-grid k-options="priceEx_ParentRoute_GridOptions"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="cus-grid" kendo-grid="priceEx_Parent_Grid" expand-k-grid k-options="priceEx_Parent_GridOptions"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="tabstrip-buttons">
+                <!--Info-->
+                <a href="/" ng-show="TabIndex==0 " ng-click="priceEX_SaveInfo_Click($event,priceEx_vform)" class="k-button"><i class="fa fa-floppy-o"></i><span class="tooltip">Cập nhật</span></a>
+
+                <!--Location-->
+                <a href="/" ng-show="TabIndex==3 && LocationHasChoose " ng-click="priceEx_Location_Delete($event,priceEx_Location_Grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip ">Xóa</span></a>
+                <a href="/" ng-show="TabIndex==3 " ng-click="priceEx_Location_AddNew($event,price_ex_LocationNotIn_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+
+                <!--Route-->
+                <a href="/" ng-show="TabIndex==4 && RouteHasChoose " ng-click="priceEx_Route_Delete($event,priceEx_Route_Grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip ">Xóa</span></a>
+                <a href="/" ng-show="TabIndex==4 " ng-click="priceEx_Route_AddNew($event,price_ex_RouteNotIn_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+
+                <!--Parent Route-->
+                <a href="/" ng-show="TabIndex==5 && ParentRouteHasChoose " ng-click="priceEx_ParentRoute_Delete($event,priceEx_ParentRoute_Grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip ">Xóa</span></a>
+                <a href="/" ng-show="TabIndex==5 " ng-click="priceEx_ParentRoute_AddNew($event,price_ex_ParentRouteNotIn_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+       
+                <!--Parent-->
+                <a href="/" ng-show="TabIndex==6 && ParentHasChoose " ng-click="priceEx_Parent_Delete($event,priceEx_Parent_Grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip ">Xóa</span></a>
+                <a href="/" ng-show="TabIndex==6 " ng-click="priceEx_Parent_AddNew($event,price_ex_ParentNotIn_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+             </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Btn_Expr_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thiết lập công thức</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>{{Expr_current}}</label>
+                    <div>
+                        <textarea ng-model="EXpr_Content" style="height: 150px;" class="ng-pristine ng-valid ng-empty ng-touched"></textarea>
+                    </div>
+                </div>
+                <div class="rowinput">
+                    <label>Ghi chú: </label>
+                    <div ng-show="show_Note == '322'" style="padding-top:10px;">
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                        </div>
+                    </div>
+                    <div ng-show="show_Note == '323'" style="padding-top:10px;">
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [TonTransfer] - Tấn chở <br />
+                            [CBMTransfer] - Khối chở<br />
+                            [QuantityTransfer] - SL chở<br />
+                            [TonReturn] - Tấn trả về<br />
+                            [CBMReturn] - Khối trả về<br />
+                        </div>
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [QuantityReturn] - SL trả về<br />
+                            [TotalSchedule] - Tổng chuyến<br />
+                            [Credit] - Doanh thu<br />
+                            [DropPoint] - Số điểm giao<br />
+                            [GetPoint] - Số điểm nhận<br />
+                        </div>
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [DropPointCurrent] - Số điểm giao hiện tại<br />
+                            [GetPointCurrent] - Số điểm nhận hiện tại<br />
+                            [GOVCodeSchedule] - Mã loại xe chuyến<br />
+                            [HasCashCollect] - Có phụ thu <br />
+                        </div>
+                    </div>
+                    <div ng-show="show_Note == '324'" style="padding-top:10px;">
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [TonTransfer] - Tấn chở<br />
+                            [CBMTransfer] - Khối chở<br />
+                            [QuantityTransfer] - SL chở<br />
+                            [TonReturn] - Tấn trả về<br />
+                        </div>
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [CBMReturn] - Khối trả về<br />
+                            [QuantityReturn] - SL trả về<br />
+                            [TotalSchedule] - Tổng chuyến<br />
+                            [Credit] - Doanh thu<br />
+                        </div>
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [DropPoint] - Số điểm giao<br />
+                            [GetPoint] - Số điểm nhận<br />
+                            [GOVCodeSchedule] - Mã loại xe chuyến<br />
+                            [HasCashCollect] - Có phụ thu <br />
+                        </div>
+                    </div>
+                    <div ng-show="show_Note == '325'" style="padding-top:10px;">
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [TonTransfer] - Tấn chở<br />
+                            [CBMTransfer] - Khối chở<br />
+                            [QuantityTransfer] - SL chở<br />
+                            [TonReturn] - Tấn trả về<br />
+                        </div>
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [CBMReturn] - Khối trả về<br />
+                            [QuantityReturn] - SL trả về<br />
+                            [TotalSchedule] - Tổng chuyến<br />
+                            [Credit] - Doanh thu<br />
+                        </div>
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [DropPoint] - Số điểm giao<br />
+                            [GetPoint] - Số điểm nhận<br />
+                            [GOVCodeSchedule] - Mã loại xe chuyến<br />
+                            [HasCashCollect] - Có phụ thu<br />
+                        </div>
+                    </div>
+                    <div ng-show="show_Note == '326'" style="padding-top:10px;">
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [TonTransfer] - Tấn chở<br />
+                            [CBMTransfer] - Khối chở<br />
+                            [QuantityTransfer] - SL chở<br />
+                            [TonReturn] - Tấn trả về<br />
+                        </div>
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [CBMReturn] - Khối trả về<br />
+                            [QuantityReturn] - SL trả về<br />
+                            [TotalSchedule] - Tổng chuyến<br />
+                        </div>
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [Credit] - Doanh thu<br />
+                            [DropPoint] - Số điểm giao<br />
+                            [GetPoint] - Số điểm nhận<br />
+                        </div>
+                    </div>
+                    <div ng-show="show_Note == '327'" style="padding-top:10px;">
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [TonTransfer] - Tấn chở<br />
+                            [CBMTransfer] - Khối chở<br />
+                            [QuantityTransfer] - SL chở<br />
+                            [TonReturn] - Tấn trả về<br />
+                            [CBMReturn] - Khối trả về<br />
+                        </div>
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [QuantityReturn] - SL trả về<br />
+                            [TotalSchedule] - Tổng chuyến<br />
+                            [Credit] - Doanh thu<br />
+                            [DropPoint] - Số điểm giao<br />
+                            [GetPoint] - Số điểm nhận<br />
+                        </div>
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [DropPointCurrent] - Số điểm giao hiện tại<br />
+                            [GetPointCurrent] - Số điểm nhận hiện tại<br />
+                            [GOVCodeSchedule] - Mã loại xe chuyến<br />
+                            [HasCashCollect] - Có thu hộ<br />
+                            [VehicleCode] - Số xe<br />
+                        </div>
+                    </div>
+                    <div ng-show="show_Note == '328'" style="padding-top:10px;">
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [TonTransfer] - Tấn chở<br />
+                            [CBMTransfer] - Khối chở<br />
+                            [QuantityTransfer] - SL chở<br />
+                            [TonReturn] - Tấn trả về<br />
+                        </div>
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [CBMReturn] - Khối trả về<br />
+                            [QuantityReturn] - SL trả về<br />
+                            [TotalSchedule] - Tổng chuyến<br />
+                        </div>
+                        <div style="width: calc( 100% / 3 - 10px ); float:left">
+                            [Credit] - Doanh thu<br />
+                            [DropPoint] - Số điểm giao<br />
+                            [GetPoint] - Số điểm nhận<br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Btn_Expr_Save_Click($event,Btn_Expr_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="price_ex_GroupNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Loại địa điểm chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="price_ex_GroupNotIn_Grid" expand-k-grid k-options="price_ex_GroupNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="price_ex_GroupNotIn_Save_Click($event,price_ex_GroupNotIn_win,price_ex_GroupNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,price_ex_GroupNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="price_ex_RouteNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Cung đường chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="price_ex_RouteNotIn_Grid" expand-k-grid k-options="price_ex_RouteNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="price_ex_RouteNotIn_Save_Click($event,price_ex_RouteNotIn_win,price_ex_RouteNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,price_ex_RouteNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="price_ex_ParentRouteNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Cung đường chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="price_ex_ParentRouteNotIn_Grid" expand-k-grid k-options="price_ex_ParentRouteNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="price_exParent_RouteNotIn_Save_Click($event,price_ex_ParentRouteNotIn_win,price_ex_ParentRouteNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,price_ex_ParentRouteNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="price_ex_GroupProduct_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Loại địa điểm chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150" v-form="priceExGOP_vform">
+                <div class="rowinput">
+                    <label>Nhóm sản phẩm<span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="cboGroupOfProduct_Options" ng-model="ItemPriceExGOP.GroupOfProductID" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprPrice</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemPriceExGOP.ExprPrice" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>ExprQuantity</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemPriceExGOP.ExprQuantity" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="price_ex_GOP_Save_Click($event,price_ex_GroupProduct_win,priceExGOP_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,price_ex_GroupProduct_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="price_ex_LocationNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Địa điểm chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="price_ex_LocationNotIn_Grid" expand-k-grid k-options="price_ex_LocationNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="price_ex_LocationNotIn_Save_Click($event,price_ex_LocationNotIn_win,price_ex_LocationNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,price_ex_LocationNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="price_ex_Location_win" k-title="false" k-width="500" k-height="300" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Địa điểm chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label>Mã địa điểm</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemPriceExLocation.LocationCode" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Tên địa điểm</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="ItemPriceExLocation.LocationName" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Loại</label>
+                    <div>
+                        <input class="cus-combobox" kendo-combobox focus-k-combobox k-options="cboTypeOfTOLocation_Options" ng-model="ItemPriceExLocation.TypeOfTOLocationID" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="price_ex_Location_Save_Click($event,price_ex_Location_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,price_ex_Location_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="price_ex_ParentNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Đối tác chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="price_ex_ParentNotIn_Grid" expand-k-grid k-options="price_ex_ParentNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="price_exParent_NotIn_Save_Click($event,price_ex_ParentNotIn_win,price_ex_ParentNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,price_ex_ParentNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

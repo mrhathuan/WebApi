@@ -1,0 +1,300 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="ShowSetting($event,MONInput_Container_grid)" ng-mouseenter="ShowSetting($event,MONInput_Container_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-splitter hor-splitter" kendo-splitter="vehSplitter" k-options="vehSplitter_Options">
+            <div>
+                <div class="full" style="overflow:hidden;">
+                    <div class="cus-grid over-grid" id="timeline-vehicle-grid" expand-k-grid="ops_timeline_vehicle_Grid" kendo-grid="veh_Grid" k-options="veh_Grid_Options"></div>
+                </div>
+            </div>
+            <div>
+                <script id="timeline-event-template" type="text/x-kendo-template">
+                    <div style="height:100%;" class="cus-event status#=DockStatusID#" ng-click="TimelineEvent_Click($event,dataItem)">
+
+                    </div>
+                </script>
+                <div class="full" style="overflow:hidden;">
+                    <div class="cus-scheduler timeline-veh over-scheduler" expand-k-scheduler kendo-scheduler="timelineVeh" k-options="timelineVeh_Options" k-rebind="timelineVeh_Options" k-delay="timelineVeh_Options"></div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+<div kendo-window="TimlinePopup" draggable-k-window class="cus-window" k-title="false" k-max-width="1200" k-width="500" k-max-height="650" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thông tin chi tiết
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150" v-form="CATLocationEdit_win_vform">
+                <div class="rowinput">
+                    <label>Tấn</label>
+                    <div>
+                        <input ng-model="ItemT1.Ton" ng-disabled="true" type="text" class="k-textbox" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>Khối</label>
+                    <div>
+                        <input ng-model="ItemT1.CBM" ng-disabled="true" type="text" class="k-textbox" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>SL</label>
+                    <div>
+                        <input ng-model="ItemT1.Quantity" ng-disabled="true" type="text" class="k-textbox" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>DateCome</label>
+                    <div>
+                        <input k-ng-model="ItemT1.DateCome" ng-disabled="true" kendo-date-time-picker k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>DateComeEnd</label>
+                    <div>
+                        <input k-ng-model="ItemT1.DateComeEnd" ng-disabled="true" kendo-date-time-picker k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>DateComeModified</label>
+                    <div>
+                        <input k-ng-model="ItemT1.DateComeModified" ng-disabled="true" kendo-date-time-picker k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>DateComeModifiedEnd</label>
+                    <div>
+                        <input k-ng-model="ItemT1.DateComeModifiedEnd" ng-disabled="true" kendo-date-time-picker k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>DateComeActual</label>
+                    <div>
+                        <input k-ng-model="ItemT1.DateComeActual" ng-disabled="true" kendo-date-time-picker k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>DateComeApproved</label>
+                    <div>
+                        <input k-ng-model="ItemT1.DateComeApproved" ng-disabled="true" kendo-date-time-picker k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>DateComeApprovedEnd</label>
+                    <div>
+                        <input k-ng-model="ItemT1.DateComeApprovedEnd" ng-disabled="true" kendo-date-time-picker k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>DateLeaveActual</label>
+                    <div>
+                        <input k-ng-model="ItemT1.DateLeaveActual" ng-disabled="true" kendo-date-time-picker k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>DateLeaveApproved</label>
+                    <div>
+                        <input k-ng-model="ItemT1.DateLeaveApproved" ng-disabled="true" kendo-date-time-picker k-options="DateDMYHM" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="TimelineAccept($event)" class="k-button accept">Duyệt</a>
+                <a href="/" ng-click="Win_Close($event,TimlinePoup)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .k-grid.cus-grid.over-grid .k-grid-header .k-grid-header-wrap { padding-right: 17px; }
+    .k-grid.cus-grid.over-grid .k-grid-content { padding-right: 17px; overflow-y: auto; }
+    .k-grid.cus-grid.over-grid .k-pager-wrap { border-bottom: 1px solid #435f6e; padding-left: calc(100% - 145px); background-color: #435f6e !important; }
+        .k-grid.cus-grid.over-grid .k-pager-wrap a { color: #fff; background-color: #fff; }
+        .k-grid.cus-grid.over-grid .k-pager-wrap .grid-title { position: absolute; left: 12px; font-weight: bold; color: #ffffff; background: #435f6e; }
+    .k-grid.cus-grid.over-grid .k-grid-header .k-grid-header-wrap .grid-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .k-grid.cus-grid.over-grid .k-grid-pager.k-pager-wrap .k-pager-numbers li { background-color: #435f6e; }
+        .k-grid.cus-grid.over-grid .k-grid-pager.k-pager-wrap .k-pager-numbers li.k-current-page { display: inherit; }
+        .k-grid.cus-grid.over-grid .k-grid-pager.k-pager-wrap .k-pager-numbers li:not(.k-current-page) { display: none; }
+    .k-grid.cus-grid.over-grid .k-grid-pager.k-pager-wrap .k-pager-numbers, .k-grid.cus-grid.over-grid .k-grid-pager.k-pager-wrap .k-pager-numbers .k-state-ed, .k-grid.cus-grid.over-grid .k-grid-pager.k-pager-wrap .k-pager-numbers .k-pager-nav { background-color: #fff; color: #000; border-color: #fff; }
+
+
+    .k-grid.cus-grid.over-grid .k-grid-content tbody > tr > td { height: 38px; }
+    .k-grid.cus-grid.over-grid .k-grid-content tbody > tr.k-state-ed:not(.k-grouping-row) > td { height: 37px; }
+    .k-grid.cus-grid.over-grid .k-grid-content tbody > tr:not(.k-grouping-row):hover > td { height: 37px; }
+    .k-grid.cus-grid.over-grid .k-grid-content tbody > tr.k-state-selected > td { height: 37px; }
+
+    .k-grid.cus-grid.over-grid .k-grid-header table thead tr:not(.k-filter-row) th { font-weight: bold; }
+        .k-grid.cus-grid.over-grid .k-grid-header table thead tr:not(.k-filter-row) th:first-child { border-left: none; }
+    .k-grid.cus-grid.over-grid .k-grid-header table thead tr:not(.k-filter-row) { background-color: #e4e4e4; }
+        .k-grid.cus-grid.over-grid .k-grid-header table thead tr:not(.k-filter-row):hover { background-color: #e4e4e4; }
+
+    .cus-form.thin .form-header .left div .btn-tick { border: 1px solid #435f6e; width: 15px; height: 15px; display: inline-block; text-align: center; margin: 0 3px; line-height: 15px; border-radius: 50%; font-size: 10px; background-color: #ffffff; font-weight: bold; color: #435f6e; text-decoration: none; }
+        .cus-form.thin .form-header .left div .btn-tick.active { border: 1px solid #31b6fc; background-color: #31b6fc; color: #ffffff; }
+
+    .cus-form.thin .form-header .k-button.text-button, .cus-form.thin .form-header .k-button.text-button:active { border: 2px solid #435f6e; border-radius: 6px; background: #5FC782; color: #fff; font-size: 13px; font-weight: bold; padding: 1px 5px; line-height: 26px; }
+        .cus-form.thin .form-header .k-button.text-button:hover { color: #fff; opacity: 0.9; }
+
+
+    .tooltip-row { position: relative; line-height: 20px; height: 20px; margin: 0; overflow: hidden; }
+        .tooltip-row.header-row { color: #2CB5FC; font-weight: bold; }
+            .tooltip-row.header-row .tooltip-title { position: absolute; padding: 0; margin: 0; z-index: 999; display: inline-block; background: #ffffff; }
+            .tooltip-row.header-row:after { content: ""; position: absolute; top: 50%; left: 0; right: 0; border-top: solid 1px #2CB5FC; z-index: 1; }
+        .tooltip-row .cell { position: absolute; z-index: 990; background: #fff; }
+            .tooltip-row .cell.right { margin-left: 180px; padding-left: 5px; z-index: 999; overflow: hidden; text-overflow: ellipsis; }
+            .tooltip-row .cell .text { color: #2CB5FC; font-weight: bold; }
+        .tooltip-row .img { width: 40px; height: 14px; position: relative; top: 3px; background-repeat: no-repeat; background-size: cover; }
+        .tooltip-row .desc { padding-left: 10px; }
+        .tooltip-row .cell i.fa { color: #2CB5FC; }
+        .tooltip-row .floatcell { float: left; z-index: 990; background: #fff; width: 65px; overflow: hidden; margin: 0 3px; text-align: left; }
+            .tooltip-row .floatcell i.fa { color: #2CB5FC; font-weight: bold; }
+            .tooltip-row .floatcell .text { color: #dfa412; }
+            .tooltip-row .floatcell .value { color: #5e6163; overflow: hidden; text-overflow: ellipsis; }
+
+    #timeline_vehicle_tooltip:after, #timeline_vehicle_infinity_tooltip:after { content: ''; position: absolute; top: calc(100% + 0px); left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: rgb(190, 190, 190) transparent transparent transparent; }
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content { overflow: scroll !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content .k-scheduler-table tbody tr { height: 39px !important; background: #fff; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content .k-scheduler-table tbody tr td.container-time { background: rgb(190, 218, 231); }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-times .k-scheduler-table { display: none !important; }
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar { margin: 0; padding: 0; height: 35px; background-color: #435f6e !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form { height: 34px; padding: 0; margin: 0; border-bottom: #435f6e solid 1px; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header .k-button.active { color: #31B6FC; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header { top: 0; height: 34px; border: none; background-color: #435f6e; padding-top: 2px; }
+                .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header > div a.k-button > .tooltip:not(.is-right) { left: -30px; }
+                .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header > div a.k-button > .tooltip.is-left { left: 0; }
+                    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-toolbar .cus-form .form-header > div a.k-button > .tooltip.is-left:after { left: 15px; }
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-header { background: #f1f1f1; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-times .k-scheduler-table tr:first-child,
+        .k-scheduler.cus-scheduler.info-scheduler .k-scheduler-times .k-scheduler-table tr:first-child,
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-header .k-scheduler-header-wrap .k-scheduler-table tr:first-child,
+        .k-scheduler.cus-scheduler.info-scheduler .k-scheduler-header .k-scheduler-header-wrap .k-scheduler-table tr:first-child { background-color: #e4e4e4; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-header .k-scheduler-header-wrap .k-scheduler-table tr th.k-slot-cell strong[data-dayofweek="0"],
+        .k-scheduler.cus-scheduler.info-scheduler .k-scheduler-header .k-scheduler-header-wrap .k-scheduler-table tr th.k-slot-cell strong[data-dayofweek="0"] { color: #E9283C; }
+
+
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .k-resize-handle { top: 2px; width: 5px; background-color: red; height: 16px; }
+    .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event { background: none; color: #f0f0f0; font-weight: bold; top: 0px; height: 20px; line-height: 16px; margin: 9px 0; border: none; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.k-event-drag-hint { background: none; top: 0px; height: 20px !important; line-height: 16px !important; margin: 9px 0; border: none; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event { width: calc(100% - 0px) !important; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-content { display: inline-block; cursor: pointer; position: absolute; top: 2px; left: 5px; z-index: 9; line-height: 16px; white-space: nowrap; overflow: hidden; font-size: 11px; color: #000; }
+                .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-content[data-newevent="true"] { color: red; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg { cursor: pointer; position: absolute; line-height: 20px; white-space: nowrap; overflow: hidden; top: 2px; left: 0; z-index: 2; width: calc(100% - 0px); height: calc(100% - 4px); }
+
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event1 .event-bkg.bkg1 { background-image: url(Images/ops_co/approved/laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event1 .event-bkg.bkg2 { background-image: url(Images/ops_co/approved/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event11 .event-bkg.bkg1 { background-image: url(Images/ops_co/tenderable/laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event11 .event-bkg.bkg2 { background-image: url(Images/ops_co/tenderable/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event2 .event-bkg.bkg1 { background-image: url(Images/ops_co/tendered/laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event2 .event-bkg.bkg2 { background-image: url(Images/ops_co/tendered/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event3 .event-bkg.bkg1 { background-image: url(Images/ops_co/recieved/laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event3 .event-bkg.bkg2 { background-image: url(Images/ops_co/recieved/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.bkg1, div.k-event .cus-event.event-1 .event-bkg.bkg1 { background-image: url(Images/ops_co/undefined/laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.bkg2, div.k-event .cus-event.event-1 .event-bkg.bkg2 { background-image: url(Images/ops_co/undefined/empty.png); border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.bkg3, div.k-event .cus-event .event-bkg.bkg3 { background-image: url(Images/ops_co/ico_load.png); background-repeat: no-repeat; background-size: 100% 100%; opacity: 0.5; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.bkg4, div.k-event .cus-event .event-bkg.bkg4 { background-image: url(Images/ops_co/ico_load.png); background-repeat: no-repeat; background-size: 100% 100%; opacity: 0.5; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.bkg5, div.k-event .cus-event .event-bkg.bkg5 { background-image: url(Images/ops_co/ico_load.png); background-repeat: no-repeat; background-size: 100% 100%; opacity: 0.5; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.bkg6, div.k-event .cus-event .event-bkg.bkg6 { background-image: url(Images/ops_co/ico_load.png); background-repeat: no-repeat; background-size: 100% 100%; opacity: 0.5; }
+
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg[data-double-container="true"], div.k-event .cus-event .event-bkg[data-double-container="true"] { background-size: cover; background-repeat: repeat-x; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event .event-bkg.double3[data-double-container="true"] { border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; background-position-y: -1px; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event .event-bkg.double1[data-double-container="true"] { border: 1px solid #b6b6b6; height: calc(100% - 6px) !important; width: calc(100% - 2px) !important; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event1 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/approved/2x_empty.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event1 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/approved/2x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event1 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event1 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/approved/1x_empty_1x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event11 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/tenderable/2x_empty.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event11 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/tenderable/2x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event11 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event11 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/tenderable/1x_empty_1x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event2 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/tendered/2x_empty.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event2 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/tendered/2x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event2 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event2 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/tendered/1x_empty_1x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event3 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/recieved/2x_empty.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event3 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/recieved/2x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event3 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event3 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/recieved/1x_empty_1x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.double1[data-double-container="true"], div.k-event .cus-event.event-1 .event-bkg.double1[data-double-container="true"] { background-image: url(Images/ops_co/undefined/2x_empty.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.double2[data-double-container="true"], div.k-event .cus-event.event-1 .event-bkg.double2[data-double-container="true"] { background-image: url(Images/ops_co/undefined/2x_laden.png); }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.event-1 .cus-event .event-bkg.double3[data-double-container="true"], div.k-event .cus-event.event-1 .event-bkg.double3[data-double-container="true"] { background-image: url(Images/ops_co/undefined/1x_empty_1x_laden.png); }
+
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-image { cursor: pointer; position: absolute; width: calc(100% - 2px); background-image: url(Images/bgline3.png); height: calc(100% - 6px); top: 3px; z-index: 3; opacity: 0.9; background-position-y: 1px; }
+
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border { position: absolute; height: 21px; top: 2px; left: 0; z-index: 1; opacity: 0.2; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border > div { position: relative; top: 0; left: 0; width: 100%; height: 100%; background-image: url(Images/ops_co/event_bottom.png); background-repeat: repeat-x; background-position-y: 100%; }
+                .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border > div .pleft { position: absolute; left: 0; width: 10px; height: 100%; background-image: url(Images/ops_co/event_left.png); background-repeat: no-repeat; background-position-y: 100%; }
+                .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border > div .pright { position: absolute; right: 0; width: 10px; height: 100%; background-image: url(Images/ops_co/event_right.png); background-repeat: no-repeat; background-position: 100% 100%; }
+                .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-border > div .pmid { position: absolute; height: 3px; right: 0; background-image: url(Images/ops_co/event_middle.png); background-repeat: repeat-x; top: 7px; }
+
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon { display: inline-block; right: 5px; height: 100%; z-index: 7; position: absolute; text-align: right; overflow: hidden; cursor: pointer; opacity: 0.5; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon .event-infinity { position: relative; float: right; width: 21px; height: 10px; top: 5px; z-index: 7; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon .event-doubleco { position: relative; float: right; width: 22px; height: 13px; top: 3px; z-index: 7; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon .event-rstation { position: relative; float: right; width: 10px; height: 13px; top: 4px; z-index: 7; }
+            .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .cus-event .event-icon .event-romempty { position: relative; float: right; width: 22px; height: 13px; top: 3px; z-index: 7; }
+
+
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.approved .event-bkg, div.k-event .cus-event.event1 .event-bkg { background: #E5493A; border-color: #E5493A; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.tendered .event-bkg, div.k-event .cus-event.event2 .event-bkg { background: #4BADE8; border-color: #4BADE8; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.tenderable .event-bkg, div.k-event .cus-event.event11 .event-bkg { background: #FFBF01; border-color: #FFBF01; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.recieved .event-bkg, div.k-event .cus-event.event3 .event-bkg { background: #63BA3C; border-color: #63BA3C; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.undefined .event-bkg, div.k-event .cus-event.event-1 .event-bkg { background: #5e6163; border-color: #5e6163; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.maintainance .event-bkg { background: lightgreen; border-color: lightgreen; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.registry .event-bkg { background: green; border-color: green; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.repair .event-bkg { background: darkgreen; border-color: darkgreen; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.empty .event-bkg { background: #BBB138; border-color: #BBB138; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.con-planning .event-bkg { background: #FF6C87; border-color: #FF6C87; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.con-tranfers .event-bkg { background: #f4b35d; border-color: #f4b35d; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.con-revieved .event-bkg { background: #4B9139; border-color: #4B9139; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .tendered .event-bkg { background: #ff2438; border-color: #ff2438; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .recieved .event-bkg { background: #4B9139; border-color: #4B9139; }
+        .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event .delivery .event-bkg { background: #F28126; border-color: #F28126; }
+
+
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr > td { font-size: 11px; height: 24px; padding: 0px 5px 0px 5px; border-top: #fff solid 1px; }
+        .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr > td a.text { font-size: 11px; }
+        .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr > td a { font-size: 11px; }
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr.k-state-ed td { height: 24px; }
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr:not(.k-grouping-row):hover td { height: 24px; }
+    .smsize .k-grid.cus-grid.over-grid .k-grid-content tbody > tr.IsChoose td { height: 24px; }
+
+    .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event { margin: 2px 0; }
+    .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content .k-scheduler-table tbody tr { height: 24px !important; }
+        .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content .k-scheduler-table tbody tr td { height: 23px; padding: 1px 0.5em; font-size: 100%; margin: 0; }
+    .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event { background: none; color: #f0f0f0; font-weight: bold; top: 0px; height: 20px; line-height: 16px; margin: 2px 0; border: none; }
+        .smsize .k-scheduler.cus-scheduler.over-scheduler .k-scheduler-content div.k-event.k-event-drag-hint { background: none; top: 0px; height: 20px !important; line-height: 16px !important; margin: 2px 0; border: none; }
+
+    .cus-form .form-header .right div .btn-tick { border: 1px solid #435f6e; width: 15px; height: 15px; display: inline-block; text-align: center; margin: 0 3px; line-height: 15px; border-radius: 50%; font-size: 10px; background-color: #ffffff; font-weight: bold; color: #435f6e; text-decoration: none; }
+        .cus-form .form-header .right div .btn-tick.active { border: 1px solid #31b6fc; background-color: #31b6fc; color: #ffffff; }
+
+        .status1{background-color:red}
+        .status2{background-color:#FFBF01}
+        .status3{background-color:#31b6fc}
+        .status4{background-color:#2CB5FC}
+        .status5{background-color:#4B9139}
+</style>

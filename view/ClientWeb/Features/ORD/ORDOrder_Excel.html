@@ -1,0 +1,98 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <ul class="breakumb">
+            <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+        </ul>
+        <div class="right">
+            <span ng-show="HasTemplate">Template: {{Template.Name}} - </span>
+            <span ng-show="HasTemplate">KH: {{Template.CustomerName}}</span>
+            <a href="/" ng-show="IsNewLocation" ng-click="Location_Click($event,excel_location_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm mới địa chỉ</span></a>
+            <a href="/" ng-show="IsExcelChecked&&!Auth.ActAddAndApproved" ng-click="Import_Click($event)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu đơn hàng</span></a>
+            <!--<a href="/" ng-show="IsExcelChecked&&Auth.ActAddAndApproved" ng-click="ImportAndToOPS_Click($event)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu và gửi điều phối</span></a>-->
+            <a href="/" ng-show="HasTemplate" ng-click="UpFile_Click($event,excel_file)" class="k-button"><i class="fa fa-upload"></i><span class="tooltip">Upload</span></a>
+            <a href="/" ng-show="HasTemplate" ng-click="DownFile_Click($event)" class="k-button"><i class="fa fa-download"></i><span class="tooltip">Download</span></a>
+            <a href="/" ng-click="Template_Click($event,template_win)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Chọn template</span></a>
+            <a href="/" ui-sref="main.ORDOrder.Index" class="k-button"><i class="fa fa-history"></i><span class="tooltip">Thoát</span></a>
+            <a href="/" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event,excel_container_grid)" ng-mouseleave="HideSetting($event,excel_container_grid)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div ng-show="IsCO" class="cus-grid" kendo-grid="excel_container_grid" k-options="excel_container_gridOptions" expand-k-grid="excel_container_grid"></div>
+        <div ng-show="IsDI" class="cus-grid" kendo-grid="excel_truck_grid" k-options="excel_truck_gridOptions" expand-k-grid></div>
+    </div>
+</div>
+
+<div style="display:none;"><input class="ExcelOrder" name="files" type="file" kendo-upload="excel_file" accept=".xlsx" k-options="excel_fileOptions" /></div>
+
+<div class="cus-window" draggable-k-window kendo-window="template_win" k-title="false" k-width="800" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Template
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="excel_template_grid" k-options="excel_template_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Excel_Template_Accept_Click($event,template_win,excel_template_grid)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,template_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="excel_location_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thêm mới địa chỉ
+            </div>
+            <div class="right">
+                <a href="/" ng-show="!IsFullScreen" ng-click="Location_Zoom_Click($event, excel_location_win)" class="k-button zoom-config"><i class="fa fa-television zoom-config"></i><span class="tooltip is-right">Phóng to</span></a>
+                <a href="/" class="k-button" ng-show="IsFullScreen" ng-click="Location_Minimize_Click($event, excel_location_win)"><i class="fa fa-minus config"></i><span class="tooltip is-right">Thu nhỏ</span></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="excel_location_grid" k-options="excel_location_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Excel_Location_Update_Click($event,excel_location_win,excel_location_grid)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,excel_location_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="excel_product_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thêm mới sản phẩm
+            </div>
+            <div class="right">
+                <!--<a href="/" ng-show="!IsFullScreen" ng-click="Location_Zoom_Click($event, excel_location_win)" class="k-button zoom-config"><i class="fa fa-television zoom-config"></i><span class="tooltip is-right">Phóng to</span></a>
+                <a href="/" class="k-button" ng-show="IsFullScreen" ng-click="Location_Minimize_Click($event, excel_location_win)"><i class="fa fa-minus config"></i><span class="tooltip is-right">Thu nhỏ</span></a>-->
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="excel_product_grid" k-options="excel_product_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Excel_Product_Update_Click($event,excel_product_win,excel_product_grid)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,excel_product_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .cus-grid.k-grid tr.newlocation { background-color: #e8cdcd !important; }
+</style>

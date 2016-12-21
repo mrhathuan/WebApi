@@ -1,0 +1,124 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="FLMWOReceiptDisposal_SaveClick($event)" class="k-button"><i class="fa fa-floppy-o"></i><span class="tooltip">Cập nhật</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-splitter" kendo-splitter="FLMWOReceiptDisposal_splitter" k-options="FLMWOReceiptDisposal_splitter_Options" expand-k-splitter style="width:99%">
+            <div>
+                <div class="cus-form">
+                    <div class="form-header">
+                        <div class="left title">
+                            <span>Phiếu thanh lí: </span>
+                            <span ng-show="!isNew">{{Item.Code}}</span>
+                        </div>
+                        <div class="right button">
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-content-150">
+                            <div class="rowinput">
+                                <label>Ngày cấp phiếu <span class="required">*</span></label>
+                                <div>
+                                    <input class="cus-datepicker" focus-k-datepicker k-ng-model="Item.DateReceipt" kendo-date-picker k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="rowinput">
+                                <label>Số hóa đơn </label>
+                                <div>
+                                    <input type="text" class="k-textbox" ng-model="Item.InvoiceNo" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Ngày hóa đơn </label>
+                                <div>
+                                    <input class="cus-datepicker" focus-k-datepicker k-ng-model="Item.InvoiceDate" kendo-date-picker k-options="DateDMY" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput">
+                                <label>Ghi chú </label>
+                                <div>
+                                    <textarea rows="4" style="width:calc(100% - 7px)" ng-model="Item.Note"></textarea>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" style="width:50%;float:left">
+                                <label>&nbsp; </label>
+                                <div>
+                                    <div style="width:50px;float:left">
+                                        <label><input type="radio" ng-model="Item.IsVehicle" ng-change="changeType($event,1)" ng-disabled="Item.IsVehicle" ng-value="1" />Xe</label>
+                                    </div>
+                                    <div style="width:calc(100% - 51px);float:right">
+                                        <select kendo-multi-select="mulVehicle" focus-k-select k-options="mulVehicle_Options" k-ng-model="ListVehicleID" ng-disabled="!Item.IsVehicle"></select>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="rowinput" style="width:50%;float:right">
+                                <label>&nbsp; </label>
+                                <div>
+                                    <div style="width:80px;float:left">
+                                        <label><input type="radio" ng-model="Item.IsVehicle" ng-change="changeType($event,2)" ng-disabled="!Item.IsVehicle" ng-value="2" />Thiết bị</label>
+                                    </div>
+                                    <div style="width:calc(100% - 81px);float:right">
+                                        <input focus-k-select kendo-multi-select="mulEQM" k-options="mulEQM_Options" k-ng-model="ListEQMID" ng-disabled="Item.IsVehicle" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="cus-form">
+                    <div class="form-header">
+                        <div class="left title">Danh sách thanh lí</div>
+                        <div class="right button"></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-body">
+                        <div class="cus-grid"  ng-show="Item.IsVehicle" kendo-grid="Vehicle_Grid" expand-k-grid k-options="Vehicle_GridOptions"></div>
+                        <div class="cus-grid"  ng-show="!Item.IsVehicle" kendo-grid="EQM_Grid" expand-k-grid k-options="EQM_GridOptions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" kendo-window="Detail_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách thiết bị theo xe</div>
+            <div class="right button">
+                
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="Detail_Grid" k-options="Detail_GridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Win_CloseClick($event,Detail_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

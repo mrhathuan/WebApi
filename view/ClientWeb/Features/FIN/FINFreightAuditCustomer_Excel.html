@@ -1,0 +1,49 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left title">
+            Đối chiếu chi phí bằng excel
+        </div>
+        <div class="right">
+            <div>
+                <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboCustomer_cboGroup" ng-model="customerID" k-options="cboCustomer_Options" style="width:150px" />
+            </div>
+            <a href="/" ng-click="UpFile_Click($event,excel_file)" class="k-button"><i class="fa fa-upload"></i><span class="tooltip">Upload</span></a>
+            <a href="/" ng-click="DownFile_Click($event)" class="k-button"><i class="fa fa-download"></i><span class="tooltip">Download</span></a>
+            <a href="/" ng-show="HasChoose" ng-click="ImportReject_Click($event,ExcelRejec_win)" class="k-button"><i class="fa fa-retweet"></i><span class="tooltip">Báo kiểm tra lại</span></a>
+            <a href="/" ng-show="HasChoose" ng-click="ImportAccept_Click($event,excel_FreightAuditCus_grid)" class="k-button"><i class="fa fa-list-alt"></i><span class="tooltip">Xác nhận hoàn tất</span></a>
+            <a href="/" ng-click="ShowSetting($event)" ng-mouseenter="ShowSetting($event)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="excel_FreightAuditCus_grid" k-options="excel_FreightAuditCus_gridOptions" expand-k-grid></div>
+    </div>
+    <div style="display:none;"><input class="ExcelOrder" name="files" type="file" kendo-upload="excel_file" accept=".xlsx" k-options="excel_fileOptions" /></div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="ExcelRejec_win" k-title="false" k-width="500" k-height="200" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Lý do kiểm tra lại
+            </div>
+            <div class="right">
+
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="rowinput" style="padding: 35px 13px 13px 37px; width:auto">
+                <div>
+                    <input class="k-textbox" type="text" ng-model="reject_Error" style="width:427px;">
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="ExcelRejec_Click($event,excel_FreightAuditCus_grid,ExcelRejec_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Window_Close_Click($event,ExcelRejec_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

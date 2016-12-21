@@ -1,0 +1,80 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span>Nhập Barcode</span></li>
+            </ul>
+        </div>
+        <div class="right">     
+            <input type="checkbox" ng-model="IsShowNote" ng-change="InputNote_Click($event)" id="PODInputDIDN_Barcode_chk_InputNote" /><label for="PODInputDIDN_Barcode_chk_InputNote">Nhập số Lít/Kg</label>
+            <a href="/" ng-click="Close_Click($event)" class="k-button" data-title="Thoát"><i class="fa fa-ban"></i><span class="tooltip">Thoát</span></a>
+            <a href="/" ng-click="ShowSetting($event,PODInputDIDN_Barcode_grid)" ng-mouseenter="ShowSetting($event,PODInputDIDN_Barcode_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="PODInputDIDN_Barcode_Form" v-form="PODInputDIDN_Barcode_win_vform" style="height: 100%;">
+            <div class="PODInputDIDN_Barcode_Top">
+                <div class="form-content-150">
+                    <div class="rowinput">
+                        <label>Barcode <span class="required">*</span></label>
+                        <div>
+                            <form class="cus-form-enter" ng-submit="BarcodeEnter_Click($event)" autocomplete="off"><input type="text" id="txtBarcode" class="k-textbox" ng-model="Item.Barcode" v-form-require="true" /></form>
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Số SO <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" ng-model="Item.SOCode" v-form-require="true" ng-readonly="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Số DN <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" ng-model="Item.DNCode" v-form-require="true" ng-readonly="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Số chứng từ </label>
+                        <div>
+                            <form class="cus-form-enter" ng-submit="InvoiceEnter_Click($event)"><input id="txtInvoiceNote" type="text" class="k-textbox" ng-model="Item.InvoiceNote" /></form>
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput" ng-show="IsShowNote">
+                        <label>Số Lít </label>
+                        <div>
+                            <form class="cus-form-enter" ng-submit="Note2Enter_Click($event)"><input id="txtNote2" type="text" class="k-textbox" ng-model="Item.Note2" /></form>
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput" ng-show="IsShowNote">
+                        <label>Số Kg </label>
+                        <div>
+                            <form class="cus-form-enter" ng-submit="Note1Enter_Click($event)"><input id="txtNote1" type="text" class="k-textbox" ng-model="Item.Note1" /></form>
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput error" ng-show="Item.ErrorString != '' && Item.ErrorString != null">
+                        <a href="/" ng-click="Error_Click($event)"><i class="fa fa-info-circle" style="margin-right:5px"></i>{{ Item.ErrorString }}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="PODInputDIDN_Barcode_Bot">
+                <div class="rowinput">
+                    <label>Bảng chứng từ</label>
+                </div>
+                <div class="cus-grid" id="PODInputDIDN_Barcode_grid" kendo-grid="PODInputDIDN_Barcode_grid" expand-k-grid k-options="PODInputDIDN_Barcode_gridOptions"></div>
+            </div>
+        </div>
+    </div>
+</div>

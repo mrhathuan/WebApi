@@ -1,0 +1,63 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="SettingGrid_Click($event,wincustom,PODInput_quick_grid)" class="k-button" data-title="Hiển thị"><i class="fa fa-cog"></i><span class="tooltip">Hiển thị</span></a>
+            <label>KH</label>
+            <input kendo-multi-select focus-k-select k-options="mts_CustomerOptions" k-ng-model="ItemSearch.ListCustomerID" style="width: 200px;" />
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="PODInput_SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-click="ShowSetting($event,PODInput_quick_grid)" ng-mouseenter="ShowSetting($event,PODInput_quick_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="PODInput_quick_grid" expand-k-grid k-options="PODInput_quick_gridOptions"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="DN_win" k-title="false" k-width="550" k-height="280" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">CHIA DN</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label> Số DN</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="Item.InvoiceNote" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày chứng từ</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="Item.InvoiceDateString" ng-keydown="DNChangeInvoiceDate($event)" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Số lượng</label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box ng-model="Item.QuantityTranfer" style="width:100%" k-options="numQuantityTranfer_options" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="DN_SaveClick($event,DN_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Window_Close_Click($event,DN_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

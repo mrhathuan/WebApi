@@ -1,0 +1,34 @@
+﻿
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <ul class="breakumb">
+                    <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+                </ul>
+            </div>
+            <div class="right">
+                <div>
+                    Khách hàng
+                </div>
+                <input style="width:300px;" kendo-multi-select k-options="mulCustomer_Options" k-ng-model="Item.lstCustomerID" />
+                <div>
+                    Ngày yêu cầu
+                </div>
+                <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateFrom" />
+                <input style="width:100px;" class="cus-datepicker" focus-k-datepicker kendo-date-picker k-options="DateDMY" k-ng-model="Item.DateTo" />
+
+                <a href="/" ng-click="Search_Click($event)" class="k-button "><i class="fa fa-search"></i><span class="tooltip">Xem báo cáo</span> </a>
+                <a href="/" ng-click="Excel_Click($event)" class="k-button "><i class="fa fa-file-excel-o"></i><span class="tooltip">Xuất dữ liệu</span></a>
+               
+                <a href="/" ng-click="REPDIPLOrder_ExportExcelMSNNew_Click($event)" class="k-button "><i class="fa fa-plus"></i><span class="tooltip is-right">MSN mới</span></a>
+
+               </div>
+          
+            <div class="clear"></div>
+        </div>
+
+        <div class="form-body ">
+            <div class="cus-grid" expand-k-grid kendo-grid k-options="REPDIPLOrder_gridOptions"></div>
+        </div>
+        
+    </div>

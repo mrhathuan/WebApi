@@ -1,0 +1,79 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><!--span ng-show="!item.IsLink">{{item.FunctionName}}</!--span--></li>
+                <li><span>Công nợ trả về</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <label>KH</label>
+            <input kendo-multi-select focus-k-select k-options="mts_CustomerOptions" k-ng-model="Search.ListCustomerID" style="width: 200px;" />
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="Search.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="Search.DateTo" style="width: 100px;" />
+            <span ng-show="HasTemplate">Template: {{Template.Name}} - </span>
+            <a href="/" ng-click="Template_Click($event,template_win)" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Chọn template</span></a>
+            <a href="/" ng-click="SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            
+            <a href="/" ng-click="excel_Approve_Click($event)" ng-class="excelExtReturn.data.rowRunning > 0 ? 'excelshare-running btnOrderAccept' : 'excelshare btnOrderAccept'"><i class="fa fa-spinner fa-spin"></i>{{excelExtReturn.data.captionAccept}}</a>
+            <a href="/" ng-click="Status_Click($event, extReturnStatus_win)" class="k-button"><i class="fa fa-info-circle"></i><span class="tooltip is-right">Danh sách loại trả về</span></a>
+            <!--<a href="/" ng-click="excel_Reload_Click($event)" class="k-button"><i class="fa fa-refresh "></i><span class="tooltip">Làm mới</span></a>-->
+            <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div id="spreadsheetExtReturn" style="width: 99%;height:99%"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="template_win" k-title="false" k-width="800" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Template
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="excel_template_grid" k-options="excel_template_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Excel_Template_Accept_Click($event,template_win,excel_template_grid)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,template_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btnOrderAccept { position: relative; line-height: 20px; background: none; border-radius: 0; height: 20px; font-size: 13px; margin: 5px; text-align: center; padding: 4px 12px; min-width: 30px; border: 1px solid #31b6fc; background-color: #31b6fc; color: #fff; text-decoration: none; }
+
+        .btnOrderAccept.excelshare i { display: none; }
+
+        .btnOrderAccept.excelshare-running i { display: inline-block; }
+
+        .btnOrderAccept:hover { background-color: #1da0e5; border-color: #1da0e5; }
+</style>
+
+<div class="cus-window" draggable-k-window kendo-window="extReturnStatus_win" k-title="false" k-width="800" k-height="400" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Danh sách loại trả về
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="extReturnStatus_grid" k-options="extReturnStatus_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Close_Click($event,extReturnStatus_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

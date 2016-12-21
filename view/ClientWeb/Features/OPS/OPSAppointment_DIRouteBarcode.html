@@ -1,0 +1,106 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span> Nhập DN bằng Barcode</span></li>
+            </ul>
+        </div>
+        <div class="right">            
+            <input type="checkbox" ng-model="IsShowNote" ng-change="InputNote_Click($event)" id="OPSAppointment_DIRouteBarcode_chk_InputNote" />
+            <label for="OPSAppointment_DIRouteBarcode_chk_InputNote">Nhập số Lít/Kg &nbsp;</label>
+            <a href="/" ng-click="Close_Click($event)" class="k-button" data-title="Thoát"><i class="fa fa-history"></i><span class="tooltip is-right">Thoát</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="OPSAppointment_DIRouteBarcode_Form" v-form="OPSAppointment_DIRouteBarcode_win_vform" style="height: 99%;">
+            <div class="OPSAppointment_DIRouteBarcode_Top">
+                <div class="form-content-150">
+                    <div class="rowinput">
+                        <label>Barcode <span class="required">*</span></label>
+                        <div>
+                            <form class="cus-form-enter" ng-submit="BarcodeEnter_Click($event)" autocomplete="off" style="width:100%"><input style="width:100%" type="text" id="txtBarcode" class="k-textbox" ng-model="Item.Barcode" v-form-require="true" /></form>
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Số SO <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" ng-model="Item.SOCode" v-form-require="true" ng-readonly="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Số DN <span class="required">*</span></label>
+                        <div>
+                            <input type="text" class="k-textbox" ng-model="Item.DNCode" v-form-require="true" ng-readonly="true" />
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Ngày DN</label>
+                        <div style="width:213px">
+                            <input id="dtDateDN" class="cus-datetimepicker" focus-k-datepicker k-ng-model="Item.DateDN" kendo-date-picker k-options="DateDMY" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput">
+                        <label>Kg (G.Weight)</label>
+                        <div>
+                            <form class="cus-form-enter" ng-submit="KgEnter_Click($event)"><input id="cboKg" focus-k-combobox class="cus-combobox cboKg" kendo-combo-box="OPSAppointment_DIRouteBarcode_win_cboKg" ng-model="Item.Kg" k-options="OPSAppointment_DIRouteBarcode_win_cboKgOptions" /></form>
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput" ng-show="IsShowNote">
+                        <label>Số Lít </label>
+                        <div>
+                            <form class="cus-form-enter" ng-submit="Note2Enter_Click($event)" style="width:100%"><input style="width:100%" id="txtNote2" type="text" class="k-textbox" ng-model="Item.Note2" /></form>
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput" ng-show="IsShowNote">
+                        <label>Số Kg </label>
+                        <div>
+                            <form class="cus-form-enter" ng-submit="Note1Enter_Click($event)" style="width:100%"><input style="width:100%" id="txtNote1" type="text" class="k-textbox" ng-model="Item.Note1" /></form>
+                        </div>
+                        <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowinput error" ng-show="Item.ErrorString != '' && Item.ErrorString != null">
+                        <a href="/" ng-click="Error_Click($event)"><i class="fa fa-info-circle" style="margin-right:5px"></i>{{ Item.ErrorString }}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="OPSAppointment_DIRouteBarcode_Bot">
+                <div class="rowinput">
+                    <label>SO trong Loadlist</label>
+                </div>
+                <div class="cus-grid" id="OPSAppointment_DIRouteBarcode_grid" kendo-grid="OPSAppointment_DIRouteBarcode_grid" k-options="OPSAppointment_DIRouteBarcode_gridOptions" expand-k-grid></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="OPSAppointment_DIRouteBarcode_Cancel_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách SO cần hủy</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="OPSAppointment_DIRouteBarcode_Cancel_grid" expand-k-grid k-options="OPSAppointment_DIRouteBarcode_Cancel_gridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="CancelData_Click($event,OPSAppointment_DIRouteBarcode_Cancel_win)" class="k-button accept">Xác nhận</a>
+                <a href="/" ng-click="CancelClose_Click($event,OPSAppointment_DIRouteBarcode_Cancel_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+

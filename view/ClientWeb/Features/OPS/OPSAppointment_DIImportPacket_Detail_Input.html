@@ -1,0 +1,40 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <ul class="breakumb">
+            <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+        </ul>
+        <div class="right">
+            <span ng-show="HasTemplate&&!IsClose">Template: {{Template.Name}}</span>
+            <a href="/" ui-sref="main.OPSAppointment.DIImportPacket_Detail_2View({ID:{{PacketID}}})" class="k-button"><i class="fa fa-pencil-square-o"></i><span class="tooltip">Chi tiết</span></a>
+            <a href="/" ng-show="!IsClose" ui-sref="main.OPSAppointment.DIImportPacket_Detail({ID:{{PacketID}}})" class="k-button"><i class="fa fa-upload"></i><span class="tooltip">Upload</span></a>
+            <a href="/" ng-show="!IsClose" ui-sref="main.OPSAppointment.DIImportPacket_DetailExcelOnline({ID:{{PacketID}}})" class="k-button"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel Online</span></a>
+            <a href="/" ng-show="HasTemplate&&!IsClose" ng-click="DownLoadFile_Click($event,gop_Grid)" class="k-button"><i class="fa fa-download"></i><span class="tooltip">Download</span></a>
+            <a href="/" ng-show="HasChoose" ng-click="Delete_Click($event,gop_Grid,gop_NotIn_win)" class="k-button"><i class="fa fa-ban"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-show="!IsClose" ng-click="Insert_Click($event,gop_NotIn_Grid,gop_NotIn_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip">Thêm</span></a>
+            <a href="/" ui-sref="main.OPSAppointment.DIImportPacket" class="k-button"><i class="fa fa-history"></i><span class="tooltip is-right">Thoát</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="gop_Grid" k-options="gop_GridOptions" expand-k-grid></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="gop_NotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thêm hàng hóa</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="gop_NotIn_Grid" expand-k-grid k-options="gop_NotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Insert_OK_Click($event,gop_NotIn_Grid,gop_NotIn_win)" class="k-button accept">Đồng ý</a>
+                <a href="/" ng-click="Close_Click($event,gop_NotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>

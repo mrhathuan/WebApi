@@ -1,0 +1,25 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span>Nhập dữ liệu</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <span><input focus-k-combobox kendo-combobox="OPSAppointment_DIRouteDN_cboStatus" k-options="OPSAppointment_DIRouteDN_cboStatusOptions" ng-model="Search.StatusID" style="width:100px" /></span>
+            <span><input focus-k-select kendo-multi-select="OPSAppointment_DIRouteDN_mltCustomer" k-options="OPSAppointment_DIRouteDN_mltCustomerOptions" k-ng-model="Search.ListCustomerID" style="width:200px" /></span>
+            <span><input kendo-date-picker focus-k-datepicker class="cus-datepicker" k-options="DateDMY" k-ng-model="Search.DateFrom" style="width:100px" /></span>
+            <span><input kendo-date-picker focus-k-datepicker class="cus-datepicker" k-options="DateDMY" k-ng-model="Search.DateTo" style="width:100px" /></span>
+            <a href="/" ng-click="Search_Click($event)" class="k-button" data-title="Tìm"><i class="fa fa-search"></i><span class="tooltip">Tìm</span></a>
+            <a href="/" ng-click="Barcode_Click($event)" class="k-button" data-title="Nhập bằng Barcode"><i class="fa fa-barcode"></i><span class="tooltip">Nhập bằng Barcode</span></a>
+            <a href="/" ng-show="HasChoose && Search.StatusID != 3" ng-click="Del_Click($event, OPSAppointment_DIRouteDN_grid)" class="k-button" data-title="Hủy DN"><i class="fa fa-ban"></i><span class="tooltip">Hủy đơn hàng</span></a>
+            <a href="/" ng-show="HasChoose && Search.StatusID == 3" ng-click="Revert_Click($event, OPSAppointment_DIRouteDN_grid)" class="k-button" data-title="Phục hồi DN"><i class="fa fa-check"></i><span class="tooltip">Phục hồi đơn hàng</span></a>
+            <a href="/" ng-click="ShowSetting($event,OPSAppointment_DIRouteDN_grid)" ng-mouseenter="ShowSetting($event,OPSAppointment_DIRouteDN_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" id="OPSAppointment_DIRouteDN_grid" kendo-grid="OPSAppointment_DIRouteDN_grid" k-options="OPSAppointment_DIRouteDN_gridOptions" expand-k-grid="OPSAppointment_DIRouteDN_gridExpand"></div>
+    </div>
+</div>
+

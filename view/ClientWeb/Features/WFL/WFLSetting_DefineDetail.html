@@ -1,0 +1,286 @@
+﻿<div class="view-breakumb">
+    <ul class="breakumb">
+        <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+        <li><span>Định nghĩa</span></li>
+    </ul>
+</div>
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left">
+                <div style="vertical-align:middle;">
+                    Chú thích:
+                    <img style="width:15px; height:15px; margin-left:5px; margin-right:3px;" src="../../Images/wfl/event-calendar-title.png" />
+                    <span>Có event</span>
+                </div>
+            </div>
+            <div class="right">
+                <span>Mã</span>
+                <input type="text" class="k-textbox w120" ng-model="Item.Code" ng-disabled="true"/>
+                <span>Tên</span>
+                <input type="text" class="k-textbox w120" ng-model="Item.DefineName" ng-disabled="true" />
+                <span>Step</span>
+                <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboStep" k-options="cboStep_options" ng-model="Item.StepID" style="width:200px"/>
+                <a href="/" ng-click="Config_Click($event,cog_win)" class="k-button"><i class="fa fa-cog"></i><span class="tooltip is-right">Thiết lập</span></a>
+                <!--a href="/" ng-click="Save_Click($event)" class="k-button"><i class="fa fa-check"></i><span class="tooltip is-right">Lưu</span></a-->
+                <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="cus-form" style="width:100%" scrolldiv>
+                <div id="diagram" ng-style="{ 'width' : width, 'height' : height}" ng-click="DiagramClick($event)" scrolldiv>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="cog_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thiết lập</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div style="position:relative;height:100%">
+                <div class="cus-tabstrip" kendo-tabstrip="cog_tabstrip" k-options="cog_tabstripOptions" expand-k-tabstrip>
+                    <ul>
+                        <li data-tabindex="0" class="k-state-active">Thông tin bước</li>
+                        <li data-tabindex="1">Thiết lập Group</li>
+                    </ul>
+                    <div>
+                        <div class="cus-form">
+                            <div class="cus-grid" kendo-grid="step_Grid" expand-k-grid k-options="step_GridOptions"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="cus-form">
+                            <div class="cus-grid" kendo-grid="group_Grid" expand-k-grid k-options="group_GridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="TabIndex==0" ng-click="step_AddNew($event,stepNotIn_win)" class="k-button accept">Thêm mới</a>
+                <a href="/" ng-show="StepHasChoose&&TabIndex==0" ng-click="step_Delete($event,step_Grid)" class="k-button">Xóa</a>
+
+                <a href="/" ng-show="TabIndex==1" ng-click="group_AddNew($event,groupNotIn_win)" class="k-button accept">Thêm mới</a>
+                <a href="/" ng-show="GroupHasChoose&&TabIndex==1" ng-click="group_Delete($event,group_Grid)" class="k-button">Xóa</a>
+                <a href="/" ng-click="window_Close_Click($event,cog_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="stepNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Bước chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="stepNotIn_Grid" expand-k-grid k-options="stepNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="stepNotIn_Save_Click($event,stepNotIn_win,stepNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,stepNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="cus-window" draggable-k-window kendo-window="groupNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Nhóm chưa chọn</div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="groupNotIn_Grid" expand-k-grid k-options="groupNotIn_GridOptions"></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="groupNotIn_Save_Click($event,groupNotIn_win,groupNotIn_Grid)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,groupNotIn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="Event_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách Event</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-form">
+                <div class="cus-grid" kendo-grid="event_Grid" expand-k-grid k-options="event_GridOptions"></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="Event_AddNew($event,EventNotIn_win)" class="k-button accept">Thêm mới</a>
+                <a href="/" ng-show="EventHasChoose" ng-click="Event_DelClick($event,event_Grid)" class="k-button">Xóa</a>
+                <a href="/" ng-click="window_Close_Click($event,Event_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="EventNotIn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Danh sách Event chưa chọn</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-form">
+                <div class="cus-grid" kendo-grid="eventNotIn_Grid" expand-k-grid k-options="eventNotIn_GridOptions"></div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="EventNotInHasChoose" ng-click="EventNotIn_Save($event,EventNotIn_win,eventNotIn_Grid)" class="k-button accept">Thêm</a>
+
+                <a href="/" ng-click="window_Close_Click($event,EventNotIn_win)" class="k-button close" data-title="Đóng">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="WFLSetting_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Event: {{ EventItem.EventCode }} - {{ EventItem.EventName }}
+            </div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip k-content-urls="[null, null, null]" k-options="WFLSetting_win_tabOptions">
+                <ul>
+                    <li class="k-state-active" title="Danh sách gửi mail">Danh sách gửi mail</li>
+                    <li title="Danh sách gửi thông báo TMS">Danh sách gửi thông báo TMS</li>
+                    <li title="Danh sách gửi SMS">Danh sách gửi SMS</li>
+                </ul>
+                <div>
+                    <div class="cus-grid" kendo-grid="mail_user_grid" k-options="mail_user_gridOptions" expand-k-grid></div>
+                </div>
+                <div>
+                    <div class="cus-grid" kendo-grid="tms_user_grid" k-options="tms_user_gridOptions" expand-k-grid></div>
+                </div>
+                <div>
+                    <div class="cus-grid" kendo-grid="sms_user_grid" k-options="sms_user_gridOptions" expand-k-grid></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="EventSave_Click($event,WFLSetting_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="window_Close_Click($event,WFLSetting_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Window-->
+<div class="cus-window" draggable-k-window kendo-window="user_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH NGƯỜI DÙNG
+            </div>
+            <div class="right button"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="add_user_grid" k-options="add_user_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="UserAddHasChoose" ng-click="Add_User_Add_Click($event,add_user_grid,user_win)" class="k-button accept">Thêm</a>
+                <a href="/" ng-click="window_Close_Click($event,user_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="cus_win" k-title="false" k-width="800" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH KHÁCH HÀNG
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="add_cus_grid" k-options="add_cus_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="CusAddHasChoose" ng-click="Add_Cus_Add_Click($event,add_cus_grid,cus_win)" class="k-button accept">Thêm</a>
+                <a href="/" ng-click="window_Close_Click($event,cus_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!--sms-->
+
+<script type="text/x-kendo-tmpl" id="WFLSetting_win_gridUserMailToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+
+        </div>
+        <div class="right">
+            <a href="/" ng-show="UserMailHasChoose" ng-click="User_Delete_Click($event,mail_user_grid)" class="k-button"><i class="fa fa-times"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="User_Add_Click($event,mail_user_grid,user_win,'Mail')" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="WFLSetting_win_gridUserTMSToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+        </div>
+        <div class="right">
+            <a href="/" ng-show="UserTMSHasChoose" ng-click="User_Delete_Click($event,tms_user_grid)" class="k-button"><i class="fa fa-times"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="User_Add_Click($event,tms_user_grid,user_win,'TMS')" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="WFLSetting_win_gridUserSMSToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+        </div>
+        <div class="right">
+            <a href="/" ng-show="UserSMSHasChoose" ng-click="User_Delete_Click($event,sms_user_grid)" class="k-button"><i class="fa fa-times"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="User_Add_Click($event,sms_user_grid,user_win,'SMS')" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="WFLSetting_win_gridCusToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <div class="title"></div>
+        </div>
+        <div class="right">
+            <a href="/" ng-show="CusEmailHasChoose" ng-click="Cus_Delete_Click($event,cus_grid)" class="k-button"><i class="fa fa-times"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="Cus_Add_Click($event,cus_grid,cus_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>

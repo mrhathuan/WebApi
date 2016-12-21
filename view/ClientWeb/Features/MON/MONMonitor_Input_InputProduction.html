@@ -1,0 +1,130 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in Breakumb"><a ng-click="Breakumb_Click($event,item)" ng-show="item.IsLink" ui-sref="{{item.Code}}">{{item.FunctionName}}</a><span ng-show="!item.IsLink">{{item.FunctionName}}</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="SettingGrid_Click($event,wincustom,MONInput_Production_grid)" class="k-button" data-title="Hiển thị"><i class="fa fa-cog"></i><span class="tooltip">Hiển thị</span></a>
+            <label>Sản phẩm kèm theo<input type="checkbox" ng-model="ItemSearch.IsReturn" /></label>
+            <label>KH</label>
+            <input kendo-multi-select focus-k-select k-options="mts_CustomerOptions" k-ng-model="ItemSearch.ListCustomerID" style="width: 200px;" />
+            <label>Từ</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateFrom" style="width: 100px;" />
+            <label>Đến</label>
+            <input class="cus-datepicker" kendo-date-picker focus-k-datepicker k-options="DateDMY" k-ng-model="ItemSearch.DateTo" style="width: 100px;" />
+            <a href="/" ng-click="MONInput_SearchClick($event)" class="k-button"><i class="fa fa-search"></i><span class="tooltip">Tìm kiếm</span></a>
+            <a href="/" ng-show="MainHasChoose" ng-click="MONInput_CompleteClick($event,MONInput_Production_grid)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Hoàn tất</span></a>
+            <a href="/" ng-show="MainHasChoose" ng-click="MONInput_UnCompleteClick($event,MONInput_Production_grid)" class="k-button"><i class="fa fa-backward"></i><span class="tooltip">Hủy hoàn tất</span></a>
+            <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="MONInput_Production_grid" expand-k-grid="MONInput_Production_grid" k-options="MONInput_Production_gridOptions"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="DN_win" k-title="false" k-width="550" k-height="280" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">CHIA DN</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150">
+                <div class="rowinput">
+                    <label> Số chứng từ</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="Item.InvoiceNote" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Ngày chứng từ</label>
+                    <div>
+                        <input type="text" class="k-textbox" ng-model="Item.InvoiceDateString" ng-keydown="DNChangeInvoiceDate($event)" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label> Số lượng</label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box ng-model="Item.QuantityTranfer" style="width:100%" k-options="numQuantityTranfer_options" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="DN_SaveClick($event,DN_win)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Window_Close_Click($event,DN_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="AddReturn_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">Thông tin chi tiết</div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="form-content-150" v-form="AddReturn_win_vform">
+                <div class="rowinput">
+                    <label>Nhóm SP<span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combobox="cbbGroupProductReturn" k-options="cbbGroupProductReturn_Options" k-ng-model="ItemReturn.GroupProductID" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="rowinput">
+                    <label>SP<span class="required">*</span></label>
+                    <div>
+                        <input class="cus-combobox" focus-k-combobox kendo-combobox="cbbProductReturn" k-options="cbbProductReturn_Options" k-ng-model="ItemReturn.ProductID" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+                <div class="rowinput">
+                    <label>Sản lượng<span class="required">*</span></label>
+                    <div>
+                        <input class="cus-number" kendo-numeric-text-box k-ng-model="ItemReturn.Quantity" style="width:100%" k-options="numQuantityReturn_options" v-form-require="true" />
+                    </div>
+                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="AddReturn_SaveClick($event,AddReturn_win,AddReturn_win_vform)" class="k-button accept"><span ng-show="ItemReturn.ID>0">Lưu/Cập nhật</span><span ng-show="ItemReturn.ID<=0">Thêm mới</span></a>
+                <a href="/" ng-show="ItemReturn.ID>0" ng-click="AddReturn_DeleteClick($event,AddReturn_win)" class="k-button accept">Xóa</a>
+                <a href="/" ng-click="Close_Click($event,AddReturn_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Confirm win-->
+<div kendo-window="Confirm_Win" draggable-k-window class="cus-window" k-title="false" k-width="500" k-height="140" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form ">
+        <div class="form-header">
+            <div class="left title">Thông báo</div>
+            <div class="right button">
+                <a ng-click="Win_Close($event,Confirm_Win)" class="k-button"><i class="fa fa-times" hide-area="true"></i></a>
+            </div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="winmessage_msg"><span>{{WinConfirmObj.Lable}}</span></div>
+
+        </div>
+        <div class="form-footer">
+            <div>
+                <a ng-click="WinConfirmObj.Action_OK($event)" class="k-button accept">{{WinConfirmObj.TextOK}}</a>
+                <a ng-click="WinConfirmObj.Action_Deny($event)" class="k-button">{{WinConfirmObj.TextDeny}}</a>
+            </div>
+        </div>
+    </div>
+</div>

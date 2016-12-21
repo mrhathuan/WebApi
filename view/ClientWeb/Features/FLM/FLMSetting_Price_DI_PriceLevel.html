@@ -1,0 +1,30 @@
+﻿<div class="cus-form" ng-show="Item.TypeOfMode ==3">
+    <div class="form-header">
+        <div class="left title">Bảng giá bậc thang</div>
+        <div class="right">
+            <a class="k-button" ng-click="PriceLevel_ExcelOnline_Click($event)"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <!--<a class="k-button" ng-click="PriceLevel_Excel_Click($event,winexcel)"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>-->
+            <a class="k-button" ng-click="GOPLevel_Save_Click($event,price_level_grid)" ng-show="!Item.TermClosed"><i class="fa fa-check"></i><span class="tooltip">Lưu thay đổi</span></a>
+            <a class="k-button" ng-click="GOPLevel_Cancel_Click($event,price_level_grid)" ng-show="!Item.TermClosed"><i class="fa fa-ban"></i><span class="tooltip">Hủy thay đổi</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="price_level_grid" expand-k-grid></div>
+    </div>
+</div>
+<div class="cus-form" ng-show="Item.TypeOfMode == 2">
+    <div class="form-header">
+        <div class="left title">Bảng giá bậc thang</div>
+        <div class="right">
+            <a class="k-button" ng-click="GOV_ExcelOnline_Click($event)"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>
+            <!--<a class="k-button" ng-click="GOV_Excel_Click($event,winexcel)" ng-show="!IsFrame"><i class="fa fa-file-excel-o"></i><span class="tooltip">Excel</span></a>-->
+            <a class="k-button" ng-click="GOVLevel_Save_Click($event,govlv_grid)" ng-show="!Item.TermClosed"><i class="fa fa-check"></i><span class="tooltip">Lưu thay đổi</span></a>
+            <a class="k-button" ng-click="GOVLevel_Cancel_Click($event,govlv_grid)" ng-show="!Item.TermClosed"><i class="fa fa-ban"></i><span class="tooltip">Hủy thay đổi</span></a>
+            <a class="k-button" ng-click="Back_Click($event)"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="govlv_grid" expand-k-grid></div>
+    </div>
+</div>

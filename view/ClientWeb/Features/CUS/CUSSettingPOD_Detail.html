@@ -1,0 +1,52 @@
+﻿<div class="view-breakumb">
+    <ul class="breakumb">
+        <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+        <li><span>Thiết lập chứng từ chi tiết</span></li>
+    </ul>
+</div>
+<div class="view-breakumb-content">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="right">
+                <span>Tên</span>
+                <input type="text" class="k-textbox w120" ng-model="Item.Name" />
+                <span>KH</span>
+                <input class="cus-combobox" kendo-combo-box="cboCustomer" focus-k-combobox k-options="cboCustomer_Options" ng-model="Item.CustomerID" style="width:150px" ng-disabled="Item.ID>0" />
+                <span>Loại v/c</span>
+                <input class="cus-combobox" kendo-combo-box="cboType" focus-k-combobox k-options="cboType_Options" ng-model="Item.TypeOfTransportModeID" style="width:120px" ng-disabled="Item.ID>0" />
+                <span>Dòng BĐ</span>
+                <div style="width:30px">
+                    <input class="cus-number" kendo-numeric-text-box k-options="numRowStart_Options" ng-model="Item.RowStart" style="width:100%" />
+                </div>
+                <a href="/" ng-click="Save_Click($event)" class="k-button"><i class="fa fa-check"></i><span class="tooltip">Lưu</span></a>
+                <a href="/" ng-click="Back_Click($event)" class="k-button"><i class="fa fa-undo"></i><span class="tooltip is-right">Quay lại</span></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body">
+            <div class="cus-splitter hoz-splitter" kendo-splitter k-options="splitter_Options" expand-k-splitter>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header" ng-click="Revert_Click($event)">
+                            <div class="left title">Các cột có sẵn</div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="AllSettingGrid" k-options="AllSettingGrid_Options" expand-k-grid></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left title">Các cột đã chọn</div>
+                        </div>
+                        <div class="form-body">
+                            <div class="cus-grid" kendo-grid="SelectedSettingGrid" k-options="SelectedSettingGrid_Options" expand-k-grid></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

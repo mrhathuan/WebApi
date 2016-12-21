@@ -1,0 +1,17 @@
+﻿<script type="text/x-kendo-tmpl" id="OPSAppointment_CO_gridToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+                <li><span>Đơn hàng xe container</span></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-show="HasChoose" ng-click="Cancel_Click($event,OPSAppointment_CO_grid)" class="k-button"><i class="fa fa-history"></i><span class="tooltip">Trả về</span></a>
+            <a href="/" ng-click="ShowSetting($event,OPSAppointment_CO_grid)" ng-mouseenter="ShowSetting($event,OPSAppointment_CO_grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<div class="cus-grid" kendo-grid="OPSAppointment_CO_grid" k-options="OPSAppointment_CO_gridOptions" expand-k-grid="OPSAppointment_CO_gridExpand"></div>

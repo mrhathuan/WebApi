@@ -1,0 +1,455 @@
+﻿<div class="cus-form">
+    <div class="form-header">
+        <div class="left ">
+            <ul class="breakumb">
+                <li ng-repeat="item in BreakumbDetail"><a ng-click="Breakumb_Click($event,item)" ui-sref="{{item.Code}}">{{item.FunctionName}}</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <a href="/" ng-click="PacketSetting_Add_Click($event, WFLPaking_win)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm mới</span></a>
+            <a href="/" ng-show="HasChoose" ng-click="PacketSetting_Delete_Click($event, PacketSetting_Grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip is-right">Xóa</span></a>
+            <a href="/" ng-click="ShowSetting($event,PacketSetting_Grid)" ng-mouseenter="ShowSetting($event,PacketSetting_Grid)" ng-mouseleave="HideSetting($event)" class="k-button setting" data-title="Thiết lập"><i class="fa fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="form-body">
+        <div class="cus-grid" kendo-grid="PacketSetting_Grid" expand-k-grid k-options="PacketSetting_GridOptions"></div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="WFLPaking_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Thiết lập
+            </div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip k-content-urls="[null, null]" k-options="PacketSetting_win_tabOptions">
+                <ul>
+                    <li data-tabindex="1" class="k-state-active">
+                        Dữ liệu gói
+                    </li>
+                    <li data-tabindex="2" ng-show="Item.ID > 0 && IsShowEmailSms == true">
+                        Danh sách gửi mail
+                    </li>
+                    <li data-tabindex="3" ng-show="Item.ID > 0 && IsShowEmailSms == true">
+                        Danh sách gửi SMS
+                    </li>
+                    <li ng-show="Item.ID > 0 && IsShowEmailSms == false" title="Thông tin Event">Danh sách Event</li>
+                </ul>
+                <div>
+                    <form action="/" method="post">
+                        <div class="WFLSetting_Form" v-form="WFLPaking">
+                            <div class="form-content-150">
+                                <div class="rowinput">
+                                    <label>Mã <span class="required">*</span></label>
+                                    <div>
+                                        <input class="k-textbox" type="text" ng-model="Item.Code" v-form-require="true">
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tên <span class="required">*</span></label>
+                                    <div>
+                                        <input class="k-textbox" type="text" ng-model="Item.SettingName" v-form-require="true">
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Loại dữ liệu <span class="required">*</span></label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboPacketSetting_cboGroup" k-ng-model="Item.PacketSettingTypeID" k-options="cboPacketSetting_Options" v-form-require="true" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput" ng-show="TypePacket == 1 || TypePacket == 2">
+                                    <label>Khách hàng</label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboCustomer_cboGroup" k-ng-model="Item.CustomerID" k-options="cboCustomer_Options" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput" ng-show="IsShowTypeOfVar">
+                                    <label>Setting List</label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboCUSSetting_cboGroup" k-ng-model="Item.CUSSettingID" k-options="cboCUSSetting_Options" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Sử dụng</label>
+                                    <div>
+                                        <input  type="checkbox" ng-model="Item.IsApproved">
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tự động lấy dữ liệu</label>
+                                    <div>
+                                        <input type="checkbox" ng-model="Item.IsAutoCollect">
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tự động gửi</label>
+                                    <div>
+                                        <input type="checkbox" ng-model="Item.IsAutoSend">
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput" ng-show="Item.IsAutoSend == true">
+                                    <label>Thời gian gửi 1</label>
+                                    <div>
+                                        <input class="cus-datetimepicker" focus-k-datepicker k-ng-model="Item.TimeSend1" kendo-time-picker k-options="DateHM" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput" ng-show="Item.IsAutoSend == true">
+                                    <label>Thời gian gửi 2</label>
+                                    <div>
+                                        <input class="cus-datetimepicker" focus-k-datepicker k-ng-model="Item.TimeSend2" kendo-time-picker k-options="DateHM" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput" ng-show="IsShowTypeOfVar">
+                                    <label>Gửi tin nhắn tài xế</label>
+                                    <div>
+                                        <input type="checkbox" ng-click="DriverSMS_Click($event)" ng-model="Item.IsDriverSMS">
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput" ng-show="Item.IsDriverSMS == true">
+                                    <label>Mẫu gửi tin nhắn tài xế</label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboDriverSMSTemplate_cboGroup" k-ng-model="Item.DriverSMSTemplateID" k-options="cboDriverSMSTemplate_Options" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput" ng-show="IsShowTypeOfVar">
+                                    <label>Gửi mail tài xế</label>
+                                    <div>
+                                        <input type="checkbox" ng-click="DriverMail_Click($event)" ng-model="Item.IsDriverMail">
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput" ng-show="Item.IsDriverMail == true">
+                                    <label>Mẫu gửi mail tài xế</label>
+                                    <div>
+                                        <input class="cus-combobox" focus-k-combobox kendo-combo-box="cboDriverMailTemplatecboGroup" k-ng-model="Item.DriverMailTemplateID" k-options="cboDriverMailTemplate_Options" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput" ng-show="IsShowTypeOfVar">
+                                    <label>Gửi mail tài xế</label>
+                                    <div>
+                                        <input type="checkbox" ng-model="Item.IsExpr">
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden"><input type="submit" /></div>
+                    </form>
+                </div>
+                <div ng-show="Item.ID > 0">
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left">
+                                <span>&nbsp; Chọn template</span>
+                                <input style="width:300px" class="cus-combobox" focus-k-combobox kendo-combo-box="WFLSetting_win_cboTemplateMail" ng-model="Item.MailTemplateID" k-options="WFLSetting_win_cboTemplateOptions" />
+                            </div>
+                        </div>
+                        <div class="form-body" style="padding:0px">
+                            <div class="cus-grid" kendo-grid="mail_user_grid" k-options="mail_user_gridOptions" expand-k-grid></div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="Item.ID > 0">
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left">
+                                <span>&nbsp; Chọn template</span>
+                                <input style="width:300px" class="cus-combobox" focus-k-combobox kendo-combo-box="WFLSetting_win_cboTemplateSMS" ng-model="Item.SMSTemplateID" k-options="WFLSetting_win_cboTemplateOptions" />
+                            </div>
+                        </div>
+                        <div class="form-body" style="padding:0px">
+                            <div class="cus-grid" kendo-grid="sms_user_grid" k-options="sms_user_gridOptions" expand-k-grid></div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="Item.ID > 0">
+                    <div class="cus-grid" kendo-grid="gridevent" k-options="gridEventOptions" expand-k-grid></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" style="display:none" ng-click="Check_Click($event,WFLPaking_win,WFLPaking)" class="k-button accept">Check</a>
+                <a href="/" ng-click="Save_Click($event,WFLPaking_win,WFLPaking)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Win_Close($event,WFLPaking_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Event -->
+<div class="cus-window" draggable-k-window kendo-window="WFLEvent_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                Event: {{ ItemEvent.Code }} - {{ ItemEvent.EventName }}
+            </div>
+            <div class="right button"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-tabstrip" expand-k-tabstrip kendo-tab-strip k-content-urls="[null, null, null]" k-options="PacketEvent_win_tabOptions">
+                <ul>
+                    <li class="k-state-active" title="Thông tin Event">Thông tin Event</li>
+                    <li title="Định nghĩa Event">Định nghĩa Event</li>
+                    <li title="Danh sách gửi mail">Danh sách gửi mail</li>
+                    <li title="Danh sách gửi thông báo TMS">Danh sách gửi thông báo TMS</li>
+                    <li title="Danh sách gửi SMS">Danh sách gửi SMS</li>
+                </ul>
+                <div>
+                    <form action="/" method="post" ng-submit="Save_Click($event,WFLSetting_win,WFLSetting_grid,WFLSetting_win_vform)">
+                        <div class="WFLSetting_Form" v-form="WFLEvent_win_vform">
+                            <div class="form-content-150">
+                                <div class="rowinput">
+                                    <label>Mã Event <span class="required">*</span></label>
+                                    <div>
+                                        <input type="text" class="k-textbox" ng-model="ItemEvent.Code" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Event <span class="required">*</span></label>
+                                    <div>
+                                        <input type="text" class="k-textbox" ng-model="ItemEvent.EventName" />
+                                    </div>
+                                    <div class="error"><a kendo-tooltip><i class="fa fa-info-circle"></i></a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Đang hoạt động</label>
+                                    <div>
+                                        <input type="checkbox" ng-model="ItemEvent.IsApproved" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Hệ thống</label>
+                                    <div>
+                                        <input type="checkbox" ng-model="ItemEvent.IsSystem" disabled />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Tự tạo công thức</label>
+                                    <div>
+                                        <input type="checkbox" ng-model="ItemEvent.IsExpr" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="rowinput">
+                                    <label>Công thức</label>
+                                    <div>
+                                        <textarea ng-model="ItemEvent.Expression" style="height: 150px;" class="font-text ng-pristine ng-valid ng-empty ng-touched"></textarea>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden"><input type="submit" /></div>
+                    </form>
+                </div>
+                <div>
+                    <div class="cus-grid tooltipshowTitle" kendo-grid="gridExpression" k-options="gridExpressionOptions" expand-k-grid></div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left">
+                                <span>&nbsp; Chọn template</span>
+                                <input style="width:300px" class="cus-combobox" focus-k-combobox kendo-combo-box="WFLSetting_win_cboTemplateMail" ng-model="ItemEvent.MailTemplateID" k-options="WFLSetting_win_cboTemplateOptions" />
+                            </div>
+                        </div>
+                        <div class="form-body" style="padding:0px">
+                            <div class="cus-grid" kendo-grid="event_mail_user_grid" k-options="event_mail_user_gridOptions" expand-k-grid></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left">
+                                <span>&nbsp; Chọn template</span>
+                                <input style="width:300px" class="cus-combobox" focus-k-combobox kendo-combo-box="WFLSetting_win_cboTemplateTMS" ng-model="ItemEvent.TMSTemplateID" k-options="WFLSetting_win_cboTemplateOptions" />
+                            </div>
+                        </div>
+                        <div class="form-body" style="padding:0px">
+                            <div class="cus-grid" kendo-grid="tms_user_grid" k-options="tms_user_gridOptions" expand-k-grid></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="cus-form">
+                        <div class="form-header">
+                            <div class="left">
+                                <span>&nbsp; Chọn template</span>
+                                <input style="width:300px" class="cus-combobox" focus-k-combobox kendo-combo-box="WFLSetting_win_cboTemplateSMS" ng-model="ItemEvent.SMSTemplateID" k-options="WFLSetting_win_cboTemplateOptions" />
+                            </div>
+                        </div>
+                        <div class="form-body" style="padding:0px">
+                            <div class="cus-grid" kendo-grid="event_sms_user_grid" k-options="event_sms_user_gridOptions" expand-k-grid></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-click="SaveEvent_Click($event,WFLEvent_win,gridevent,WFLEvent_win_vform)" class="k-button accept">Lưu</a>
+                <a href="/" ng-click="Close_Click($event,WFLEvent_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/x-kendo-tmpl" id="WFLEvent_gridToolbar">
+    <div class="gridtoolbar">
+        <div class="right">
+            <a href="/" ng-show="HasEventChoose" ng-click="DelEvent_Click($event,gridevent)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="AddEvent_Click($event,WFLEvent_win,WFLEvent_win_vform)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+
+<script type="text/x-kendo-tmpl" id="WFLSetting_win_gridExpressionToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+            <div class="title"></div>
+        </div>
+        <div class="right">
+            <a href="/" ng-show="ExpressionHasChoose" ng-click="ExpressionDel_Click($event,gridExpression)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="ExpressionAdd_Click($event,gridExpression)" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<div class="cus-window" draggable-k-window kendo-window="event_user_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH NGƯỜI DÙNG
+            </div>
+            <div class="right button"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="event_add_user_grid" k-options="event_add_user_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="UserAddEventMailHasChoose" ng-click="event_Add_User_Add_Click($event,event_add_user_grid,event_user_win)" class="k-button accept">Thêm</a>
+                <a href="/" ng-click="Win_Close($event,event_user_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cus-window" draggable-k-window kendo-window="user_win" k-title="false" k-width="900" k-height="500" k-visible="false" k-resizable="false" k-modal="true">
+    <div class="cus-form">
+        <div class="form-header">
+            <div class="left title">
+                DANH SÁCH NGƯỜI DÙNG
+            </div>
+            <div class="right button"></div>
+        </div>
+        <div class="form-body with-footer">
+            <div class="cus-grid" kendo-grid="add_user_grid" k-options="add_user_gridOptions" expand-k-grid></div>
+        </div>
+        <div class="form-footer">
+            <div>
+                <a href="/" ng-show="UserAddHasChoose" ng-click="Add_User_Add_Click($event,add_user_grid,user_win)" class="k-button accept">Thêm</a>
+                <a href="/" ng-click="Win_Close($event,user_win)" class="k-button close">Đóng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="WFLSetting_win_gridUserMailToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+
+        </div>
+        <div class="right">
+            <a href="/" ng-show="UserMailHasChoose" ng-click="User_Delete_Click($event,mail_user_grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="User_Add_Click($event,mail_user_grid,user_win,'Mail')" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="EVENTWFLSetting_win_gridUserMailToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+
+        </div>
+        <div class="right">
+            <a href="/" ng-show="UserEventMailHasChoose" ng-click="User_event_Delete_Click($event,event_mail_user_grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="User_event_Add_Click($event,event_mail_user_grid,event_user_win,'Mail')" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="WFLSetting_win_gridUserTMSToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+        </div>
+        <div class="right">
+            <a href="/" ng-show="UserTMSHasChoose" ng-click="User_event_Delete_Click($event,tms_user_grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="User_event_Add_Click($event,tms_user_grid,event_user_win,'TMS')" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+
+<script type="text/x-kendo-tmpl" id="WFLSetting_win_gridUserSMSToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+        </div>
+        <div class="right">
+            <a href="/" ng-show="UserSMSHasChoose" ng-click="User_Delete_Click($event,sms_user_grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="User_Add_Click($event,sms_user_grid,user_win,'SMS')" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="WFLSetting_win_gridUserEventSMSToolbar">
+    <div class="gridtoolbar">
+        <div class="left">
+        </div>
+        <div class="right">
+            <a href="/" ng-show="UserEventSMSHasChoose" ng-click="User_event_Delete_Click($event,event_sms_user_grid)" class="k-button"><i class="fa fa-trash"></i><span class="tooltip">Xóa</span></a>
+            <a href="/" ng-click="User_event_Add_Click($event,event_sms_user_grid,event_user_win,'SMS')" class="k-button"><i class="fa fa-plus"></i><span class="tooltip is-right">Thêm</span></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<style>
+    .font-text{
+      font-family: Arial, Tahoma !important;
+    }
+</style>
